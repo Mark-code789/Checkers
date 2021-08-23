@@ -1350,6 +1350,7 @@ article {
 #stats-window #stats, 
 #two-players-window #main-section-tp {
     margin: 0;
+    width: 100%;
     overflow-y: auto;
     
     display: grid;
