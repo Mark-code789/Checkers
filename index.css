@@ -844,6 +844,8 @@ article {
 /*games-window*/
 #games-window #games .sub_item {
     align-items: center;
+    max-width: 480px;
+    width: 100%;
 } 
 #games-window #games .sub_item, 
 #stats-window #stats .sub_item {
