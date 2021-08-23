@@ -1974,11 +1974,18 @@ article {
 } 
 
 @media only screen and (min-width: 480px) {
-    #main-window #header .header_div {
+    #main-window #header .header_div:first-of-type h1 {
         display: block;
     } 
     #main-window #main h2, #main-window #levels h2 {
         display: block;
+    } 
+    .header_div:last-of-type h2 {
+        display: block;
+    } 
+    #main-window #header .header_div:nth-of-type(2) .versions_container {
+        height: fit-content;
+        margin: 5px 0 0 0;
     } 
 } 
 
