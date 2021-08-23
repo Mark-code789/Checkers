@@ -1979,17 +1979,25 @@ article {
     } 
     #main-window #header .header_div:first-of-type h1 {
         height: 53px;
-        display: flex;
+        display: block;
     } 
     #main-window #main h2, #main-window #levels h2 {
         display: block;
     } 
     .header_div:last-of-type h2 {
-        display: block;
+        display: flex;
     } 
     #main-window #header .header_div:nth-of-type(2) .versions_container {
         height: fit-content;
         margin: 5px 0 0 0;
+    } 
+    #settings-window #main-section .inner_item, 
+    #stats-window #stats .sub_item,
+    #two-players-window #main-section-tp .form .inner_item {
+        grid-template-columns: 240px 120px 120px;
+    } 
+    #games-window #games .sub_item {
+        grid-template-columns: 480px;
     } 
 } 
 
