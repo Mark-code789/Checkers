@@ -838,9 +838,6 @@ article {
 
 
 /*games-window*/
-#games-window #games {
-    overflow-y: auto !important;
-} 
 #games-window #games .sub_item {
     align-items: center;
 } 
@@ -849,6 +846,7 @@ article {
     padding: 0;
     background: rgba(255, 255, 255, .5);
     color: #fff;
+    height: fit-content;
     
     display: grid;
     grid-template-columns: 75% 25%;
@@ -1345,7 +1343,7 @@ article {
 #stats-window #stats, 
 #two-players-window #main-section-tp {
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     
     display: grid;
     grid-template-columns: auto;
