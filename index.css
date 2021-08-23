@@ -1978,6 +1978,7 @@ article {
         grid-gap: 10px;
     } 
     #main-window #header .header_div:first-of-type h1 {
+        height: 53px;
         display: block;
     } 
     #main-window #main h2, #main-window #levels h2 {
