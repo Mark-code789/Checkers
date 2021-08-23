@@ -1989,7 +1989,7 @@ article {
         display: block;
     } 
     .header_div:last-of-type h2 {
-        display: flex;
+        display: block;
     } 
     #main-window #header .header_div:nth-of-type(2) .versions_container {
         height: fit-content;
