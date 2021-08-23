@@ -1973,14 +1973,14 @@ article {
     } 
 } 
 
-/*@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 480px) {
     #main-window #header .header_div {
         display: block;
     } 
     #main-window #main h2, #main-window #levels h2 {
         display: block;
     } 
-} */
+} 
 
 .cell_black {
     background: var(--black-cell);
