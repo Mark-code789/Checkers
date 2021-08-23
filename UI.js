@@ -1827,7 +1827,7 @@ const GameOver = async (isDraw = false) => { try {
         if(name === playerA.name && !isDraw)
             Notify({action: "confirm", 
                     header: "YOU LOSE!", 
-                    message: "Try Again :-)", 
+                    message: "Oops!<br>Too bad. You are better than this.", 
                     type: "MENU/REPLAY", 
                     icon: Icons.loserIcon, 
                     iconType: "loser", 
@@ -1845,7 +1845,7 @@ const GameOver = async (isDraw = false) => { try {
             else {
                 Notify({action: "confirm", 
                     header: "DRAW!", 
-                    message: "Try Again :-)", 
+                    message: "Good game!<br>But you can do better. ", 
                     type: "MENU/REPLAY", 
                     icon: Icons.drawIcon,
                     iconType: "draw", 
@@ -1903,7 +1903,7 @@ const GameOver = async (isDraw = false) => { try {
         if(!isDraw) {
             Notify({action: "confirm", 
                     header: (name === playerA.name)? playerB.name.toUpperCase(): playerA.name.toUpperCase() + " WINS!", 
-                    message: "Congratulations!",
+                    message: "Congratulations! Keep it up.",
                     type: "MENU/REPLAY", 
                     icon: Icons.winnerIcon,
                     iconType: "winner", 
@@ -1922,7 +1922,7 @@ const GameOver = async (isDraw = false) => { try {
             else {
                 Notify({action: "confirm", 
                     header: "DRAW!", 
-                    message: "Try Again :-)", 
+                    message: "You people really don't wanna give in to each other.<br>What about trying again?", 
                     type: "MENU/REPLAY", 
                     icon: Icons.drawIcon,
                     iconType: "draw", 
