@@ -383,8 +383,8 @@ class OpponentMove {
 			let self = this;
 			await new Sleep().wait(0.1);
 			let prop = self.moves[0];
-            let i = 7 - prop.i, 
-                j = 7 - prop.j,
+            let i = Game.boardSize-1 - prop.i, 
+                j = Game.boardSize-1 - prop.j,
                 cell = $("#table").rows[i].cells[j];
             await ValidateMove({cell, i, j, isComputer: true});
 			this.moves.shift();
