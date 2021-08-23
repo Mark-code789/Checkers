@@ -1983,7 +1983,7 @@ article {
     } 
     #main-window #header .header_div:first-of-type h1 {
         height: 53px;
-        display: block;
+        display: flex;
     } 
     #main-window #main h2, #main-window #levels h2 {
         display: block;
