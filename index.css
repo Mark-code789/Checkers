@@ -1835,7 +1835,7 @@ article {
     } 
 } 
 
-@media only screen and (orientation:landscape and max-width: 480px) {
+@media only screen and (orientation:landscape) {
     /*board orientation 116.657802vmin */
     :root {
         /*--length: 121vmin;
