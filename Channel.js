@@ -204,6 +204,7 @@ const ChannelFunction = () => {
                             Notify("Having trouble to connect, please check your device internet connection.");
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
+                            Publish.send({channel: Lobby.CHANNEL, message: {title: "Disconnected", content: ""}});
                             Notify("You are offline.");
                         } 
                         else if(event.category === 'PNTimeoutCategory') {
@@ -231,6 +232,14 @@ const ChannelFunction = () => {
 								let opponentStatus = $("#player-2-status");
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.style.backgroundImage = other.default;
+                            } 
+                            else if(msg.message.title === 'Disconnected') {
+                            	Notify(`${playerB.name} is offline.`);
+                                let status = $$(".chat_header p")[1];
+								status.innerHTML = "offline";
+								let opponentStatus = $("#player-2-status");
+							    opponentStatus.innerHTML = "OFFLINE";
+							    opponentStatus.style.backgroundImage = "linear-gradient(rgba(0, 120, 225, 0.9), rgba(0, 80, 185, 0.9))";
                             } 
                             else if(msg.message.title === 'OpponentName') {
                                 name = msg.message.content;
