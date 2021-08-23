@@ -1350,11 +1350,10 @@ article {
 #stats-window #stats, 
 #two-players-window #main-section-tp {
     margin: 0;
-    width: 100%;
     overflow-y: auto;
     
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-gap: var(--gap);
     align-content: start;
     justify-content: center;
@@ -2000,9 +1999,13 @@ article {
     #two-players-window #main-section-tp .form .inner_item {
         grid-template-columns: 240px 120px 120px;
     } 
-    /*#games-window #games .sub_item {
+    #settings-window #main-section, 
+    #follow-up-window #links, 
+    #games-window #games, 
+    #stats-window #stats, 
+    #two-players-window #main-section-tp {
         grid-template-columns: 480px;
-    } */
+    } 
 } 
 
 .cell_black {
