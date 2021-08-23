@@ -204,11 +204,10 @@ const ChannelFunction = () => {
                             Notify("Having trouble to connect, please check your device internet connection.");
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
-                            Publish.send({channel: Lobby.CHANNEL, message: {title: "Disconnected", content: ""}});
                             Notify("You are offline.");
                         } 
                         else if(event.category === 'PNTimeoutCategory') {
-                            Notify("Connection Timeout.");
+                            Notify("Connection Timeout. " + Lobby.UUID);
                         } 
                     }, 
                     message: function(msg) {
