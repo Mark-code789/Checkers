@@ -539,6 +539,10 @@ article {
     overflow-x: auto;
 } 
 
+#main-window #header .header_div:nth-of-type(2) .versions_wrapper::-webkit-scrollbar-thumb {
+    background: #fff8 !important;
+} 
+
 #main-window #header .header_div:nth-of-type(2) .versions_container {
     height: fit-content;
     width: fit-content;
@@ -850,6 +854,7 @@ article {
     
     display: grid;
     grid-template-columns: 75% 25%;
+    grid-template-rows: auto;
 } 
 
 
@@ -1486,6 +1491,7 @@ article {
 
 /*two-players-window*/
 #two-players-window #main-section-tp .form {
+    height: fit-content;
     display: grid;
     grid-gap: 8px;
     grid-template-columns: auto;
@@ -1829,7 +1835,7 @@ article {
     } 
 } 
 
-@media only screen and (orientation:landscape) {
+@media only screen and (orientation:landscape and max-width: 480px) {
     /*board orientation 116.657802vmin */
     :root {
         /*--length: 121vmin;
@@ -1966,6 +1972,15 @@ article {
         grid-template-columns: 100%;
     } 
 } 
+
+/*@media only screen and (min-width: 480px) {
+    #main-window #header .header_div {
+        display: block;
+    } 
+    #main-window #main h2, #main-window #levels h2 {
+        display: block;
+    } 
+} */
 
 .cell_black {
     background: var(--black-cell);
