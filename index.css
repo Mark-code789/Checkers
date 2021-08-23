@@ -1996,9 +1996,9 @@ article {
     #two-players-window #main-section-tp .form .inner_item {
         grid-template-columns: 240px 120px 120px;
     } 
-    #games-window #games .sub_item {
+    /*#games-window #games .sub_item {
         grid-template-columns: 480px;
-    } 
+    } *.
 } 
 
 .cell_black {
