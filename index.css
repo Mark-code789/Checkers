@@ -1354,6 +1354,7 @@ article {
     grid-template-columns: auto;
     grid-gap: var(--gap);
     align-content: start;
+    justify-content: center;
 } 
 
 #settings-window #main-section .inner_item, 
