@@ -1356,7 +1356,6 @@ article {
     grid-template-columns: 100%;
     grid-gap: var(--gap);
     align-content: start;
-    justify-content: center;
 } 
 
 #settings-window #main-section .inner_item, 
@@ -1994,11 +1993,11 @@ article {
         height: fit-content;
         margin: 5px 0 0 0;
     } 
-    #settings-window #main-section .inner_item, 
+    /*#settings-window #main-section .inner_item, 
     #stats-window #stats .sub_item,
     #two-players-window #main-section-tp .form .inner_item {
         grid-template-columns: 240px 120px 120px;
-    } 
+    } */
     #settings-window #main-section, 
     #follow-up-window #links, 
     #games-window #games, 
