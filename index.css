@@ -838,6 +838,9 @@ article {
 
 
 /*games-window*/
+#games-window #games {
+    overflow-y: auto !important;
+} 
 #games-window #games .sub_item {
     align-items: center;
 } 
