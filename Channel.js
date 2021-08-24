@@ -395,10 +395,9 @@ class OpponentMove {
                 j = Game.boardSize-1 - prop.j,
                 cell = $("#table").rows[i].cells[j];
             await ValidateMove({cell, i, j, isComputer: true});
-			this.moves.shift();
+			await this.moves.shift();
 			if(this.moves.length > 0)
 				await this.make();
-			return;
         } catch (error) {alert(error + "")}
 	} 
 } 
