@@ -115,12 +115,20 @@ const ChannelFunction = () => {
 	                        } 
 	                        else if(response.action === 'timeout') {
 								if(response.uuid == Lobby.UUID) {
-	                            	Notify(`Connection timeout to ${Lobby.CHANNEL} channel. Try subscribing to the channel again.`);
-									Unsubscribe(false);
+	                            	Notify(`Connection timeout to ${Lobby.CHANNEL} channel. Can't reach the server at the moment.`);
+	                                //Lobby.PUBNUB.reconnect();
+									//Unsubscribe(false);
 								} 
 								else {
-									Lobby.intentionalExit = true;
-									LeftChannel({totalOccupancy: 1});
+									let opp = $$("#online .player_name")[1].innerHTML;
+									Notify(`${opp} went offline.`);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "offline";
+									let opponentStatus = $("#player-2-status");
+						        	opponentStatus.innerHTML = "OFFLINE";
+						        	opponentStatus.style.backgroundImage = "linear-gradient(rgba(193, 115, 0, 0.9), rgba(153, 75, 0, 0.9))";
+									//Lobby.intentionalExit = true;
+									//LeftChannel({totalOccupancy: 1});
 								} 
 	                        } 
 							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
@@ -207,7 +215,7 @@ const ChannelFunction = () => {
                             Notify("You are offline.");
                         } 
                         else if(event.category === 'PNTimeoutCategory') {
-                            Notify("Connection Timeout. " + Lobby.UUID);
+                            Notify(`Connection Timeout. Can't reach the server t the moment.`);
                         } 
                     }, 
                     message: function(msg) {
@@ -231,14 +239,6 @@ const ChannelFunction = () => {
 								let opponentStatus = $("#player-2-status");
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.style.backgroundImage = other.default;
-                            } 
-                            else if(msg.message.title === 'Disconnected') {
-                            	Notify(`${playerB.name} is offline.`);
-                                let status = $$(".chat_header p")[1];
-								status.innerHTML = "offline";
-								let opponentStatus = $("#player-2-status");
-							    opponentStatus.innerHTML = "OFFLINE";
-							    opponentStatus.style.backgroundImage = "linear-gradient(rgba(0, 120, 225, 0.9), rgba(0, 80, 185, 0.9))";
                             } 
                             else if(msg.message.title === 'OpponentName') {
                                 name = msg.message.content;
@@ -389,10 +389,10 @@ class OpponentMove {
 	static make = async () => {
 		try {
 			let self = this;
-			await new Sleep().wait(0.1);
+			await new Sleep().wait(1);
 			let prop = self.moves[0];
-            let i = Game.boardSize-1 - prop.i, 
-                j = Game.boardSize-1 - prop.j,
+            let i = 7 - prop.i, 
+                j = 7 - prop.j,
                 cell = $("#table").rows[i].cells[j];
             await ValidateMove({cell, i, j, isComputer: true});
 			this.moves.shift();
