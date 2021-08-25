@@ -405,9 +405,9 @@ class OpponentMove {
 class Publish { 
 	static messages = [];
 	static retryCount = 0;
-	static send = (prop) => {
+	static send = async (prop) => {
 	    const MetaConfig = {
-	        "uuid": Lobby.PUBNUB.getUUID()
+	        "uuid": Lobby.UUID
 	    } 
 	    const PublishConfig = {
 	        channel: prop.channel, 
@@ -448,7 +448,7 @@ class Publish {
 				} 
             } 
 			if(self.messages.length > 0) 
-	        	self.publish();
+	        	await self.publish();
 	    });
 	} 
 } 
