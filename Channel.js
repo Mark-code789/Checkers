@@ -424,7 +424,7 @@ class Publish {
     static publish = async () => { 
         let config = this.messages[0];
         let self = this;
-		Lobby.PUBNUB.publish(config, (status, response) => {
+		Lobby.PUBNUB.publish(config, async (status, response) => {
             if(!status.error) {
                 if(config.message.title === "IntentionalExit") {
 					self.retryCount = 0;
