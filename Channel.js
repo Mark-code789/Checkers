@@ -240,9 +240,15 @@ const ChannelFunction = () => {
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.style.backgroundImage = other.default;
                             } 
+                            else if(msg.message.title == "NameChange") {
+                        		name = msg.message.content;
+                        		$$("#online .player_name")[1].innerHTML = name;
+                        		$$(".chat_header h2")[1].innerHTML = name;
+                        		playerB.name = name;
+                        		Notify(`Your opponent changed name to ${name}`);
+                        	} 
                             else if(msg.message.title === 'OpponentName') {
                                 name = msg.message.content;
-                                name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
                                 $$("#online .player_name")[1].innerHTML = name;
                                 let opponentStatus = $("#player-2-status");
                                 opponentStatus.innerHTML = "ONLINE";
