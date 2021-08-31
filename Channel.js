@@ -405,6 +405,7 @@ class OpponentMove {
 class Publish { 
 	static messages = [];
 	static retryCount = 0;
+	static sleep = new Sleep();
 	static send = async (prop) => {
 	    const MetaConfig = {
 	        "uuid": Lobby.UUID
@@ -432,7 +433,7 @@ class Publish {
         			Lobby.sleep.end();
 				} 
 				else {
-					await new Sleep().wait(0.1);
+					alert(await self.sleep.wait(0.1));
 					self.messages.shift();
         			self.retryCount = 0;
 				} 
