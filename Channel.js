@@ -33,7 +33,7 @@ const ChannelFunction = () => {
         else 
             channel = channel.replace(/^\w|\s\w/g, t => t.toUpperCase());
         
-        name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
+        //name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
         $$("#online .player_name")[0].innerHTML = name;
         $("#online #channel-name").maxLength = "100";
         playerA.name = name;
@@ -325,10 +325,15 @@ const ChannelFunction = () => {
                     withPresence: true
                 }); 
             } 
-            else {
+            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML == $("#playerA-name").value) {
                 Notify({action: "alert", 
                         header: "Duplicate Action", 
                         message: `<p>You are already subscribed to <b><em>${Lobby.CHANNEL}</em></b> channel. To join another channel, unsubscribe from this channel first.</p>`});
+            } 
+            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML == $("#playerA-name").value) {
+            	Publish({channel: Lobby.CHANNEL, message: {title: "Name Change", content: $("#playerA-name").value}});
+            	$$("#online .player_name")[0].innerHTML = $("#playerA-name").value;
+            	Notify("name changed successfully");
             } 
         } catch (error) {
             Notify("Loading necessary data...");
