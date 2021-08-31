@@ -715,14 +715,14 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
    
     // reset all the game states and players states 
     BackState.moves = [];
-    Game.state = /*[["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "EC", "NA", "EC", "NA", "MB", "NA"],
+    Game.state = /*[["NA", "MB", "NA", "EC", "NA", "EC", "NA", "EC"],
+				  ["MB", "NA", "MB", "NA", "EC", "NA", "MB", "NA"],
 				  ["NA", "KB", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "EC", "NA", "MB", "NA", "EC", "NA"],
-				  ["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "EC", "NA", "EC", "NA", "MW", "NA"],
+				  ["EC", "NA", "EC", "NA", "MB", "NA", "MB", "NA"],
+				  ["NA", "EC", "NA", "MW", "NA", "EC", "NA", "EC"],
+				  ["EC", "NA", "MW", "NA", "MW", "NA", "MW", "NA"],
 				  ["NA", "MW", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"]];*/gameState;
+				  ["MW", "NA", "EC", "NA", "MW", "NA", "MW", "NA"]];*/gameState;
     Game.track = [];
     Game.possibleCaptures = [];
     Game.possibleMoves = [];
@@ -862,8 +862,6 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
     	let id = playerB.pieceColor.substring(0,1);
         Game.possibleCaptures = await Iterate({id, state, func: AssesCaptures});
         let moves = Game.possibleCaptures;
-        /*console.log(await SortCaptures(moves));
-        return;*/
         
         if(Game.mandatoryCapture && Game.possibleCaptures.length == 0) {
             Game.possibleMoves = await Iterate({id, state, func: AssesMoves});
@@ -872,10 +870,13 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         else if(!Game.mandatoryCapture) {
             Game.possibleMoves = await Iterate({id, state, func: AssesMoves});
             moves = moves.concat(Game.possibleMoves);
-        } 
+        }
         await Helper(moves, Copy(Game.state));
-        /*let ai = new AI({moves: moves, depth: 6, state});
-        await ai.makeMove();*/
+        /*let ai = new AI({moves: moves, depth: 5, state});
+        console.log(JSON.stringify(moves));
+        console.log(JSON.stringify(await ai.filter(moves, state)));
+        //await ai.makeMove();
+        return;*/
         let chosen = (Math.random()*(moves.length - 1)).toFixed(0);
         let bestMove = moves[chosen];
         let i = parseInt(bestMove.cell.slice(0,1));
@@ -1576,8 +1577,6 @@ class Move {
         Game.possibleCaptures = await Iterate({id, state: Game.state, func: AssesCaptures});
         
         if(Game.possibleCaptures.length > 0) {
-            Game.possibleCaptures = await RemoveUnwantedCells({captures: Game.possibleCaptures, state: Game.state});
-            
             if(Game.mandatoryCapture) 
             await UpdatePiecesStatus("Mandatory Capture!");
             else
@@ -1653,7 +1652,7 @@ const ValidateMove = async (prop) => {
                             lastIndex = (lastIndex === -1)? other.helperPath.length: lastIndex;
                             other.capturePath = Copy(other.helperPath.slice(startIndex, lastIndex));
                             if(Game.helper || Game.capturesHelper) 
-	                            if(Game.mode == "two-player-offline" || (Game.mode == "single-player" || Game.mode == "two-player-online") && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
+	                            if((Game.mode == "two-player-offline" || Game.mode == "two-player-online") || Game.mode == "single-player" && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
 		                            for(let cell of other.capturePath) {
 		                                $("#table").rows[cell.m].cells[cell.n].classList.add("helper_empty");
 		                            }
@@ -2476,8 +2475,6 @@ const Hint = async (elem, state=Copy(Game.state)) => {
         let moves = await Iterate({id, state, func: AssesCaptures});
         if(moves.length === 0)
             moves = await Iterate({id, state, func: AssesMoves});
-        else
-        	moves = await RemoveUnwantedCells({captures: moves, state});
         let level = Game.mode != "single-player"? 5: Game.level;
         let ai = new AI({state, moves, depth: (level < 4? 4: level)});
         await ai.makeMove(true);
@@ -2627,7 +2624,6 @@ const Helper = async (moves, state, isMultJump = false) => {
             	moves2 = await AssesCaptures({id, i: m, j: n, state: cloneState});
                 
 				if(moves2.length > 0) {
-	            	moves2 = await RemoveUnwantedCells({captures: moves2, state: cloneState});
 					await Helper(moves2, cloneState, true);
 				} 
 				else if(crowned)
