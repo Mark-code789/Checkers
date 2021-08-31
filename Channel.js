@@ -444,7 +444,7 @@ class Publish {
 		        	self.messages = [];
 		        	Notify({action: "alert", 
 		                    header: "Communication Error", 
-		                    message: status.error});
+		                    message: status.message + "<br>" + status.category});
 				} 
             } 
 			if(self.messages.length > 0) 
