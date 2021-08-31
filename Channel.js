@@ -444,9 +444,10 @@ class Publish {
 				else {
 					self.retryCount = 0;
 		        	self.messages = [];
-		        	Notify({action: "alert", 
+					alert(status.message);
+		        	/*Notify({action: "alert", 
 		                    header: "Communication Error", 
-		                    message: status.message + "<br>" + status.category});
+		                    message: status.message + "<br>" + status.category});*/
 				} 
             } 
 			if(self.messages.length > 0) 
