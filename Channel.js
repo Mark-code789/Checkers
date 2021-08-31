@@ -219,6 +219,7 @@ const ChannelFunction = () => {
                             Notify("You are offline.");
                         }
                         else if(event.category === 'PNTimeoutCategory') {
+                        	Notify(Lobby.timeoutCount);
                             if(Lobby.timeoutCount <= 5) {// 5 minutes
 								Lobby.timeoutCount++;
 							} 
