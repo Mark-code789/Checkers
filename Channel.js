@@ -411,11 +411,11 @@ class Publish {
 	    } 
 	    const PublishConfig = {
 	        channel: Lobby.CHANNEL, 
-	        message: prop.message, 
+	        message: JSON.stringify(prop.message), 
 	        meta: MetaConfig 
 	    } 
 		
-	    this.messages.push(JSON.stringify(PublishConfig));
+	    this.messages.push(PublishConfig);
 	    
 	    if(this.messages.length == 1)
 	        this.publish();
