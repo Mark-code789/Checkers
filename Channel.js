@@ -118,9 +118,9 @@ const ChannelFunction = () => {
 	                            	// Nothing for now 
 								} 
 								else {
-									let n = 0;
+									let n = 1;
 									Lobby.timeoutInterval = setInterval(() => {
-										if(n <= 5)
+										if(n < 3)
 											n++;
 										else
 											LeftChannel({totalOccupancy: 1});
@@ -216,11 +216,11 @@ const ChannelFunction = () => {
                             Notify("Having trouble to connect, please check your device internet connection.");
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
-                            Notify("You are offline.");
+                            Notify("You are offline. If this persists in 3 minutes, you will be unsubscribed from " + Lobby.CHANNEL + " channel.");
                             if(!Lobby.offlineInterval) {
-                        		let n = 0;
+                        		let n = 1;
                         		Lobby.offlineInterval = setInterval(() => {
-                        			if(n <= 5) 
+                        			if(n < 3) 
                         				n++;
                         			else
                         				Unsubscribe();
@@ -228,11 +228,11 @@ const ChannelFunction = () => {
                         	} 
                         }
                         else if(event.category === 'PNTimeoutCategory') {
-                        	Notify("Connection Timeout");
+                        	Notify("Connection Timeout. If this persists in 3 minutes, you will be unsubscribed from " + Lobby.CHANNEL + " channel.");
                         	if(!Lobby.offlineInterval) {
-                        		let n = 0;
+                        		let n = 1;
                         		Lobby.offlineInterval = setInterval(() => {
-                        			if(n <= 5)
+                        			if(n < 3)
                         				n++;
                         			else
                         				Unsubscribe();
