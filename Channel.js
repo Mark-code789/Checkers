@@ -393,6 +393,7 @@ const Unsubscribe = async (intentional = true) => {
         Lobby.intentionalExit = false;
         Lobby.PUBNUB = null;
         Lobby.isHost = false;
+        Lobby.timeoutCount = 0;
         $("#chat-icon").style.display = 'none';
     } 
     else {
