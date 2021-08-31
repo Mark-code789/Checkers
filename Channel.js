@@ -220,6 +220,14 @@ const ChannelFunction = () => {
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
+                    	if($("#player-2-status").innerHTML == "OFFLINE") {
+							Notify(`${playerB.name} is back online.`);
+                            let status = $$(".chat_header p")[1];
+							status.innerHTML = "online";
+							let opponentStatus = $("#player-2-status");
+						    opponentStatus.innerHTML = "ONLINE";
+						    opponentStatus.style.backgroundImage = other.default;
+						} 
                         if(msg.channel === Lobby.CHANNEL) {
                             if(msg.message.title === 'ConfirmLeave') {
                                 Publish.send({
