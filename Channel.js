@@ -1,6 +1,6 @@
 'use strict' 
 
-const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: []};
+const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutCount: 0};
 
 const ChannelFunction = () => {
 	if(!navigator.onLine) {
@@ -115,9 +115,12 @@ const ChannelFunction = () => {
 	                        } 
 	                        else if(response.action === 'timeout') {
 								if(response.uuid == Lobby.UUID) {
-	                            	Notify(`Connection timeout to ${Lobby.CHANNEL} channel. Can't reach the server at the moment.`);
-	                                //Lobby.PUBNUB.reconnect();
-									//Unsubscribe(false);
+	                            	if(Lobby.timeoutCount <= 10) {// 15 minutes
+										Lobby.timeoutCount++;
+									} 
+									else {
+										Unsubscribe();
+									} 
 								} 
 								else {
 									let opp = $$("#online .player_name")[1].innerHTML;
@@ -127,8 +130,6 @@ const ChannelFunction = () => {
 									let opponentStatus = $("#player-2-status");
 						        	opponentStatus.innerHTML = "OFFLINE";
 						        	opponentStatus.style.backgroundImage = "linear-gradient(rgba(193, 115, 0, 0.9), rgba(153, 75, 0, 0.9))";
-									//Lobby.intentionalExit = true;
-									//LeftChannel({totalOccupancy: 1});
 								} 
 	                        } 
 							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
@@ -213,10 +214,10 @@ const ChannelFunction = () => {
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
                             Notify("You are offline.");
-                        } 
-                        else if(event.category === 'PNTimeoutCategory') {
-                            Notify(`Connection Timeout. Can't reach the server at the moment.`);
-                        } 
+                        }
+                        /*else if(event.category === 'PNTimeoutCategory') {
+                            Notify(`Connection Timeout`);
+                        } */
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
