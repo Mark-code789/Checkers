@@ -410,7 +410,7 @@ class Publish {
 	        "uuid": Lobby.UUID
 	    } 
 	    const PublishConfig = {
-	        channel: prop.channel, 
+	        channel: Lobby.CHANNEL, 
 	        message: prop.message, 
 	        meta: MetaConfig 
 	    } 
