@@ -207,6 +207,7 @@ const ChannelFunction = () => {
                         else if(event.category === 'PNNetworkUpCategory') {
                         	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         	Lobby.PUBNUB.reconnect();
+                        	Lobby.timeoutCount = 0;
                             Notify("You are back online.");
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
