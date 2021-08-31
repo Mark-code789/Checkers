@@ -337,6 +337,7 @@ const ChannelFunction = () => {
                         message: `<p>You are already subscribed to <b><em>${Lobby.CHANNEL}</em></b> channel. To join another channel, unsubscribe from this channel first.</p>`});
             } 
             else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML != $("#playerA-name").value) {
+            	alert($$("#online .player_name")[0].innerHTML + " , " + $("#playerA-name").value);
             	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#playerA-name").value}});
             	$$("#online .player_name")[0].innerHTML = $("#playerA-name").value;
             	Notify("name changed successfully");
