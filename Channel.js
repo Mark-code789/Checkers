@@ -219,6 +219,7 @@ const ChannelFunction = () => {
                         } 
                     }, 
                     message: function(msg) {
+                    	msg.message = JSON.parse(msg.message);
                         if(msg.channel === Lobby.CHANNEL) {
                             if(msg.message.title === 'ConfirmLeave') {
                                 Publish.send({
@@ -444,7 +445,6 @@ class Publish {
         			Lobby.sleep.end();
 				} 
 				else {
-					alert(JSON.parse(config.message).title);
 					await self.sleep.wait(0.1);
 					self.messages.shift();
         			self.retryCount = 0;
