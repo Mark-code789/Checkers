@@ -346,7 +346,7 @@ const ChannelFunction = () => {
                         message: `<p>You are already subscribed to <b>${Lobby.CHANNEL}</b> channel. To join another channel, unsubscribe from this channel first.</p>`});
             } 
             else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online #playerA-name").value.toLowerCase()) {
-            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online #playerA-name").value.replaceAll(/^\w|\s\w/g t => t.toUpperCase())}});
+            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online #playerA-name").value.replaceAll(/^\w|\s\w/g, t => t.toUpperCase())}});
             	$$("#online .player_name")[0].innerHTML = $("#online #playerA-name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
             	Notify("Name changed successfully");
             } 
