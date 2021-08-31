@@ -1,6 +1,6 @@
 'use strict' 
 
-const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutCount: 0, timeoutInterval: null};
+const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutInterval: null, offlineInterval: null};
 
 const ChannelFunction = () => {
 	if(!navigator.onLine) {
@@ -209,7 +209,7 @@ const ChannelFunction = () => {
                         else if(event.category === 'PNNetworkUpCategory') {
                         	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         	Lobby.PUBNUB.reconnect();
-                        	Lobby.timeoutCount = 0;
+                        	clearInterval(Lobby.offlineInterval);
                             Notify("You are back online.");
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
@@ -217,20 +217,32 @@ const ChannelFunction = () => {
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
                             Notify("You are offline.");
+                            if(!Lobby.offlineInterval) {
+                        		let n = 0;
+                        		Lobby.offlineInterval = setInterval(() => {
+                        			if(n <= 5) 
+                        				n++;
+                        			else
+                        				Unsubscribe();
+                        		}, 60000);
+                        	} 
                         }
                         else if(event.category === 'PNTimeoutCategory') {
-                        	Notify(Lobby.timeoutCount);
-                            if(Lobby.timeoutCount <= 5) {// 5 minutes
-								Lobby.timeoutCount++;
-							} 
-							else {
-								Unsubscribe();
-							} 
+                        	Notify("Connection Timeout");
+                        	if(!Lobby.offlineInterval) {
+                        		let n = 0;
+                        		Lobby.offlineInterval = setInterval(() => {
+                        			if(n <= 5)
+                        				n++;
+                        			else
+                        				Unsubscribe();
+                        		}, 60000);
+                        	} 
                         } 
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
-                    	if($("#player-2-status").innerHTML == "OFFLINE") {
+                    	if($("#player-2-status").innerHTML == "OFFLINE" && msg.message.title != "Reconnected") {
                     		clearInterval(Lobby.timeoutInterval);
 							Notify(`${playerB.name} is back online.`);
                             let status = $$(".chat_header p")[1];
@@ -364,10 +376,15 @@ const ChannelFunction = () => {
             } 
         } catch (error) {
             Notify("An error occurred. Loading necessary data...");
-            $("#pubnub-file").addEventListener("load", () => {
-                Notify("Finished loading!");
+            let src = $("#pubnub-file").getAttribute("src");
+            let script = $$$("script");
+            document.head.removeChild($("#pubnub-file"));
+            document.head.appendChild(script);
+            script.addEventListener("load", () => {
                 ChannelFunction();
             } , false);
+            script.setAttribute("id", "pubnub-file");
+            script.src = src;
         } 
     } 
 }
@@ -390,6 +407,8 @@ const Unsubscribe = async (intentional = true) => {
         	Notify(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
         
         clearTimeout(Lobby.timeoutID);
+        clearInterval(Lobby.offlineInterval);
+        clearInterval(Lobby.timeoutInterval);
         let connectivityStatus = $("#connectivity");
         connectivityStatus.classList.remove("default");
         connectivityStatus.innerHTML = "DISCONNECTED";
@@ -404,7 +423,7 @@ const Unsubscribe = async (intentional = true) => {
         Lobby.intentionalExit = false;
         Lobby.PUBNUB = null;
         Lobby.isHost = false;
-        Lobby.timeoutCount = 0;
+        Lobby.offlineInterval = null;
         Lobby.timeoutInterval = null;
         $("#chat-icon").style.display = 'none';
     } 
