@@ -1,6 +1,6 @@
 'use strict' 
 
-const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutCount: 0};
+const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutCount: 0, timeoutInterval: null};
 
 const ChannelFunction = () => {
 	if(!navigator.onLine) {
@@ -115,14 +115,16 @@ const ChannelFunction = () => {
 	                        } 
 	                        else if(response.action === 'timeout') {
 								if(response.uuid == Lobby.UUID) {
-	                            	if(Lobby.timeoutCount <= 10) {// 15 minutes
-										Lobby.timeoutCount++;
-									} 
-									else {
-										Unsubscribe();
-									} 
+	                            	// Nothing for now 
 								} 
 								else {
+									let n = 0;
+									Lobby.timeoutInterval = setInterval(() => {
+										if(n <= 5)
+											n++;
+										else
+											LeftChannel({totalOccupancy: 1});
+									}, 60000);
 									let opp = $$("#online .player_name")[1].innerHTML;
 									Notify(`${opp} went offline.`);
 									let status = $$(".chat_header p")[1];
@@ -216,13 +218,19 @@ const ChannelFunction = () => {
                         else if(event.category === 'PNNetworkDownCategory') {
                             Notify("You are offline.");
                         }
-                        /*else if(event.category === 'PNTimeoutCategory') {
-                            Notify(`Connection Timeout`);
-                        } */
+                        else if(event.category === 'PNTimeoutCategory') {
+                            if(Lobby.timeoutCount <= 5) {// 5 minutes
+								Lobby.timeoutCount++;
+							} 
+							else {
+								Unsubscribe();
+							} 
+                        } 
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
                     	if($("#player-2-status").innerHTML == "OFFLINE") {
+                    		clearInterval(Lobby.timeoutInterval);
 							Notify(`${playerB.name} is back online.`);
                             let status = $$(".chat_header p")[1];
 							status.innerHTML = "online";
@@ -244,6 +252,7 @@ const ChannelFunction = () => {
                             	LeftChannel({totalOccupancy: 1});
                             } 
                             else if(msg.message.title === 'Reconnected') {
+                            	clearInterval(Lobby.timeoutInterval);
                             	Notify(`${playerB.name} is back online.`);
                                 let status = $$(".chat_header p")[1];
 								status.innerHTML = "online";
@@ -395,6 +404,7 @@ const Unsubscribe = async (intentional = true) => {
         Lobby.PUBNUB = null;
         Lobby.isHost = false;
         Lobby.timeoutCount = 0;
+        Lobby.timeoutInterval = null;
         $("#chat-icon").style.display = 'none';
     } 
     else {
@@ -471,6 +481,8 @@ class Publish {
 		        	Notify({action: "alert", 
 		                    header: "Communication Error", 
 		                    message: status.message + "<br>" + status.category});
+					if(JSON.parse(config.message).title === "IntentionalExit")
+	        			Lobby.sleep.end(); 
 				} 
             } 
 			if(self.messages.length > 0) 
