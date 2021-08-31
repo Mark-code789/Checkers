@@ -240,7 +240,7 @@ const ChannelFunction = () => {
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.style.backgroundImage = other.default;
                             } 
-                            else if(msg.message.title == "NameChange") {
+                            else if(msg.message.title === "NameChange") {
                         		name = msg.message.content;
                         		$$("#online .player_name")[1].innerHTML = name;
                         		$$(".chat_header h2")[1].innerHTML = name;
