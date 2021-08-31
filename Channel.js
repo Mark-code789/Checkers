@@ -479,11 +479,12 @@ class Publish {
 					self.retryCount = 0;
 		        	self.messages = [];
 					//alert(status.message);
-		        	Notify({action: "alert", 
-		                    header: "Communication Error", 
-		                    message: status.message + "<br>" + status.category});
 					if(JSON.parse(config.message).title === "IntentionalExit")
 	        			Lobby.sleep.end(); 
+					else
+						Notify({action: "alert", 
+		                    header: "Communication Error", 
+		                    message: status.message + "<br>" + status.category});
 				} 
             } 
 			if(self.messages.length > 0) 
