@@ -433,7 +433,7 @@ class Publish {
         			Lobby.sleep.end();
 				} 
 				else {
-					alert(await self.sleep.wait(0.1));
+					await self.sleep.wait(0.1);
 					self.messages.shift();
         			self.retryCount = 0;
 				} 
