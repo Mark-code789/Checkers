@@ -33,13 +33,13 @@ const ChannelFunction = () => {
         else 
             channel = channel.replace(/^\w|\s\w/g, t => t.toUpperCase());
         
-        //name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
-        $$("#online .player_name")[0].innerHTML = name;
+        name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
         $("#online #channel-name").maxLength = "100";
         playerA.name = name;
         
         try { 
             if(!Lobby.isConnected) {
+            	$$("#online .player_name")[0].innerHTML = name;
                 Lobby.UUID = PubNub.generateUUID();
                 Lobby.CHANNEL = channel;
                 Lobby.LOBBY = "Lobby"+channel;
@@ -331,20 +331,18 @@ const ChannelFunction = () => {
                     withPresence: true
                 }); 
             } 
-            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML == $("#playerA-name").value) {
+            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online #playerA-name").value.toLowerCase()) {
                 Notify({action: "alert", 
                         header: "Duplicate Action", 
-                        message: `<p>You are already subscribed to <b><em>${Lobby.CHANNEL}</em></b> channel. To join another channel, unsubscribe from this channel first.</p>`});
+                        message: `<p>You are already subscribed to <b>${Lobby.CHANNEL}</b> channel. To join another channel, unsubscribe from this channel first.</p>`});
             } 
-            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML != $("#playerA-name").value) {
-            	alert($$("#online .player_name")[0].innerHTML + " , " + $("#online #playerA-name").value);
-            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#playerA-name").value}});
-            	$$("#online .player_name")[0].innerHTML = $("#playerA-name").value;
-            	Notify("name changed successfully");
+            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online #playerA-name").value.toLowerCase()) {
+            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online #playerA-name").value}});
+            	$$("#online .player_name")[0].innerHTML = $("#online #playerA-name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
+            	Notify("Name changed successfully");
             } 
         } catch (error) {
-        	alert(error);
-            Notify("Loading necessary data...");
+            Notify("An error occurred. Loading necessary data...");
             $("#pubnub-file").addEventListener("load", () => {
                 Notify("Finished loading!");
                 ChannelFunction();
@@ -457,10 +455,10 @@ class Publish {
 				else {
 					self.retryCount = 0;
 		        	self.messages = [];
-					alert(status.message);
-		        	/*Notify({action: "alert", 
+					//alert(status.message);
+		        	Notify({action: "alert", 
 		                    header: "Communication Error", 
-		                    message: status.message + "<br>" + status.category});*/
+		                    message: status.message + "<br>" + status.category});
 				} 
             } 
 			if(self.messages.length > 0) 
