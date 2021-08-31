@@ -342,6 +342,7 @@ const ChannelFunction = () => {
             	Notify("name changed successfully");
             } 
         } catch (error) {
+        	alert(error);
             Notify("Loading necessary data...");
             $("#pubnub-file").addEventListener("load", () => {
                 Notify("Finished loading!");
