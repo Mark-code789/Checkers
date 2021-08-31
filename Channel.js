@@ -263,7 +263,7 @@ const ChannelFunction = () => {
                                              channel: Lobby.CHANNEL, 
                                              message: {
                                                       title: "OpponentName", 
-                                                      content: `${$$("#online .player_name")[0].innerHTML}`}
+                                                      content: $$("#online .player_name")[0].innerHTML}
                                              });
                                 } 
                             } 
