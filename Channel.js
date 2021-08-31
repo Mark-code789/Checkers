@@ -427,6 +427,7 @@ class Publish {
         let self = this;
 		Lobby.PUBNUB.publish(config, async (status, response) => {
             if(!status.error) {
+            	alert(JSON.parse(config.message).title);
                 if(JSON.parse(config.message).title === "IntentionalExit") {
 					self.retryCount = 0;
         			self.messages = [];
