@@ -444,7 +444,7 @@ class Publish {
 		        	self.messages = [];
 		        	Notify({action: "alert", 
 		                    header: "Communication Error", 
-		                    message: "Couldn't communicate with the opponent. Either you have network issues or you are offline."});
+		                    message: status.error});
 				} 
             } 
 			if(self.messages.length > 0) 
