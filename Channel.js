@@ -215,7 +215,7 @@ const ChannelFunction = () => {
                             Notify("You are offline.");
                         } 
                         else if(event.category === 'PNTimeoutCategory') {
-                            Notify(`Connection Timeout. Can't reach the server t the moment.`);
+                            Notify(`Connection Timeout. Can't reach the server at the moment.`);
                         } 
                     }, 
                     message: function(msg) {
