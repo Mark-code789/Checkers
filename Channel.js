@@ -444,6 +444,7 @@ class Publish {
         			Lobby.sleep.end();
 				} 
 				else {
+					alert(JSON.parse(config.message).title);
 					await self.sleep.wait(0.1);
 					self.messages.shift();
         			self.retryCount = 0;
