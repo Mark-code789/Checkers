@@ -415,7 +415,7 @@ class Publish {
 	        meta: MetaConfig 
 	    } 
 		
-	    this.messages.push(PublishConfig);
+	    this.messages.push(JSON.stringify(PublishConfig));
 	    
 	    if(this.messages.length == 1)
 	        this.publish();
