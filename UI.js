@@ -3796,6 +3796,7 @@ const PopState = () => {
 				window.close();
 			} 
 			else {
+				history.pushState(null, "", "?window1");
 				Cancel();
 			} 
 		} catch (error) {alert(error.message)}
