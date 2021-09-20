@@ -10,6 +10,11 @@ const CheckHref = async () => {
 		BackState.state.push(["#main-window", "#two-players-window"]);
         $("#main-window").style.display = "none";
         $("#two-players-window").style.display = "grid";
+        
+        Notify({action: "alert", 
+    			header: "Message", 
+    			message: `Please fill in your name in the field named 'Player Details' and hit submit to join.`});
+    	$("#online #playerA-name").focus();
 	} 
 } 
 
