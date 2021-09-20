@@ -182,7 +182,6 @@ var other = {
 
 async function LoadingDone () {
 	history.pushState(null, "", "?window1");
-	history.pushState(null, "", "?window1");
 	imageProps = null;
 	soundProps = null;
 	sounds = null;
@@ -3784,7 +3783,7 @@ class Undo {
 
 const PopState = () => {
 	if(!document.location.href.includes("window")) {
-		alert("EXIT");
+		
 		Notify({action: "alert",
 				header: "Want to exit?",
 				message: "Press back button again."});
