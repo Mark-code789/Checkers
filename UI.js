@@ -3781,8 +3781,7 @@ class Undo {
 }
 
 const PopState = () => { try {
-	alert(document.location.href);
-	if(document.location.href.endsWith(".html")) {
+	if(document.location.href.split('?').length == 1) {
 		Notify({action: "confirm",
 				header: "Confirm",
 				message: "Do you want to exit?", 
