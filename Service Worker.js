@@ -59,20 +59,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request).then((res1) => {
-            if(res1 && !e.request.url.includes(".html")) {
-                if(navigator.onLine && (e.request.url.includes(".js") || e.request.url.includes(".css"))) {
-                    return fetch(e.request).then((res2) => {
-                   	    return caches.open(cacheName).then((cache) => {
-                            cache.put(e.request, res2.clone());
-                            return res2;
-                        })
-                    }).catch((error) => {
-                        return res1;
-                    })
-                } 
-                return res1;
-            }
-            else {
+            if(!res1 || navigator.onLine && /(?<!min).(html|css|js)$/g.test(e.request.url)) {
                 return fetch(e.request).then((res2) => {
                     return caches.open(cacheName).then((cache) => {
                         cache.put(e.request, res2.clone());
@@ -80,6 +67,9 @@ self.addEventListener("fetch", (e) => {
                     })
                 })
              }
+             else {
+             	return res1
+             } 
         })
     )
 });
