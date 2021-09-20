@@ -3786,9 +3786,11 @@ const PopState = () => {
 	if(!document.location.href.includes("window")) {
 		alert("EXIT");
 		Notify({action: "alert",
-				header: "Exit Request",
-				message: "Do you want to exit?<br>Press back button again to exit."});
-		history.pushState(null, "", "?window1");
+				header: "Want to exit?",
+				message: "Press back button again."});
+		setTimeout(() => {
+			history.pushState(null, "", "?window1");
+		}, 3000);
 	}
 }
 
