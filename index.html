@@ -642,7 +642,10 @@
                 SheetLink.rel = "stylesheet";
                 SheetLink.href = "index.css";
                 
-                JsLink3.onload = CheckHref();
+                JsLink3.onload = () => {
+					alert("Checking url");
+					CheckHref();
+				} 
                 
                 JsLink0.src = "AI.js?v=1";
                 JsLink1.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.4.32.1.min.js";
@@ -671,7 +674,6 @@
 	          		  });
 					} 
 					else {
-						alert("Registered");
 						pageComplete();
 					} 
            	 } 
