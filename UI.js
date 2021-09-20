@@ -3780,7 +3780,7 @@ class Undo {
 	} 
 }
 
-const PopState = () => { try {
+const PopState = () => { 
 	if(document.location.href.split('?').length == 1) {
 		Notify({action: "confirm",
 				header: "Confirm",
@@ -3790,15 +3790,16 @@ const PopState = () => { try {
 	}
 	
 	function ExitOption (option) {
-		if(option == "EXIT") {
-			history.go(-1);
-			window.close();
-		} 
-		else {
-			Cancel();
-		} 
-	}
-	} catch (error) {alert(error.message)}
+		try {
+			if(option == "EXIT") {
+				history.go(-1);
+				window.close();
+			} 
+			else {
+				Cancel();
+			} 
+		} catch (error) {alert(error.message)}
+	} 
 }
 
 window.onpopstate = () => PopState(); 
