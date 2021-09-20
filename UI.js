@@ -3791,7 +3791,7 @@ const PopState = () => {
 				onResponse: ExitOption});
 	}
 	else
-		history.pop();
+		history.back();
 	
 	async function ExitOption (option) {
 		try {
