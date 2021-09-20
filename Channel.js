@@ -1,7 +1,6 @@
 'use strict' 
 
 const CheckHref = async () => {
-	alert(document.location.href);
 	let split = document.location.href.split("?");
 	if(split.length > 1) {
 		let name = split[1].replace("name=", "");
