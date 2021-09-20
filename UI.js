@@ -3798,6 +3798,7 @@ const PopState = () => {
 				if(!res)
 				Notify("An error occurred. Please try again.");
 				
+				Cancel();
 			} 
 			else {
 				history.pushState(null, "", "?window1");
