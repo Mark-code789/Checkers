@@ -3790,10 +3790,10 @@ const PopState = () => {
 				onResponse: ExitOption});
 	}
 	
-	function ExitOption (option) {
+	async function ExitOption (option) {
 		try {
 			if(option == "EXIT") {
-				alert(thisWindow);
+				alert(await thisWindow.close());
 				if(thisWindow)
 					thisWindow.close();
 				else
