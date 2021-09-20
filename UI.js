@@ -406,7 +406,6 @@ async function LoadingDone () {
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
     CheckHref();
-    history.pushState(null, "", "?=null");
 }
 
 const DragStart = (e) => {
@@ -3782,7 +3781,7 @@ class Undo {
 }
 
 const PopState = () => { try {
-	
+	alert(document.location.href);
 	if(document.location.href.endsWith(".html")) {
 		Notify({action: "confirm",
 				header: "Confirm",
