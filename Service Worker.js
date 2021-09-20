@@ -45,7 +45,7 @@ const appShellFiles = [
     "Core.js", 
     "Worker.js", 
     "index.css", 
-    "index.html?v=2"
+    "index.html"
 ];
 
 self.addEventListener("install", (e) => {
@@ -59,8 +59,8 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request).then((res1) => {
-            if(res1) {
-                if(navigator.onLine && (e.request.url.includes(".js") || e.request.url.includes(".css") || e.request.url.includes(".html"))) {
+            if(res1 && !e.request.url.includes(".html")) {
+                if(navigator.onLine && (e.request.url.includes(".js") || e.request.url.includes(".css"))) {
                     return fetch(e.request).then((res2) => {
                    	    return caches.open(cacheName).then((cache) => {
                             cache.put(e.request, res2.clone());
