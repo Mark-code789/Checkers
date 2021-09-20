@@ -2867,7 +2867,9 @@ const Settings = (elem) => {
     Clicked(elem, elem.parentNode);
     BackState.state.push(["#main-window", "#settings-window", previousMode]);
     $("#main-window").style.display = "none";
-    $("#settings-window").style.display = "grid"; 
+    $("#settings-window").style.display = "grid";
+   
+    history.pushState(null, "", "?window1=main-window&window2=settings-window");
 } 
 
 const Cancel = () => {
