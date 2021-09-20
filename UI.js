@@ -3793,6 +3793,7 @@ const PopState = () => {
 	function ExitOption (option) {
 		try {
 			if(option == "EXIT") {
+				alert(thisWindow);
 				if(thisWindow)
 					thisWindow.close();
 				else
