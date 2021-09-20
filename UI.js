@@ -3793,11 +3793,10 @@ const PopState = () => {
 	async function ExitOption (option) {
 		try {
 			if(option == "EXIT") {
-				alert(await thisWindow.close());
-				if(thisWindow)
-					thisWindow.close();
-				else
-					history.go(-1);
+				let res = thisWindow.close() || history.go(-1);
+				if(!res)
+				Notify("An error occurred. Please try again.");
+				
 			} 
 			else {
 				history.pushState(null, "", "?window1");
