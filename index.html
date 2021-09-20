@@ -661,12 +661,18 @@
             } 
 			//window.onload = pageComplete();
             if("serviceWorker" in navigator) {
-            	window.onload = _ => {
-            		navigator.serviceWorker.register("Service Worker.js").then(res => {
-            			pageComplete();
-           	 	}).catch(error => {
-           		 	pageComplete();
-          		  });
+            	window.onload = async _ => {
+            		let reg = await navigator.serviceWorker.getRegistration();
+            		if(reg == undefined) {
+	            		navigator.serviceWorker.register("Service Worker.js").then(res => {
+	            			pageComplete();
+	           	 	}).catch(error => {
+	           		 	pageComplete();
+	          		  });
+					} 
+					else {
+						pageComplete();
+					} 
            	 } 
             } 
             else {
