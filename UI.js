@@ -3567,79 +3567,81 @@ async function back (undo = false, isComp = false) {
 		return;
 	} 
     if(!undo) {
-        let btns;
-		if(other.fullscreen && GetValue($("#item1"), "display") == "grid") {
-        	btns = $$("#item1 button");
+    	if(GetValue($("#settings-window"), "display") == "grid") {
+	        let btns;
+			if(other.fullscreen && GetValue($("#item1"), "display") == "grid") {
+	        	btns = $$("#item1 button");
+		        for(let btn of btns) {
+		            if(GetValue(btn, "background-image") == other.default) { 
+		                if(btn.innerHTML == "HORIZ." && screen.orientation.type.toLowerCase().includes("portrait")) {
+		                    orientationLocking(document.documentElement, "landscape-primary"); 
+		                    other.orientation = "landscape-primary";
+		                } 
+		                else if(btn.innerHTML == "VERT." && screen.orientation.type.toLowerCase().includes("landscape")) {
+		                    orientationLocking(document.documentElement, "portrait-primary");
+		                    other.orientation = "portrait-primary";
+		                } 
+						AdjustScreen(other.orientation);
+		            } 
+		        }
+			} 
+	        
+	        btns = $$("#item3 button");
 	        for(let btn of btns) {
 	            if(GetValue(btn, "background-image") == other.default) { 
-	                if(btn.innerHTML == "HORIZ." && screen.orientation.type.toLowerCase().includes("portrait")) {
-	                    orientationLocking(document.documentElement, "landscape-primary"); 
-	                    other.orientation = "landscape-primary";
+	                if(btn.innerHTML != "ROLL DICE") {
+	                    Game.whiteTurn = btn.innerHTML == "WHITE";
+	                    Game.rollDice = false;
 	                } 
-	                else if(btn.innerHTML == "VERT." && screen.orientation.type.toLowerCase().includes("landscape")) {
-	                    orientationLocking(document.documentElement, "portrait-primary");
-	                    other.orientation = "portrait-primary";
-	                } 
-					AdjustScreen(other.orientation);
+	                else
+	                    Game.rollDice = true;
+	                    
+	                break;
 	            } 
 	        }
+	        if(storage)
+	            storage.setItem("first_move", JSON.stringify({rollDice: Game.rollDice, whiteTurn: Game.whiteTurn}));
+	        
+	        btns = $$("#item5 button");
+	        for(let btn of btns) {
+	            if(GetValue(btn, "background-image") == other.default) { 
+	                Game.mandatoryCapture = btn.innerHTML === "ON";
+	                break;
+	            } 
+	        }
+	        if(storage) 
+	            storage.setItem("mandatory_capture", JSON.stringify(Game.mandatoryCapture));
+	        
+	        btns = $$("#item6 button");
+	        for(let btn of btns) {
+	            if(GetValue(btn, "background-image") === other.default) {
+	                if(btn.id === "active") {
+	                    Game.helper = true;
+	                    Game.capturesHelper = true;
+	                    break;
+	                } 
+	                else if(btn.id === "inactive") {
+	                    Game.helper = false;
+	                    Game.capturesHelper = false;
+	                    break;
+	                }
+	                else {
+	                    Game.capturesHelper = true;
+	                    Game.helper = false;
+	                    break;
+	                } 
+	            } 
+	        }
+	        if(storage)
+	            storage.setItem("helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
 		} 
-        
-        btns = $$("#item3 button");
-        for(let btn of btns) {
-            if(GetValue(btn, "background-image") == other.default) { 
-                if(btn.innerHTML != "ROLL DICE") {
-                    Game.whiteTurn = btn.innerHTML == "WHITE";
-                    Game.rollDice = false;
-                } 
-                else
-                    Game.rollDice = true;
-                    
-                break;
-            } 
-        }
-        if(storage)
-            storage.setItem("first_move", JSON.stringify({rollDice: Game.rollDice, whiteTurn: Game.whiteTurn}));
-        
-        btns = $$("#item5 button");
-        for(let btn of btns) {
-            if(GetValue(btn, "background-image") == other.default) { 
-                Game.mandatoryCapture = btn.innerHTML === "ON";
-                break;
-            } 
-        }
-        if(storage) 
-            storage.setItem("mandatory_capture", JSON.stringify(Game.mandatoryCapture));
-        
-        btns = $$("#item6 button");
-        for(let btn of btns) {
-            if(GetValue(btn, "background-image") === other.default) {
-                if(btn.id === "active") {
-                    Game.helper = true;
-                    Game.capturesHelper = true;
-                    break;
-                } 
-                else if(btn.id === "inactive") {
-                    Game.helper = false;
-                    Game.capturesHelper = false;
-                    break;
-                }
-                else {
-                    Game.capturesHelper = true;
-                    Game.helper = false;
-                    break;
-                } 
-            } 
-        }
-        if(storage)
-            storage.setItem("helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
         
         let length = BackState.state.length;
         if(length > 0) { try {
             let current_state = BackState.state[length-1];
             await BackState.state.pop();
             
-            if(current_state.length > 2) {
+            if(current_state.length > 2 && !isComp) {
                 await Clicked(current_state[2], current_state[2].parentNode);
             } 
             $(current_state[1]).style.display = "none";
@@ -3793,13 +3795,7 @@ class Undo {
 const PopState = () => {
 	let args = document.location.href.split("?");
 	if(args.length > 1 && args.endsWith("window")) {
-		BackState.state.pop();
-		args = args[1];
-		let windows = args.split("&");
-		let window1 = windows[1].replace("window1=", "");
-		let window2 = windows[1].replace("window2=", "");
-		$(`#${window1}`).style.display = "grid";
-		$(`#${window2}`).style.display = "none";
+		back();
 	}
 	else if(args.length == 1) {
 		Notify({action: "confirm",
@@ -3811,7 +3807,7 @@ const PopState = () => {
 	
 	function ExitOption (option) {
 		if(option == "EXIT")
-			history.go(-2);
+			history.go(-1);
 		else {
 			Cancel();
 		} 
