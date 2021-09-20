@@ -2750,6 +2750,8 @@ const GetGames = () => {
     BackState.state.push(["#main-window", "#games-window"]);
     $("#main-window").style.display = "none";
     $("#games-window").style.display = "grid";
+   
+    history.pushState(null, "", "?window1=main-window&window2=games-window");
     if(Game.stats.length == 0)
         Notify("Your Games will be displayed here.");
 }
@@ -2804,6 +2806,8 @@ const GetStats = (no) => { try {
     BackState.state.push(["#games-window", "#stats-window"]);
     $("#games-window").style.display = "none";
     $("#stats-window").style.display = "grid";
+   
+    history.pushState(null, "", "?window1=games-window&window2=stats-window");
     } catch (error) {alert(error + "\n" + no + "\nGet starts error")}
 } 
 
@@ -2846,7 +2850,9 @@ const Mode = async (type, click = true) => {
         BackState.state.push(["#main-window", "#two-players-window"]);
         $("#main-window").style.display = "none";
         $("#two-players-window").style.display = "grid";
-    } 
+    }
+   
+    history.pushState(null, "", "?window1=main-window&window2=two-players-window");
 } 
 
 const Settings = (elem) => {
@@ -3365,6 +3371,8 @@ async function play (isAutoRotate = false, accepted = false) {
             BackState.state.push(["#main-window", "#play-window"]);
             $("#main-window").style.display = "none";
             $("#play-window").style.display = "grid";
+           
+            history.pushState(null, "", "?window=play-window");
         }
         if(GetValue($("#play-window"), "display") == "grid") {
             let board = $(".board");
@@ -3454,6 +3462,8 @@ async function play (isAutoRotate = false, accepted = false) {
             BackState.state.push(["#main-window", "#play-window"]);
             $("#main-window").style.display = "none";
             $("#play-window").style.display = "grid";
+           
+            history.pushState(null, "", "?window1=main-window&window2=play-window");
         } 
         } catch (error) {document.write (error);} 
     } 
@@ -3775,5 +3785,17 @@ class Undo {
             }
             this.moves.shift();
 		} 
+	} 
+}
+
+
+window.onpopstate = (e) => {
+	let args = document.location.href.split("?")[1];
+	if(args.endsWith("window")) {
+		let windows = args.split("&");
+		let window1 = windows[1].replace("window1=", "");
+		let window2 = windows[1].replace("window2=", "");
+		$(`#${window1}`).style.display = "grid";
+		$(`#${window2}`).style.display = "none";
 	} 
 } 
