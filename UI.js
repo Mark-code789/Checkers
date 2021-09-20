@@ -3792,7 +3792,7 @@ class Undo {
 	} 
 }
 
-const PopState = () => {
+const PopState = () => { try {
 	let args = document.location.href.split("?");
 	if(args.length > 1 && args.endsWith("window")) {
 		back();
@@ -3811,7 +3811,8 @@ const PopState = () => {
 		else {
 			Cancel();
 		} 
-	} 
+	}
+	} catch (error) {alert(error.message)}
 }
 
 window.onpopstate = () => PopState(); 
