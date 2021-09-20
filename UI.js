@@ -3797,8 +3797,8 @@ const PopState = () => { try {
 	if(args.length > 1 && args[1].endsWith("window")) {
 		args = args[0];
 		let windows = args.split("&");
-		let window1 = windows.replace("window1=", "");
-		let window2 = windows.replace("window2=", "");
+		let window1 = windows[0].replace("window1=", "");
+		let window2 = windows[1].replace("window2=", "");
 		$(`#${window1}`).style.display = "grid";
 		$(`#${window2}`).style.display = "none";
 	}
