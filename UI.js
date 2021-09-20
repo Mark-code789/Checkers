@@ -3795,7 +3795,12 @@ class Undo {
 const PopState = () => { try {
 	let args = document.location.href.split("?");
 	if(args.length > 1 && args[1].endsWith("window")) {
-		back();
+		args = args[0];
+		let windows = args.split("&");
+		let window1 = windows.replace("window1=", "");
+		let window2 = windows.replace("window2=", "");
+		$(`#${window1}`).style.display = "grid";
+		$(`#${window2}`).style.display = "none";
 	}
 	else if(args.length == 1) {
 		Notify({action: "confirm",
@@ -3806,7 +3811,6 @@ const PopState = () => { try {
 	}
 	
 	function ExitOption (option) {
-		alert(option);
 		if(option == "EXIT")
 			history.go(-1);
 		else {
