@@ -182,6 +182,7 @@ var other = {
 
 async function LoadingDone () {
 	history.pushState(null, "", "?window1");
+	history.pushState(null, "", "?window1");
 	imageProps = null;
 	soundProps = null;
 	sounds = null;
@@ -3783,31 +3784,13 @@ class Undo {
 
 const PopState = () => {
 	if(!document.location.href.includes("window")) {
-		Notify({action: "confirm",
-				header: "Confirm Exit",
-				message: "Are you sure you want to leave this game?", 
+		Notify({action: "alert",
+				header: "Exit Request",
+				message: "Do you want to exit?<br>Press back button again to exit.", 
 				type: "EXIT/LATER", 
 				onResponse: ExitOption});
+		history.pushState(null, "", "?window1");
 	}
-	
-	
-	
-	async function ExitOption (option) {
-		try {
-			if(option == "EXIT") {
-				let res = thisWindow.close() || history.go(-1);
-				
-				if(!res)
-				Notify("An error occurred. Please try again.");
-				
-				Cancel();
-			} 
-			else {
-				history.pushState(null, "", "?window1");
-				Cancel();
-			} 
-		} catch (error) {alert(error.message)}
-	} 
 }
 
 window.onpopstate = () => PopState(); 
