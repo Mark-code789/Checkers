@@ -3793,6 +3793,7 @@ class Undo {
 const PopState = () => {
 	let args = document.location.href.split("?");
 	if(args.length > 1 && args.endsWith("window")) {
+		BackState.state.pop();
 		args = args[1];
 		let windows = args.split("&");
 		let window1 = windows[1].replace("window1=", "");
