@@ -665,17 +665,11 @@
 			//window.onload = pageComplete();
             if("serviceWorker" in navigator) {
             	window.onload = async _ => {
-            		let reg = await navigator.serviceWorker.getRegistration();
-            		if(reg == undefined) {
-	            		navigator.serviceWorker.register("Service Worker.js").then(res => {
-	            			pageComplete();
-	           	 	}).catch(error => {
-	           		 	pageComplete();
-	          		  });
-					} 
-					else {
-						pageComplete();
-					} 
+            		navigator.serviceWorker.register("Service Worker.js").then(res => {
+            			pageComplete();
+           	 	}).catch(error => {
+           		 	pageComplete();
+          		  });
            	 } 
             } 
             else {
