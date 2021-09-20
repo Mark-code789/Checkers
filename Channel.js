@@ -1,5 +1,17 @@
 'use strict' 
 
+const CheckHref = async () => {
+	let split = document.location.href.split("?");
+	if(split.length > 1) {
+		let name = split[1].replace("name=", "");
+		$("#online #channel-name").value = name;
+		await Mode(3, false);
+		BackState.state.push(["#main-window", "#two-players-window"]);
+        $("#main-window").style.display = "none";
+        $("#two-players-window").style.display = "grid";
+	} 
+} 
+
 const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutInterval: null, offlineInterval: null};
 
 const ChannelFunction = () => {
@@ -19,20 +31,7 @@ const ChannelFunction = () => {
         Notify("Please fill out your name.");
     } 
     else {
-        channel = channel.replace("\"", "");
-        let isLink = /^(\d+%)+\d+$$/.test(channel);
-        if(isLink) {
-            let splitedChannel = channel.split("%");
-            channel = "";
-            for(let code of splitedChannel) {
-                if(code != "") 
-                channel += String.fromCharCode(code);
-            } 
-            $("#online #channel-name").value = channel;
-        } 
-        else 
-            channel = channel.replace(/^\w|\s\w/g, t => t.toUpperCase());
-        
+        channel = channel.replaceAll(/^\w|\s\w/g, t => t.toUpperCase());
         name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
         $("#online #channel-name").maxLength = "100";
         playerA.name = name;
@@ -557,15 +556,12 @@ const Share = (elem) => {
         	Notify({action: "alert_special", 
 					header: "Please wait", 
 					message: "Preparing to share"});
-            let link = "";
-            let text = Lobby.CHANNEL;
-            for(let i = 0; i < text.length; i++) {
-                link += text.charCodeAt(i) + ((i != text.length-1)? "%": "");
-            } 
+            let channelName = Lobby.CHANNEL;
+            let name = $$("#online .player_name")[0].textContent;
             navigator.share({
-                title: "Checkers Channel Name", 
-                text: `Open this link, and copy the word in quotes below and paste it as channel name under two player online window:\n\n"${link}"\n\n`, 
-                url: "https://mark-code789.github.io/Checkers/index.html"
+                title: "Checkers Game", 
+                text: `Hi, ${name} is requesting you to join the following channel to play checkers match. Please click the the link below to join.\nYou will be required to enter your name in field named 'players details'. Click submit afterwards to join.\n`, 
+                url: "https://mark-code789.github.io/Checkers/index.html?name=" + channelName
             }).then( () => { 
             	Cancel();
                 Notify("Channel name shared successfully."); 
