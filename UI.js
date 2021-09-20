@@ -3793,26 +3793,20 @@ class Undo {
 }
 
 const PopState = () => { try {
-	let args = document.location.href.split("?");
-	if(args.length > 1 && args[1].endsWith("window")) {
-		args = args[0];
-		let windows = args.split("&");
-		let window1 = windows[0].replace("window1=", "");
-		let window2 = windows[1].replace("window2=", "");
-		$(`#${window1}`).style.display = "grid";
-		$(`#${window2}`).style.display = "none";
-	}
-	else if(args.length == 1) {
+	
+	if(document.location.href.endsWith(".html")) {
 		Notify({action: "confirm",
 				header: "Confirm",
 				message: "Do you want to exit?", 
-				type: "EXIT/CANCEL", 
+				type: "EXIT/LATER", 
 				onResponse: ExitOption});
 	}
 	
 	function ExitOption (option) {
-		if(option == "EXIT")
+		if(option == "EXIT") {
 			history.go(-1);
+			window.close();
+		} 
 		else {
 			Cancel();
 		} 
