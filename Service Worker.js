@@ -45,7 +45,7 @@ const appShellFiles = [
     "Core.js", 
     "Worker.js", 
     "index.css", 
-    "index.html"
+    "index.html?v1"
 ];
 
 self.addEventListener("install", (e) => {
