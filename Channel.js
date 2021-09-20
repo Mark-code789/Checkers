@@ -2,7 +2,7 @@
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
-	if(split.length > 1) {
+	if(split.length > 1 && split[1].endsWith("name=")) {
 		let name = split[1].replace("name=", "");
 		$("#online #channel-name").value = name;
 		await Mode(3, false);
@@ -15,7 +15,6 @@ const CheckHref = async () => {
     			message: `Please fill in your name in the field named 'Player Details' and hit submit to join.`});
     	$("#online #playerA-name").focus();
 	} 
-	history.pushState(null, "", "?window1");
 } 
 
 const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutInterval: null, offlineInterval: null};
