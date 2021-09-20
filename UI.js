@@ -3782,16 +3782,16 @@ class Undo {
 }
 
 const PopState = () => {
-	if(!document.location.href.includes("window")) {
+	if(BackState.state.length > 0) {
+		back();
+		history.pushState(null, "", "?window1");
+	}
+	else if(!document.location.href.includes("window")) {
 		Notify("Press again to exit.");
 		setTimeout(() => {
 			history.pushState(null, "", "?window1");
 		}, 4000);
 	}
-	else if(BackState.state.length > 0) {
-		back();
-		history.pushState(null, "", "?window1");
-	} 
 }
 
 window.onpopstate = () => PopState(); 
