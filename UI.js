@@ -181,6 +181,7 @@ var other = {
 }
 
 async function LoadingDone () {
+	history.pushState(null, "", "?window1"); 
 	imageProps = null;
 	soundProps = null;
 	sounds = null;
