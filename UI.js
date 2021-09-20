@@ -3783,13 +3783,15 @@ class Undo {
 
 const PopState = () => {
 	alert(history.length);
-	if(history.length == 1) {
+	if(!document.location.href.includes("window")) {
 		Notify({action: "confirm",
 				header: "Confirm Exit",
 				message: "Are you sure you want to leave this game?", 
 				type: "EXIT/LATER", 
 				onResponse: ExitOption});
 	}
+	else
+		history.pop();
 	
 	async function ExitOption (option) {
 		try {
