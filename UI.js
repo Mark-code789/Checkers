@@ -3781,7 +3781,8 @@ class Undo {
 	} 
 }
 
-const PopState = () => { 
+const PopState = () => {
+	alert(history.length);
 	if(history.length == 1) {
 		Notify({action: "confirm",
 				header: "Confirm Exit",
