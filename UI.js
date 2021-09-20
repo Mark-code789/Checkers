@@ -397,7 +397,6 @@ async function LoadingDone () {
         setTimeout(() => {play(true);}, 300);
     });
     
-    
     UpdateOnlineStatus();
     window.addEventListener("beforeunload", async (e) => {
         e.preventDefault();
@@ -406,6 +405,7 @@ async function LoadingDone () {
     });
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
+    CheckHref();
 }
 
 const DragStart = (e) => {
