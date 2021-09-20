@@ -3782,7 +3782,6 @@ class Undo {
 }
 
 const PopState = () => {
-	alert(history.length);
 	if(!document.location.href.includes("window")) {
 		Notify({action: "confirm",
 				header: "Confirm Exit",
@@ -3791,7 +3790,7 @@ const PopState = () => {
 				onResponse: ExitOption});
 	}
 	
-	history.back();
+	
 	
 	async function ExitOption (option) {
 		try {
