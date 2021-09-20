@@ -3782,7 +3782,7 @@ class Undo {
 }
 
 const PopState = () => { 
-	if(document.location.href.split('?').length == 1) {
+	if(history.length == 1) {
 		Notify({action: "confirm",
 				header: "Confirm Exit",
 				message: "Are you sure you want to leave this game?", 
