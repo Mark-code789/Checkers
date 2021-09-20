@@ -624,10 +624,8 @@
                 return document.createElement(type);
             } 
             var deferredEvent;
-            var thisWindow;
             
             function pageComplete () {
-            	thisWindow = window.open("", "_self");
                 window.addEventListener("beforeinstallprompt", e => {
                     e.preventDefault();
                     deferredEvent = e;
