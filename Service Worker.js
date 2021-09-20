@@ -1,5 +1,5 @@
 // Service worker
-const cacheName = "Checkers v6.5.28";
+const cacheName = "Checkers v6.5.29";
 const appShellFiles = [
     "./src/images/american flag.jpeg",
     "./src/images/kenyan flag.jpeg",
@@ -45,7 +45,7 @@ const appShellFiles = [
     "Core.js", 
     "Worker.js", 
     "index.css", 
-    "index.html?v1"
+    "index.html"
 ];
 
 self.addEventListener("install", (e) => {
