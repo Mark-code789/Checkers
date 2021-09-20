@@ -3790,8 +3790,8 @@ const PopState = () => {
 				type: "EXIT/LATER", 
 				onResponse: ExitOption});
 	}
-	else
-		history.back();
+	
+	history.back();
 	
 	async function ExitOption (option) {
 		try {
