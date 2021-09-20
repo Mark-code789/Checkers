@@ -3784,11 +3784,10 @@ class Undo {
 
 const PopState = () => {
 	if(!document.location.href.includes("window")) {
+		alert("EXIT");
 		Notify({action: "alert",
 				header: "Exit Request",
-				message: "Do you want to exit?<br>Press back button again to exit.", 
-				type: "EXIT/LATER", 
-				onResponse: ExitOption});
+				message: "Do you want to exit?<br>Press back button again to exit."});
 		history.pushState(null, "", "?window1");
 	}
 }
