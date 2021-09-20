@@ -2750,8 +2750,6 @@ const GetGames = () => {
     BackState.state.push(["#main-window", "#games-window"]);
     $("#main-window").style.display = "none";
     $("#games-window").style.display = "grid";
-   
-    history.pushState(null, "", "?window1=main-window&window2=games-window");
     if(Game.stats.length == 0)
         Notify("Your Games will be displayed here.");
 }
@@ -2806,8 +2804,6 @@ const GetStats = (no) => { try {
     BackState.state.push(["#games-window", "#stats-window"]);
     $("#games-window").style.display = "none";
     $("#stats-window").style.display = "grid";
-   
-    history.pushState(null, "", "?window1=games-window&window2=stats-window");
     } catch (error) {alert(error + "\n" + no + "\nGet starts error")}
 } 
 
@@ -2851,8 +2847,6 @@ const Mode = async (type, click = true) => {
         $("#main-window").style.display = "none";
         $("#two-players-window").style.display = "grid";
     }
-   
-    history.pushState(null, "", "?window1=main-window&window2=two-players-window");
 } 
 
 const Settings = (elem) => {
@@ -2868,8 +2862,6 @@ const Settings = (elem) => {
     BackState.state.push(["#main-window", "#settings-window", previousMode]);
     $("#main-window").style.display = "none";
     $("#settings-window").style.display = "grid";
-   
-    history.pushState(null, "", "?window1=main-window&window2=settings-window");
 } 
 
 const Cancel = () => {
@@ -3373,8 +3365,6 @@ async function play (isAutoRotate = false, accepted = false) {
             BackState.state.push(["#main-window", "#play-window"]);
             $("#main-window").style.display = "none";
             $("#play-window").style.display = "grid";
-           
-            history.pushState(null, "", "?window=play-window");
         }
         if(GetValue($("#play-window"), "display") == "grid") {
             let board = $(".board");
@@ -3464,8 +3454,6 @@ async function play (isAutoRotate = false, accepted = false) {
             BackState.state.push(["#main-window", "#play-window"]);
             $("#main-window").style.display = "none";
             $("#play-window").style.display = "grid";
-           
-            history.pushState(null, "", "?window1=main-window&window2=play-window");
         } 
         } catch (error) {document.write (error);} 
     } 
