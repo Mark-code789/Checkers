@@ -3788,14 +3788,31 @@ class Undo {
 	} 
 }
 
-
-window.onpopstate = (e) => {
-	let args = document.location.href.split("?")[1];
-	if(args.endsWith("window")) {
+const PopState = () => {
+	let args = document.location.href.split("?");
+	if(args.length > 1 && args.endsWith("window")) {
+		args = args[1];
 		let windows = args.split("&");
 		let window1 = windows[1].replace("window1=", "");
 		let window2 = windows[1].replace("window2=", "");
 		$(`#${window1}`).style.display = "grid";
 		$(`#${window2}`).style.display = "none";
+	}
+	else if(args.length == 1) {
+		Notify({action: "confirm",
+				header: "Confirm",
+				message: "Do you want to exit?", 
+				type: "EXIT/CANCEL", 
+				onResponse: ExitOption});
+	}
+	
+	function ExitOption (option) {
+		if(option == "EXIT")
+			history.go(-2);
+		else {
+			Cancel();
+		} 
 	} 
-} 
+}
+
+window.onpopstate = () => PopState(); 
