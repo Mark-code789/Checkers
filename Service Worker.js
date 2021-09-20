@@ -1,5 +1,5 @@
 // Service worker
-const cacheName = "Checkers v6.5.33";
+const cacheName = "Checkers v6.5.34";
 const appShellFiles = [
     "./src/images/american flag.jpeg",
     "./src/images/kenyan flag.jpeg",
@@ -59,7 +59,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request).then((res1) => {
-            if(!res1 || navigator.onLine && /(?<!min).(html|css|js)$/g.test(e.request.url)) {
+            if(navigator.onLine && /(?<!min).(html|css|js)$/g.test(e.request.url) || !res1) {
                 return fetch(e.request).then((res2) => {
                     return caches.open(cacheName).then((cache) => {
                         cache.put(e.request, res2.clone());
