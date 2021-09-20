@@ -642,13 +642,6 @@
                 SheetLink.rel = "stylesheet";
                 SheetLink.href = "index.css";
                 
-                head.appendChild(JsLink0);
-                head.appendChild(JsLink1);
-                head.appendChild(JsLink2);
-                head.appendChild(JsLink3);
-                head.appendChild(JsLink4);
-                head.appendChild(SheetLink);
-                
                 JsLink3.onload = CheckHref();
                 
                 JsLink0.src = "AI.js?v=1";
@@ -656,6 +649,13 @@
                 JsLink2.src = "UI.js?v=1";
                 JsLink3.src = "Channel.js?v=1";
                 JsLink4.src = "Core.js?v=1";
+                
+                head.appendChild(JsLink0);
+                head.appendChild(JsLink1);
+                head.appendChild(JsLink2);
+                head.appendChild(JsLink3);
+                head.appendChild(JsLink4);
+                head.appendChild(SheetLink);
                 
                 JsLink1.id = "pubnub-file";
             } 
