@@ -565,7 +565,7 @@ const Share = (elem) => {
             let name = $$("#online .player_name")[0].textContent;
             navigator.share({
                 title: "Checkers Game", 
-                text: `Hi, ${name} is requesting you to join the following channel to play checkers match. Please click the the link below to join.\nYou will be required to enter your name in field named 'players details'. Click submit afterwards to join.\n`, 
+                text: `Hi, ${name} is requesting you to join the following channel to play checkers match. Please click the the link below to join.\n`, 
                 url: "https://mark-code789.github.io/Checkers/index.html?name=" + channelName
             }).then( () => { 
             	Cancel();
