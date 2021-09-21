@@ -3794,6 +3794,7 @@ const PopState = () => {
 		history.pushState(null, "", "?window1");
 	}
 	else if(!document.location.href.includes("window")) {
+		Clicked();
 		Notify("Press again to exit.");
 		setTimeout(() => {
 			history.pushState(null, "", "?window1");
