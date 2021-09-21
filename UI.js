@@ -405,7 +405,7 @@ async function LoadingDone () {
     });
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
-    window.addEventListener("popstate", PopState, false);
+    window.addEventListener("popstate", () => setTimeout(PopState, 0), false);
     CheckHref();
 }
 
