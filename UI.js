@@ -3631,7 +3631,7 @@ async function back (undo = false, isComp = false) {
             let current_state = BackState.state[length-1];
             await BackState.state.pop();
             
-            if(current_state.length > 2 && !isComp) {
+            if(current_state.length > 2) {
                 await Clicked(current_state[2], current_state[2].parentNode);
             } 
             $(current_state[1]).style.display = "none";
@@ -3784,7 +3784,10 @@ class Undo {
 
 const PopState = () => {
 	if(BackState.state.length > 0) {
-		back();
+		if(GetValue($("#play-window"), "display") == "grid")
+			Exit();
+		else
+			back();
 		history.pushState(null, "", "?window1");
 	}
 	else if(!document.location.href.includes("window")) {
