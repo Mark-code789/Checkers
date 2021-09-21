@@ -2504,6 +2504,7 @@ const Exit = () => { try {
                 message: "The current game process will be lost!",
                 type: "CANCEL/EXIT", 
                 onResponse: Option });
+        Clicked();
                 
         function Option (choice)  {
             if(choice == "EXIT") {
