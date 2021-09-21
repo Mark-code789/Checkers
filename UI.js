@@ -406,7 +406,6 @@ async function LoadingDone () {
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
     window.addEventListener("popstate", PopState, false);
-    history.pushState(null, "", "?window1");
     CheckHref();
 }
 
