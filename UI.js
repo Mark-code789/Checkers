@@ -3633,7 +3633,9 @@ async function back (undo = false, isComp = false) {
             
             if(current_state.length > 2) {
                 await Clicked(current_state[2], current_state[2].parentNode);
-            } 
+            }
+            else
+            	await Clicked();
             $(current_state[1]).style.display = "none";
             $(current_state[0]).style.display = "grid"; } catch (error) {document.write(error)}
         } 
