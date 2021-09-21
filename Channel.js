@@ -2,7 +2,7 @@
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
-	if(split.length > 1) alert(split[1]);
+	
 	if(split.length > 1 && split[1].includes("name=")) {
 		let name = split[1].replace("name=", "");
 		$("#online #channel-name").value = name;
