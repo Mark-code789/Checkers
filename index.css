@@ -866,7 +866,7 @@ article {
 /*stats-window*/
 #stats-window #stats .sub_item {
     grid-template-columns: 50% 25% 25%;
-    grid-template-rows: max-content;
+    grid-template-rows: auto;
 } 
 
 #stats-window #stats .sub_item .header {
