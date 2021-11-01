@@ -1353,17 +1353,11 @@ article {
     margin: 0;
     overflow: auto !important;
     
-    /*display: grid;
+    display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: auto;
     grid-gap: var(--gap);
     align-content: start;
-    justify-content: center;*/
-    
-    display: flex;
     justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
 } 
 
 #settings-window #main-section .inner_item, 
