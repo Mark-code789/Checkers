@@ -842,9 +842,6 @@ article {
 
 
 /*games-window*/
-#games-window #games {
-	
-} 
 #games-window #games .sub_item {
     align-items: center;
     max-width: 480px;
@@ -1363,7 +1360,7 @@ article {
     grid-template-columns: 100%;
     grid-template-rows: max-content;
     grid-gap: var(--gap);
-    align-content: start;
+    align-content: center;
     justify-content: center;
 } 
 
