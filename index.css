@@ -1351,7 +1351,7 @@ article {
 #stats-window #stats, 
 #two-players-window #main-section-tp {
     margin: 0;
-    overflow-y: auto;
+    overflow: auto !important;
     
     display: grid;
     grid-template-columns: 100%;
