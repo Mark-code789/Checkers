@@ -1360,9 +1360,9 @@ article {
     
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: max-content;
+    grid-template-rows: auto;
     grid-gap: var(--gap);
-    align-content: center;
+    align-content: flex-start;
     justify-content: center;
 } 
 
