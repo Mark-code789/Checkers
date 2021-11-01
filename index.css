@@ -1364,14 +1364,14 @@ article {
 #settings-window #main-section .inner_item, 
 #two-players-window #main-section-tp .form .inner_item {
     padding: 0;
-    height: fit-content;
+    height: auto;
     width: 100%;
     background: rgba(255, 255, 255, .5);
     color: #fff;
     
     display: grid;
     grid-template-columns: 50% 25% 25%;
-    grid-template-rows: none none;
+    grid-template-rows: auto auto;
 } 
 
 #settings-window #main-section .inner_item button:first-of-type, .white {
