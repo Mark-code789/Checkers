@@ -1360,7 +1360,6 @@ article {
     
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: auto;
     grid-gap: var(--gap);
     align-content: flex-start;
     justify-content: flex-start;
