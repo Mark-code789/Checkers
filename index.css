@@ -1362,7 +1362,7 @@ article {
     grid-template-columns: 100%;
     grid-gap: var(--gap);
     align-content: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
 } 
 
 #settings-window #main-section .inner_item, 
