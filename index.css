@@ -853,6 +853,8 @@ article {
     background: rgba(255, 255, 255, .5);
     color: #fff;
     height: max-content;
+    width: 100%;
+    max-width: 600px;
     
     display: grid;
     grid-template-columns: 75% 25%;
@@ -1369,6 +1371,7 @@ article {
     padding: 0;
     height: max-content;
     width: 100%;
+    max-width: 600px;
     background: rgba(255, 255, 255, .5);
     color: #fff;
     
