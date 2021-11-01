@@ -842,6 +842,9 @@ article {
 
 
 /*games-window*/
+#games-window #games {
+	
+} 
 #games-window #games .sub_item {
     align-items: center;
     max-width: 480px;
@@ -1352,7 +1355,9 @@ article {
 #stats-window #stats, 
 #two-players-window #main-section-tp {
     margin: 0;
-    overflow: auto !important;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
     
     display: grid;
     grid-template-columns: 100%;
