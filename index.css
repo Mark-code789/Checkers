@@ -1364,7 +1364,7 @@ article {
 #settings-window #main-section .inner_item, 
 #two-players-window #main-section-tp .form .inner_item {
     padding: 0;
-    height: auto;
+    height: max-content;
     width: 100%;
     background: rgba(255, 255, 255, .5);
     color: #fff;
