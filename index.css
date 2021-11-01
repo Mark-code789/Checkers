@@ -1353,17 +1353,22 @@ article {
     margin: 0;
     overflow: auto !important;
     
-    display: grid;
+    /*display: grid;
     grid-template-columns: 100%;
     grid-gap: var(--gap);
     align-content: start;
+    justify-content: center;*/
+    
+    display: flex;
     justify-content: center;
+    align-items: center;
 } 
 
 #settings-window #main-section .inner_item, 
 #two-players-window #main-section-tp .form .inner_item {
     padding: 0;
     height: fit-content;
+    width: 100%;
     background: rgba(255, 255, 255, .5);
     color: #fff;
     
