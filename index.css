@@ -855,7 +855,7 @@ article {
     padding: 0;
     background: rgba(255, 255, 255, .5);
     color: #fff;
-    height: 50px;
+    height: max-content;
     
     display: grid;
     grid-template-columns: 75% 25%;
