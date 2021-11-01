@@ -1355,6 +1355,7 @@ article {
     
     display: grid;
     grid-template-columns: 100%;
+    grid-template-rows: max-content;
     grid-gap: var(--gap);
     align-content: start;
     justify-content: center;
