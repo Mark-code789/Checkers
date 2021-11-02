@@ -2615,13 +2615,13 @@ const Helper = async (moves, state, isMultJump = false) => {
                 b = parseInt(move.capture.slice(1,2));
             cloneState[a][b] = "EC";
             cloneState[i][j] = "IP";
-            if(!id.includes("K") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
+            if(id.includes("M") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
                 id = id.replace("M", "K");
                 crowned = true;
             }
             let moves2 = [];
             if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
+            	id = crowned && (Game.version === "kenyan" || Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M")? id.replace("K", "M"): id;
             	cloneState[m][n] = id;
             	moves2 = await AssesCaptures({id, i: m, j: n, state: cloneState});
                 
