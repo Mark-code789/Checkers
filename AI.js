@@ -82,7 +82,7 @@ class AI {
             
         id = state[i][j];
         state[i][j] = "IP"; // INITIAL-POSITION
-        if(!id.includes("K") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
+        if(id.includes("M") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
             id = id.replace("M", "K");
             crowned = true;
         } 
@@ -93,7 +93,7 @@ class AI {
                 
             state[a][b] = "EC";
             if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
+            	id = crowned && (Game.version === "kenyan" || Game.version === "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
                 state[m][n] = id;
 	            continuousJump = await AssesCaptures({i: m, j: n, state});
 				if(continuousJump.length > 0)
