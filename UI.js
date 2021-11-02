@@ -2621,7 +2621,7 @@ const Helper = async (moves, state, isMultJump = false) => {
             }
             let moves2 = [];
             if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M")? id.replace("K", "M"): id;
+            	id = crowned && (Game.version === "kenyan" || Game.version === "casino" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
             	cloneState[m][n] = id;
             	moves2 = await AssesCaptures({id, i: m, j: n, state: cloneState});
                 
