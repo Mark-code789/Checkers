@@ -31,7 +31,12 @@ class AI {
                 let piece = state[i][j];
                 if(piece.includes(this.ai)) { 
                     if(piece.includes("K")) { // threatening
-                        ai += 300; // value to piece
+                    	if(Game.version == "american") 
+                    		ai += 240;
+                    	else if(Game.version == "kenyan" || Game.version == "casino") 
+                    		ai += 280;
+                    	else
+                        	ai += 320; // value to piece
                         /*if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
                                 ai += 50;
@@ -47,7 +52,12 @@ class AI {
                 } 
                 else if(piece.includes(this.opp)) {
                     if(piece.includes("K")) { // Becomes more threatening
-                        human += 300; // value to piece
+                        if(Game.version == "american") 
+                    		human += 240;
+                    	else if(Game.version == "kenyan" || Game.version == "casino") 
+                    		human += 280;
+                    	else
+                        	human += 320; // value to piece
                         /*if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
                                 human += 50;
