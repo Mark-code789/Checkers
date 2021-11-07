@@ -39,11 +39,11 @@ class AI {
                         	ai += 320; // value to piece
                         if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                ai += 20;
+                                ai += 5;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                ai += 20;
+                                ai += 5;
                         } 
                     } 
                     if(piece.includes("M")) {
@@ -60,11 +60,11 @@ class AI {
                         	human += 320; // value to piece
                         if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                human += 20;
+                                human += 5;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                human += 20;
+                                human += 5;
                         } 
                     } 
                     if(piece.includes("M")) {
