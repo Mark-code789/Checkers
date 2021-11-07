@@ -25,11 +25,17 @@ class AI {
     // Evaluation function 
     evaluate = async (state) => {
         let ai = 0, human = 0;
+        let aiMen = 0, humanMen = 0;
+        let aiKings = 0, humanKings = 0;
         
         for(let i = 0; i < Game.boardSize; i++) {
             for(let j = 0; j < Game.boardSize; j++) {
                 let piece = state[i][j];
                 if(piece.includes(this.ai)) { 
+                	if(piece.includes("M")) {
+                    	aiMen ++;
+                        ai += 200; // value to piece
+                    } 
                     if(piece.includes("K")) { // threatening
                     	if(Game.version == "american") 
                     		ai += 240;
@@ -37,20 +43,22 @@ class AI {
                     		ai += 280;
                     	else
                         	ai += 320; // value to piece
+                        
                         if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                ai += 5;
+                                aiKings += 1;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                ai += 5;
+                                aiKings += 1;
                         } 
-                    } 
-                    if(piece.includes("M")) {
-                        ai += 200; // value to piece
                     } 
                 } 
                 else if(piece.includes(this.opp)) {
+                	if(piece.includes("M")) {
+                    	humanMen ++;
+                        human += 200; // value to piece
+                    }
                     if(piece.includes("K")) { // Becomes more threatening
                         if(Game.version == "american") 
                     		human += 240;
@@ -58,21 +66,22 @@ class AI {
                     		human += 280;
                     	else
                         	human += 320; // value to piece
+                        
                         if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                human += 5;
+                                humanKings += 1;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                human += 5;
+                                humanKings += 1;
                         } 
                     } 
-                    if(piece.includes("M")) {
-                        human += 200; // value to piece
-                    }
                 } 
             } 
         } 
+        
+        ai += aiMen > 0? aiKings: 0; 
+        human += humanMen > 0? humanKings: 0; 
         
         let currentValue = ai - human;
         return Prms(currentValue);
