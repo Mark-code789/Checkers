@@ -216,13 +216,13 @@ async function LoadingDone () {
     //check if has notch
     other.notch = await HasNotch();
    
-    if(!storage || !JSON.parse(storage.getItem("NotifiedUpdateV6.5"))) {
+    if(!storage || !JSON.parse(storage.getItem("NotifiedUpdateV6.8"))) {
         Notify({action: "alert",
-                header: "What's New! Version 6.5", 
-                message: "<ul><li>- Added another version of the game (Casino).</li><li>- Fixed bugs.</li><li>- Improved internal stability.</li></ul><span>Note</span>The app will refresh everything including stored cache for changes to take effect.<br><br>If you experience any errors kindly contact me using the contact option in the settings window."});
+                header: "What's New! Version 6.8", 
+                message: "<ul><li>- Fixed bugs.</li><li>- Improved internal stability.</li></ul><br><br>If you experience any errors kindly contact me using the contact option in the settings window."});
         if(storage) {
-            storage.clear();
-            storage.setItem("NotifiedUpdateV6.5", "true");
+            //storage.clear();
+            storage.setItem("NotifiedUpdateV6.8", "true");
         } 
     } 
     
