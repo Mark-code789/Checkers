@@ -37,14 +37,14 @@ class AI {
                     		ai += 280;
                     	else
                         	ai += 320; // value to piece
-                        /*if(Game.version != 'nigerian') {
+                        if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                ai += 50;
+                                ai += 20;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                ai += 50;
-                        } */
+                                ai += 20;
+                        } 
                     } 
                     if(piece.includes("M")) {
                         ai += 200; // value to piece
@@ -58,14 +58,14 @@ class AI {
                     		human += 280;
                     	else
                         	human += 320; // value to piece
-                        /*if(Game.version != 'nigerian') {
+                        if(Game.version != 'nigerian') {
                             if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                human += 50;
+                                human += 20;
                         } 
                         else {
                             if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                human += 50;
-                        } */
+                                human += 20;
+                        } 
                     } 
                     if(piece.includes("M")) {
                         human += 200; // value to piece
