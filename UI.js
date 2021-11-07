@@ -216,13 +216,13 @@ async function LoadingDone () {
     //check if has notch
     other.notch = await HasNotch();
    
-    if(!storage || !JSON.parse(storage.getItem("NotifiedUpdateV6.9"))) {
+    if(!storage || !JSON.parse(storage.getItem("NotifiedUpdateV7.0"))) {
         Notify({action: "alert",
-                header: "What's New! Version 6.9", 
+                header: "What's New! Version 7.0", 
                 message: "<ul><li>- Fixed minor bugs.</li><li>- Improved internal stability.</li></ul><br><br>If you experience any errors kindly contact me using the contact option in the settings window."});
         if(storage) {
             //storage.clear();
-            storage.setItem("NotifiedUpdateV6.9", "true");
+            storage.setItem("NotifiedUpdateV7.0", "true");
         } 
     } 
     
