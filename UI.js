@@ -1193,7 +1193,7 @@ class Move {
     	}
     	
     	if(validMove && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
-            Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         }
     	return validMove;
     } 
@@ -1213,7 +1213,7 @@ class Move {
     select = async function (prop, capture = false) { //try {
     	//publish for selecting both ordinary and capture moves
         if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
-            Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         }
         
         if(this.moving.length > 0) {
@@ -1250,7 +1250,7 @@ class Move {
     makePath = function (prop, capture = false) { //try {
     	// publish for ordinary moves
     	if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
-            Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         } 
         this.scene.style.display = "table";
         if(!capture) {
