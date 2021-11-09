@@ -518,6 +518,7 @@ class Publish {
 			if(self.messages.length > 0) 
 	        	await self.publish();
 	    });
+		return Prms("Done");
 	} 
 } 
 
