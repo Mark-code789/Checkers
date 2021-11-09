@@ -1248,7 +1248,7 @@ class Move {
         //} catch (error) {Notify({action: "alert", header: "Error 0!", message: error});} 
     } 
     
-    makePath = function (prop, capture = false) { //try {
+    makePath = async function (prop, capture = false) { //try {
     	// publish for ordinary moves
     	if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
             await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
