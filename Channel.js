@@ -479,6 +479,8 @@ class Publish {
 	    
 	    if(this.messages.length == 1)
 	        this.publish();
+	
+		return Prms("done");
 	} 
 	    
     static publish = async () => { 
@@ -507,9 +509,10 @@ class Publish {
 					if(JSON.parse(config.message).title === "IntentionalExit")
 	        			Lobby.sleep.end(); 
 					else
-						Notify({action: "alert", 
+						alert("We couldn't communicate with the opponent please try again");
+						/*Notify({action: "alert", 
 		                    header: "Communication Error", 
-		                    message: status.message + "<br>" + status.category});
+		                    message: status.message + "<br>" + status.category});*/
 				} 
             } 
 			if(self.messages.length > 0) 
