@@ -58,7 +58,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
-        caches.match(e.request).then((res1) => {
+        caches.match(e.request, {ignoreSearch: true}).then((res1) => {
             if(navigator.onLine && /(?<!min).(html|css|js)(.*?)$/g.test(e.request.url) || !res1) {
                 return fetch(e.request).then((res2) => {
                     return caches.open(cacheName).then((cache) => {
