@@ -215,23 +215,12 @@ async function LoadingDone () {
     other.level = $("#nav .default");
     //check if has notch
     other.notch = await HasNotch();
-   
-    if(!storage || !JSON.parse(storage.getItem("NotifiedUpdateV7.3"))) {
-        Notify({action: "alert",
-                header: "What's New! Version 7.3", 
-                message: "<ul><li>- Fixed minor bugs.</li><li>- Improved internal stability.</li></ul><br><br>If you experience any errors kindly contact me using the contact option in the settings window."});
-        if(storage) {
-            //storage.clear();
-            storage.removeItem("NotifiedUpdateV7.2");
-            storage.setItem("NotifiedUpdateV7.3", "true");
-        } 
-    } 
     
     let btns = $$("#main-window #levels #nav div");
     let btn = null;
     let p = null;
     
-    if(storage === null || storage.getItem("versions") === null) {
+    if(storage === null || storage.getItem("Checkers - versions") === null) {
         for(btn of btns) {
             p = btn.children[1];
             if(btn.children[0].innerHTML != "LOCKED") {
@@ -245,14 +234,14 @@ async function LoadingDone () {
             } 
         }
         if(storage) {
-            storage.setItem("versions", JSON.stringify(Game.versions));
-            storage.setItem("version", Game.version);
+            storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+            storage.setItem("Checkers - version", Game.version);
         } 
     }
     else {
         try {
-            Game.versions = JSON.parse(storage.getItem("versions"));
-            let version = storage.getItem("version");
+            Game.versions = JSON.parse(storage.getItem("Checkers - versions"));
+            let version = storage.getItem("Checkers - version");
             Game.version = version;
             for(let h2 of $$(".version h2")) {
                 if(h2.innerHTML.includes(version.toUpperCase())) {
@@ -261,9 +250,9 @@ async function LoadingDone () {
                 } 
             }
             Version(version, undefined, false);
-        } catch (error) {alert("Version Initialization Error: " + error.message + "\nVersion: " + storage.getItem("version"))}
+        } catch (error) {alert("Version Initialization Error: " + error.message + "\nVersion: " + storage.getItem("Checkers - version"))}
         
-        Game.stats = JSON.parse(storage.getItem("stats")) || [];
+        Game.stats = JSON.parse(storage.getItem("Checkers - stats")) || [];
         
         let length = Game.stats.length;
         let mainSec = $("#games-window #games");
@@ -283,10 +272,10 @@ async function LoadingDone () {
                 subSec.appendChild(btn);
                 mainSec.appendChild(subSec);
             }
-        } catch (error) {/*alert(error + "" + JSON.parse(storage.getItem("stats")).length);*/}
+        } catch (error) {/*alert(error + "" + JSON.parse(storage.getItem("Checkers - stats")).length);*/}
       
         // Mute
-        let muted = JSON.parse(storage.getItem("muted"));
+        let muted = JSON.parse(storage.getItem("Checkers - muted"));
         if(muted == false) {
             Mute(JSON.parse(muted));
             $("#unmute").style.background = other.default;
@@ -298,11 +287,11 @@ async function LoadingDone () {
             $("#unmute").style.background = other.background;
         }
         else {
-            storage.setItem("muted", JSON.stringify(Sound.muted));
+            storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
         }
         
         // First Move 
-        let firstMove = JSON.parse(storage.getItem("first_move"));
+        let firstMove = JSON.parse(storage.getItem("Checkers - first_move"));
         if(firstMove) {
             Game.whiteTurn = firstMove.whiteTurn;
             Game.rollDice = firstMove.rollDice;
@@ -325,11 +314,11 @@ async function LoadingDone () {
             }
         } 
         else {
-            storage.setItem("first_move", JSON.stringify({whiteTurn: Game.whiteTurn, rollDice: Game.rollDice}));
+            storage.setItem("Checkers - first_move", JSON.stringify({whiteTurn: Game.whiteTurn, rollDice: Game.rollDice}));
         }
        
         // Play As
-        let playAs = JSON.parse(storage.getItem("play_as"));
+        let playAs = JSON.parse(storage.getItem("Checkers - play_as"));
         if(playAs) {
             if(playAs.alternate == true) {
                 btn = $$("#item4 button")[2];
@@ -343,11 +332,11 @@ async function LoadingDone () {
             } 
         }
         else {
-            storage.setItem("play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
+            storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
         } 
        
         // Mandatory Capture
-        let mandatoryCapture = JSON.parse(storage.getItem("mandatory_capture"));
+        let mandatoryCapture = JSON.parse(storage.getItem("Checkers - mandatory_capture"));
         if(mandatoryCapture) {
             Game.mandatoryCapture = mandatoryCapture;
             btns = $$("#item5 button");
@@ -361,11 +350,11 @@ async function LoadingDone () {
             }
         } 
         else {
-            storage.setItem("mandatory_capture", JSON.stringify(Game.mandatoryCapture));
+            storage.setItem("Checkers - mandatory_capture", JSON.stringify(Game.mandatoryCapture));
         }
        
         // Helper 
-        let helper = JSON.parse(storage.getItem("helper"));
+        let helper = JSON.parse(storage.getItem("Checkers - helper"));
         if(helper) {
             Game.helper= helper.helper;
             Game.capturesHelper = helper.capturesHelper;
@@ -387,7 +376,7 @@ async function LoadingDone () {
             } 
         } 
         else {
-            storage.setItem("helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
+            storage.setItem("Checkers - helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
         }
     }
     
@@ -2014,7 +2003,7 @@ const GameOver = async (isDraw = false) => { try {
                 Game.stats[length-1].version = Game.version.substring(0,3).toUpperCase();
             }
             
-            storage.setItem("stats", JSON.stringify(Game.stats));
+            storage.setItem("Checkers - stats", JSON.stringify(Game.stats));
         } catch (error) {} 
     } 
     
@@ -2306,7 +2295,7 @@ const Enable = async (parent, bgColor, color) => { try {
 const Mute = (mute) => {
     Sound.muted = mute;
     if(storage) {
-        storage.setItem("muted", JSON.stringify(mute));
+        storage.setItem("Checkers - muted", JSON.stringify(mute));
     } 
 } 
 
@@ -2730,7 +2719,7 @@ const PlayAs = (elem) => {
         } 
     }
     if(storage)
-        storage.setItem("play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
+        storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
 } 
 
 const Contact = () => {
@@ -3058,8 +3047,8 @@ const Version = async (elem, index, click = true) => {
         
         
         if(storage) {
-            storage.setItem("versions", JSON.stringify(Game.versions));
-            storage.setItem("version", version);
+            storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+            storage.setItem("Checkers - version", version);
         }
         await loop();
     }
@@ -3149,8 +3138,8 @@ const RestartLevels = async () => { try {
 		Game.versions[key] = [{score: 3, validForHint: true}];
 	});
 	if(storage) {
-        storage.setItem("versions", JSON.stringify(Game.versions));
-        storage.setItem("version", Game.version);
+        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+        storage.setItem("Checkers - version", Game.version);
     }
     let version = Game.version;
     for(let h2 of $$(".version h2")) {
@@ -3170,7 +3159,7 @@ const Level = async (elem, index, click = true) => {
         if(!elem.innerHTML.includes("LOCKED")) {
             try {
                 let level = index;
-                storage.setItem("currentLevel", (level).toString());
+                storage.setItem("Checkers - currentLevel", (level).toString());
             } catch (error) {} 
             Game.level = index;
         }
@@ -3243,8 +3232,8 @@ const Level = async (elem, index, click = true) => {
             } 
         });
         Game.versions[Game.version] = scores;
-        storage.setItem("versions", JSON.stringify(Game.versions));
-        storage.setItem("version", Game.version);
+        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+        storage.setItem("Checkers - version", Game.version);
     }
     return Prms("done");
 } 
@@ -3591,7 +3580,7 @@ async function back (undo = false, isComp = false) {
 	            } 
 	        }
 	        if(storage)
-	            storage.setItem("first_move", JSON.stringify({rollDice: Game.rollDice, whiteTurn: Game.whiteTurn}));
+	            storage.setItem("Checkers - first_move", JSON.stringify({rollDice: Game.rollDice, whiteTurn: Game.whiteTurn}));
 	        
 	        btns = $$("#item5 button");
 	        for(let btn of btns) {
@@ -3601,7 +3590,7 @@ async function back (undo = false, isComp = false) {
 	            } 
 	        }
 	        if(storage) 
-	            storage.setItem("mandatory_capture", JSON.stringify(Game.mandatoryCapture));
+	            storage.setItem("Checkers - mandatory_capture", JSON.stringify(Game.mandatoryCapture));
 	        
 	        btns = $$("#item6 button");
 	        for(let btn of btns) {
@@ -3624,7 +3613,7 @@ async function back (undo = false, isComp = false) {
 	            } 
 	        }
 	        if(storage)
-	            storage.setItem("helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
+	            storage.setItem("Checkers - helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
 		} 
         
         let length = BackState.state.length;
