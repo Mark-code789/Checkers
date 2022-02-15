@@ -1,5 +1,5 @@
 // Service worker
-const version = 2;
+const version = 3;
 const cacheName = "Checkers - " + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
