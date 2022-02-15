@@ -39,13 +39,14 @@ const appShellFiles = [
     "./src/audio/game lose.mp3", 
     "./src/audio/notification.mp3", 
     "https://cdn.pubnub.com/sdk/javascript/pubnub.4.32.1.min.js", 
-    "AI.js", 
-    "UI.js", 
-    "Channel.js", 
-    "Core.js", 
-    "Worker.js", 
-    "index.css", 
-    "index.html"
+    "./AI.js", 
+    "./UI.js", 
+    "./Channel.js", 
+    "./Core.js", 
+    "./Worker.js", 
+    "./index.css", 
+    "./index.html",
+    "./manifest.webmanifest"
 ];
 
 self.addEventListener("install", (e) => {
