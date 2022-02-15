@@ -1,5 +1,5 @@
 // Service worker
-const version = 1;
+const version = 2;
 const cacheName = "Checkers - " + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -30,6 +30,16 @@ const appShellFiles = [
     "./src/images/draw.png",
     "./src/images/load.png",
     "./src/images/dice roll.png",
+    "./src/images/homescreen 48icon.png",
+    "./src/images/homescreen 96icon.png",
+    "./src/images/homescreen 144icon.png",
+    "./src/images/homescreen 192icon.png",
+    "./src/images/homescreen 256icon.png",
+    "./src/images/homescreen 512icon.png",
+    "./src/images/favicon16.png",
+    "./src/images/favicon32.png",
+    "./src/images/favicon96.png",
+    "./src/images/favicon.ico",
     "./src/images/lock.png", 
     "./src/images/star.png", 
     "./src/audio/click.mp3",
