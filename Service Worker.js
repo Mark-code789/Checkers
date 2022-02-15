@@ -1,5 +1,5 @@
 // Service worker
-const version = 3;
+const version = 4;
 const cacheName = "Checkers - " + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -100,5 +100,9 @@ self.addEventListener("activate", (e) => {
     )
 });
 
-
+self.addEventListener("message", (e) => {
+	if(e.data && e.data.type == "skip-waiting") {
+		self.skipWaiting();
+	} 
+});
 
