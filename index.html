@@ -627,6 +627,7 @@
                 return document.createElement(type);
             } 
             var deferredEvent;
+            var version = "7.3.4.1";
             
             function pageComplete () {
                 window.addEventListener("beforeinstallprompt", e => {
@@ -643,13 +644,13 @@
                 
                 SheetLink.type = "text/css";
                 SheetLink.rel = "stylesheet";
-                SheetLink.href = "index.css?v=7.3";
+                SheetLink.href = "index.css";
                 
-                JsLink0.src = "AI.js?v=7.3";
+                JsLink0.src = "AI.js";
                 JsLink1.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.4.32.1.min.js";
-                JsLink2.src = "UI.js?v=7.3";
-                JsLink3.src = "Channel.js?v=7.3";
-                JsLink4.src = "Core.js?v=7.3";
+                JsLink2.src = "UI.js";
+                JsLink3.src = "Channel.js";
+                JsLink4.src = "Core.js";
                 
                 head.appendChild(JsLink0);
                 head.appendChild(JsLink1);
@@ -661,19 +662,60 @@
                 JsLink1.id = "pubnub-file";
             } 
 			//window.onload = pageComplete();
-            if("serviceWorker" in navigator) {
-            	window.onload = async _ => {
-            		navigator.serviceWorker.register("Service Worker.js").then(res => {
-            			pageComplete();
-           	 	}).catch(error => {
-           		 	pageComplete();
-          		  });
-           	 } 
-            } 
-            else {
-            	alert("Can't Register an offline version of this game because your browser don't support this capability. However you can still access it only while online. If you however really need the offline version, try: \n\n1. Update your browser. or\n2. try another browser, preferably chrome.");
-                window.onload = () => {pageComplete()};
-            } 
+            const InvokeSWUpdateFlow = async (reg) => {
+				let refresh = await confirm("APP UPDATE\nVersion: " + version + "\n\nNew version of Checkers available.\n\n What's New?\n\n\t- Improved internal operations.\n\t- Fixed offline loading problems.\n\nDo you want to update?");
+				if(refresh) {
+					await reg.waiting.postMessage({type: "skip-waiting"});
+				} 
+			} 
+			
+			const FinishInstalling = async (reg) => {
+				if(reg.waiting) {
+					if(navigator.serviceWorker.controller) {
+						await InvokeSWUpdateFlow(reg);
+					} 
+					else {
+						console.log("Service initialized for the first time");
+					} 
+				} 
+				else if(reg.active && !navigator.serviceWorker.controller) {
+					location.reload();
+				} 
+			} 
+			
+			window.addEventListener("load", async () => {
+				if("serviceWorker" in navigator) {
+					navigator.serviceWorker.onmessage = Message;
+					const reg = await navigator.serviceWorker.register("./sw.js");
+					if(reg.waiting) {
+						await InvokeSWUpdate(reg);
+					} 
+						
+					reg.addEventListener("updatefound", async () => {
+						if(reg.installing) {
+							reg.installing.addEventListener("statechange", () => {
+								FinishInstalling(reg);
+							});
+						} 
+					});
+					
+					let refreshing = false;
+					navigator.serviceWorker.addEventListener("controllerchange", (e) => {
+						if(!refreshing) {
+							location.reload();
+							refreshing = true;
+						} 
+					});
+					
+					if(reg.active) {
+						pageComplete();
+					} 
+				} 
+				else {
+	            	alert("OFFLINE REGISTRATION FAILURE\n\nCan't Register an offline version of this game because your browser don't support this capability. However you can still access it only while online. If you however really need the offline version, try: \n\n1. Update your browser. or\n2. try another browser, preferably chrome.");
+	                pageComplete();
+	            } 
+			});
         </script>
     </body>
 </html>
