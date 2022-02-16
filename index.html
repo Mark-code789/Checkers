@@ -627,7 +627,7 @@
                 return document.createElement(type);
             } 
             var deferredEvent;
-            var version = "9.3.4.4";
+            var version = "10.3.4.4";
             
             function pageComplete () {
                 window.addEventListener("beforeinstallprompt", e => {
@@ -686,6 +686,7 @@
 			window.addEventListener("load", async () => {
 				if("serviceWorker" in navigator) {
 					const reg = await navigator.serviceWorker.register("./Service Worker.js");
+					reg.update();
 					if(reg.waiting) {
 						await InvokeSWUpdate(reg);
 					} 
