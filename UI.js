@@ -135,7 +135,7 @@ async function load (src) { try {
                 Sound[soundProps[i - srcs.length]] = audio;
             } 
             bar.children[0].style.width = ((i+1) * width / (srcs.length + sounds.length)) + "px";
-            label.innerHTML = (parseInt(window.getComputedStyle(bar.children[0], null).getPropertyValue("width")) / width * 100).toFixed(0) + "%";
+            label.innerHTML = "Loading External Files: 100%<br>Loading Internal Files: " + (parseInt(window.getComputedStyle(bar.children[0], null).getPropertyValue("width")) / width * 100).toFixed(0) + "%";
             i++;
             if(i < srcs.length) {
                 load(srcs[i]);
