@@ -1569,6 +1569,10 @@ article {
 } 
 
 #follow-up-window #links a img {
+	height: 24px;
+	width: 24px;
+	object-position: center;
+	object-fit: contain;
     display: block;
     margin: auto;
 } 
