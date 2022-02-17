@@ -127,6 +127,8 @@
                 transform: translate(-50%, -40%);
                 max-height: 40vmin;
                 max-width: 40vmin;
+                border: 2px solid #aaa;
+                border-radius: 5px;
             } 
             
             #load-window h1 {
@@ -216,7 +218,7 @@
         <article id="load-window">
             <img src="./src/images/homescreen 512icon.png">
             <h1>CHECKERS</h1>
-            <p>0%</p>
+            <p>Loading External Files: 0%<br>Loading Internal Files: 0%</p>
             <div class="bar">
                 <div class="progress"></div>
             </div>
@@ -624,7 +626,7 @@
                 return document.createElement(type);
             } 
             var deferredEvent;
-            var version = "14.4.4.14";
+            var version = "15.4.5.15";
             
             function pageComplete () {
                 window.addEventListener("beforeinstallprompt", e => {
@@ -639,15 +641,23 @@
                 let JsLink3 = $$$("script");
                 let JsLink4 = $$$("script");
                 
+                SheetLink.onload = () => LoadedExternalFiles.run();
+                JsLink0.onload = () => LoadedExternalFiles.run();
+                JsLink1.onload = () => LoadedExternalFiles.run();
+                JsLink2.onload = () => LoadedExternalFiles.run();
+                JsLink3.onload = () => LoadedExternalFiles.run();
+                JsLink4.onload = () => LoadedExternalFiles.run();
+                //JsLink5.onload = () => LoadedExternalFiles.run();
+                
                 SheetLink.type = "text/css";
                 SheetLink.rel = "stylesheet";
-                SheetLink.href = "index.css";
+                SheetLink.href = "./index.css";
                 
-                JsLink0.src = "AI.js";
+                JsLink0.src = "./AI.js";
                 JsLink1.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js";
-                JsLink2.src = "UI.js";
-                JsLink3.src = "Channel.js";
-                JsLink4.src = "Core.js";
+                JsLink2.src = "./UI.js";
+                JsLink3.src = "./Channel.js";
+                JsLink4.src = "./Core.js";
                 
                 head.appendChild(JsLink0);
                 head.appendChild(JsLink1);
@@ -657,6 +667,25 @@
                 head.appendChild(SheetLink);
                 
                 JsLink1.id = "pubnub-file";
+            } 
+            class LoadedExternalFiles {
+            	static n = 0;
+            	static total = 6;
+            	static run = function (type) {
+            		this.n++;
+            		let loadingInfo = $("#load-window p");
+            			loadingInfo.innerHTML = "Loading External Files: " + (this.n/this.total*100).toFixed(0) + "%<br>Loading Internal Files: 0%";
+            		if(this.n == this.total) {
+            			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
+            				//ZobristHash.initTable();
+							Publish.sleep = new Sleep();
+            				LoadResources(srcs[0]);
+						} 
+						else {
+							alert("CRITICAL FAILURE\n\nYour browser lacks critical component for better performance of this game. Please, we recommend you update it or try another one preferably Chrome.");
+						} 
+            		}
+            	} 
             } 
 			//window.onload = pageComplete();
             const InvokeSWUpdateFlow = async (reg) => {
