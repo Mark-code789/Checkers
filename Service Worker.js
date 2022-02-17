@@ -81,7 +81,7 @@ self.addEventListener("fetch", (e) => {
             	return res;
             }
             else {
-            	console.log(res);
+            	console.log(e.request.url);
             } 
             
             return fetch(e.request).then((res) => {
@@ -91,7 +91,9 @@ self.addEventListener("fetch", (e) => {
             	
                 caches.open(cacheName).then((cache) => {
                     cache.put(e.request, res.clone());
-                });
+                }).cstch((error) => {
+					console.log(error);
+				});
                 
                 return res;
             }).catch((error) => {
