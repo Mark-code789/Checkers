@@ -77,7 +77,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
-        caches.match(e.request, {ignoreSearch: true}).then((res) => {
+        caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
         	if(res) {
             	return res;
             }
