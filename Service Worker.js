@@ -1,5 +1,5 @@
 // Service worker
-const version = 17;
+const version = 18;
 const cacheName = "Checkers - " + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -85,18 +85,18 @@ self.addEventListener("fetch", (e) => {
             	console.log(e.request.url);
             } 
             
-            return fetch(e.request).then((res) => {
-            	if(!res || res.status != 200 || e.request.url.includes("pndsn.com")) {
-            		return res;
+            return fetch(e.request).then((res2) => {
+            	if(!res2 || res2.status != 200 || e.request.url.includes("pndsn.com")) {
+            		return res2;
             	} 
             	
                 caches.open(cacheName).then((cache) => {
-                    cache.put(e.request, res.clone());
+                    cache.put(e.request, res2.clone());
                 }).cstch((error) => {
 					console.log(error);
 				});
                 
-                return res;
+                return res2;
             }).catch((error) => {
             	return res;
             });
