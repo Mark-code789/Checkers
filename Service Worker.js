@@ -1,5 +1,5 @@
 // Service worker
-const version = 15;
+const version = 16;
 const cacheName = "Checkers - " + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -63,7 +63,8 @@ const appShellFiles = [
     "./index.css", 
     "./index.html",
     "./manifest.webmanifest", 
-    "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js"
+    "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js", 
+    "./"
 ];
 
 self.addEventListener("install", (e) => {
