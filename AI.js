@@ -1,93 +1,104 @@
 'use strict' 
 
+function Copy (obj) {
+    if(obj == undefined || obj == null)
+        throw new Error("Argument object can not be undefined or null");
+    return JSON.parse(JSON.stringify(obj));
+} 
+
+function Prms (value) {
+    if(value == undefined || value == null)
+        throw new Error("Argument object can not be undefined or null");
+	return new Promise(resolve => {return resolve(value)});
+} 
+
+// AI class object
+// Methods and variables are self explanatory
 class AI {
 	ai = playerB.pieceColor.slice(0,1);
 	opp = playerA.pieceColor.slice(0,1);
 	MAX = 1000000;
 	MIN = -1000000;
+	stop = false;
 	
 	constructor (prop) {
-		if(prop.state != undefined && prop.state.length > 7 && prop.depth != undefined && prop.moves != undefined && prop.moves.length > 0) {
+		if(prop.state != undefined && prop.state.length > 7 && prop.depth != undefined && prop.moves != undefined) {
 	        this.state = Copy(prop.state);
-	        this.depth = prop.depth + 1;
+	        this.depth = prop.worker? prop.depth: prop.depth + 1;
+			this.depthSearched = this.depth;
 	        this.moves = Copy(prop.moves);
+			this.total = 0;
+			this.count = 0;
+			this.sleep = new Sleep();
+			this.values = [];
         } 
         else {
-            console.log(prop);
-            console.warn("Possible error. Check your attributes passed to AI object arguments.");
+            throw new Error("Possible error. Check your attributes passed to AI object arguments. <br>\n" + JSON.stringify(prop));
         } 
-	    
-		/*if(storage) {
-	        storage.setItem(Game.version + "Table", JSON.stringify(TranspositionTable.states));
-	    } */
     } 
     
     // Evaluation function 
-    evaluate = async (state) => {
+    evaluate = async (state, movesA, movesB, colorA) => {
+    	let aiMoves = colorA == 1? movesA: movesB;
+    	let humanMoves = colorA == 1? movesB: movesA;
+    	let movesStrA = JSON.stringify(aiMoves);
+    	let movesStrB = JSON.stringify(humanMoves);
         let ai = 0, human = 0;
-        let aiMen = 0, humanMen = 0;
-        let aiKings = 0, humanKings = 0;
         
         for(let i = 0; i < Game.boardSize; i++) {
             for(let j = 0; j < Game.boardSize; j++) {
                 let piece = state[i][j];
+                
                 if(piece.includes(this.ai)) { 
                 	if(piece.includes("M")) {
-                    	aiMen ++;
-                        ai += 200; // value to piece
+                        ai += 1000; // value to piece 
+                        if(i == 0)
+                        	ai += 2;
                     } 
                     if(piece.includes("K")) { // threatening
                     	if(Game.version == "american") 
-                    		ai += 240;
+                    		ai += 1010;
                     	else if(Game.version == "kenyan" || Game.version == "casino") 
-                    		ai += 280;
+                    		ai += 1015;
                     	else
-                        	ai += 320; // value to piece
-                        
-                        if(Game.version != 'nigerian') {
-                            if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                aiKings += 1;
-                        } 
-                        else {
-                            if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                aiKings += 1;
-                        } 
+                        	ai += 1020; // value to piece
                     } 
+                    if(movesStrA.includes(`"cell":"${i}{j}"`)) // movable piece 
+                    	ai += 2;
+                    if(movesStrB.includes(`"capture":"${i}{j}"`)) // will be captured 
+                    	ai -= 2;
+                    else // safe piece
+                    	ai += 2;
                 } 
                 else if(piece.includes(this.opp)) {
                 	if(piece.includes("M")) {
-                    	humanMen ++;
-                        human += 200; // value to piece
+                        human += 1000; // value to piece 
+                        if(i == Game.boardSize-1) 
+                        	human += 2;
                     }
                     if(piece.includes("K")) { // Becomes more threatening
                         if(Game.version == "american") 
-                    		human += 240;
+                    		human += 1010
                     	else if(Game.version == "kenyan" || Game.version == "casino") 
-                    		human += 280;
+                    		human += 1015;
                     	else
-                        	human += 320; // value to piece
-                        
-                        if(Game.version != 'nigerian') {
-                            if(i == 0 && j == 1 || i == 1 && j == 0 || i == Game.boardSize-1 && j == Game.boardSize-2 || i == Game.boardSize-2 && j == Game.boardSize-1) 
-                                humanKings += 1;
-                        } 
-                        else {
-                            if(i == 0 && j == Game.boardSize-2 || i == 1 && j == Game.boardSize-1 || i == Game.boardSize-1 && j == 1 || i == Game.boardSize-2 && j == 0) 
-                                humanKings += 1;
-                        } 
+                        	human += 1020; // value to piece
                     } 
+                    if(movesStrB.includes(`"cell":"${i}{j}"`)) // movable piece 
+                    	human += 2;
+                    if(movesStrA.includes(`"capture":"${i}{j}"`)) // will be captured 
+                    	human -= 2;
+                    else // safe piece
+                    	human += 2;
                 } 
             } 
         } 
-        
-        ai += aiMen > 0? aiKings: 0; 
-        human += humanMen > 0? humanKings: 0; 
         
         let currentValue = ai - human;
         return Prms(currentValue);
     } 
     
-    move = async (state, move) => { try {
+    move = async (state, move) => { //try {
         state = Copy(state);
         move = Copy(move);
         let i = parseInt(move.cell.slice(0,1)), 
@@ -111,20 +122,20 @@ class AI {
                 b = parseInt(cap.slice(1,2));
                 
             state[a][b] = "EC";
-            if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version === "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
-                state[m][n] = id;
-	            continuousJump = await AssesCaptures({i: m, j: n, state});
-				if(continuousJump.length > 0)
-	            	continuousJump = await RemoveUnwantedCells({captures: continuousJump, state});
-				else if(crowned) {
+            id = crowned && /^casino|international|nigerian$/gi.test(Game.version)? id.replace("K", "M"): id;
+            state[m][n] = id;
+            
+            if(!crowned || crowned && /^casino|international|nigerian|russian$/gi.test(Game.version)) {
+	            continuousJump = await AssesMoves({i: m, j: n, state});
+				continuousJump = continuousJump.captures;
+				if(continuousJump.length == 0 && crowned) {
 					id = id.replace("M", "K");
 				} 
-            } 
+			} 
         } 
         state[m][n] = id;
         return Prms({state, continuousJump});
-        } catch (error) {alert("AI move Error!\n" + error);} 
+        //} catch (error) {alert("AI move Error!\n" + error);} 
     } 
     
     correct = (state) => {
@@ -133,209 +144,341 @@ class AI {
         return Prms(JSON.parse(state));
     } 
     
-    minimax = async (state, moves, depth, isMax, alpha, beta, currentPlayer) => { // currentPlayer : true = ai || false = opp 
+    negascout = async (state, moves, depth, color, alpha, beta, previousPlayer, movesB) => { // previousPlayer : 1 = ai || -1 = opp 
+    	if(this.stop) {
+    		return 0;
+    	}
+    	let best = this.MIN;
+    	this.depthSearched = Math.min(depth, this.depthSearched);
+    	//this.alpha = alpha;
+    	//this.beta = beta;
+    	
+    	/*await Log("Subworker: ", this.subworker);
+    	await Log("Depth: ", depth);
+    	await LogState(state);
+    	await Log('');*/
+    	
+    	// Transposition Table Lookup:
+    	/*let alphaOrig = alpha;
+    	let ttEntry;
+		
+		if(depth < this.depth) {
+			ttEntry = TranspositionTable.lookUp(state, color);
+	    	if(ttEntry.valid && ttEntry.depth <= depth) {
+	    		// flag property: 0 = exact, 1 = upper bound, -1 = lower bound
+	    		if(ttEntry.flag == 0) 
+	    			return ttEntry.value;
+	    		else if(ttEntry.flag == -1) 
+	    			alpha = Math.max(alpha, ttEntry.value);
+	    		else if(ttEntry.flag == 1)
+	    			beta = Math.min(beta, ttEntry.value);
+	    		
+	    		if(alpha >= beta) 
+	    			return ttEntry.value;
+	    	} 
+		} */
+    
         if(!moves.length || depth === 0) {
-        	let leafScore = !moves.length? (currentPlayer? this.MAX: this.MIN): 0;
-        	let actualDepth = (this.depth - depth) * 1;
-        	let score = await this.evaluate(state);
+        	let leafScore = !moves.length? (previousPlayer == 1? 100000: -100000): 0;
+        	let score = await this.evaluate(state, movesB, moves, previousPlayer);
         	score = score + leafScore;
-            score += (currentPlayer? -actualDepth: actualDepth);
-            return Prms(score); 
+            return Prms(score * color); 
         } 
         else {
-        	let best = isMax? this.MIN: this.MAX; // infinity
-            let opp = isMax? this.opp: this.ai;
-            let id = isMax? this.ai: this.opp;
-            moves = await this.filter(moves, state);
+            let opp = color == 1? this.opp: this.ai;
+            let cloneState;
+            
+            // Move ordering
+            //moves = moves.slice(0,1);
+            moves = color == 1? moves.reverse(): moves//await this.sort(moves, state);
+            //moves = await this.sort(moves, state);
             
             for(let i = 0; i < moves.length; i++) {
-            	let cloneState = Copy(state);
             	let move = moves[i];
             	let value;
-            	let res = await this.move(cloneState, moves[i]); // make move
+            	if(this.stop) {
+					return 0;
+				} 
+            	cloneState = Copy(state);
+            	let res = await this.move(cloneState, move); // make move
                     cloneState = res.state;
-				
+                    
                 if(res.continuousJump.length === 0) {
                 	cloneState = await this.correct(cloneState); // Removing the ip cells
-                    let moves2 = await Iterate({id: opp, state: cloneState, func: AssesCaptures});
-                    if(moves2.length > 0)
-                        moves2 = await RemoveUnwantedCells({captures: moves2, state: cloneState});
-                    if(Game.mandatoryCapture && moves2.length === 0) {
-                        moves2 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
+                    let moves2 = await AssessAll({id: opp, state: cloneState});
+                    if(Game.mandatoryCapture && moves2.captures.length > 0) {
+                    	moves2 = moves2.captures;
+                    } 
+                    else if(Game.mandatoryCapture && moves2.captures.length === 0) {
+                        moves2 = moves2.nonCaptures;
                     }
                     else if(!Game.mandatoryCapture) {
-	                    let moves3 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
-	                    moves2 = moves2.concat(moves3);
+	                    moves2 = moves2.nonCaptures.concat(moves2.captures);
 	                } 
 					
-                    value = await this.minimax(cloneState, moves2, depth-1, !isMax, alpha, beta, isMax); // first branch
+					/*if(!subworkers || subworkers.length == 0) {
+						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves);
+					} 
+					else {
+						let worker = subworkers[i % subworkers.length];
+						worker.onmessage = this.workerMessage;
+						worker.postMessage({type: "move-search", content: [this.depth, i, cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves, false, Game.mandatoryCapture, Game.boardSize, Game.version, playerA.pieceColor, playerB.pieceColor]});
+						this.total++;
+					} */
+					
+					if(moves.indexOf(move) == 0) { 
+						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // initial search
+					} 
+					else {
+                    	value = -await this.negascout(cloneState, moves2, depth-1, -color, -alpha-1, -alpha, color, moves); // null window search
+						
+						if(value > alpha && value < beta) // if it fails high i.e has possibility of raising alpha
+							value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // research to get the exact value
+					} 
 				} 
 				else {
 					let moves2 = res.continuousJump;
 					
-					value = await this.minimax(cloneState, moves2, depth, isMax, alpha, beta, isMax);
-				}
-			    
-				if(isMax) {
-					best = Math.max(best, value);
-					alpha = Math.max(best, alpha); // adjust search window 
-				} 
-				else {
-					best = Math.min(best, value);
-					beta = Math.min(best, beta);
+					if(!subworkers || subworkers.length == 0) {
+						value = await this.negascout(cloneState, moves2, depth, color, alpha, beta, color, moves);
+					} 
+					else {
+						let worker = subworkers[i % subworkers.length];
+						worker.onmessage = this.workerMessage;
+						worker.postMessage({type: "move-search", content: [this.depth, i, cloneState, moves2, depth, color, alpha, beta, color, moves, true, Game.mandatoryCapture, Game.boardSize, Game.version, playerA.pieceColor, playerB.pieceColor]});
+						this.total++;
+					} 
 				} 
 				
-				if(alpha >= beta) {
-					return Prms(alpha); // alpha cut-off
+				
+				if(subworkers && subworkers.length > 0 && i % subworkers.length == 0 && i+1 < moves.length) {
+					continue;
 				} 
-            }
-            
+				else if(subworkers && subworkers.length > 0) {
+					await this.sleep.start();
+					value = Math.max(...this.values);
+					this.count = 0;
+					this.total = 0;
+					this.values = [];
+				} 
+				
+				best = Math.max(value, best);
+				alpha = Math.max(best, alpha);
+				//this.alpha = alpha;
+				//this.beta = beta;
+				
+				if(alpha >= beta) {
+					break; // alpha cut-off
+				} 
+				
+				// Transposition Table Storage 
+				/*if(depth < this.depth) {
+					ttEntry.value = value;
+					if(value <= alphaOrig) 
+						ttEntry.flag = 1; // upper bound
+					else if(value >= beta) 
+						ttEntry.flag = -1; // lower bound
+					else
+						ttEntry.flag = 0; // exact
+					
+					ttEntry.valid = true;
+					ttEntry.depth = depth;
+					TranspositionTable.store(ttEntry);
+				} */
+            } 
             return Prms(best);
         } 
     } 
     
+    workerMessage = async (e) => {
+    	if(e.data.type == "search-result") {
+    		this.values.push(e.data.content.value); 
+        	this.depthSearched = e.data.content.depth;
+        	this.count++;
+        	//this.alpha = Math.max(this.alpha, e.data.content.value);
+        	if(this.count == this.total) {
+        		this.sleep.end();
+        		/*for(let worker of subworkers) {
+        			worker.postMessage({type: "stop-search"});
+        		} */
+        	} 
+    	} 
+    	else {
+    		await Log(e.data);
+    	} 
+    } 
+    
     findBestMove = async (state, moves) => {
-        let isMax = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? true: false; // false == playerA while true == playerB
-        let opp = isMax? this.opp: this.ai;
-        let infinite = isMax? this.MIN: this.MAX;
-        let bestValue = infinite;
-        let bestMove;
-        let bestPossibleMoves = [];
-        let worker;
+        let color = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? 1: -1; // false == playerA while true == playerB
+        let opp = color == 1? this.opp: this.ai;
         let count = 0;
         let sleep = new Sleep();
+        let self = this;
+        let bestValue = this.MIN;
+        let bestPossibleMoves = [];
+        let widthA, widthB;
+        //let time = null;
+        for(let worker of workers) {
+        	worker.onmessage = message;
+        } 
         
         if(moves.length > 1 && this.depth > 1) { 
-        	if(window.Worker && (this.depth > 9 /*|| Game.version == "international" || Game.version == "nigerian"*/)) {
-        		worker = new Worker("Worker.js");
-        		worker.onmessage = message;
-        		for(let i = 0; i < moves.length; i++) {
-		            let cloneState = Copy(state);
-		            let move = moves[i];
-		            let res = await this.move(cloneState, move); // making move
-		            cloneState = res.state;
-		                
-		            if(res.continuousJump.length === 0) {
-		            	cloneState = await this.correct(cloneState);
-			            let moves2 = await Iterate({id: opp, state: cloneState, func: AssesCaptures});
-			            if(moves2.length > 0)
-	                        moves2 = await RemoveUnwantedCells({captures: moves2, state: cloneState});
-	                    if(Game.mandatoryCapture && moves2.length === 0) {
-	                        moves2 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
-	                    }
-	                    else if(!Game.mandatoryCapture) {
-		                    let moves3 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
-		                    moves2 = moves2.concat(moves3);
-		                } 
-			            worker.postMessage([this.depth, move, cloneState, moves2, this.depth-1, !isMax, this.MIN, this.MAX, isMax]);
-					} 
-					else {
-						let moves2 = res.continuousJump;
-						worker.postMessage([this.depth, move, cloneState, moves2, this.depth, isMax, this.MIN, this.MAX, isMax]);
-					}
-		        } 
-        		await sleep.start();
-        		worker.terminate();
-                sleep = null;
-                worker = null;
-                let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
-		        bestMove = bestPossibleMoves[random];
-		        return Copy(bestMove);
-       	 } 
-        	else {
-        		for(let i = 0; i < moves.length; i++) {
-		            let cloneState = Copy(state);
-		            let move = Copy(moves[i]);
-		            let res = await this.move(cloneState, move); // making move
-		            cloneState = res.state;
-		                
-		            let value;
-		            if(res.continuousJump.length === 0) {
-		            	cloneState = await this.correct(cloneState);
-			            let moves2 = await Iterate({id: opp, state: cloneState, func: AssesCaptures});
-			            if(moves2.length > 0)
-	                        moves2 = await RemoveUnwantedCells({captures: moves2, state: cloneState});
-	                    if(Game.mandatoryCapture && moves2.length === 0) {
-	                        moves2 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
-	                    }
-	                    else if(!Game.mandatoryCapture) {
-		                    let moves3 = await Iterate({id: opp, state: cloneState, func: AssesMoves});
-		                    moves2 = moves2.concat(moves3);
-		                } 
-						
-			            value = await this.minimax(cloneState, moves2, this.depth-1, !isMax, this.MIN, this.MAX, isMax);
-					} 
-					else {
-						let moves2 = res.continuousJump;
-						value = await this.minimax(cloneState, moves2, this.depth, isMax, this.MIN, this.MAX, isMax);
-					}
-					//console.log(move, value);
-		            if(isMax && bestValue <= value) {
-		                if(bestValue < value) {
-		                    bestValue = value;
-		                    bestPossibleMoves.splice(0, bestPossibleMoves.length, move);
-		                } 
-		                else if(bestValue === value) {
-		                    bestPossibleMoves.push(move);
-		                } 
-		            } 
-		            else if(!isMax && bestValue >= value) {
-		            	if(bestValue > value) {
-		            		bestValue = value;
-		            		bestPossibleMoves.splice(0, bestPossibleMoves.length, move);
-		            	} 
-		            	else if(bestValue === value) {
-		                    bestPossibleMoves.push(move);
-		                } 
-		            } 
-		        } 
-				
-		        let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
-		        bestMove = bestPossibleMoves[random];
-		        return Copy(bestMove);
-			} 
+    		//time = Date.now();
+    		//moves = moves.slice(0,1);
+    		await search(state, moves, this.depth);
+    		await sleep.start();
+			
+			bestPossibleMoves = await this.filter(state, bestPossibleMoves, color);
+			let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
+	        let bestMove = bestPossibleMoves[random];
+	        return bestMove;
 		} 
 		else if(moves.length > 1 && this.depth == 1) {
 			let random = Math.round(Math.random() * (moves.length - 1));
-	        bestMove = moves[random];
+	        let bestMove = moves[random];
 	        return Copy(bestMove);
 		} 
 		else {
 			return Copy(moves[0]);
 		} 
+		
+		async function search (state, moves, depth) {
+			let timestamp = Date.now();
+			let test = false;
+			$("#play-window .footer_section").style.backgroundImage = "linear-gradient(to right, #00981988 5px, #0000 5px)";
+			$("#play-window .middle_section .scene .board .face_bottom").style.backgroundImage = `linear-gradient(to right, #00981988 5px, #0000 5px), linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
+			for(let i = 0; i < moves.length; i+=workers.length) {
+				for(let j = i; j < i+workers.length; j++) {
+	    			let move = moves[j];
+					if(!move) 
+						break;
+					/*if(move.cell == "03" && move.empty == "12") {}
+					else continue;*/
+					
+					let cloneState = Copy(state);
+					let res = await self.move(cloneState, move); // make move
+		                cloneState = res.state; 
+					
+		            if(res.continuousJump.length === 0) {
+		            	cloneState = await self.correct(cloneState); // Removing the ip cells
+		                let moves2 = await AssessAll({id: opp, state: cloneState});
+						if(Game.mandatoryCapture && moves2.captures.length > 0) {
+							moves2 = moves2.captures;
+						} 
+		                else if(Game.mandatoryCapture && moves2.captures.length === 0) {
+		                    moves2 = moves2.nonCaptures;
+		                }
+		                else if(!Game.mandatoryCapture) {
+		                    moves2 = moves2.nonCaptures.concat(moves2.captures);
+		                } 
+						
+						let data = [
+							self.depth, 
+							j, 
+							cloneState, 
+							moves2, 
+							depth-1, 
+							-color, 
+							self.MIN, 
+							self.MAX, 
+							color, 
+							moves, 
+							false, 
+							Game.mandatoryCapture, 
+							Game.boardSize, 
+							Game.version, 
+							playerA.pieceColor, 
+							playerB.pieceColor, 
+							timestamp
+						]; 
+						if(test) {
+							let value = -await self.negascout(...data.slice(2,10));
+							console.log(value, move);
+							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
+						} 
+						else {
+							await workers[j % workers.length].postMessage({type: "move-search", content: data});
+						} 
+					} 
+					else {
+						let moves2 = res.continuousJump;
+						
+						let data = [
+							self.depth, 
+							j, 
+							cloneState, 
+							moves2, 
+							depth, 
+							color, 
+							self.MIN, 
+							self.MAX, 
+							color, 
+							moves, 
+							true, 
+							Game.mandatoryCapture, 
+							Game.boardSize, 
+							Game.version, 
+							playerA.pieceColor, 
+							playerB.pieceColor, 
+							timestamp
+						]; 
+						if(test) {
+							let value = await self.negascout(...data.slice(2,10));
+							console.log(value, move);
+							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
+						} 
+						else {
+							workers[j % workers.length].postMessage({type: "move-search", content: data});
+						} 
+					} 
+				} 
+			} 
+		} 
         
         async function message (e) {
-            if(e.data.title == "value") {
-            	let value = Copy(e.data.content.value);
-            	let move = Copy(e.data.content.move);
+            if(e.data.type == "search-result") {
+            	let value = e.data.content.value; 
+            	let i = e.data.content.id; 
+            	let move = moves[i];
             	count++;
-                console.log(move);
             	// evaluating 
-                if(isMax && bestValue <= value) {
-                    if(bestValue < value) {
-                        bestValue = value;
-                        bestPossibleMoves.splice(0, bestPossibleMoves.length, move);
-                    } 
-                    else if(bestValue === value) {
-                        bestPossibleMoves.push(move);
-                    } 
-                } 
-                else if(!isMax && bestValue >= value) {
-                	if(bestValue > value) {
-                		bestValue = value;
-                		bestPossibleMoves.splice(0, bestPossibleMoves.length, move);
-                	} 
-                	else if(bestValue === value) {
-                        bestPossibleMoves.push(move);
-                    } 
-                } 
+            	//console.log(value, move, i);
+            	let section = $("#play-window .footer_section");
+            	let faceBottom = $("#play-window .middle_section .face_bottom");
+            	widthA = parseFloat(GetValue(section, "width")) - 5;
+            	widthB = parseFloat(GetValue(faceBottom, "width")) - 5;
+            	let finishedSize = (count * widthA / moves.length) + "px";
+            	section.style.backgroundImage = "linear-gradient(to right, #00981988 " + finishedSize + ", #0000 " + finishedSize + ")";
+            	finishedSize = (count * widthB / moves.length) + "px";
+            	faceBottom.style.backgroundImage = `linear-gradient(to right, #00981988 ${finishedSize}, #0000 ${finishedSize}), linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
+            
+                if(bestValue <= value) {
+	                if(bestValue < value) {
+	                    bestValue = value;
+	                    bestPossibleMoves.splice(0, bestPossibleMoves.length, move);
+	                } 
+	                else if(bestValue === value) {
+	                    bestPossibleMoves.push(move);
+	                } 
+	            } 
                 
-                if(count == this.MAX || count == moves.length) {
+                if(count == moves.length) {
+                	section.style.backgroundImage = "none";
+                	faceBottom.style.backgroundImage = `linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
 				    sleep.end();
                 } 
             } 
+            else if(e.data.type == "tt-entry") {
+            	for(let worker of workers) {
+            		if(i == workers.indexOf(worker)) continue;
+            		worker.postMessage({type: "tt-entry", entry: e.data.entry});
+            	} 
+            } 
             else {
-                alert(e.data.content);
+            	if(Array.isArray(e.data))
+            		await console.log(...e.data);
+            	else
+                	await console.log(e.data);
             } 
         } 
     } 
@@ -344,15 +487,13 @@ class AI {
     	Game.thinking = true;
         let state = Copy(this.state);
         let moves = this.moves;
-        moves = await this.filter(moves, state);
-        
-        let bestMove = await this.findBestMove(state, moves);
+		let bestMove = await this.findBestMove(state, moves);
         let i = parseInt(bestMove.cell.slice(0,1));
         let j = parseInt(bestMove.cell.slice(1,2));
         let m = parseInt(bestMove.empty.slice(0,1));
         let n = parseInt(bestMove.empty.slice(1,2));
         
-        other.aiPath.push({i, j, m, n});
+        general.aiPath.push({i, j, m, n});
         
         if(bestMove.capture != undefined) {
             state = Copy(this.state);
@@ -363,27 +504,32 @@ class AI {
                 id = id.replace("M", "K");
                 crowned = true;
             } 
-            state[m][n] = id;
             state[parseInt(bestMove.capture.slice(0,1))][parseInt(bestMove.capture.slice(1,2))] = "EC";
             
             moves = [];
-            if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version === "casino" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version === "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
-                moves = await AssesCaptures({id, i: m, j: n, state});
+            id = crowned && /^casino|international|nigerian$/gi.test(Game.version)? id.replace("K", "M"): id;
+            state[m][n] = id;
+            if(!crowned || crowned && /^casino|international|nigerian|russian$/gi.test(Game.version)) {
+                moves = await AssesMoves({id, i: m, j: n, state});
+                moves = moves.captures;
             } 
                 
             if(moves.length > 0) {
-                moves = await RemoveUnwantedCells({captures: moves, state});
                 this.state = state;
                 this.moves = moves;
                 await this.makeMove(returnable);
                 return;
             } 
+            else if(crowned) {
+            	id = id.replace("K", "M");
+            } 
+            state[m][n] = id;
         } 
         if(returnable) {
             Game.thinking = false;
             return;
         } 
+        
         let table = $("#table");
 		let preSelectedCells = $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled");
         for(let cell of preSelectedCells) { 
@@ -394,304 +540,110 @@ class AI {
             cell.classList.remove("helper_filled");
         } 
         
-        for(let cell of other.aiPath) {
-            table.rows[cell.i].cells[cell.j].classList.add("valid");
-            table.rows[cell.m].cells[cell.n].classList.add("valid");
+        for(let cell of general.aiPath) {
+            table.children[cell.i*Game.boardSize+cell.j].classList.add("valid");
+            table.children[cell.m*Game.boardSize+cell.n].classList.add("valid");
         } 
     	//return;
     	if($("#play-window").style.display == "grid") 
         await setTimeout( async () => {
-        	let cell1 = other.aiPath[0];
-        	let cell = table.rows[cell1.i].cells[cell1.j];
+        	let cell1 = general.aiPath[0];
+        	let cell = table.children[cell1.i*Game.boardSize+cell1.j];
 	        await ValidateMove({cell, i: cell1.i, j: cell1.j, isComputer: true});
-        	for(let cell2 of other.aiPath) {
-	            cell = table.rows[cell2.m].cells[cell2.n];
+        	for(let cell2 of general.aiPath) {
+	            cell = table.children[cell2.m*Game.boardSize+cell2.n];
 	            ValidateMove({cell, i: cell2.m, j: cell2.n, isComputer: true});
 			} 
-			other.aiPath = [];
+			general.aiPath = [];
         }, 250);
         this.moves = [];
         Game.thinking = false;
         return;
     } 
     
-    filter = async (moves, state) => {
+    sort = async (moves, state) => {
         moves = await Copy(moves);
-        let filteredMoves = new Array(moves.length);
-        let indexes = [];
-        await moves.forEach(async (move, index) => {
-            if(move.capture) {
-                filteredMoves.unshift(move);
-                indexes.unshift(index);
-                return;
-            } 
-            else {
-                let i = parseInt(move.cell.slice(0,1));
-                let j = parseInt(move.cell.slice(1,2));
-                let id = state[i][j];
-                let opp = id.includes("W")? "B": "W";
-                let r = id.includes(playerA.pieceColor.slice(0,1))? -1: 1;
-                let z = filteredMoves.length; // closeness;
-                let distance = await this.check(state, id.slice(1,2), i, j, z, r);
-                
-                filteredMoves.splice(distance, 0, move);
-                indexes.unshift(index);
-                return;
-                
-                if(id.includes("K")) {
-                    r = -r;
-                    distance = await this.check(state, id.slice(1,2), i, j, z, r);
-                    filteredMoves.splice(distance, 0, move);
-                    indexes.unshift(index);
-                    return;
-                } 
-            } 
-        });
-        
-        for(let index of indexes) 
-            moves.splice(index, 1);
-        filteredMoves = filteredMoves.concat(moves);
-        filteredMoves = JSON.parse(JSON.stringify(filteredMoves).replaceAll(/null,|,null/g, ""));
-        return Copy(filteredMoves);
-    } 
-    
-    check = (state, id, startX, startY, end, r) => {
-        let x = startX + r;
-        let y1 = startY - 1;
-        let y2 = startY + 1;
-        let row = null;
-        let opp = id == "W"? "B": "W";
-        
-        for(;;x+=r, y1-=1, y2+=1) {
-            row = state[x];
-            if(!row) 
-                break;
-            for(let y = y1; y <= y2; y++) {
-                if(row[y] && row[y].includes(opp)) {
-                    return Prms(Math.abs(x - startX));
-                } 
-            } 
-        } 
-        return Prms(end);
-    } 
-}
-
-class HashTable {
-	static ZobristTable = [];
-	static random = (min, max) => {
-		let rand = Math.round(Math.random() * (max - min) + min);
-		return rand;
-	} 
-	static index = (piece) => {
-		let index = -1;
-		switch (piece) {
-			case "MB":
-			index = 0;
-			break;
-			
-			case "KB":
-			index = 1;
-			break;
-			
-			case "MW":
-			index = 2;
-			break;
-			
-			case "KW":
-			index = 3;
-			break;
-		} 
-		return index;
-	} 
-	static initTable = () => {
-		this.ZobristTable = [];
-		for(let i = 0; i < 10; i++) { // 10 maximum board size
-			this.ZobristTable.push([]);
-			for(let j = 0; j < 10; j++) {
-				this.ZobristTable[i].push([]);
-				for(let k = 0; k < 10; k++) {
-					this.ZobristTable[i][j].push([]); 
-					this.ZobristTable[i][j][k] = this.random(2, Number.MAX_SAFE_INTEGER); // 2**31-1 => maximum integer of bitwise operation
-				} 
-			} 
-		} 
-	} 
-	static computeHash = (array, isBoard = true) => {
-		let hash = 0n;
-		if(isBoard) {
-			for(let i = 0; i < Game.boardSize; i++) {
-				for(let j = 0; j < Game.boardSize; j++) {
-					let piece = array[i][j];
-					let index = this.index(piece);
-					if(Boolean(~index)) {
-						let zobristKey = this.ZobristTable[i][j][index];
-						hash ^= BigInt(zobristKey);
-					} 
-				} 
-			} 
-		} 
-		else {
-			array = !Array.isArray(array)? [array]: array;
-			for(let i in array) {
-				let string = array[i].cell + array[i].empty;
-				for(let j in string) {
-					let index = parseInt(string.charAt(j));
-					let zobristKey = this.ZobristTable[i%Game.boardSize][j%Game.boardSize][index];
-					hash ^= BigInt(zobristKey);
-				} 
-			} 
-		} 
-		return hash;
-	} 
-} 
-
-class TranspositionTable {
-    static queue = [];
-    static american = new Array(1_597_957);
-    static kenyan = new Array(1_597_957);
-    static international = new Array(1_597_957);
-    static pool = new Array(1_597_957);
-    static russian = new Array(1_597_957);
-    static nigerian = new Array(1_597_957);
-    
-    static add = async (state, value, depth) => {
-        state = await Copy(state);
-        value = await Copy(value);
-        
-        await this.queue.push({state, value, depth});
-		if(this.queue.length == 1) 
-			this.addState();
-    } 
-    
-    static addState = async () => {
-        while(this.queue[0]) {
-            let obj = this.queue[0];
-                
-            let hash = await HashTable.computeHash(obj.state);
-	        let key = Number(hash % BigInt(this[Game.version].length));
-	        
-	        if(!this[Game.version][key]) {
-		        this[Game.version][key] = obj;
-	        } 
-	        else if(await JSON.stringify(this[Game.version][key].state) != await JSON.stringify(obj.state)) {
-		        let pos = key+1;
-		        for(;;pos++) {
-			        if(!this[Game.version][pos] && pos < this[Game.version].length || pos == key) {
-				        break;
-			        } 
-			        if(pos >= this[Game.version].length - 1) 
-				        pos = -1;
-		        } 
-		        if(pos == key)
-			        alert("Table is full");
-		        else 
-			        this[Game.version][pos] = obj;
-	        } 
-	        else if(this[Game.version][key] && this[Game.version][key].depth <= obj.depth) {
-			    this[Game.version][key] = obj;
-	        } 
-	        this.queue.shift();
-        } 
-    } 
-    static getState = async (state, depth) => {
-        let hash = await HashTable.computeHash(state);
-	    let key = Number(hash % BigInt(this[Game.version].length));
-	    let obj = this[Game.version][key];
-	    
-	    if(obj && obj.depth >= depth-1 && await JSON.stringify(obj.state) == await JSON.stringify(state))
-            return obj.value;
-	    else if(obj) {
-		    let pos = key+1;
-		    for(;;pos++) {
-			    obj = this[Game.version][pos];
-			    if(obj && obj.depth >= depth-1 && await JSON.stringify(obj.state) == await JSON.stringify(state) || !obj || pos == key) {
-				    break;
-			    } 
-			    if(pos >= this[Game.version].length - 1) 
-				    pos = -1;
-		    } 
-		    if(pos == key) 
-		        obj = undefined;
-	    } 
-	    if(obj) 
-	        return obj.value;
-        else
-            return false;
-    } 
-} 
-
-class KillerMove {
-	static queue = [];
-	static moves = new Array(1_597_957);
-	static add = async (move) => {
-		move = await Copy(move);
-		await this.queue.push(move);
-		if(this.queue.length == 1) 
-			this.addMove();
-	} 
-	static addMove = async () => {
-		while(this.queue[0]) {
-			let move = this.queue[0];
-			let hash = await HashTable.computeHash(move, false);
-			let key = Number(hash % BigInt(this.moves.length));
-			
-			if(!this.moves[key]) {
-				this.moves[key] = move;
-			} 
-			else if(await JSON.stringify(this.moves[key]) != await JSON.stringify(move)) {
-				let pos = key+1;
-				for(;;pos++) {
-					if(!this.moves[pos] && pos < this.moves.length || pos == key) {
-						break;
-					} 
-					if(pos >= this.moves.length - 1) {
-						pos = -1;
-					} 
-				} 
-				if(pos == key) 
-					alert("Table is full");
-				else
-					this.moves[pos] = move;
+        let captures = [];
+        let kings = [];
+        let ordinary = [];
+        for(let move of moves) {
+        	let a = parseInt(move.cell.slice(0,1));
+    		let b = parseInt(move.cell.slice(1,2));
+    		let m = parseInt(move.empty.slice(0,1));
+    		let n = parseInt(move.empty.slice(1,2));
+    		let opp = state[a][b].includes(this.ai)? this.opp: this.ai;
+        	if(move.capture) {
+        		captures.push(move);
+        	} 
+        	if(state[a][b].includes("K")) {
+				kings.push(move);
 			} 
 			else {
-				this.moves[key] = move;
+				let dist = Game.boardSize+1;
+				for(let i = 0; i < Game.boardSize; i++) {
+	    			for(let j = 0; j < Game.boardSize; j++) {
+	    				if(state[i][j].includes(opp) && (a - m) * (a - i) >= 0 || state[i][j] == "K" + opp) { // if positive same sign
+							if(j >= n - Math.abs(m - i) && j <= n + Math.abs(m - i) || state[i][j] == "K" + opp && a - i == 0 && Math.abs(m - i) == 1 && Math.abs(n - j) == 1)
+	    						dist = Math.min(dist, (Math.abs(i - m) || Math.abs(j - n)));
+	    				} 
+	    			} 
+	    		} 
+				let index =  ordinary.findIndex((data) => {
+					return data.dist > dist;
+				});
+				
+				index = index == -1? ordinary.length: index;
+				move.dist = dist;
+				ordinary.splice(index, 0, move);
 			} 
-			this.queue.shift();
-		} 
-	} 
-	static sort = async (moves) => {
-		moves = await Copy(moves);
-		let length = moves.length;
-		let km = [];
-		let indexes = [];
-		await moves.forEach(async (move, index) => {
-			let hash = await HashTable.computeHash(move, false);
-			let key = Number(hash % BigInt(this.moves.length));
-			let value = this.moves[key];
-			if(value && await JSON.stringify(value) == await JSON.stringify(move)) {
-				km.push(move);
-				indexes.unshift(index);
-			} 
-			else if(value) {
-				let pos = key+1;
-				for(;;pos++) {
-					value = this.moves[pos];
-					if(value && await JSON.stringify(value) == await JSON.stringify(move)) {
-						km.push(move);
-						indexes.unshift(index);
-						break;
-					} 
-					if(!value || pos == key) 
-						break;
-					if(pos >= this.moves.length - 1)
-						pos = -1;
-				} 
-			} 
-		});
-		for(let index of indexes) 
-		    moves.splice(index, 1);
-		moves = km.concat(moves);
-		return Copy(moves);
+        } 
+        return captures.concat(kings).concat(ordinary);
+    } 
+    filter = async (state, moves, color) => {
+    	let opp = color == 1? this.opp: this.ai;
+    	let ordinary = [];
+    	let kings = [];
+    	let captures = [];
+    	for(let move of moves) {
+    		let a = parseInt(move.cell.slice(0,1));
+    		let b = parseInt(move.cell.slice(1,2));
+    		let m = parseInt(move.empty.slice(0,1));
+    		let n = parseInt(move.empty.slice(1,2));
+    		if(move.capture) {
+    			captures.push(move);
+    		} 
+    		else if(state[a][b].includes("M")) {
+    			ordinary.push(move);
+				continue;
+    		} 
+    		
+    		for(let i = 0; i < Game.boardSize; i++) {
+    			for(let j = 0; j < Game.boardSize; j++) {
+    				if(state[i][j].includes(opp) && (a - m) * (a - i) >= 0) {
+    					if(j >= n - Math.abs(m - i) && j <= n + Math.abs(m - i)) 
+    						kings.push(move);
+    				} 
+    			} 
+    		} 
+    	} 
+    	
+    	if(captures.length) 
+    		return captures;
+    	if(kings.length)
+    		return kings;
+    	else if(ordinary.length)
+    		return ordinary;
+    	else 
+    		return moves;
+    } 
+} 
+
+const TerminateWorkers = () => {
+	$("#play-window .footer_section").style.backgroundImage = "none";
+    $("#play-window .middle_section .face_bottom").style.backgroundImage = `linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
+    
+	for(let worker of workers) {
+		worker.postMessage({type: "stop-search"});
 	} 
 } 
 
@@ -706,6 +658,7 @@ class Sleep {
 				if(self.i >= self.j) {
 					resolve("Done");
 					self.i = 0;
+					self.j = 1_000;
 					clearInterval(it);
 				} 
 			}, 1);
@@ -716,6 +669,7 @@ class Sleep {
 	} 
 	wait = async (sec) => {
 		this.j = sec;
+		this.i = 0;
 		await this.start();
 		return "done";
 	} 

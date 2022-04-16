@@ -1,402 +1,225 @@
 'use strict' 
 
-const Iterate = async (prop) => {
-    if(prop.func == undefined || prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
+const AssessAll = async (prop) => {
+    if(prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
         throw new Error(`Missing important attribute of the argument provided.`);
-    let func = prop.func, 
-        id = prop.id.slice(-1), 
+    let id = prop.id.slice(-1), 
         state = prop.state,
-        returnObj = [];
+        moves = {nonCaptures: [], captures: []};
     
     for(let i = 0; i < Game.boardSize; i++) {
         for(let j = 0; j < Game.boardSize; j++) {
             let piece = state[i][j];
             if(piece.includes(id)) {
-                let movesObj = await func({i, j, state});
+            	let movesObj = await AssesMoves({i, j, state});
                 
-                for(let moveObj of movesObj) {
-                    returnObj.push(moveObj);
-                } 
+                moves.nonCaptures.push(...movesObj.nonCaptures);
+                moves.captures.push(...movesObj.captures);
             } 
         } 
     } 
-    return Prms(returnObj); // returns single dimension array
+    
+    return Prms(moves); // returns single dimension array
 } 
 
-const AssesMoves = async (prop) => { try {
+const AssesMoves = async (prop, maximizing = false) => { 
     //concept based on Assess Captures function 
     if(prop.i == undefined || prop.j == undefined || prop.state == undefined)
         throw new Error(`Missing important attribute of the argument provided.`);
     let i = prop.i,
         j = prop.j,
-        state = prop.state,
-        id = state[i][j], 
-        m = [], 
-        moves = [];
+        state = Copy(prop.state),
+        id = state[i][j];
     let r = id.includes(playerA.pieceColor.slice(0,1))? -1: 1;
+    let opp = id.includes(playerA.pieceColor.slice(0,1))? playerB.pieceColor.slice(0,1): playerA.pieceColor.slice(0,1);
+    let moves = {nonCaptures: [], captures: []};
+    let a = i+r,
+		c = i+r,
+		e = i-r,
+		g = i-r;
+    let b = j-1,
+		d = j+1,
+		f = j+1,
+		h = j-1;
     
-    if(Game.version === "american" || Game.version === "kenyan" || Game.version === "casino") {
-        let isKing = id.includes("K");
-        m = await getMoves(i, j, i+r, i-r, r, isKing);
-        for(let cell of m) {
-            moves.push({cell: `${i}${j}`, empty: `${cell.x}${cell.y}`});
-        } 
-    } 
-    else if(Game.version === "international" || Game.version === "nigerian" || Game.version === "russian" || Game.version === "pool") {
-        if(id.includes('M')) {
-            m = await getMoves(i, j, i+r, i-r, r, false);
-            for(let cell of m) {
-                moves.push({cell: `${i}${j}`, empty: `${cell.x}${cell.y}`});
-            } 
-        } 
-        else if(id.includes('K')) {
-            m = await getMoves(i, j, Math.MAX_SAFE_NUMBER, Math.MAX_SAFE_NUMBER, r, true);
-            for(let cell of m) {
-                moves.push({cell: `${i}${j}`, empty: `${cell.x}${cell.y}`});
-            } 
-        } 
+    /*	     ---->
+   		AB	|	CD
+   		______|______
+   		      |      
+   		GH    |    EF 
+   			<----
+    */
+    let oppA, oppB, oppC, oppD;
+    	oppA, oppB, oppC, oppD = null;
+    let obstacleA, obstacleB, obstacleC, obstacleD;
+    	obstacleA, obstacleB, obstacleC, obstacleD = false;
+    for(;; a+=r, b-=1, c+=r, d+=1, e-=r, f+=1, g-=r, h-=1) {
+    	// Quadrant A
+    	let cell = state[a]? state[a][b]: undefined;
+    	//console.log("AB", a, b, cell);
+    	if(cell == "EC" && !oppA && !obstacleA) {// Empty Cell  
+    		if(id.startsWith("M") && Math.abs(i - a) == 1) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${a}${b}`});
+    		} 
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - a) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${a}${b}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppA && !obstacleA) {
+    		if(Math.abs(oppA.x - a) == 1 && Math.abs(i - oppA.x) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${a}${b}`, capture: `${oppA.x}${oppA.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/kenyan|casino/gi.test(Game.version) && Math.abs(oppA.x - a) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${a}${b}`, capture: `${oppA.x}${oppA.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppA) {
+    		oppA = {x: a, y: b};
+    	} 
+    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    		obstacleA = true;
+    	} 
+    
+    	// Quadrant B
+    	cell = state[c]? state[c][d]: undefined;
+    	//console.log("CD", c, d, cell);
+    	if(cell == "EC" && !oppB && !obstacleB) {// Empty Cell  
+    		if(id.startsWith("M") && Math.abs(i - a) == 1) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${c}${d}`});
+    		} 
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - c) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${c}${d}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppB && !obstacleB) {
+    		if(Math.abs(oppB.x - c) == 1 && Math.abs(i - oppB.x) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${c}${d}`, capture: `${oppB.x}${oppB.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/kenyan|casino/gi.test(Game.version) && Math.abs(oppB.x - c) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${c}${d}`, capture: `${oppB.x}${oppB.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppB) {
+    		oppB = {x: c, y: d};
+    	} 
+    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    		obstacleB = true;
+    	} 
+    
+    	// Quadrant C
+    	cell = state[e]? state[e][f]: undefined;
+    	//console.log("EF", e, f, cell);
+    	if(cell == "EC" && !oppC && !obstacleC) {// Empty Cell  
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - e) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${e}${f}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppC && !obstacleC) {
+    		if(id.startsWith("M") && !/american|kenyan/gi.test(Game.version) && Math.abs(i - oppC.x) == 1 && Math.abs(oppC.x - e) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${e}${f}`, capture: `${oppC.x}${oppC.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/american/gi.test(Game.version) && Math.abs(i - oppC.x) == 1 && Math.abs(oppC.x - e) == 1 || /kenyan|casino/gi.test(Game.version) && Math.abs(oppC.x - e) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${e}${f}`, capture: `${oppC.x}${oppC.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppC) {
+    		oppC = {x: e, y: f};
+    	} 
+    	else if(cell && cell.includes(id.slice(1,2))  || cell == "IP") {
+    		obstacleC = true;
+    	} 
+    	
+    	// Quadrant D
+    	cell = state[g]? state[g][h]: undefined;
+    	//console.log("GH", g, h, cell, oppD, obstacleD);
+    	if(cell == "EC" && !oppD && !obstacleD) {// Empty Cell  
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - g) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${g}${h}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppD && !obstacleD) {
+    		if(id.startsWith("M") && !/american|kenyan/gi.test(Game.version) && Math.abs(i - oppD.x) == 1 && Math.abs(oppD.x - e) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${g}${h}`, capture: `${oppD.x}${oppD.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/american/gi.test(Game.version) && Math.abs(i - oppD.x) == 1 && Math.abs(oppD.x - g) == 1 || /kenyan|casino/gi.test(Game.version) && Math.abs(oppD.x - g) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${g}${h}`, capture: `${oppD.x}${oppD.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppD) {
+    		oppD = {x: g, y: h};
+    	} 
+    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    		obstacleD = true;
+    	} 
+    	
+    	if(!state[a] && !state[c] && !state[e] && !state[g]) 
+			break;
     } 
     
-    function getMoves (startX, startY, endX1, endX2, r, isKing) {
-        let x1 = startX + r;
-        let x2 = startX - r;
-        let y1 = startY + 1;
-        let y2 = startY - 1;
-        let obstacle1A = false;
-        let obstacle1B = false;
-        let obstacle2A = false;
-        let obstacle2B = false;
-        let m = [];
-        for(;; x1+=r, x2-=r, y1+=1, y2-=1) {
-            let row1 = state[x1];
-            let row2 = state[x2];
-            let obstacle1A1 = row1 != undefined && row1[y1] != "EC";
-            let obstacle1A2 = row1 != undefined && row1[y2] != "EC";
-            let obstacle2A1 = row2 != undefined && row2[y1] != "EC";
-            let obstacle2A2 = row2 != undefined && row2[y2] != "EC";
-            
-            if(obstacle1A == false && obstacle1A1)
-                obstacle1A = true;
-            if(obstacle1B == false && obstacle1A2)
-                obstacle1B = true;
-            if(obstacle2A == false && obstacle2A1)
-                obstacle2A = true;
-            if(obstacle2B == false && obstacle2A2)
-                obstacle2B = true;
-            
-            if(row1 == undefined && row2 == undefined || obstacle1A && obstacle1B && obstacle2A && obstacle2B) {
-                break;
-            } 
-            if(!obstacle1A && row1 != undefined && row1[y1] == "EC") {
-                m.push({x: x1, y: y1});
-            } 
-            if(!obstacle1B && row1 != undefined && row1[y2] == "EC") {
-                m.push({x: x1, y: y2});
-            } 
-            if(!obstacle2A && isKing && row2 != undefined && row2[y1] == "EC") {
-                m.push({x: x2, y: y1});
-            } 
-            if(!obstacle2B && isKing && row2 != undefined && row2[y2] == "EC") {
-                m.push({x: x2, y: y2});
-            } 
-            
-            if(x1 == endX1 && x2 == endX2) {
-                break;
-            } 
-        } 
-        return Prms(m);
-    } 
-    
+    if(!maximizing && /international|nigerian|russian|pool/gi.test(Game.version))
+    	moves.captures = await maximizeCaptures(moves.captures);
     return Prms(moves);
-    } catch (error) {console.log(error);}
-} 
-
-const AssesCaptures = async (prop) => { 
-    if(prop.i == undefined || prop.j == undefined || prop.state == undefined)
-        throw new Error(`Missing important attribute of the argument provided.`);
-    let i = prop.i, // i for row
-        j = prop.j, // j for column
-        state = prop.state, // state of the game to examine
-        id = state[i][j], 
-        op = (id.includes("W"))? "B": "W", // op for an opponent
-        you = id.replace(/[KM]/g, ""), // you
-        m = [], // to store current moves
-        captures = []; // array to store found captures
-    let r = id.includes(playerA.pieceColor.slice(0,1))? -1: 1;
-        
-    if(Game.version === "american") {
-        let reverse = id.includes("K");
-        m = await getCaptures(i, j, i+r, "one", r, reverse);
-        for(let cell of m) {
-            captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-        } 
-    } 
-    else if(Game.version === "kenyan") {
-        if(id.includes('M')) {
-            m = await getCaptures(i, j, i+r, "one", r, false);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-        else if(id.includes('K')) {
-            m = await getCaptures(i, j, Math.MAX_SAFE_NUMBER, "one", r, true);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-    } 
-    else if(Game.version === "casino") {
-        if(id.includes('M')) {
-            m = await getCaptures(i, j, i+r, "one", r, true);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-        else if(id.includes('K')) {
-            m = await getCaptures(i, j, Math.MAX_SAFE_NUMBER, "one", r, true);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-    } 
-    else if(Game.version === "international" || Game.version === "nigerian" || Game.version === "russian" || Game.version === "pool") {
-        if(id.includes('M')) {
-            m = await getCaptures(i, j, i+r, "one", r, true);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-        else if(id.includes('K')) {
-            m = await getCaptures(i, j, Math.MAX_SAFE_NUMBER, "no_limit", r, true);
-            for(let cell of m) {
-                captures.push({cell: `${i}${j}`, capture: `${cell.x1}${cell.y1}`, empty: `${cell.x2}${cell.y2}`});
-            } 
-        } 
-    } 
     
-    function getCaptures (startX, startY, end1, end2, r, reverse) {
-        let x1 = startX + r;
-        let x2 = startX - r;
-        let y1 = startY + 1;
-        let y2 = startY - 1;
-        let end1A = null;
-        let end1B = null;
-        let end2A = null;
-        let end2B = null;
-        let enemy1A = null;
-        let enemy1B = null;
-        let enemy2A = null;
-        let enemy2B = null;
-        let obstacle1A = false;
-        let obstacle1B = false;
-        let obstacle2A = false;
-        let obstacle2B = false;
-        let m = [];
-        for(;; x1+=r, x2-=r, y1+=1, y2-=1) {
-            let row1 = state[x1];
-            let row2 = state[x2];
-            let obstacle1A1 = row1 != undefined && row1[y1] == "IP";
-            let obstacle1A2 = row1 != undefined && row1[y2] == "IP";
-            let obstacle1B1 = row1 != undefined && row1[y1] != "EC" && enemy1A != null;
-            let obstacle1B2 = row1 != undefined && row1[y2] != "EC" && enemy1B != null;
-            let obstacle1C1 = row1 != undefined && row1[y1] != undefined && row1[y1].includes(you);// && !enemy1A;
-            let obstacle1C2 = row1 != undefined && row1[y2] != undefined && row1[y2].includes(you);// && !enemy1B;
-            
-            let obstacle2A1 = row2 != undefined && row2[y1] == "IP";
-            let obstacle2A2 = row2 != undefined && row2[y2] == "IP";
-            let obstacle2B1 = row2 != undefined && row2[y1] != "EC" && enemy2A != null;
-            let obstacle2B2 = row2 != undefined && row2[y2] != "EC" && enemy2B != null;
-            let obstacle2C1 = row2 != undefined && row2[y1] != undefined && row2[y1].includes(you);// && !enemy2A;
-            let obstacle2C2 = row2 != undefined && row2[y2] != undefined && row2[y2].includes(you);// && !enemy2B;
-            
-            if(obstacle1A == false && (obstacle1A1 || obstacle1B1 || obstacle1C1)) 
-                obstacle1A = true;
-            if(obstacle1B == false && (obstacle1A2 || obstacle1B2 || obstacle1C2)) 
-                obstacle1B = true;
-            if(obstacle2A == false && (obstacle2A1 || obstacle2B1 || obstacle2C1)) 
-                obstacle2A = true;
-            if(obstacle2B == false && (obstacle2A2 || obstacle2B2 || obstacle2C2)) 
-                obstacle2B = true;
-                
-            if(row1 == undefined && row2 == undefined || !reverse && obstacle1A && obstacle1B || reverse && obstacle1A && obstacle1B && obstacle2A && obstacle2B) {
-                break;
-            } 
-            
-            if(!obstacle1A && (end1 == startX+r && Math.abs(startX - x1) == 1 || end1 != startX+r) && !enemy1A && row1 != undefined && row1[y1] != undefined && row1[y1].includes(op)) {
-                enemy1A = {x: x1, y: y1};
-                if(end2 == "one") {
-                    end1A = x1+r;
-                } 
-            } 
-                
-            if(!obstacle1B && (end1 == startX+r && Math.abs(startX - x1) == 1 || end1 != startX+r) && !enemy1B && row1 != undefined && row1[y2] != undefined && row1[y2].includes(op)) {
-                enemy1B = {x: x1, y: y2};
-                if(end2 == "one") {
-                    end1B = x1+r;
-                } 
-            } 
-                
-            if(reverse && !obstacle2A && (end1 == startX+r && Math.abs(startX - x1) == 1 || end1 != startX+r) && !enemy2A && row2 != undefined && row2[y1] != undefined && row2[y1].includes(op)) {
-                enemy2A = {x: x2, y: y1};
-                if(end2 == "one") {
-                    end2A = x2-r;
-                } 
-            } 
-                
-            if(reverse && !obstacle2B && (end1 == startX+r && Math.abs(startX - x1) == 1 || end1 != startX+r) && !enemy2B && row2 != undefined && row2[y2] != undefined && row2[y2].includes(op)) {
-                enemy2B = {x: x2, y: y2};
-                if(end2 == "one") {
-                    end2B = x2-r;
-                } 
-            } 
-            
-            if(!obstacle1A && enemy1A && (end2 == "one" && Math.abs(enemy1A.x - x1) == 1 || end2 == "no_limit") && row1 != undefined && row1[y1] == "EC") {
-                m.push({x1: enemy1A.x, y1: enemy1A.y, x2: x1, y2: y1});
-            } 
-            else if(end2 == "one" && (enemy1A && Math.abs(enemy1A.x - x1) >= 1 || !enemy1A && end1 == startX+r)) {
-                end1A = x1;
-            } 
-                
-                
-            if(!obstacle1B && enemy1B && (end2 == "one" && Math.abs(enemy1B.x - x1) == 1 || end2 == "no_limit") && row1 != undefined && row1[y2] == "EC") {
-                m.push({x1: enemy1B.x, y1: enemy1B.y, x2: x1, y2: y2});
-            } 
-            else if(end2 == "one" && (enemy1B && Math.abs(enemy1B.x - x1) >= 1 || !enemy1B && end1 == startX+r)) {
-                end1B = x1;
-            } 
-                
-            if(!obstacle2A && enemy2A && (end2 == "one" && Math.abs(enemy2A.x - x2) == 1 || end2 == "no_limit") && row2 != undefined && row2[y1] == "EC") {
-                m.push({x1: enemy2A.x, y1: enemy2A.y, x2: x2, y2: y1});
-            } 
-            else if(end2 == "one" && (enemy2A && Math.abs(enemy2A.x - x2) >= 1 || !enemy2A && end1 == startX+r)) {
-                end2A = x2;
-            } 
-                
-                
-            if(!obstacle2B && enemy2B && (end2 == "one" && Math.abs(enemy2B.x - x2) == 1 || end2 == "no_limit") && row2 != undefined && row2[y2] == "EC") {
-                m.push({x1: enemy2B.x, y1: enemy2B.y, x2: x2, y2: y2});
-            } 
-            else if(end2 == "one" && (enemy2B && Math.abs(enemy2B.x - x2) >= 1 || !enemy2B && end1 == startX+r)) {
-                end2B = x2;
-            } 
-            
-            if(end1A == x1 && end1B == x1 && end2A == x2 && end2B == x2) {
-                break;
-            } 
-        } 
-        return Prms(m);
-    } 
-    
-    return Prms(captures);
-}
-
-const RemoveUnwantedCells = async (prop, isPath) => {
-    if(prop.state == undefined)
-        throw new Error("Board state missing in argument provided");
-    if(prop.captures == undefined)
-        throw new Error("Capture moves missing in argument provided");
-    if(Game.version == "american" || Game.version == "kenyan" || Game.version == "casino") 
-        return prop.captures; // because the kings only land to the immediate cell after the captured piece
-    
-    let captures = Copy(prop.captures);
-    let state = Copy(prop.state);
-    let newCaps = [];
-    let sortedList = [];
-    
-    // only deal with kings
-    captures = captures.filter((cap) => {
-        let i = parseInt(cap.cell.slice(0,1));
-        let j = parseInt(cap.cell.slice(1,2));
-        if(state[i][j].includes("K")) {
-            return cap;
-        } 
-    });
-    if(captures.length == 0)
-        return prop.captures;
-    
-    for(let cap of captures) {
-        if(sortedList.length == 0)
-            sortedList.push([cap]);
-        else {
-            for(let arr of sortedList) {
-                let id = arr[0];
-                if(id.cell == cap.cell && id.capture == cap.capture) {
-                    if(id.empty == cap.empty)
-                        break; // already exists
-                    arr.push(cap);
-                    break;
-                } 
-                else if(sortedList.indexOf(arr) == sortedList.length - 1) {
-                    sortedList.push([cap]);
-                } 
-            } 
-        } 
-    } 
-    
-    for(let a = 0; a < sortedList.length; a++) {
-        let arr = sortedList[a];
-        let wanted = [];
-        for(let b = 0; b < arr.length; b++) {
-            let move = arr[b];
-            let i = parseInt(move.cell.slice(0,1));
-            let j = parseInt(move.cell.slice(1,2));
+    async function maximizeCaptures (rawCaptures) {
+	    let wanted = [];
+        for(let z = 0; z < rawCaptures.length; z++) {
+            let move = rawCaptures[z];
             let k = parseInt(move.capture.slice(0,1));
             let l = parseInt(move.capture.slice(1,2));
-            let m = parseInt(move.empty.slice(0,1));
+            let m = parseInt(move.empty.slice(0,1));;
             let n = parseInt(move.empty.slice(1,2));
             
             let cloneState = Copy(state);
-            let id = cloneState[i][j];
+            let piece = cloneState[i][j];
             cloneState[i][j] = "EC";
-            cloneState[m][n] = id;
+            cloneState[m][n] = piece;
             cloneState[k][l] = "EC";
-            let moves = await AssesCaptures({i: m, j: n, state: cloneState});
             
-            if(moves.length > 0) {
+			let another = await AssesMoves({i: m, j: n, state: cloneState}, true);
+            
+            if(another.captures.length > 0) {
                 wanted.push(move);
             } 
         }
-        
         if(wanted.length > 0)
-            newCaps.push(...wanted);
-        else 
-            newCaps.push(...arr);
-    } 
-    
-    return Prms(newCaps);
+        	return Prms(wanted);
+        else
+        	return Prms(rawCaptures);
+	} 
 } 
 
 const SortCaptures = (moves) => {
 	let sorted = [];
 	for(let move of moves) {
-		let hasMove;
-		for(let sort of sorted) { //push if it belongs to the same path
-			hasMove = sort[sort.length-1].empty == move.cell;
-			if(hasMove) 
-				sort.push(move);
-		} 
-		if(!hasMove && move.source) // otherwise if the move is source create new path
+		if(move.source) {
 			sorted.push([move]);
-		else if(!hasMove) { // otherwise check if the move already exits in the paths and if so, pick the moves prior to the current move and add to the new path
-			let i = 0, j = 0;
-			for(; i < sorted.length; i++) {
-				let sort = sorted[i];
-				for(; j < sort.length; j++) {
-					if(sort[j].cell == move.cell) {
-						hasMove = true;
-						break;
-					} 
-				} 
-				if(hasMove) break;
+		} 
+		else {
+			let anotherWayStartIndex = sorted[sorted.length-1].findIndex((wayMove) => {
+				return wayMove.cell == move.cell;
+			});
+			
+			if(~anotherWayStartIndex) {
+				let anotherWay = sorted[sorted.length-1].slice(0, anotherWayStartIndex);
+				anotherWay.push(move);
+				sorted.push(anotherWay);
 			} 
-			if(hasMove) {
-				sorted.push([]);
-				for(let sort of sorted[i].slice(0,j))
-					sorted[sorted.length-1].push(sort);
+			else {
 				sorted[sorted.length-1].push(move);
 			} 
 		} 
 	} 
 	return Prms(sorted);
+} 
+
+const Log = async (...data) => {
+	await self.postMessage(data);
+} 
+
+const LogState = async (state) => {
+	/*for(let row of state) {
+		await Log(row);
+	} */
+	await Log(JSON.stringify(state));
 } 
 

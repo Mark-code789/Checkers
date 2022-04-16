@@ -1,4 +1,4 @@
-'use strict' 
+'use strict'
 
 // object to store the most needed images 
 const Icons = {
@@ -21,12 +21,11 @@ const Sound = {
     notification: "", 
     muted: false
 }
+
 // for caching purposes 
-var storage = null;
-try {
-    storage = localStorage;
-    //storage.clear();
-} catch (error) {}
+let storage = null;
+if(localStorage) storage = localStorage;
+
 // srcs to load the resources needed
 // images srcs
 let srcs = ["american flag.jpeg",
@@ -39,6 +38,7 @@ let srcs = ["american flag.jpeg",
             "background.jpeg", 
             "black cell.jpeg", 
             "white cell.jpeg",
+            "frame.jpeg", 
             "hint.png", 
             "menu.png", 
             "restart.png", 
@@ -49,15 +49,16 @@ let srcs = ["american flag.jpeg",
             "black crown.png", 
             "white crown.png",
             "send.png", 
-            "cancel.png",
+            "cancel.png", 
             "alert.png",
             "confirm.png", 
             "winner.png",
             "loser.png", 
             "draw.png",
             "load.png",
-            "dice roll.png",
-            "lock.png", 
+            "dice roll.png", 
+            "warning.png", 
+			"lock.png", 
             "star.png"];
 // audio srcs 
 let sounds = ["click.mp3",
@@ -79,7 +80,8 @@ let imageProps = ["--english-flag",
                     "--nigerian-flag", 
                     "--bg", 
                     "--black-cell", 
-                    "--white-cell", 
+                    "--white-cell",
+                    "--frame",
                     "--hint",
                     "--menu", 
                     "--restart", 
@@ -103,14 +105,11 @@ let imageProps = ["--english-flag",
 let i, bar, label, width;
 try {
 	i = 0;
-	label = document.querySelector("#load-window p");
-	bar = document.querySelector(".bar"); // Loading bar
-	width = parseInt(window.getComputedStyle(bar, null).getPropertyValue("width"));
+	label = $("#load-window p");
+	bar = $(".bar"); // Loading bar
 } catch {}
 
-load(srcs[i]);
-
-async function load (src) { try {
+async function LoadResources (src) { 
     if(src.includes(".mp3"))
         src = "./src/audio/" + src;
     else
@@ -133,52 +132,29 @@ async function load (src) { try {
                 src = await URL.createObjectURL(blob);
                 let audio = new Audio(src);
                 Sound[soundProps[i - srcs.length]] = audio;
-            } 
+            }
+            width = parseInt(window.getComputedStyle(bar, null).getPropertyValue("width"));
             bar.children[0].style.width = ((i+1) * width / (srcs.length + sounds.length)) + "px";
             label.innerHTML = "Loading External Files: 100%<br>Loading Internal Files: " + (parseInt(window.getComputedStyle(bar.children[0], null).getPropertyValue("width")) / width * 100).toFixed(0) + "%";
             i++;
             if(i < srcs.length) {
-                load(srcs[i]);
+                LoadResources(srcs[i]);
             }
             else if(i < srcs.length + sounds.length) {
-                load(sounds[i - srcs.length]);
+                LoadResources(sounds[i - srcs.length]);
             }
             else {
                 setTimeout(LoadingDone, 100);
             } 
         }
-        else {
+        else if(!goingToRefresh) {
             alert("BUFFERING ERROR!\nFailed to buffer fetched data to an array data.");
         } 
     }
     else {
         alert("LOADING ERROR!\nFailed to load AppShellFiles - " + src + ". Either you have bad network or you have lost internet connection.");
     } 
-    } catch (error) {alert("load error: " + error.message)}
 } 
-
-var other = {
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
-    xOffset: 0,
-    yOffset: 0,
-    active: false, 
-    
-    orientation: 'natural',
-    initialLoading: true,
-    fullscreenSupport: false,
-    fullscreen: false, 
-    default: "linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9))", 
-    disabled: "linear-gradient(rgba(110, 110, 110, 0.9), rgba(70, 70, 70, 0.9))", 
-    background: "linear-gradient(rgba(40, 40, 40, 0.9), rgba(0, 0, 0, 0.9))", 
-    selected: "", 
-    level: "",
-    capturePath: [], 
-    helperPath: [], 
-    aiPath: []
-}
 
 async function LoadingDone () {
 	imageProps = null;
@@ -188,9 +164,9 @@ async function LoadingDone () {
 	width = null;
 	i = null;
 	srcs.slice(6, srcs.length - 8);
-	//HashTable.initTable();
 	
     document.documentElement.style.setProperty("--star", `url(${srcs[srcs.length-1]})`);
+    document.documentElement.style.setProperty("--warning", `url(${srcs[srcs.length-3]})`);
     document.body.style.backgroundImage = `var(--bg)`;
     $("#load-window").style.display = "none";
     $("#main-window").style.display = "grid";
@@ -200,21 +176,32 @@ async function LoadingDone () {
     document.addEventListener("msFullscreenchange", _ => Fullscreen(true, true), false);
     document.addEventListener("mozFullscreenchange", _ => Fullscreen(true, true), false);
     document.addEventListener("webkitFullscreenchange", _ => Fullscreen(true, true), false);
-    
-    $("#chat-icon").addEventListener("touchstart", DragStart, false);
-    $("#chat-icon").addEventListener("touchend", DragEnd, false);
-    $("#chat-icon").addEventListener("touchmove", Drag, false);
-    $("#chat-icon").addEventListener("click", DragEnd, false);
    
-    $("#chat-icon").addEventListener("mousedown", DragStart, false);
-    $("#chat-icon").addEventListener("mouseup", DragEnd, false);
-    $("#chat-icon").addEventListener("mousemove", Drag, false);
+    let drag = new Drag($("#chat-icon"), "both", "0.5s");
+    $("#chat-icon").addEventListener("touchstart", drag.start, false);
+    $("#chat-icon").addEventListener("touchend", drag.end, false);
+    $("#chat-icon").addEventListener("touchmove", drag.move, false);
+    $("#chat-icon").addEventListener("click", drag.end, false);
     
-    Disable($("#two-players-window #playerB .white"), other.disabled, "#B4B4B4");
-    other.selected = $("#main .default");
-    other.level = $("#nav .default");
-    //check if has notch
-    other.notch = await HasNotch();
+    $("#chat-icon").addEventListener("mousedown", drag.start, false);
+    $("#chat-icon").addEventListener("mouseup", drag.end, false);
+    $("#chat-icon").addEventListener("mousemove", drag.move, false);
+    
+    drag = new Drag($(".games_totals"), "y", "0.5s");
+    $(".games_totals").addEventListener("touchstart", drag.start, false);
+    $(".games_totals").addEventListener("touchend", drag.end, false);
+    $(".games_totals").addEventListener("touchmove", drag.move, false);
+    
+    $(".games_totals").addEventListener("mousedown", drag.start, false);
+    $(".games_totals").addEventListener("mouseup", drag.end, false);
+    $(".games_totals").addEventListener("mousemove", drag.move, false);
+    
+    $("#games").addEventListener("scroll", GamesScroll.check, false);
+    $(".totals_footer button").addEventListener("click", ShowTotalStats, false);
+    
+    Disable($("#two-players-window #playerB .white"), general.disabled, "#B4B4B4");
+    general.selected = $("#main .default");
+    general.level = $("#nav .default");
     
     let btns = $$("#main-window #levels #nav div");
     let btn = null;
@@ -257,34 +244,83 @@ async function LoadingDone () {
         let length = Game.stats.length;
         let mainSec = $("#games-window #games");
         try {
+        	$(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
             for(let i = 0; i < length; i++) {
                 let no = i;
-                let stat = Game.stats[no];
-                let subSec = $$$("section");
-                subSec.classList.add("sub_item");
-                p = $$$("p");
-                p.innerHTML = `${stat.playerName[0]} [${stat.pieceColor[0]}] VS ${stat.playerName[1]} [${stat.pieceColor[1]}] ${(stat.level != undefined)? "<br/><br/> " + stat.version + ": " + stat.level: ""}`;
-                let btn = $$$("button");
-                btn.classList.add("default", "middle_top");
-                btn.innerHTML = "SEE STATS";
+                const stat = Game.stats[no];
+                let itemSec = $$$("section", ["class", "game_item"]);
+                let ref;
+                if(stat.ms) {
+                	let today = new Date();
+                	let yesterday = new Date();
+                	yesterday.setDate(today.getDate() - 1);
+                	let date = new Date(stat.ms);
+                	let str = date.toLocaleDateString('en-US', {weekday: "long", month: "short", year: "numeric"}).split(" ");
+                	str = date.toDateString() == today.toDateString()? "Today": date.toDateString() == yesterday.toDateString()? "Yesterday": str[2] + ", " + str[0] + " " + date.getDate() + " " + str[1];
+                	ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
+                	if(!ref) {
+                		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
+                		let leastDiff = Number.MAX_SAFE_INTEGER;
+                		for(let sec of mainSec.$$(".games_date")) {
+                			if(sec.getAttribute("date") == "sometime back") continue;
+                			let diff = new Date(sec.getAttribute("date")).getTime() - date.getTime();
+	                		if(Math.abs(diff) < leastDiff && diff < 0) {
+								leastDiff = Math.abs(diff);
+	                			ref = sec;
+	                		}
+	                	}
+						if(ref) {
+							ref = mainSec.$(`section[date='${ref.getAttribute("date")}']:last-of-type`);
+							//ref = ref[ref.length-1];
+							mainSec.insertBefore(dateSec, ref.nextElementSibling);
+						}
+						else {
+							mainSec.appendChild(dateSec);
+						} 
+						ref = dateSec;
+                	}
+                	itemSec.setAttribute("date", date.toDateString());
+                }
+                else {
+                	ref = mainSec.$("section[date='sometime back']:last-of-type");
+                	if(!ref) {
+                		let dateSec = $$$("section", ["class", "games_date", "date", "sometime back", "textContent", "Sometime Back"]);
+                		mainSec.appendChild(dateSec);
+                		ref = dateSec;
+                	}
+                	itemSec.setAttribute("date", "sometime back");
+                }
+                
+                if(stat.version) {
+                	if(stat.version.length == 3) {
+		                let versions = Object.keys(Game.versions);
+		                stat.version = versions.find((v) => {return v.startsWith(stat.version.toLowerCase())}).toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+						stat.version += !/checkers$/gi.test(stat.version)? " Checkers": "";
+					} 
+					if(stat.level)
+						stat.level = stat.level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+				}
+                p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + "<br>" + (stat.mode == "single-player"? stat.level: stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
+                let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
                 btn.addEventListener("click", () => GetStats(no), false);
-                subSec.appendChild(p);
-                subSec.appendChild(btn);
-                mainSec.appendChild(subSec);
+                itemSec.appendChild(p);
+                itemSec.appendChild(btn);
+                mainSec.insertBefore(itemSec, ref.nextElementSibling);
             }
-        } catch (error) {/*alert(error + "" + JSON.parse(storage.getItem("Checkers - stats")).length);*/}
+            GetTotals();
+        } catch (error) {console.log(error)}
       
         // Mute
         let muted = JSON.parse(storage.getItem("Checkers - muted"));
         if(muted == false) {
             Mute(JSON.parse(muted));
-            $("#unmute").style.background = other.default;
-            $("#mute").style.background = other.background;
+            $("#unmute").style.background = general.default;
+            $("#mute").style.background = general.background;
         }
         else if(muted == true) {
             Mute(JSON.parse(muted));
-            $("#mute").style.background = other.default;
-            $("#unmute").style.background = other.background;
+            $("#mute").style.background = general.default;
+            $("#unmute").style.background = general.background;
         }
         else {
             storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
@@ -297,20 +333,20 @@ async function LoadingDone () {
             Game.rollDice = firstMove.rollDice;
             btns = $$("#item3 button");
             if(firstMove.rollDice == true) {
-                btns[0].style.background = other.background;
-                btns[1].style.background = other.background;
-                btns[2].style.background = other.default;
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.default;
             }
             else if(firstMove.rollDice == false) {
                 if(firstMove.whiteTurn) {
-                    btns[0].style.background = other.default;
-                    btns[1].style.background = other.background;
+                    btns[0].style.background = general.default;
+                    btns[1].style.background = general.background;
                 }
                 else {
-                    btns[0].style.background = other.background;
-                    btns[1].style.background = other.default;
+                    btns[0].style.background = general.background;
+                    btns[1].style.background = general.default;
                 } 
-                btns[2].style.background = other.background;
+                btns[2].style.background = general.background;
             }
         } 
         else {
@@ -341,12 +377,12 @@ async function LoadingDone () {
             Game.mandatoryCapture = mandatoryCapture;
             btns = $$("#item5 button");
             if(mandatoryCapture == true) {
-                btns[0].style.background = other.default;
-                btns[1].style.background = other.background;
+                btns[0].style.background = general.default;
+                btns[1].style.background = general.background;
             }
             else if(firstMove.rollDice == false) {
-                btns[0].style.background = other.background;
-                btns[1].style.background = other.default;
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.default;
             }
         } 
         else {
@@ -360,19 +396,19 @@ async function LoadingDone () {
             Game.capturesHelper = helper.capturesHelper;
             btns = $$("#item6 button");
             if(helper.capturesHelper == true && helper.helper == true) {
-                btns[0].style.background = other.default;
-                btns[1].style.background = other.background;
-                btns[2].style.background = other.background;
+                btns[0].style.background = general.default;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.background;
             }
             else if(helper.capturesHelper == false && helper.helper == false) {
-                btns[0].style.background = other.background;
-                btns[1].style.background = other.default;
-                btns[2].style.background = other.background;
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.default;
+                btns[2].style.background = general.background;
             }
             else if(helper.capturesHelper == true && helper.helper == false) {
-                btns[0].style.background = other.background;
-                btns[1].style.background = other.background;
-                btns[2].style.background = other.default;
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.default;
             } 
         } 
         else {
@@ -380,12 +416,18 @@ async function LoadingDone () {
         }
     }
     
-    if(deferredEvent)
+    if(deferredEvent && !newSW) {
         $(".install").classList.add("show_install_prompt");
+    } 
+    else if(newSW)
+    	InvokeSWUpdateFlow(newSW);
     
-    window.addEventListener("orientationchange", () => {
-        setTimeout(() => {play(true);}, 300);
-    });
+    document.addEventListener("visibilitychange", (e) => {
+		if(document.visibilityState == "visible") {
+			AdjustBoard();
+		} 
+	});
+    window.addEventListener("orientationchange", AdjustBoard);
     
     UpdateOnlineStatus();
     window.addEventListener("beforeunload", async (e) => {
@@ -399,74 +441,128 @@ async function LoadingDone () {
     CheckHref();
 }
 
-const DragStart = (e) => {
-    if (e.type === "touchstart") {
-        other.initialX = e.touches[0].clientX - other.xOffset;
-        other.initialY = e.touches[0].clientY - other.yOffset;
-    } else {
-        other.initialX = e.clientX - other.xOffset;
-        other.initialY = e.clientY - other.yOffset;
-    }
-    
-    let dragItem = $("#chat-icon");
-    if(e.target === dragItem) {
-        other.active = true;
-    } 
-}
-
-const DragEnd = async (e) => {
-    if(e.type === "touchend") {
-        e.target.style.transition = "transform 0.5s ease";
-        if(other.currentX < (65 - window.innerWidth)/2) {
-            await SetTranslate((65 - window.innerWidth), other.currentY, e.target);
-            other.currentX = (65 - window.innerWidth);
-        }
-        if(other.currentX > (65 - window.innerWidth)/2) {
-            await SetTranslate(5, other.currentY, e.target);
-            other.currentX = 5;
-        }
-        if(other.currentY < -5) {
-            await SetTranslate(other.currentX, -5, e.target);
-            other.currentY = -5;
-        }
-        if(other.currentY > (window.innerHeight - 65)) {
-            await SetTranslate(other.currentX, (window.innerHeight - 65), e.target);
-            other.currentY = (window.innerHeight - 65);
-        }
-        e.target.style.transition = "transform 0s ease";
-        other.initialX = other.currentX;
-        other.initialY = other.currentY;
-        other.xOffset = other.currentX;
-        other.yOffset = other.currentY;
-        
-        other.active = false;
-    }
-    else
-        ShowChat();
-}
-
-const Drag = (e) => {
-    if(other.active) {
-        e.preventDefault();
-        
-        if (e.type === "touchmove") {
-            other.currentX = e.touches[0].clientX - other.initialX;
-            other.currentY = e.touches[0].clientY - other.initialY;
-        } else {
-            other.currentX = e.clientX - other.initialX;
-            other.currentY = e.clientY - other.initialY;
-        }
-       
-        other.xOffset = other.currentX;
-        other.yOffset = other.currentY;
-       
-        SetTranslate(other.currentX, other.currentY, e.target);
-    } 
-}
-
-const SetTranslate = (x, y, elem) => {
-    elem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
-}
+class Drag {
+	initialX = 0;
+	initialY = 0;
+	currentX = 0;
+	cureentY = 0;
+	xOffset = 0;
+	yOffset = 0;
+	active = false;
+	direction = "both";
+	dragItem = null;
+	initialDrag = {x: 0, y: 0};
+	sleep;
+	transitionDuration;
+	
+	constructor (dragItem, direction = "both", duration = "0.5s") {
+		this.direction = direction;
+		this.dragItem = dragItem;
+		this.transitionDuration = duration;
+		this.sleep = new Sleep();
+	} 
+	start = (e) => {
+		if(this.dragItem == e.target) {
+			this.active = true;
+			this.dragItem.style.transitionDuration = "0s";
+		    if (e.type === "touchstart") {
+		        this.initialX = e.touches[0].clientX - this.xOffset;
+		        this.initialY = e.touches[0].clientY - this.yOffset;
+		    } else {
+		        this.initialX = e.clientX - this.xOffset;
+		        this.initialY = e.clientY - this.yOffset;
+		    }
+		} 
+	}
+	
+	end = async (e) => {
+	    if(this.active && (e.type === "touchend" || e.type == "mouseup")) {
+			this.active = false;
+			this.dragItem.style.transitionDuration = this.transitionDuration;
+			if(this.dragItem === $("#chat-icon")) {
+		        if(this.currentX < (65 - window.innerWidth)/2) {
+		            this.translate((65 - window.innerWidth), this.currentY, this.dragItem);
+		            this.currentX = (65 - window.innerWidth);
+		        }
+		        if(this.currentX > (65 - window.innerWidth)/2) {
+		            this.translate(5, this.currentY, this.dragItem);
+		            this.currentX = 5;
+		        }
+		        if(this.currentY < -5) {
+		            this.translate(this.currentX, -5, this.dragItem);
+		            this.currentY = -5;
+		        }
+		        if(this.currentY > (window.innerHeight - 65)) {
+		            this.translate(this.currentX, (window.innerHeight - 65), this.dragItem);
+		            this.currentY = (window.innerHeight - 65);
+		        }
+			}
+			else if(this.dragItem === $(".games_totals")) {
+				let rect = this.dragItem.getBoundingClientRect();
+				let parRect = this.dragItem.parentNode.getBoundingClientRect();
+				if(rect.top >= (parRect.height * 0.5) + parRect.top) {
+					let dist = parRect.bottom - rect.top;
+					this.translate(0, this.currentY + dist, this.dragItem);
+					this.currentY = 0;
+					BackState.state.pop();
+				}
+				else {
+					let dist = (parRect.height * 0.15) + parRect.top - rect.top;
+					this.currentY += dist;
+					this.translate(0, this.currentY, this.dragItem);
+				} 
+			}
+			await this.sleep.wait(parseFloat(this.transitionDuration));
+	        this.xOffset = this.currentX;
+	        this.yOffset = this.currentY;
+	    }
+	    else if(!this.active && this.dragItem == e.target) {
+	        ShowChat();
+		} 
+	}
+	
+	move = async (e) => {
+	    if(this.active) {
+			e.preventDefault();
+	        if (e.type === "touchmove") {
+	            this.currentX = e.touches[0].clientX - this.initialX;
+	            this.currentY = e.touches[0].clientY - this.initialY;
+	        } else {
+	            this.currentX = e.clientX - this.initialX;
+	            this.currentY = e.clientY - this.initialY;
+	        }
+	      
+			if(this.direction == "both") {
+	        	this.translate(this.currentX, this.currentY, e.target);
+			} 
+			else if(this.direction == "x") {
+				this.translate(this.currentX, 0, e.target);
+			}
+			else {
+				if(this.dragItem.classList.contains("games_totals")) {
+					let rect = this.dragItem.getBoundingClientRect();
+					let parRect = this.dragItem.parentNode.getBoundingClientRect();
+					let dist = this.currentY - this.yOffset;
+					let yThreshold = parRect.height * 0.15;
+					let expectedY = (dist + rect.top) - parRect.top;
+					if(expectedY < yThreshold) {
+						this.currentY -= (expectedY - yThreshold);
+					}
+					this.translate(0, this.currentY, this.dragItem);
+				}
+				else {
+					this.translate(0, this.currentY, this.dragItem);
+				} 
+			}
+			this.xOffset = this.currentX;
+			this.yOffset = this.currentY;
+	    }
+	}
+	
+	translate = (x, y, elem) => {
+	    elem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
+	}
+} 
 
 const HideChat = () => {
     $("#chat-window").style.display = "none";
@@ -494,48 +590,26 @@ const ShowChat = () => {
     	Publish.send({channel: Lobby.CHANNEL, message: {title: "Read", content: id}});
     	Lobby.unreadMessages.shift();
     } 
-} 
-    
-const HasNotch = () => {
-    let proceed = false;
-    let top = 0;
-    if(CSS.supports("padding-top: constant(safe-area-inset-top)")) {
-        proceed = true;
-        top = parseInt(GetValue(document.documentElement, "--satc"));
-    } 
-    else if(CSS.supports("padding-top: env(safe-area-inset-top)")) {
-        proceed = true;
-        top = parseInt(GetValue(document.documentElement, "--sat"));
-    } 
-    
-    let vh = document.documentElement.clientHeight || window.innerHeight || window.screen.availHeight;
-    if(proceed) {
-        if(top > 0) //for iPhone X
-        return {has: true, top};
-        else {
-            if(window.screen.height - vh >= 84 || window.screen.height - vh >= 30)
-            return {has: true, top: 30};
-        } 
-    } 
-    else {
-        if(window.screen.height - vh >= 84 || window.screen.height - vh >= 30)
-            return {has: true, top: 30};
-    } 
-    return {has: false, top: 0};
+}
+
+const BoardClick = async (e) => {
+	if(e.target.classList.contains("cell")) {
+		let index = Array.from($("#table").children).indexOf(e.target);
+		let i = Math.floor(index / Game.boardSize);
+		let j = index % Game.boardSize;
+		ValidateMove({cell: e.target, i, j});
+	} 
 } 
 
 const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
 	let board = $("#table");
 	let frame = $$(".frame");
 	let ftc, frc, fbc, flc;
-	let tre = board.rows;
+	let cells = board.children;
 	let isEmpty = Game.state.length === 0? true: false;
 	let chars = "ABCDEFGHIJKLMNOPQRST";
 	let count = 0;
     for(let i = 0; i < Game.boardSize; i++) {
-        let tr = tre[i] || await board.insertRow(-1);
-        if(!tr.classList.contains('tr')) 
-            tr.classList.add("tr");
         if(isEmpty) 
         Game.state.push([]);
         
@@ -597,16 +671,21 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
                 } 
             }
             
-           
+            let cell = cells[(i*Game.boardSize)+j] || await $$$("div");
+            if(!cell.classList.contains('cell')) 
+                cell.classList.add("cell");
             
-            let td = tr.cells[j] || await tr.insertCell(-1);
-            if(!td.classList.contains('cell')) 
-                td.classList.add("cell");
+            cell.style.top = `calc(100% / var(--board-size) * ${i})`;
+            cell.style.left = `calc(100% / var(--board-size) * ${j})`;
+            cell.id = i + "" + j;
+            let ref = cells[(i*Game.boardSize+j)+1];
+            if(!cell.parentNode) 
+            	table.insertBefore(cell, ref);
             
             if(Game.version != "nigerian" && (j%2 == 1 && i%2 == 0 || j%2 == 0 && i%2 == 1) || Game.version === "nigerian" && (j%2 == 0 && i%2 == 0 || j%2 == 1 && i%2 == 1)) {
-                if(!td.classList.contains('cell_black')) {
-                    td.classList.add("cell_black");
-                    td.setAttribute('onclick', `ValidateMove({cell: this, i: ${i}, j: ${j}})`);
+                if(!cell.classList.contains('cell_black')) {
+                    cell.classList.add("cell_black");
+                    cell.addEventListener("click", BoardClick, false);
                 }
                 if(isEmpty) {
 	                if(i < Game.rowNo) {
@@ -620,7 +699,7 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
 	                        div.classList.add("piece_white");
 	                        Game.state[i].push("MW"); // pushing MEN-WHITE
 	                    } 
-	                    td.appendChild(div);
+	                    cell.appendChild(div);
 	                } 
 	                else if(i > Game.boardSize - Game.rowNo - 1) {
 	                    let div = $$$("div");
@@ -633,7 +712,7 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
 	                        div.classList.add("piece_black");
 	                        Game.state[i].push("MB"); // pushing MEN-BLACK
 	                    } 
-	                    td.appendChild(div);
+	                    cell.appendChild(div);
 	                } 
 	                else {
 	                    Game.state[i].push("EC"); // pushing EMPTY-CELL
@@ -645,26 +724,26 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
 						div.classList.add("piece_black");
 						if(Game.state[i][j] == "KB")
 						div.classList.add("crown_black");
-						td.appendChild(div);
+						cell.appendChild(div);
 					}
 					else if(Game.state[i][j].includes("W")) {
 						let div = $$$("div");
 						div.classList.add("piece_white");
 						if(Game.state[i][j] == "KW")
 						div.classList.add("crown_white");
-						td.appendChild(div);
+						cell.appendChild(div);
 					} 
 				} 
             }
             else {
-                if(!td.classList.contains('cell_white')) {
-                    td.classList.add("cell_white");
+                if(!cell.classList.contains('cell_white')) {
+                    cell.classList.add("cell_white");
                 }
                 if(isEmpty)
-                Game.state[i].push("NA"); // pushing NOT-AVAILABLE
+                	Game.state[i].push("NA"); // pushing NOT-AVAILABLE
             } 
             await Prms("done");
-        } 
+        }
         await Prms("done");
     }
    
@@ -674,17 +753,18 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
         frame[2].children[i].style.display = "none";
         frame[3].children[i].style.display = "none";
     }
+    //$("#play-window").style.display = "none";
+	//$("#play-window").style.opacity = "1";
     return Prms("done");
 } 
 
 const Refresh = async (restart = false, color = playerA.pieceColor, gameState = []) => {
     // remove all the temporary css classes 
-    let cells = $$("#table tr td");
+    let cells = $$("#table .cell");
     for(let cell of cells) {
         cell.className = "";
         cell.innerHTML = "";
-        cell.removeAttribute("onclick");
-        cell.style.pointerEvents = "auto";
+        cell.removeEventListener("click", BoardClick, false);
     }
    
     for(let p of $$(".frame p")) {
@@ -692,41 +772,49 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         p.style.display = "flex";
     } 
     let table = $("#table");
-    
-    if(table.rows.length > 0) {
-        for(i = 0; i < table.rows.length; i++) {
-            if(i < Game.boardSize) {
-                for(let j = Game.boardSize; j < table.rows.length; j++) 
-                    table.rows[i].deleteCell(-1);
-            }
-            else if(i >= Game.boardSize)
-                table.deleteRow(-1);
+    if(table.children.length > Math.pow(Game.boardSize)) {
+        for(let i = 0; i < Math.sqrt(table.children.length); i++) {
+        	for(let j = 0; j < Math.sqrt(table.children.length); j++) {
+        		if(i < Game.boardSize && j >= Game.boardSize) {
+					table.removeChild(table.$("#" + i + "" + j));
+				}
+				else if(i >= Game.boardSize) {
+					table.removeChild(table.$("#" + i + "" + j));
+				} 
+			} 
         } 
     } 
    
-    // reset all the game states and players states 
-    BackState.moves = [];
-    Game.state = /*[["NA", "MB", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["MB", "NA", "MB", "NA", "EC", "NA", "MB", "NA"],
-				  ["NA", "KB", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "EC", "NA", "MB", "NA", "MB", "NA"],
-				  ["NA", "EC", "NA", "MW", "NA", "EC", "NA", "EC"],
-				  ["EC", "NA", "MW", "NA", "MW", "NA", "MW", "NA"],
-				  ["NA", "MW", "NA", "EC", "NA", "EC", "NA", "EC"],
-				  ["MW", "NA", "EC", "NA", "MW", "NA", "MW", "NA"]];*/gameState;
+    // reset all the game states and players states
+    if(storage.getItem("Checkers-Test-State5")) {
+		Game.state = JSON.parse(storage.getItem("Checkers-Test-State"));
+	}
+	else {
+		Game.state = gameState
+	    /*[["NA", "MB", "NA", "MB", "NA", "MB", "NA", "MB"],
+		["MB", "NA", "MB", "NA", "MB", "NA", "MB", "NA"],
+		["NA", "MB", "NA", "MB", "NA", "MB", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "MB", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "MW"],
+		["MW", "NA", "MW", "NA", "MW", "NA", "EC", "NA"],
+		["NA", "MW", "NA", "MW", "NA", "MW", "NA", "MW"],
+		["MW", "NA", "MW", "NA", "MW", "NA", "MW", "NA"]]*/;
+	} 
+	BackState.moves = [];
     Game.track = [];
-    Game.possibleCaptures = [];
-    Game.possibleMoves = [];
+    Game.moves = {};
+    Game.date = new Date();
     Game.over = false;
     Game.isComputer = false;
     Game.pieceSelected = false;
     Game.validForHint = true;
     Game.prop = null;
-    Game.count = 1;
-    Game.countMoves = 0;
-    other.aiPath = [];
-    other.helperPath = [];
-    other.capturePath = [];
+    Game.baseStateCount = 1;
+    Game.drawStateCount = 0;
+    Game.hintCount = 0;
+    Game.undoCount = 0;
+    general.aiPath = [];
+    general.sorted = [];
     playerA.kings = 0;
     playerA.moves = 0;
     playerA.captures = 0;
@@ -735,7 +823,8 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
     playerB.moves = 0;
     playerB.captures = 0;
     playerB.longestCapture = 0;
-    $("#transmitter").style.display = "none";
+    Timer.reset();
+    
     $("#play-window .header_section h2").innerHTML = Game.version.toUpperCase() + " CHECKERS";
     
     if(restart && Game.mode != "two-player-online") {
@@ -747,9 +836,10 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         await UpdatePiecesStatus();
         if(Game.firstMove) {
             let id = playerA.pieceColor.slice(0,1);
-            Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-            await Helper(Game.possibleMoves, Copy(Game.state));
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
         }
+        AdjustBoard();
         return Prms(true);
     } 
     
@@ -761,67 +851,74 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
             Game.whiteTurn = (playerA.pieceColor.includes("White"))? res: !res;
         }
         else {
-            Game.whiteTurn = (GetValue(btns[0], "background-image") == other.default);
+            Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
         } 
         await LoadBoard(playerA.pieceColor, playerB.pieceColor);
         await UpdatePiecesStatus();
         Game.baseState = Copy(Game.state);
         if(Game.mode === "single-player") {
-            let hint_label = $("#play-window .footer_section p label:last-of-type");
-            hint_label.style.backgroundImage = "none";
-            hint_label.classList.remove("not_valid_for_hint");
-            if(screen.orientation.type.toLowerCase().includes("landscape")) {
+            $$("#play-window .penalties div")[0].style.display = "none";
+            $$("#play-window .penalties div")[1].style.display = "none";
+            $$("#play-window .penalties div")[2].style.display = "none";
+            $$("#play-window .penalties div")[3].style.display = "none";
+            if(general.orientation.toLowerCase().includes("landscape")) {
                 let versions = ["american", "kenyan", "casino", "international", "pool", "russian", "nigerian"];
                 setTimeout(_ => Notify({action: "pop-up-alert",
                         header: Game.version.toUpperCase() + " CHECKERS<br>" + Game.levels[Game.level].level.toUpperCase(), 
                         icon: srcs[versions.indexOf(Game.version)],
                         iconType: "flag", 
-                        delay: 1500}), 1000);
+                        delay: 1500}), 500);
             } 
             if(Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") {
                 setTimeout(_ => aiStart(), 100);
+                Timer.start("B");
             }
             else if(Game.helper) {
                 let id = playerA.pieceColor.slice(0,1);
-                Game.possibleCaptures = await Iterate({id, state: Game.state, func: AssesCaptures});
-                let moves = Game.possibleCaptures;
-                if(Game.mandatoryCapture && Game.possibleCaptures.length == 0) {
-                    Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-                    moves = Game.possibleMoves;
-                }
-                else if(!Game.mandatoryCapture) {
-                    Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-                    moves = moves.concat(Game.possibleMoves);
-                } 
-                await Helper(moves, Copy(Game.state));
+                Game.moves = await AssessAll({id, state: Game.state});
+                await Helper(Game.moves, Copy(Game.state));
+                Timer.start("A");
+            }
+            else {
+            	Timer.start("A");
             } 
         }
         else if(Game.helper && Game.mode === "two-player-offline") {
             let id = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
-            Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-            await Helper(Game.possibleMoves, Copy(Game.state));
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
+            let player = Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"? "A": "B";
+            Timer.start(player);
         }
         else if(Game.helper && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
             let id = playerA.pieceColor.slice(0,1);
-            Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-            await Helper(Game.possibleMoves, Copy(Game.state));
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
+            Timer.start("A");
+        }
+        else {
+        	Timer.start("B");
         } 
         
         if(Game.rollDice) {
-            if(Game.mode === "single-player") {
+            if(Game.mode != "two-player-offline") {
                 Cancel();
+                let t = 500;
+                if(general.orientation.toLowerCase().includes("landscape")) {
+                	t = 2500;
+                } 
                 if(res) 
                 setTimeout(_ => Notify({action: "pop-up-alert", 
                         header: "YOU WIN!<br>PLAY FIRST.", 
                         icon: Icons.diceIcon, 
                         iconType: "dice", 
-                        delay: 1500}), 500);
+                        delay: 1500}), t);
                 else if(!res) 
                 setTimeout(_ => Notify({action: "pop-up-alert", 
                         header: "YOU LOSE!<br>OPPONENT FIRST.", 
                         icon: Icons.diceIcon, 
                         iconType: "dice", 
-                        delay: 1500}), 500);
+                        delay: 1500}), t);
             } 
             else {
                 let name;
@@ -830,15 +927,14 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
                 else
                     name = playerB.name;
                     
-                name += "!";
-                    
                 setTimeout(_ => Notify({action: "pop-up-alert", 
-                        header: "YOU WIN!<br>PLAY FIRST.", 
+                        header: name.toUpperCase() + " WON!<br>PLAY FIRST.", 
                         icon: Icons.diceIcon, 
                         iconType: "dice",
                         delay: 1500}), 500);
             } 
-        } 
+        }
+        AdjustBoard();
     } 
         
     async function aiStart () {
@@ -851,23 +947,25 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         } 
         let state = Game.state;
     	let id = playerB.pieceColor.substring(0,1);
-        Game.possibleCaptures = await Iterate({id, state, func: AssesCaptures});
-        let moves = Game.possibleCaptures;
-        
-        if(Game.mandatoryCapture && Game.possibleCaptures.length == 0) {
-            Game.possibleMoves = await Iterate({id, state, func: AssesMoves});
-            moves = Game.possibleMoves;
+        Game.moves = await AssessAll({id, state});
+        let moves;
+        if(Game.mandatoryCapture && Game.moves.captures.length > 0) {
+        	moves = Game.moves.captures;
+        }
+        else if(Game.mandatoryCapture && Game.moves.captures.length == 0) {
+        	moves = Game.moves.nonCaptures;
         }
         else if(!Game.mandatoryCapture) {
-            Game.possibleMoves = await Iterate({id, state, func: AssesMoves});
-            moves = moves.concat(Game.possibleMoves);
+        	moves = Game.moves.nonCaptures;
+        	moves = moves.concat(Game.moves.captures);
         }
-        await Helper(moves, Copy(Game.state));
-        /*let ai = new AI({moves: moves, depth: 5, state});
-        console.log(JSON.stringify(moves));
-        console.log(JSON.stringify(await ai.filter(moves, state)));
-        //await ai.makeMove();
+        /*await Helper(Game.moves, Copy(Game.state));
+        let ai = new AI({moves, depth: Game.level, state});
+        await ai.makeMove();
         return;*/
+        //console.log(Game.moves);
+        //return;
+        
         let chosen = (Math.random()*(moves.length - 1)).toFixed(0);
         let bestMove = moves[chosen];
         let i = parseInt(bestMove.cell.slice(0,1));
@@ -875,30 +973,21 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         let m = parseInt(bestMove.empty.slice(0,1));
         let n = parseInt(bestMove.empty.slice(1,2));
         setTimeout( async () => {
-            await ValidateMove({cell: $("#table").rows[i].cells[j], i, j, isComputer: true});
-            await ValidateMove({cell: $("#table").rows[m].cells[n], i: m, j: n, isComputer: true});
+            await ValidateMove({cell: $("#table").children[i*Game.boardSize+j], i, j, isComputer: true});
+            await ValidateMove({cell: $("#table").children[m*Game.boardSize+n], i: m, j: n, isComputer: true});
         }, 250);
         return Prms("");
     } 
 } 
 
-const Alternate = async (color = playerA.pieceColor) => {
-    playerA.pieceColor = color;
+const Alternate = async () => {
     if(playerA.pieceColor == "White") {
         playerA.pieceColor = 'Black';
         playerB.pieceColor = 'White';
-        
-        if(playerA.pieceColor == 'White') {
-            await Alternate();
-        } 
     } 
     else if(playerA.pieceColor == "Black") {
         playerA.pieceColor = 'White';
         playerB.pieceColor = 'Black';
-        
-        if(playerA.pieceColor == 'Black') {
-            await Alternate();
-        } 
     }
     return Prms("done");
 } 
@@ -919,80 +1008,6 @@ const BackState = {
     moves: []
 } 
 
-// Game object 
-const Game = {
-    mode: "single-player",
-    version: "american",
-    versions: {american: [{score: 3, validForHint: true}],
-               kenyan: [{score: 3, validForHint: true}],
-               casino: [{score: 3, validForHint: true}],
-               international: [{score: 3, validForHint: true}],
-               pool: [{score: 3, validForHint: true}],
-               russian: [{score: 3, validForHint: true}],
-               nigerian: [{score: 3, validForHint: true}]
-               }, 
-    boardSize: 8,
-    rowNo: 3,
-    level: 0,
-    count: 1,
-    countMoves: 0,
-    top: -5,
-    path: {index: 0},
-    isComputer: false, 
-    pieceSelected: false, 
-    thinking: false,
-    alternatePlayAs: false, 
-    whiteTurn: false,
-    mandatoryCapture: true, 
-    helper: true, 
-    capturesHelper: false, 
-    over: false, 
-    validForHint: true, 
-    prop: null, 
-    levels: [{level: "BEGINNER LEVEL", validForHint: true, score: 0}, 
-             {level: "EASY LEVEL", validForHint: true, score: 0}, 
-             {level: "MEDIUM LEVEL", validForHint: true, score: 0}, 
-             {level: "HARD LEVEL", validForHint: true, score: 0}, 
-             {level: "ADVANCED LEVEL", validForHint: true, score: 0}, 
-             {level: "EXPERT LEVEL", validForHint: true, score: 0}, 
-             {level: "CANDIDATE MASTER", validForHint: true, score: 0}, 
-             {level: "MASTER LEVEL", validForHint: true, score: 0}, 
-             {level: "GRAND MASTER", validForHint: true, score: 0}], 
-    state: [], 
-    baseState: [], 
-    possibleMoves: [], 
-    possibleCaptures: [], 
-    track: [], 
-    stats: []
-} 
-
-const Player = function () {
-    this.name = "";
-    this.pieces = (Game.boardSize / 2) * Game.rowNo;
-    this.pieceColor = "";
-    this.kings = 0;
-    this.moves = 0;
-    this.captures = 0;
-    this.longestCapture = 0;
-} 
-const playerA = new Player();
-const playerB = new Player();
-// Initializing players details 
-playerA.pieceColor = "White";
-playerA.name = "You";
-playerB.pieceColor = "Black";
-playerB.name = "AI";
-
-function Copy (obj) {
-    if(obj == undefined || obj == null)
-        throw new Error("Argument object can not be undefined or null");
-    return JSON.parse(JSON.stringify(obj));
-} 
-function Prms (value) {
-    if(value == undefined || value == null)
-        throw new Error("Argument object can not be undefined or null");
-	return new Promise(resolve => {return resolve(value)});
-} 
 const GetValue = function (elem, value, pseudo = null) {
     return window.getComputedStyle(elem, pseudo).getPropertyValue(value);
 }
@@ -1016,69 +1031,17 @@ const RGBValueOf = (hex) => {
     return rgb;
 }
 
-const GetPosition = function (child, parent = document.body) {
-    parent = child.parentNode;
-    
-    let childTop = parseInt(GetValue(child, "margin-top")), //+ (0.75 * (Game.boardSize - parent.parentNode.rowIndex - 1)), 
-        childLeft  = parseInt(GetValue(child, "margin-left")), //+ (0.75 * (Game.boardSize - parent.cellIndex - 1)), 
-        parentTop = getOffset(true, parent.parentNode.rowIndex),
-        parentLeft  = getOffset(false, parent.parentNode.rowIndex, parent.cellIndex), 
-        apparentTop = parentTop + childTop, 
-        apparentLeft  = parentLeft + childLeft;
-        
-    //apparentTop = apparentTop / $("#table").clientHeight * 100;
-    //apparentLeft = apparentLeft / $("#table").clientWidth * 100;
-    
-    this.top = apparentTop; 
-    this.left = apparentLeft;
-    
-    //alert(apparentTop + "\n" + apparentLeft + "\nTable size: " + $("#table").clientHeight);
-   
-    function getOffset(isRow, m, n) {
-        let rows = $("#table").rows;
-        let offset = 0;
-        let length = 0;
-        let i = 0;
-        if(isRow) {
-            while(i < Game.boardSize) {
-                if(i < m) 
-                    offset += rows[i].clientHeight;
-                length += rows[i].clientHeight;
-                i++;
-            } 
-        }
-        else {
-            let cells = rows[m].cells;
-            while(i < Game.boardSize) {
-                if(i < n) 
-                    offset += cells[i].clientWidth;
-                length += rows[i].clientHeight;
-                i++;
-            } 
-        }
-        
-        // due to unexplained reasons, chrome total length of the cells is greater by 2 pixels on the actual width of the table 
-        if(length > $("#table").clientWidth && screen.orientation.type.toLowerCase().includes("portrait")) {
-            if(isRow) {
-                offset = length / Game.boardSize * m;
-                offset -= m > Game.boardSize / 2? 0.5 * (m - (Game.boardSize / 2)): 0;
-            } 
-            else {
-                offset = length / Game.boardSize * n;
-                offset -= n > Game.boardSize / 2? 0.5 * (n - (Game.boardSize / 2)): 0;
-            } 
-        }
-        else if(screen.orientation.type.toLowerCase().includes("landscape")) {
-            //offset += 0.5;
-        } 
-        return offset;
-    } 
+const GetPosition = function (x, y) {
+	let obj = {};
+    obj.cellSize = parseFloat(GetValue($("#table"), "width")) / Game.boardSize;
+    obj.top = parseFloat(GetValue($("#table").children[x*Game.boardSize+y], "top"));
+	obj.left  = parseFloat(GetValue($("#table").children[x*Game.boardSize+y], "left"));
+	return obj;
 } 
 
 class Move {
-    scene = $("#transmitter");
-    moving = $$("#transmitter .outer");
     root = document.documentElement;
+    moving = $$("#table .outer");
     constructor (prop) {
         if(this.moving.length === 0 && prop.select) {
             this.select(prop);
@@ -1101,80 +1064,73 @@ class Move {
         let final = false;
     	let validMove = false;
     	// Remove Helper cells for filtering purposes 
-    	for(let cell of $$("#table .helper_empty, #table .pre_valid")) {
+    	for(let cell of $$("#table .helper_empty, #table .pre_valid, #table .valid")) {
     		cell.classList.remove("helper_empty");
     		cell.classList.remove("pre_valid");
+    		cell.classList.remove("valid");
     	} 
-    	for(let sort of prop.sorted) {
+    	for(let sort of general.sorted) {
     		for(let move of sort) {
     			let empty = `${prop.i}${prop.j}`;
-    			if((!Game.path.sort || JSON.stringify(Game.path.sort.slice(0, Game.path.sort.indexOf(move))) == JSON.stringify(sort.slice(0, sort.indexOf(move)))) && move.empty == empty) {
-    				Game.path = {sort, index: sort.indexOf(move)};
+    			if(move.empty == empty && sort[0].i == Game.prop.i && sort[0].j == Game.prop.j) {
     				validMove = true;
 				    for(let move2 of sort.slice(0, sort.indexOf(move) + 1)) {
-					    let cell = $("#table").rows[parseInt(move2.empty.slice(0,1))].cells[parseInt(move2.empty.slice(1,2))];
-					    cell.classList.remove("helper_empty");
-					    cell.classList.remove("pre_valid");
-					    cell.classList.remove("invalid");
-			            cell.classList.add("valid");
-					    cell.style.pointerEvents = "none";
+					    let cell = $("#table").children[move2.m*Game.boardSize+move2.n];
+			            cell.classList.add("valid", "cell_disabled");
 					    if(cell.lastChild)
 						    cell.removeChild(cell.lastChild);
 				    }
-    				$$(".controls")[1].style.pointerEvents = "none";
-                    $$(".controls")[2].style.pointerEvents = "none";
-                    $$(".horiz_controls")[1].style.pointerEvents = "none";
-                    $$(".horiz_controls")[2].style.pointerEvents = "none";
+    				$$(".controls")[1].classList.add("cell_disabled");
+                    $$(".controls")[2].classList.add("cell_disabled");
+                    $$(".horiz_controls")[1].classList.add("cell_disabled");
+                    $$(".horiz_controls")[2].classList.add("cell_disabled");
 				    
     				if(sort.indexOf(move) != sort.length-1) {
     					let clone = Game.prop.cell.lastChild.cloneNode(true);
         				clone.style.opacity = "0.5";
 			            prop.cell.appendChild(clone);
-					    Game.prop.cell.style.pointerEvents = "none";
+					    Game.prop.cell.classList.add("valid", "cell_disabled");
     				} 
     				else {
 					    final = true;
-    				} 
+    				}
+				
+					//Filter helper cells
+	    			if((Game.helper || Game.capturesHelper) && (Game.mode == "two-player-online" || Game.mode == "two-player-offline" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"))) {
+						let emptyCells = [];
+	    				for(let arr of general.sorted) {
+							for(let data of arr) {
+								if(data.cell == empty) {
+									emptyCells.push(...arr.slice(arr.indexOf(data)));
+									break;
+								} 
+							} 
+						}
+						for(let data of emptyCells) {
+							let emptyCell = $("#table").children[data.m*Game.boardSize+data.n];
+							if(!emptyCell.classList.contains("pre_valid"))
+								emptyCell.classList.add("helper_empty");
+						} 
+	    			}
+					break;
     			}
-    			//Filter helper cells
-    			if(!(Game.mode == "single-player" && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && (!Game.path.sort || (Game.helper || Game.capturesHelper) && sort.indexOf(move) > Game.path.index && JSON.stringify(Game.path.sort.slice(0, Game.path.sort.indexOf(move))) == JSON.stringify(sort.slice(0, sort.indexOf(move))))) {
-    				let m = parseInt(move.empty.slice(0,1));
-				    let n = parseInt(move.empty.slice(1,2));
-				    let cell = $("#table").rows[m].cells[n];
-				    if(Game.helper || Game.capturesHelper) 
-					    cell.classList.add("helper_empty");
-				    else
-					    cell.classList.add("pre_valid");
-    			} 
     		}
 		    if(final) {
-			    for(let move of Game.path.sort) {
-				    let i = parseInt(move.empty.slice(0,1));
-				    let j = parseInt(move.empty.slice(1,2));
-				    let cell1 = $("#table").rows[i].cells[j];
-				    let clone = cell1.lastChild;
-				    if(!cell1.lastChild) {
-					    clone = Game.prop.cell.lastChild.cloneNode(true);
-					    clone.style.opacity = "0";
-		            	cell1.appendChild(clone);
-				    } 
+			    for(let move of sort) {
+				    let cell1 = $("#table").children[move.i*Game.boardSize+move.j];
+				    let cell2 = $("#table").children[move.m*Game.boardSize+move.n];
 				    
-				    let m = parseInt(move.cell.slice(0,1));
-				    let n = parseInt(move.cell.slice(1,2));
-				    let cell2 = $("#table").rows[m].cells[n];
-				    cell2.style.pointerEvents = "none";
-				    
-				    await this.select({cell: cell2, i: m, j: n}, true);
-				    let track2 = await this.makePath({cell: cell1, piece: clone, i, j}, true);
+				    await this.select({cell: cell1, i: move.i, j: move.j}, true);
+				    let track2 = await this.makePath({cell: cell2, i: move.m, j: move.n}, true);
 				    track2.a = parseInt(move.capture.slice(0,1));
 				    track2.b = parseInt(move.capture.slice(1,2));
 				    Game.track.push([Game.prop, track2]);
 			    }
 			    // removing valid cell states
-			    for(let move of Game.path.sort) {
+			    for(let move of sort) {
 				    let i = parseInt(move.empty.slice(0,1));
 				    let j = parseInt(move.empty.slice(1,2));
-				    let cell1 = $("#table").rows[i].cells[j];
+				    let cell1 = $("#table").children[i*Game.boardSize+j];
 				    cell1.classList.remove("valid");
 			    } 
 			    Move.startMoving();
@@ -1193,7 +1149,6 @@ class Move {
    	 let prop = Game.track[n][1];
    	 prop.n = n;
    	 if(n == Game.track.length-1) {
-   		 Game.path = {index: 0};
    		 prop.final = true;
    	 } 
    	 new Move({}).attachToScene(prop, true);
@@ -1219,18 +1174,9 @@ class Move {
 	            cell.classList.remove("helper_filled");
 	        } 
         
-        
-        this.scene.style.display = "table";
-        let piece = prop.cell.lastChild;
-        let pos = new GetPosition(piece, $("#table"));
-        let x1 = pos.left;
-        let y1 = pos.top;
-        let h1 = piece.offsetHeight; 
-        let w1 = piece.offsetWidth; 
-        this.scene.style.display = "none";
         Game.pieceSelected = true;
         Game.isComputer = prop.isComputer;
-        Game.prop = {cell: prop.cell, x1, y1, h1, w1, i: prop.i, j: prop.j};
+        Game.prop = {cell: prop.cell, i: prop.i, j: prop.j};
         
         prop.cell.classList.add("valid");
         return Prms(true);
@@ -1242,45 +1188,29 @@ class Move {
     	if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
             await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         } 
-        this.scene.style.display = "table";
+        
         if(!capture) {
             for(let cell of $$("#table .hint"))
                 cell.classList.remove("hint");
         	Game.prop.cell.classList.remove("valid");
         } 
-        let clone = prop.cell.lastChild || Game.prop.cell.lastChild.cloneNode(true);
-        if(prop.cell.children.length == 0) {
-	        clone.style.opacity = "0.5";
-	        prop.cell.appendChild(clone);
-		} 
         
-        let pos = new GetPosition(clone, $("#table"));
-        let x2 = pos.left - Game.prop.x1;
-        let y2 = pos.top - Game.prop.y1;
-        this.scene.style.display = "none";
         if(!capture)
-            this.attachToScene({cell1: Game.prop.cell, cell2: prop.cell, x2, y2, i: prop.i, j: prop.j});
+            this.attachToScene({cell: prop.cell, i: prop.i, j: prop.j});
         else {
-        	return {cell1: Game.prop.cell, cell2: prop.cell, x2, y2, i: prop.i, j: prop.j};
+        	return {cell: prop.cell, i: prop.i, j: prop.j};
         } 
         //} catch (error) {Notify({action: "alert", header: "Error 1!", message: error});} 
     } 
     
     attachToScene = async function (prop, capture = false) { //try {
         let piece = Game.prop.cell.lastChild;
+        let clone = Game.prop.cell.cloneNode(true);
+        clone.classList.add("transmitter");
         Game.prop.cell.removeChild(piece);
-        piece.classList.add("outer");
-        piece.style.height = Game.prop.h1.toFixed(16) + "px";
-        piece.style.width = Game.prop.w1.toFixed(16) + "px";
-        piece.style.margin = "0px";
-        piece.style.top = `${Game.prop.y1}px`;
-        piece.style.left = `${Game.prop.x1}px`;
-        piece.style.boxShadow = piece.classList.contains("piece_black")? `0 var(--shadow-width) 0 0 #1A1A1A, 0 calc(var(--shadow-width) + 2px) 5px 0 #502C00`: `0 var(--shadow-width) 0 0 #999999, 0 calc(var(--shadow-width) + 2px) 5px 0 #502C00`;
-        this.root.style.setProperty('--ept', prop.y2.toFixed(16) + "px");
-        this.root.style.setProperty('--epl', prop.x2.toFixed(16) + "px");
-        let id = Game.state[Game.prop.i][Game.prop.j].substring(1,2);
-        let angle = parseInt(GetValue(this.root, "--angleZ" + id));
-        this.root.style.setProperty("--angleZP", angle + "deg");
+        
+        this.root.style.setProperty('--ept', `calc(100% * ${prop.i - Game.prop.i})`);
+        this.root.style.setProperty('--epl', `calc(100% * ${prop.j - Game.prop.j})`);
         
         let mt = 0.35;
     	let increase = mt * 0.25;
@@ -1291,28 +1221,21 @@ class Move {
     	this.root.style.setProperty("--mt", mt + "s");
         
        
-        if(screen.orientation.type.toLowerCase().includes("landscape")) {
-        	mt += mt * 0.25;
+        if(/*screen.orientation.type.toLowerCase().includes("landscape")*/true) {
+        	mt += mt * 0.1;
         	this.root.style.setProperty("--mt", mt + "s");
         } 
         
-        prop.cell2.removeChild(prop.cell2.lastChild);
+        general.prop = prop;
         
-        other.prop = prop;
-        //capture = capture;
-        
-        piece.setAttribute('onanimationend', `Move.detachFromScene(${capture})`);
-        this.scene.appendChild(piece);
-        this.scene.style.display = "table";
-        //await new Sleep().wait(0.001);
-        piece.classList.add("move");
-        
+        clone.setAttribute('onanimationend', `Move.detachFromScene(${capture})`);
+        $("#table").appendChild(clone);
+        clone.classList.add("move");
         //} catch (error) {Notify({action: "alert", header: "Error 2!", message: error});} 
     } 
     
     static detachFromScene = async function (capture) { 
-        let prop = other.prop;
-        let scene = $("#transmitter");
+        let prop = general.prop;
         let root = document.documentElement;
         Game.pieceSelected = false;
         //try {
@@ -1324,14 +1247,14 @@ class Move {
                 cell.classList.remove("helper_empty");
                 cell.classList.remove("helper_filled");
             } 
-            other.helperPath = [];
-            let piece = scene.lastChild;
-            scene.removeChild(piece);
-            scene.style.display = "none";
-            piece.classList.remove("move", "outer"); 
-            piece.removeAttribute("onanimationend");
-           
-            prop.cell2.appendChild(piece);
+            general.sorted = [];
+            let transmitter = $("#table .transmitter");
+            let piece = transmitter.lastChild;
+            transmitter.removeChild(piece);
+            $("#table").removeChild(transmitter);
+            
+            prop.cell.classList.remove("cell_disabled");
+            prop.cell.appendChild(piece);
             piece.style.height = "var(--piece_size)";
             piece.style.width  = "var(--piece_size)";
             piece.style.margin = "auto";
@@ -1345,7 +1268,6 @@ class Move {
                 root.style.setProperty("--piece_size", "85%");
             }
             
-            prop.cell = prop.cell2;
             prop.piece = piece;
             
             // Updating moves made by the player
@@ -1366,12 +1288,6 @@ class Move {
                
                 prop.piece = piece;
                 prop.king = true; 
-                
-                // Updating players kings made stats
-                if(piece.className.includes(playerA.pieceColor.toLowerCase()))
-                playerA.kings++;
-                else
-                playerB.kings++;
             }  
             
             // Updating Game state
@@ -1395,8 +1311,8 @@ class Move {
                 else { // Game not over
                     BackState.moves.push([initProp, prop]);
                     if(Game.helper) {
-                        prop.cell1.classList.add("valid");
-                        prop.cell2.classList.add("valid");
+                        Game.prop.cell.classList.add("valid");
+                        prop.cell.classList.add("valid");
 					} 
                     if(prop.king) {
                         AudioPlayer.play("king", 1);
@@ -1404,30 +1320,20 @@ class Move {
                     else {
                         AudioPlayer.play("click", 0.8);
                     } 
-                    if(Game.possibleCaptures.length) {
-                    	if(!Game.mandatoryCapture) {
-                    		Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-                    		await Helper(Game.possibleMoves.concat(Game.possibleCaptures), Copy(Game.state));
-                    		await Helper(Game.possibleCaptures, Copy(Game.state));
-                    	}
-                    	else
-                    		Helper(Game.possibleCaptures, Copy(Game.state));
-                    }
-                    else if(Game.mode == "two-player-offline" || (Game.mode === "single-player" || Game.mode === "two-player-online") && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
-                    	Helper(Game.possibleMoves, Copy(Game.state));
-                    }
+                    Helper(Game.moves, Copy(Game.state));
                     
                     if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                         UpdatePiecesStatus("thinking...");
                         setTimeout( async () => { //try {
                             let id = playerB.pieceColor.substring(0,1);
                             let state = Copy(Game.state);
-                            let moves = Game.possibleCaptures;
+                            let moves = Game.moves.captures;
                             if(Game.mandatoryCapture && moves.length == 0) {
-                                moves = Game.possibleMoves;
+                                moves = Game.moves.nonCaptures;
                             } 
                             else if(!Game.mandatoryCapture) {
-                                moves = moves.concat(Game.possibleMoves);
+                                moves = Game.moves.nonCaptures;
+								moves = moves.concat(Game.moves.captures);
                             } 
                             
                             let ai = new AI({state, moves, depth: Game.level});
@@ -1457,10 +1363,10 @@ class Move {
                 } 
                 else if(prop.final) {
                     //Enabling the undo buttons
-                    $$(".controls")[1].style.pointerEvents = "auto";
-                    $$(".controls")[2].style.pointerEvents = "auto";
-                    $$(".horiz_controls")[1].style.pointerEvents = "auto";
-                    $$(".horiz_controls")[2].style.pointerEvents = "auto";
+                    $$(".controls")[1].classList.remove("cell_disabled");
+                    $$(".controls")[2].classList.remove("cell_disabled");
+                    $$(".horiz_controls")[1].classList.remove("cell_disabled");
+                    $$(".horiz_controls")[2].classList.remove("cell_disabled");
                     
                     // Getting the table position to aid undo in the array
                     let i = prop.a;
@@ -1493,12 +1399,12 @@ class Move {
                                 track[0].cell.classList.add("valid");
                                 track[1].cell.classList.add("valid");
 							} 
-                            track[0].cell.style.pointerEvents = "auto";
-                            track[1].cell.style.pointerEvents = "auto";
+                            track[0].cell.classList.remove("cell_disabled");
+                            track[1].cell.classList.remove("cell_disabled");
                             // Getting the table position to aid undo in the array
                             i = track[1].a;
                             j = track[1].b;
-                            let capturedPiece = $("#table").rows[i].cells[j].firstChild;
+                            let capturedPiece = $("#table").children[i*Game.boardSize+j].firstChild;
                             
                             id = (capturedPiece.className.includes("white"))? "W": "B";
                             id = ((capturedPiece.className.includes("crown"))? "K": "M") + id;
@@ -1508,8 +1414,7 @@ class Move {
                             // adding fading animation effect to the captured piece
                             capturedPiece.setAttribute("onanimationend", "End(event)");
                             capturedPiece.classList.add("captured");
-                        } 
-                        
+                        }
                         BackState.moves.push([Game.track[0][0], prop, captures]);
                         
                         //Playing audios
@@ -1521,34 +1426,27 @@ class Move {
                         } 
                         else {
                             AudioPlayer.play("king", 1);
-                        } 
+                        }
+                       
+                        general.captureFadeTime = new Sleep();
+                        await general.captureFadeTime.start();
                             
                         Game.track = [];
-                        if(Game.possibleCaptures.length) {
-                        	if(!Game.mandatoryCapture) {
-                        		Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-                        		await Helper(Game.possibleMoves.concat(Game.possibleCaptures), Copy(Game.state));
-                        		await Helper(Game.possibleCaptures, Copy(Game.state));
-                        	}
-                        	else
-                        		Helper(Game.possibleCaptures, Copy(Game.state));
-                        }
-                        else if(Game.mode == "two-player-offline" || (Game.mode === "single-player" || Game.mode === "two-player-online") && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
-                        	Helper(Game.possibleMoves, Copy(Game.state));
-                        }
+                        Helper(Game.moves, Copy(Game.state));
                         
                         if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                             UpdatePiecesStatus("thinking...");
                             setTimeout( async () => { //try {
                                 let id = playerB.pieceColor.substring(0,1);
                                 let state = Copy(Game.state);
-                                let moves = Game.possibleCaptures;
-                                if(Game.mandatoryCapture && moves.length == 0) {
-                                    moves = Game.possibleMoves;
-                                } 
-                                else if(!Game.mandatoryCapture) {
-                                    moves = moves.concat(Game.possibleMoves);
-                                } 
+                                let moves = Game.moves.captures;
+	                            if(Game.mandatoryCapture && moves.length == 0) {
+	                                moves = Game.moves.nonCaptures;
+	                            } 
+	                            else if(!Game.mandatoryCapture) {
+	                                moves = Game.moves.nonCaptures;
+									moves = moves.concat(Game.moves.captures);
+	                            }
                                 
                                 let ai = new AI({state, moves, depth: Game.level});
                                 await ai.makeMove();
@@ -1559,57 +1457,84 @@ class Move {
                     } // end of else if isOver
                 } // end of if is prop.final
             } // End of if capture
+        }
+       
+        if(Game.whiteTurn && playerA.pieceColor == 'White' || !Game.whiteTurn && playerA.pieceColor == "Black") {
+        	Timer.start("A");
+        }
+        else {
+        	Timer.start("B");
         } 
+        
         return;
         //} catch (error) {Notify({action: "alert", header: "Error 3!", message: error});} 
     } 
     
     static isOver = async function (id) {
-        Game.possibleCaptures = await Iterate({id, state: Game.state, func: AssesCaptures});
+        Game.moves = await AssessAll({id, state: Game.state});
         
-        if(Game.possibleCaptures.length > 0) {
+        if(Game.moves.captures.length > 0) {
             if(Game.mandatoryCapture) 
             await UpdatePiecesStatus("Mandatory Capture!");
             else
             await UpdatePiecesStatus("Captures Available!");
-            Game.countMoves = playerA.moves;
         } 
         else {
             //Calling this method to update the players pieces to help ascertain if game is over
             await UpdatePiecesStatus();
             // Checking if its a draw
-            if((playerA.moves - Game.countMoves) == 2) { 
+            //console.log(playerA.kings, playerA.pieces, playerB.kings, playerB.pieces);
+        	if(Game.level > 0 && playerA.pieces == playerB.pieces && playerA.pieces <= 2) {
+        		if(Game.drawStateCount == 12) {
+        			GameOver(true);
+        			return;
+        		}
+        		else {
+        			Game.drawStateCount++;
+        		} 
+        	} 
+        	else if(Game.level > 0 && playerA.kings == playerA.pieces && playerB.kings == playerB.pieces && playerA.pieces + playerB.pieces <= 6) {
+        		if(Game.drawStateCount == 12) {
+        			GameOver(true);
+        			return;
+        		}
+        		else {
+        			Game.drawStateCount++;
+        		} 
+        	} 
+        	
+            if((playerB.pieceColor == "White" && Game.whiteTurn || playerB.pieceColor == "Black" && !Game.whiteTurn) && playerA.moves % 2 == 0) {
                 if(JSON.stringify(Game.baseState) == JSON.stringify(Game.state)) {
-                    if(Game.count === 2) {
+                    if(Game.baseStateCount === 2) {
                         GameOver(true);
                         return;
                     } 
                     else 
-                        Game.count++;
+                        Game.baseStateCount++;
                 } 
                 else {
-                    Game.count = 1;
+                    Game.baseStateCount = 1;
                     Game.baseState = Copy(Game.state);
-                } 
-                Game.countMoves = playerA.moves;
+                }
             } 
             // Checking if game is over
-            Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-            if(playerA.pieces === 0 || playerB.pieces === 0 || Game.possibleMoves.length === 0) {
+            if(playerA.pieces === 0 || playerB.pieces === 0 || Game.moves.nonCaptures.length === 0) {
                 GameOver();
                 return Prms(true);
             } 
         } 
         return Prms(false);
     } 
-} 
+}
 
 const ValidateMove = async (prop) => {
     /** To determine turn taking, will use Game.whiteTurn property of the Game object
       * If true is white's turn else black's turn
       * Will confirm possible captures and moves and game x1 and y1 to validate piece selections for move
       **/
-      
+    if(!prop.cell.classList.contains("cell")) {
+    	return;
+    }
     if(!Game.over) {
     	let isEmpty = prop.cell.lastChild && prop.cell.lastChild.className.includes("captured") || prop.cell.children.length == 0;
         let valid = isEmpty && Game.pieceSelected || !isEmpty && (Game.mode === "two-player-offline" && (Game.whiteTurn && prop.cell.lastChild.className.includes("piece_white") || !Game.whiteTurn && prop.cell.lastChild.className.includes("piece_black")) || prop.isComputer && prop.cell.lastChild.className.includes(playerB.pieceColor.toLowerCase()) || Game.whiteTurn && prop.cell.lastChild.className.includes("piece_white") && playerA.pieceColor == "White" || !Game.whiteTurn && prop.cell.lastChild.className.includes("piece_black") && playerA.pieceColor == "Black");
@@ -1617,35 +1542,26 @@ const ValidateMove = async (prop) => {
         if(valid) {
             let id = Game.state[prop.i][prop.j];
             let posId = `${prop.i}${prop.j}`; //posId for position identifier
-            
-            if(Game.possibleCaptures.length > 0 && !isEmpty) {
-                for(let type of Game.possibleCaptures) {
+            if(Game.moves.captures.length > 0 && !isEmpty) {
+                for(let type of Game.moves.captures) {
                     if(type.cell == posId) {
                         prop.capture = true;
-                        new Move(prop) ;
-                        if(other.helperPath.length > 0) { 
-                            let indices = [], 
-                                startIndex = -1,
-                                lastIndex = -1;
-                            for(let cell of other.helperPath) {
-                                if(cell.source) 
-                                indices.push(other.helperPath.indexOf(cell));
+                        new Move(prop);
+                        if(general.sorted.length > 0) {
+                        	let emptyCells = [];
+                            for(let arr of general.sorted) {
+                            	if(arr[0].cell == posId) {
+	                            	for(let data of arr) {
+	                            		if(!JSON.stringify(emptyCells).includes(JSON.stringify(data))) {
+											emptyCells.push(data);
+										} 
+	                            	}
+								} 
                             } 
-                            for(let index of indices) {
-                                if(startIndex != -1 && other.helperPath[index].cell !== type.cell) {
-                                    lastIndex = index
-                                    break;
-                                } 
-                                if(startIndex == -1 && other.helperPath[index].cell === type.cell) {
-                                    startIndex = index;
-                                } 
-                            } 
-                            lastIndex = (lastIndex === -1)? other.helperPath.length: lastIndex;
-                            other.capturePath = Copy(other.helperPath.slice(startIndex, lastIndex));
                             if(Game.helper || Game.capturesHelper) 
-	                            if((Game.mode == "two-player-offline" || Game.mode == "two-player-online") || Game.mode == "single-player" && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
-		                            for(let cell of other.capturePath) {
-		                                $("#table").rows[cell.m].cells[cell.n].classList.add("helper_empty");
+	                            if(Game.mode == "two-player-offline" || Game.mode == "two-player-online" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
+		                            for(let cell of emptyCells) {
+		                                $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("helper_empty");
 		                            }
 								}
                             return;
@@ -1669,30 +1585,37 @@ const ValidateMove = async (prop) => {
                     return;
                 } 
             } 
-           else if(Game.possibleCaptures.length > 0 && isEmpty && Game.isComputer == prop.isComputer) {
-           	prop.sorted = await SortCaptures(other.capturePath);
+           else if(Game.moves.captures.length > 0 && isEmpty && Game.isComputer == prop.isComputer) {
            	prop.captureMove = true;
-           	let validMove = await new Move(prop) ;
-           	if(validMove) return;
+           	let validMove = await new Move(prop);
+           	if(!validMove) {
+           		Game.pieceSelected = false;
+           		for(let arr of general.sorted) {
+			            let cell = arr[0];
+						if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper_filled")) 
+			            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+			        } 
+           	}
+           	return;
            } 
             
            if(!isEmpty) {
-                Game.possibleMoves = await AssesMoves({id, i: prop.i, j: prop.j, state: Game.state});
-                if(Game.possibleMoves.length > 0) {
+                Game.moves = await AssesMoves({id, i: prop.i, j: prop.j, state: Game.state});
+                if(Game.moves.nonCaptures.length > 0) {
                 	prop.select = true;
                     new Move(prop) ;
-                    if(Game.helper && other.aiPath.length == 0) {
-                        for(let move of Game.possibleMoves) {
+                    if(Game.helper && general.aiPath.length == 0) {
+                        for(let move of Game.moves.nonCaptures) {
                             let m = parseInt(move.empty.slice(0,1));
                             let n = parseInt(move.empty.slice(1,2));
-                            $("#table").rows[m].cells[n].classList.add("hint");
+                            $("#table").children[m*Game.boardSize+n].classList.add("hint");
                         } 
                     } 
                     return;
                 } 
             } 
             else if(Game.isComputer == prop.isComputer) {
-                for(let type of Game.possibleMoves) {
+                for(let type of Game.moves.nonCaptures) {
                     if(type.empty == posId && type.cell == `${Game.prop.i}${Game.prop.j}`) {
                     	prop.movePiece = true;
                         new Move(prop) ;
@@ -1716,6 +1639,57 @@ const ValidateMove = async (prop) => {
     else {
         GameOver();
     } 
+}
+
+class Timer {
+	static AH = 0;
+	static BH = 0;
+	static AM = 0;
+	static BM = 0;
+	static interval;
+	static start = (player) => {
+		clearInterval(this.interval);
+		this.interval = setInterval (() => {
+			if(player == "A") {
+				this.AM++;
+				this.AH = this.AM >= 60? this.AH+1: this.AH;
+				this.AM = this.AM >= 60? 0: this.AM;
+			}
+			else {
+				this.BM++;
+				this.BH = this.BM >= 60? this.BH+1: this.BH;
+				this.BM = this.BM >= 60? 0: this.BM;
+			}
+			this.show(player);
+		}, 1000);
+	}
+	static stop = () => {
+		clearInterval(this.interval);
+	}
+	static reset = () => {
+		this.AH = this.AM = this.BH = this.BM = 0;
+		$$("#play-window .player_A_icon")[0].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		$$("#play-window .player_A_icon")[1].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		$$("#play-window .player_B_icon")[0].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		$$("#play-window .player_B_icon")[1].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		this.show('all');
+	}
+	static show = (player) => {
+		if(player == 'A') {
+			$$(".player_A_time")[0].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_A_time")[1].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+		}
+		else if(player == 'B') {
+			$$(".player_B_time")[0].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+			$$(".player_B_time")[1].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+		}
+		else if(player == "all") {
+			$$(".player_A_time")[0].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_A_time")[1].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_B_time")[0].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+			$$(".player_B_time")[1].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+		} 
+	} 
 } 
 
 const UpdatePiecesStatus = (string = null) => {
@@ -1728,56 +1702,66 @@ const UpdatePiecesStatus = (string = null) => {
     else {
         countPieces();
         if(Game.mode === "single-player") { try {
-            let label = $$("#play-window .footer_section p label");
+            let labels = [$$("#play-window .score_cont .score label"), $$("#play-window .middle_section .score label")];
             if(Game.validForHint) {
                let threshold = Math.floor((Game.boardSize / 2 * Game.rowNo) / 4);
                if(playerA.pieces < threshold) {
-                   label[0].classList.remove("not_achieved", "achieved");
-                   label[1].classList.remove("not_achieved", "achieved");
-                   label[2].classList.remove("not_achieved", "achieved");
-                   label[0].classList.add("not_achieved");
-                   label[1].classList.add("not_achieved");
-                   label[2].classList.add("not_achieved");
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("not_achieved");
+	                   label[1].classList.add("not_achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
                }
                else if(playerA.pieces >= threshold && playerA.pieces < threshold * 2) {
-                   label[0].classList.remove("not_achieved", "achieved");
-                   label[1].classList.remove("not_achieved", "achieved");
-                   label[2].classList.remove("not_achieved", "achieved");
-                   label[0].classList.add("achieved");
-                   label[1].classList.add("not_achieved");
-                   label[2].classList.add("not_achieved");
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("not_achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
                }
                else if(playerA.pieces >= threshold * 2 && playerA.pieces < threshold * 3) {
-                   label[0].classList.remove("not_achieved", "achieved");
-                   label[1].classList.remove("not_achieved", "achieved");
-                   label[2].classList.remove("not_achieved", "achieved");
-                   label[0].classList.add("achieved");
-                   label[1].classList.add("achieved");
-                   label[2].classList.add("not_achieved");
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
                }
                else if(playerA.pieces >= threshold * 3) {
-                   label[0].classList.remove("not_achieved", "achieved");
-                   label[1].classList.remove("not_achieved", "achieved");
-                   label[2].classList.remove("not_achieved", "achieved");
-                   label[0].classList.add("achieved");
-                   label[1].classList.add("achieved");
-                   label[2].classList.add("achieved");
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("achieved");
+	                   label[2].classList.add("achieved");
+				   } 
                }
             }
             else {
-                label[0].classList.remove("not_achieved", "achieved");
-                label[1].classList.remove("not_achieved", "achieved");
-                label[2].classList.remove("not_achieved", "achieved");
-                label[0].classList.add("not_achieved");
-                label[1].classList.add("not_achieved");
-               label[2].classList.add("not_achieved");
+            	for(let label of labels) {
+	                label[0].classList.remove("not_achieved", "achieved");
+	                label[1].classList.remove("not_achieved", "achieved");
+	                label[2].classList.remove("not_achieved", "achieved");
+	                label[0].classList.add("not_achieved");
+	                label[1].classList.add("not_achieved");
+	                label[2].classList.add("not_achieved");
+				} 
             } } catch (error) {Notify(error + "");}
-            barA.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}        ${playerB.pieceColor}: ${playerB.pieces}`
-            barB.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}        ${playerB.pieceColor}: ${playerB.pieces}`
+            barA.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
+            barB.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
         } 
         else {
-            barA.innerHTML = `${playerA.name} (${playerA.pieceColor.toUpperCase()}): ${playerA.pieces}        ${playerB.name} (${playerB.pieceColor.toUpperCase()}): ${playerB.pieces}`;
-            barB.innerHTML = `${playerA.pieceColor.toUpperCase()}: ${playerA.pieces}        ${playerB.pieceColor.toUpperCase()}: ${playerB.pieces}`;
+            barA.innerHTML = `${playerA.name} (${playerA.pieceColor}): ${playerA.pieces}    ${playerB.name} (${playerB.pieceColor}): ${playerB.pieces}`;
+            barB.innerHTML = `${playerA.name} (${playerA.pieceColor}): ${playerA.pieces}    ${playerB.name} (${playerB.pieceColor}): ${playerB.pieces}`;
         }
     } 
     
@@ -1785,28 +1769,40 @@ const UpdatePiecesStatus = (string = null) => {
         let id1 = playerA.pieceColor.slice(0,1);
         let id2 = playerB.pieceColor.slice(0,1);
         playerA.pieces = playerB.pieces = 0;
+        playerA.kings = playerB.kings = 0;
         
         for(let row of Game.state) {
             for(let id of row) {
-                if(id.includes(id1)) 
-                playerA.pieces++;
-                else if(id.includes(id2))
-                playerB.pieces++;
+                if(id.includes(id1)) {
+                	playerA.pieces++;
+                	if(id.includes("K"))
+						playerA.kings++;
+                } 
+                else if(id.includes(id2)) {
+                	playerB.pieces++;
+                	if(id.includes("K"))
+						playerB.kings++;
+                } 
             } 
         } 
     } 
 } 
 
-const GameOver = async (isDraw = false) => { try {
+const GameOver = async (draw = false) => {
     /** Based on the property whiteTurn of the Game object, we can compare it against the player's piece color to identify whose turn was. 
       * The player identified is the loser
       */
     let name = (Game.whiteTurn && playerA.pieceColor.includes("White") || !Game.whiteTurn && playerA.pieceColor.includes("Black"))? playerA.name: playerB.name;
-    isDraw = (playerA.pieces === playerB.pieces && playerA.pieces === Game.boardSize / 2 * Game.rowNo)? true: isDraw;
-    other.pressed = false;
+	let noCaptureDraw = false;
+	if(!draw) {
+		noCaptureDraw = playerA.pieces === playerB.pieces && playerA.pieces === Game.boardSize / 2 * Game.rowNo;
+		draw = noCaptureDraw;
+	} 
+    general.pressed = false;
+    Timer.stop();
     
     if(Game.mode === "single-player") {
-        if(!Game.over && !isDraw) {
+        if(!Game.over && !draw) {
             if(name === playerA.name) {
                 AudioPlayer.play("game_lose", 1);
             } 
@@ -1814,29 +1810,29 @@ const GameOver = async (isDraw = false) => { try {
                 AudioPlayer.play("game_win", 1);
             } 
         } 
-        if(name === playerA.name && !isDraw)
+        if(name === playerA.name && !draw)
             Notify({action: "confirm", 
                     header: "YOU LOSE!", 
-                    message: "Oops!<br>Too bad. You are better than this.", 
+                    message: "Amending mistakes you made, can guarantee you a win.<br>Practice make perfect!", 
                     type: "MENU/REPLAY", 
                     icon: Icons.loserIcon, 
                     iconType: "loser", 
                     onResponse: GameOverOption});
-        else if(isDraw) {
-            if(playerA.pieces != Game.boardSize / 2 * Game.rowNo) {
-                Notify({action: "other", 
+        else if(draw) {
+            if(noCaptureDraw) {
+                Notify({action: "confirm", 
                         header: "DRAW!", 
-                        message: "If you don't accept, press continue", 
-                        type: "MENU/CONTINUE/REPLAY", 
+                        message: "Those were really clever moves! you forced out a draw.", 
+                        type: "MENU/REPLAY", 
                         icon: Icons.drawIcon, 
                         iconType: "draw", 
                         onResponse: GameOverOption});
             } 
             else {
-                Notify({action: "confirm", 
+                Notify({action: "other", 
                     header: "DRAW!", 
-                    message: "Good game!<br>But you can do better. ", 
-                    type: "MENU/REPLAY", 
+                    message: "You are really hard to crack. This is a draw.<br>Do you think by continuing you can change this around?", 
+                    type: "MENU/CONTINUE/REPLAY", 
                     icon: Icons.drawIcon,
                     iconType: "draw", 
                     onResponse: GameOverOption});
@@ -1877,9 +1873,11 @@ const GameOver = async (isDraw = false) => { try {
             //Unlock the next level
             if(level < Game.levels.length-1)
                 await Level(false);
+               
+            let comment = ["Wonderful! Good start. ✨", "Kudos! You are doing great. 👍", "What a good learner! 👏", "Very good play. 👌", "Bravo! You are becoming a pro. 😎", "Amazing! You are a pro indeed. 😱", "Brilliant! You are really intelligent. 🤔", "What can I say Master 🤷‍♂️! Wonderful!", "You are simply a masterclass player. Congratulations 🥇👏"];
             Notify({action: (level < Game.levels.length-1)? "other": "confirm", 
                     header: "YOU WIN!", 
-                    message: "Congratulations!<br>" + (level < Game.levels.length-1? ` You can now proceed to ${Game.levels[Game.level + 1].level.toLowerCase().replace(/^\w/, t => t.toUpperCase())}.`: ` That was a good play. you can try other versions.`),
+                    message: comment[level] + "<br>" + (level < Game.levels.length-1? ` You can now proceed to ${Game.levels[Game.level + 1].level.toLowerCase().replace(/^\w/, t => t.toUpperCase())}.`: ``),
                     type: (level < Game.levels.length-1)? "MENU/REPLAY/NEXT LEVEL": "MENU/REPLAY", 
                     icon: Icons.winnerIcon,
                     iconType: "winner", 
@@ -1887,41 +1885,41 @@ const GameOver = async (isDraw = false) => { try {
         }
     } 
     else if(Game.mode === "two-player-offline") {
-        if(!Game.over && !isDraw)
+        if(!Game.over && !draw)
             AudioPlayer.play("game_win", 1);
         
-        if(!isDraw) {
+        if(!draw) {
             Notify({action: "confirm", 
-                    header: (name === playerA.name)? playerB.name.toUpperCase(): playerA.name.toUpperCase() + " WINS!", 
-                    message: "Congratulations! Keep it up.",
-                    type: "MENU/REPLAY", 
+                    header: "CONGRATULATIONS " + (name === playerA.name)? playerB.name.toUpperCase(): playerA.name.toUpperCase() + "!", 
+                    message: "It was an entertaining match. " + name + " do you want a rematch?",
+                    type: "MENU/REMATCH", 
                     icon: Icons.winnerIcon,
                     iconType: "winner", 
                     onResponse: GameOverOption});
         }
-        else if(!isDraw) {
-            if(playerA.pieces != playerB.pieces) {
-                Notify({action: "other", 
+        else if(draw) {
+            if(noCaptureDraw) {
+                Notify({action: "confirm", 
                         header: "DRAW!", 
-                        message: "If you don't accept, press continue", 
-                        type: "MENU/CONTINUE/REPLAY", 
+                        message: "Well! Well! those were clever moves.<br>But there are no moves to play,<br>what about a rematch?", 
+                        type: "MENU/REMATCH", 
                         icon: Icons.drawIcon,
                         iconType: "draw", 
                         onResponse: GameOverOption});
             } 
             else {
-                Notify({action: "confirm", 
-                    header: "DRAW!", 
-                    message: "You people really don't wanna give in to each other.<br>What about trying again?", 
-                    type: "MENU/REPLAY", 
-                    icon: Icons.drawIcon,
-                    iconType: "draw", 
-                    onResponse: GameOverOption});
+                Notify({action: "other", 
+	                    header: "DRAW!", 
+	                    message: "You people really don't wanna give in to each other.<br>Do you still want to continue?", 
+	                    type: "MENU/CONTINUE/REMATCH", 
+	                    icon: Icons.drawIcon,
+	                    iconType: "draw", 
+	                    onResponse: GameOverOption});
             } 
         }
     } 
     else if(Game.mode === "two-player-online") {
-        if(!Game.over && !isDraw) {
+        if(!Game.over && !draw) {
             if(name === playerA.name) {
                 AudioPlayer.play("game_lose", 1);
             } 
@@ -1929,100 +1927,64 @@ const GameOver = async (isDraw = false) => { try {
                 AudioPlayer.play("game_win", 1);
             } 
         } 
-        if(name === playerA.name && !isDraw)
+        if(name === playerA.name && !draw) {
             Notify({action: "confirm", 
                     header: "YOU LOSE!", 
-                    message: "You might want to rematch :-)", 
-                    type: "MENU/REPLAY", 
+                    message: "Amending those mistakes you made, you can win. :-)", 
+                    type: "MENU/REMATCH", 
                     icon: Icons.loserIcon, 
                     iconType: "loser", 
                     onResponse: GameOverOption});
-        else if(isDraw) {
-            if(playerA.pieces != playerB.pieces) {
-                Notify({action: "other", 
+        } 
+        else if(draw) {
+            if(noCaptureDraw) {
+                Notify({action: "confirm", 
                         header: "DRAW!", 
-                        message: "If you don't accept, press continue.", 
-                        type: "MENU/CONTINUE/REPLAY", 
+                        message: "Well! Well! those were clever moves.<br>But there are no moves to play,<br>what about a rematch?", 
+                        type: "MENU/REMATCH", 
                         icon: Icons.drawIcon,
                         iconType: "draw", 
                         onResponse: GameOverOption});
             } 
             else {
-                Notify({action: "confirm", 
-                    header: "DRAW!", 
-                    message: "You might want to rematch :-)", 
-                    type: "MENU/REPLAY", 
-                    icon: Icons.drawIcon,
-                    iconType: "draw", 
-                    onResponse: GameOverOption});
+                Notify({action: "other", 
+	                    header: "DRAW!", 
+	                    message: "This game is a draw. What do you think?", 
+	                    type: "MENU/CONTINUE/REPLAY", 
+	                    icon: Icons.drawIcon,
+	                    iconType: "draw", 
+	                    onResponse: GameOverOption});
             } 
         } 
         else 
             Notify({action: "confirm", 
                     header: "YOU WIN!", 
-                    message: "Congratulations! Keep it up.",
-                    type: "MENU/REPLAY", 
+                    message: "You capitalized on " + playerB.name + "'s mistakes. Congratulations, those were great moves.",
+                    type: "MENU/REMATCH", 
                     icon: Icons.winnerIcon,
                     iconType: "winner", 
                     onResponse: GameOverOption});
     }
     
-    if(!Game.over) {
-        await UpdatePiecesStatus("Game Over!");
-        Game.levels[Game.level].validForHint = Game.validForHint;
-        playerA.captures = Game.boardSize / 2 * Game.rowNo - playerB.pieces;
-        playerB.captures = Game.boardSize / 2 * Game.rowNo - playerA.pieces;
-        // Caching stats
-        Game.stats.push({playerName: [playerA.name, playerB.name],
-                         pieceColor: [playerA.pieceColor.toUpperCase(), playerB.pieceColor.toUpperCase()],
-                         gameStatus: [(name === playerA.name)? "LOST": "WON", (name === playerB.name)? "LOST": "WON"], 
-                         piecesRemaining: [playerA.pieces, playerB.pieces], 
-                         kingsMade: [playerA.kings, playerB.kings], 
-                         movesMade: [playerA.moves, playerB.moves],
-                         capturesMade: [playerA.captures, playerB.captures], 
-                         longestCapture: [playerA.longestCapture, playerB.longestCapture]
-                        });
-        // Updating Games window 
-        let length = Game.stats.length;
-        let mainSec = $("#games-window #games");   
-        let subSec = $$$("section");
-        subSec.classList.add("sub_item");
-        let p = $$$("p");
-        p.innerHTML = `${playerA.name} [${playerA.pieceColor.toUpperCase()}] VS ${playerB.name} [${playerB.pieceColor.toUpperCase()}] ${(Game.mode === "single-player")? "<br/><br/> " + Game.version.substring(0,3).toUpperCase() + ": " + Game.levels[Game.level].level: ""}`;
-        let btn = $$$("button");
-        btn.classList.add("default", "middle_top");
-        btn.innerHTML = "SEE STATS";
-        btn.addEventListener("click", () => GetStats(length - 1), false);
-        subSec.appendChild(p);
-        subSec.appendChild(btn);
-        mainSec.appendChild(subSec);
-       
-        try {
-            if(Game.mode === "single-player") {
-                Game.stats[length-1].level = Game.levels[Game.level].level;
-                Game.stats[length-1].version = Game.version.substring(0,3).toUpperCase();
-            }
-            
-            storage.setItem("Checkers - stats", JSON.stringify(Game.stats));
-        } catch (error) {} 
-    } 
-    
-    if(!isDraw || playerA.pieces === playerB.pieces && playerA.pieces === Game.boardSize / 2 * Game.rowNo)
-    Game.over = true;
-    Game.isDraw = isDraw;
+    if(!draw || noCaptureDraw) {
+    	Game.over = true;
+    }
+   
+    if(Game.over)
+    	await UpdatePiecesStatus("Game Over!");
+   
+    Game.draw = draw;
+    Game.name = name;
     
     async function GameOverOption (choice) {
-        if(!other.pressed) {
+        if(!general.pressed) {
             if(choice === "MENU") {
-                if(Game.isDraw) {
-                    Game.stats[Game.stats.length-1].gameStatus[0] = "DRAW";
-                    Game.stats[Game.stats.length-1].gameStatus[1] = "DRAW";
-                } 
-                Cancel();
+                await AddItem();
+                await Cancel();
                 back();
                 return;
             } 
-            else if(choice === "REPLAY") {
+            else if(choice === "REPLAY" || choice == "REMATCH") {
                 if(Game.mode === "two-player-online") {
                     if(Game.alternatePlayAs) {
                         let color = playerA.pieceColor;
@@ -2034,7 +1996,7 @@ const GameOver = async (isDraw = false) => { try {
                     }
                     else {
                         let btns = $$("#item3 button");
-                        Game.whiteTurn = (GetValue(btns[0], "background-image") == other.default);
+                        Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
                         Game.firstMove = Game.whiteTurn;
                     }
                    
@@ -2046,36 +2008,87 @@ const GameOver = async (isDraw = false) => { try {
                     Publish.send({channel: Lobby.CHANNEL, message: {title: 'RequestReplay', content: gameSettings}});
                     return;
                 }
-                
+                await AddItem();
                 await setTimeout(_ => {Refresh(true);}, 200);
                 Cancel();
                 return;
             } 
             else if(choice === "NEXT LEVEL") {
+            	await AddItem();
                 await Level(true);
                 Cancel();
             } 
             else if(choice === "CONTINUE") {
-                Game.count = 1;
-                Game.countMoves = playerA.moves;
+            	Timer.start();
+                Game.baseStateCount = 1;
+                Game.drawStateCount = 0;
                 Game.baseState = Copy(Game.state);
                 if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor.includes("W") || !Game.whiteTurn && playerB.pieceColor.includes("B")) ) {
                     let id = playerB.pieceColor.substring(0,1);
                     let state = Copy(Game.state);
-                    let moves = await Iterate({id, state, func: AssesMoves});
+                    let moves = await AssessAll({id, state, func: AssesMoves});
                     let ai = new AI({state, moves, depth: Game.level});
                     await ai.makeMove(false);
                 } 
                 Cancel();
             }
-            other.pressed = true;
+            general.pressed = true;
         }
         else
             return;
     }
-    } catch (error) {Notify({action: "alert",
-                             header: error.name,
-                             message: error.message + " at GameOver"})}
+}
+
+const AddItem = async function () {
+	let name = Game.name;
+	let draw = Game.draw
+	let date = Game.date;
+    Game.levels[Game.level].validForHint = Game.validForHint;
+    playerA.captures = Game.boardSize / 2 * Game.rowNo - playerB.pieces;
+    playerB.captures = Game.boardSize / 2 * Game.rowNo - playerA.pieces;
+    
+    // Caching stats
+    Game.stats.push({playerName: [playerA.name, playerB.name],
+                     pieceColor: [playerA.pieceColor.toUpperCase(), playerB.pieceColor.toUpperCase()],
+                     gameStatus: [draw? "DRAW": name === playerA.name? "LOST": "WON", draw? "DRAW": name === playerB.name? "LOST": "WON"], 
+                     piecesRemaining: [playerA.pieces, playerB.pieces], 
+                     kingsMade: [playerA.kings, playerB.kings], 
+                     movesMade: [playerA.moves, playerB.moves],
+                     capturesMade: [playerA.captures, playerB.captures], 
+                     longestCapture: [playerA.longestCapture, playerB.longestCapture], 
+					 time: [(Timer.AH + "").padStart(2, '0') + ":" + (Timer.AM + "").padStart(2, '0'), (Timer.BH + "").padStart(2, '0') + ":" + (Timer.BM + "").padStart(2, '0')],
+					 ms: date.getTime(),
+					 mode: Game.mode
+                    });
+    // Updating Games window 
+    let length = Game.stats.length;
+    let mainSec = $("#games-window #games");   
+    let itemSec = $$$("section", ["class", "game_item", "date", date.toDateString()]);
+    let ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
+    if(!ref) {
+    	let str = "Today";
+    	if(!ref) {
+    		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
+			mainSec.appendChild(dateSec);
+			ref = dateSec;
+    	}
+    } 
+    let p = $$$("p", ["innerHTML", `${playerA.name} VS ${playerB.name} <br><span>${Game.version.replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())} Checkers${Game.mode == "single-player"? "<br>" + Game.levels[Game.level].level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase()): Game.mode.replaceAll(/^\w|\s\w/gi, (t) => t.toUpperCase())} &nbsp&nbsp(${ConvertTo(date.toTimeString(), 12)})</span>`]);
+    let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
+    btn.addEventListener("click", () => GetStats(length - 1), false);
+    itemSec.appendChild(p);
+    itemSec.appendChild(btn);
+    mainSec.insertBefore(itemSec, ref.nextElementSibling);
+    $(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
+    
+    if(Game.mode === "single-player") {
+        Game.stats[length-1].level = Game.levels[Game.level].level;
+    }
+    Game.stats[length-1].version = Game.version.substring(0,3).toUpperCase();
+    GetTotals();
+    if(storage) {
+        storage.setItem("Checkers - stats", JSON.stringify(Game.stats));
+    }
 } 
 
 class AudioPlayer {
@@ -2115,7 +2128,7 @@ const Clicked = async (elem, parent, click = true) => { try {
         let btns = parent.children;
         for(let btn of btns) {
             if(parent.id !== "vc" && btn.tagName.toLowerCase() == "div" || parent.id !== "vc" && btn.tagName.toLowerCase() == "button") {
-                btn.style.background = other.background;
+                btn.style.background = general.background;
             }
             else if(parent.id === "vc") {
                 btn.classList.remove("default");
@@ -2137,7 +2150,7 @@ const Clicked = async (elem, parent, click = true) => { try {
         
         //setting background to green
         if(parent.id !== "vc") 
-            elem.style.background = other.default; //"rgba(0, 152, 25, 0.9)";
+            elem.style.background = general.default; //"rgba(0, 152, 25, 0.9)";
         else {
             elem.classList.add("default");
             await Scroll(elem, {block: "nearest", inline: "center", behavior: "smooth"}, elem.parentNode.parentNode);
@@ -2153,31 +2166,31 @@ const Clicked = async (elem, parent, click = true) => { try {
             } 
             
             if(elem.innerHTML === "SINGLE PLAYER" || parent.id === "nav") {
-                if(parent.id === "nav") other.level = elem;
-                await Enable($("#main-window #levels #nav"), other.background, "#fff");
+                if(parent.id === "nav") general.level = elem;
+                await Enable($("#main-window #levels #nav"), general.background, "#fff");
             } 
             else {
-                await Disable($("#main-window #levels #nav"), other.disabled, "#B4B4B4");
+                await Disable($("#main-window #levels #nav"), general.disabled, "#B4B4B4");
             }
         }
     }
     else if(elem != undefined && elem.innerHTML.includes("LOCKED")) {
         //resetting size
-        clearTimeout(other.timeout);
+        clearTimeout(general.timeout);
         elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
         //restarting
         let size = GetValue(elem.children[1], "background-size");
         elem.children[1].style.backgroundSize = (parseInt(size) + 8) + "px";
-        other.timeout = setTimeout(() => {
+        general.timeout = setTimeout(() => {
 			elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
 			Notify("To unlock this level, you must win the previous level.");
 		}, 300);
         return;
     } 
     
-    if(other.initialLoading && click) {
+    if(general.initialLoading && click) {
     	AudioPlayer.initializeAudios();
-    	other.initialLoading = false;
+    	general.initialLoading = false;
     } 
     } catch (error) {alert("Click error: " + error.message);}
 }
@@ -2218,9 +2231,9 @@ const Disable = async (parent, bgColor, color = "#7C7C7C") => {
     
     for(let child of children) {
         if(parent.id != "main") {
-            if(GetValue(child, "background-image") === other.default) { 
-                other.selected = child;
-                //other.classList.remove("default");
+            if(GetValue(child, "background-image") === general.default) { 
+                general.selected = child;
+                //general.classList.remove("default");
             } 
                 
             if(child.tagName.toLowerCase() != "p" && child.tagName.toLowerCase() != "h2") {
@@ -2261,8 +2274,8 @@ const Enable = async (parent, bgColor, color) => { try {
     children = (!children.length)? [parent]:children;
     
     for(let child of children) {
-        if(parent.id != "nav" && child === other.selected || child === other.level) {
-            child.style.background = other.default;
+        if(parent.id != "nav" && child === general.selected || child === general.level) {
+            child.style.background = general.default;
         } 
         else if(child.tagName.toLowerCase() != "p" && child.tagName.toLowerCase() != "h2") {
             child.style.background = bgColor;
@@ -2271,7 +2284,7 @@ const Enable = async (parent, bgColor, color) => { try {
         
         if(child.children.length > 0) {
             if(child.children[0].innerHTML === "LOCKED") {
-                child.style.background = other.disabled;
+                child.style.background = general.disabled;
             } 
             
             child.children[0].style.color = color;
@@ -2286,7 +2299,7 @@ const Enable = async (parent, bgColor, color) => { try {
     }
     
     if(parent.id == "nav") {
-        await Scroll(other.level, {block: "nearest", inline: "center", behavior: "smooth"}, other.level.parentNode);
+        await Scroll(general.level, {block: "nearest", inline: "center", behavior: "smooth"}, general.level.parentNode);
     }
     
     } catch (error) {Notify(error + "")} 
@@ -2328,8 +2341,8 @@ const Submit = (event) => {
             Notify("You are offline, please turn on your device internet connection and try again.");
     } 
     else {
-        let playerA_name = $("#offline #playerA #playerA-name").value.trim();
-        let playerB_name = $("#offline #playerB #playerB-name").value.trim();
+        let playerA_name = $("#offline #playerA .playerA_name").value.trim();
+        let playerB_name = $("#offline #playerB .playerB_name").value.trim();
         if(playerA_name != "" && playerB_name != "") {
             //player 1 name
             playerA.name = playerA_name.replace(/^\w|\s\w/g, t => t.toUpperCase());
@@ -2341,11 +2354,11 @@ const Submit = (event) => {
         } 
         else {
         	if(playerA_name == "") {
-                $("#offline #playerA #playerA-name").focus();
+                $("#offline #playerA .playerA_name").focus();
             	Notify("Please fill out player 1 name.");
             } 
             else if(playerB_name == "") {
-                $("#offline #playerB #playerB-name").focus();
+                $("#offline #playerB .playerB_name").focus();
             	Notify("Please fill out player 2 name.");
             } 
         } 
@@ -2366,11 +2379,12 @@ const Restart = async (option) => {
     if(!Game.over) {
         Notify({action: "confirm", 
                 header: "Restart Game!", 
-                message: "Do you really want to restart this game?",
+                message: "Do you really want to restart this game?<br>Restarting will mean you accept defeat.",
                 type: "CANCEL/RESTART", 
                 onResponse: RestartOption});
         
         async function RestartOption (choice) {
+        	Timer.stop();
             if(choice === "RESTART") {
                 if(Game.mode === "two-player-online") {
                     if(Game.alternatePlayAs) {
@@ -2383,7 +2397,7 @@ const Restart = async (option) => {
                     }
                     else {
                         let btns = $$("#item3 button");
-                        Game.whiteTurn = (GetValue(btns[0], "background-image") == other.default);
+                        Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
                         Game.firstMove = Game.whiteTurn;
                     }
                    
@@ -2395,7 +2409,8 @@ const Restart = async (option) => {
                     Publish.send({channel: Lobby.CHANNEL, message: {title: 'RequestRestart', content: gameSettings}});
                     return;
                 }
-                        
+                Game.name = playerA.name;
+                await AddItem();
                 if(Game.alternatePlayAs) {
                     let color = playerA.pieceColor;
                     await Alternate(color);
@@ -2422,13 +2437,14 @@ const Hint = async (elem, state=Copy(Game.state)) => {
     if(!Game.over) { try {
         // if player won previous level without using hints and undo
         // is allowed to use hint
-        if(Game.mode === "two-player-offline" || Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode === "single-player" && (Game.level === 0 || Game.levels[Game.level-1].validForHint)) {
+        if(Game.mode === "two-player-offline" || Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode === "single-player" && Game.hintCount < 3 && (Game.level === 0 || Game.levels[Game.level-1].validForHint)) {
         	if(Game.mode === "single-player") {
 				Game.validForHint = false;
-				let hint_label = $("#play-window .footer_section p label:last-of-type");
-                hint_label.style.backgroundImage = "var(--hint)";
-                if(!hint_label.classList.contains("not_valid_for_hint"))
-                    hint_label.classList.add("not_valid_for_hint");
+				Game.hintCount++;
+				$$("#play-window .penalties div:last-of-type span")[0].textContent = Game.hintCount;
+				$$("#play-window .penalties div:last-of-type span")[1].textContent = Game.hintCount;
+				$$("#play-window .penalties div:last-of-type")[0].style.display = "block";
+				$$("#play-window .penalties div:last-of-type")[1].style.display = "block";
 				UpdatePiecesStatus();
 		    }
 		    else if(Game.mode === "two-player-online") {
@@ -2437,18 +2453,22 @@ const Hint = async (elem, state=Copy(Game.state)) => {
 	        elem.style.backgroundSize = "3.75vmax 3.75vmax";
 	        elem.style.backgroundImage = `url('${Icons.loadIcon}')`;
 			elem.style.pointerEvents = "none";
-			other.hintPath = [];
+			general.hintPath = [];
 			await setTimeout( () => getHint(elem, state), 100);
 		}
 		else if (Game.mode === "single-player") { 
             //resetting size
-            clearTimeout(other.timeout);
-            elem.style.backgroundSize = "3.75vmax 4.5vmax";
+            clearTimeout(general.timeout);
+            let validForHint = Game.level > 0? Game.levels[Game.level-1].validForHint: true;
+            elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
             //restarting
-            elem.style.backgroundSize = "4.95vmax 5.7vmax";
-            other.timeout = setTimeout(() => {
-				elem.style.backgroundSize = "3.75vmax 4.5vmax";
-				Notify("Please win the previous level without using the hint and undo buttons");
+            elem.style.backgroundSize = validForHint? "5.5vmax 4.75vmax" : "4.75vmax 5.5vmax";
+            general.timeout = setTimeout(() => {
+				elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
+				if(Game.hintCount == 0)
+					Notify("Please win the previous level without using the hint and undo buttons");
+				else
+					Notify("You can't hint more than three (3) times in a game.");
 			}, 300);
         }
         else {
@@ -2463,22 +2483,29 @@ const Hint = async (elem, state=Copy(Game.state)) => {
    
     async function getHint(elem, state) {
         let id = (Game.mode !== "two-player-offline")? playerA.pieceColor.substring(0,1): (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
-        let moves = await Iterate({id, state, func: AssesCaptures});
-        if(moves.length === 0)
-            moves = await Iterate({id, state, func: AssesMoves});
+        let moves = await AssessAll({id, state});
+        if(Game.mandatoryCapture && moves.captures.length > 0) {
+        	moves = moves.captures;
+        }
+        else if(Game.mandatoryCapture && moves.captures.length == 0) {
+        	moves = moves.nonCaptures;
+        }
+        else {
+        	moves = moves.nonCaptures.concat(moves.captures);
+        } 
         let level = Game.mode != "single-player"? 5: Game.level;
         let ai = new AI({state, moves, depth: (level < 4? 4: level)});
         await ai.makeMove(true);
        
-        let cell = other.aiPath[0];
-        await ValidateMove({cell: $("#table").rows[cell.i].cells[cell.j], i: cell.i, j: cell.j});
+        let cell = general.aiPath[0];
+        await ValidateMove({cell: $("#table").children[cell.i*Game.boardSize+cell.j], i: cell.i, j: cell.j});
         
-        for(cell of other.aiPath) {
-            $("#table").rows[cell.m].cells[cell.n].classList.remove("helper_empty");
-            $("#table").rows[cell.m].cells[cell.n].classList.add("hint");
+        for(cell of general.aiPath) {
+            $("#table").children[cell.m*Game.boardSize+cell.n].classList.remove("helper_empty");
+            $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("hint");
         }
         AudioPlayer.play("notification", 0.1);
-        other.aiPath = [];
+        general.aiPath = [];
         elem.style.backgroundSize = "4.5vmax 3.75vmax";
         elem.style.backgroundImage = `var(--hint)`;
         elem.style.pointerEvents = "auto";
@@ -2490,7 +2517,7 @@ const Exit = () => { try {
     if(BackState.moves.length > 0 && !Game.over) {
         Notify({action: "confirm", 
                 header: "Do you really want to exit?", 
-                message: "The current game process will be lost!",
+                message: "The current game progress will be lost!",
                 type: "CANCEL/EXIT", 
                 onResponse: Option });
         Clicked();
@@ -2499,7 +2526,9 @@ const Exit = () => { try {
             if(choice == "EXIT") {
                 if(Game.mode === "two-player-online") {
                     Publish.send({channel: Lobby.CHANNEL, message: {title: "ExitedGame", content: playerA.name} });
-                } 
+                }
+                TerminateWorkers();
+                Timer.stop();
                 Cancel();
                 back();
                 return;
@@ -2559,7 +2588,7 @@ const AboutCheckers = () => {
         }
         //alert(src);
         Notify({action: "alert", 
-                header: `<img style="height: 100%; width: 50px; margin-right: 15px;" src=${src}> ${version}`, 
+                header: `<img style="height: 100%; width: 80px; margin-right: 15px; object-fit: cover;" src=${src}> ${version}`, 
                 message});
     } 
     else
@@ -2567,24 +2596,27 @@ const AboutCheckers = () => {
 } 
 
 
-const Helper = async (moves, state, isMultJump = false) => { 
+const Helper = async (moves, state, isMultJump = false) => {
     for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, #table .helper_empty, #table .helper_filled")) {
         cell.classList.remove("hint");
         cell.classList.remove("helper_empty");
         cell.classList.remove("helper_filled");
-    } 
+    }
+    let showNonCapture = Game.mandatoryCapture && Game.moves.captures.length == 0 || !Game.mandatoryCapture;
     // check if moves is an attack move or not
-    if(moves[0].capture === undefined && !isMultJump) {
+    if(showNonCapture && !isMultJump) {
     	if(!(Game.mode == "single-player" && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && Game.helper) 
-	        for(let move of moves) {
+	        for(let move of moves.nonCaptures) {
 	            let i = parseInt(move.cell.slice(0,1));
 	            let j = parseInt(move.cell.slice(1,2));
 	            let m = parseInt(move.empty.slice(0,1));
 	            let n = parseInt(move.empty.slice(1,2));
-	            $("#table").rows[i].cells[j].classList.add("pre_valid");
+	            $("#table").children[i*Game.boardSize+j].classList.add("pre_valid");
 	        }
-		return;
+		if(Game.mandatoryCapture)
+			return;
     }
+    moves = moves.captures;
     
     for(let k = 0; k < moves.length; k++) {
     	let move = moves[k];
@@ -2594,9 +2626,9 @@ const Helper = async (moves, state, isMultJump = false) => {
         let n = parseInt(move.empty.slice(1,2));
         let crowned = false;
         if(!isMultJump) 
-        	other.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: true});
+        	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: true});
         else
-        	other.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: false});
+        	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: false});
         // Check if its a capture
         if(move.capture != undefined) {
             let cloneState = Copy(state);
@@ -2610,18 +2642,19 @@ const Helper = async (moves, state, isMultJump = false) => {
                 crowned = true;
             }
             let moves2 = [];
-            if(!crowned || crowned && (Game.version === "russian" || Game.version === "kenyan" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")) {
-            	id = crowned && (Game.version === "kenyan" || Game.version === "casino" || Game.version == "casino" || Game.version === "international" || Game.version === "nigerian")? id.replace("K", "M"): id;
-            	cloneState[m][n] = id;
-            	moves2 = await AssesCaptures({id, i: m, j: n, state: cloneState});
+            id = crowned && /^casino|international|nigerian$/gi.test(Game.version)? id.replace("K", "M"): id;
+            cloneState[m][n] = id;
+			
+            if(!crowned || crowned && /^casino|international|nigerian|russian$/gi.test(Game.version)) {
+            	moves2 = await AssesMoves({id, i: m, j: n, state: cloneState});
                 
-				if(moves2.length > 0) {
+				if(moves2.captures.length > 0) {
 					await Helper(moves2, cloneState, true);
 				} 
-				else if(crowned)
-					id = id.replace("M", "K"); 
+				else if(crowned) {
+					id = id.replace("M", "K");
+				} 
             } 
-            
             cloneState[m][n] = id;
     	} 
     }
@@ -2630,29 +2663,33 @@ const Helper = async (moves, state, isMultJump = false) => {
         return Prms(true);
     }
    
-    if((Game.helper || Game.capturesHelper) && Game.mandatoryCapture && (Game.mode == "two-player-offline" || (Game.mode == "single-player" || Game.mode == "two-player-online") && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
-	    let i = other.helperPath[0].i,
-	        j = other.helperPath[0].j, 
-	        isSingleCell = true;
+    general.sorted = await SortCaptures(general.helperPath);
+    general.helperPath = [];
+    if((Game.helper || Game.capturesHelper) && Game.mandatoryCapture && (Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode != "single-player")) {
+	    let i = general.sorted[0][0].i,
+	        j = general.sorted[0][0].j, 
+	        singleCell = general.sorted[0][0].cell;
 	        
-	    for(let cell of other.helperPath) {
-	        if(cell.source && (cell.i !== i || cell.j !== j)) {
-	            isSingleCell = false;
-	            break;
-	        }
+	    for(let arr of general.sorted) {
+			let data = arr[0];
+        	if(data.cell != singleCell) {
+				singleCell = false;
+				break;
+			} 
 	    } 
 	    
-	    if(isSingleCell) {
+	    if(singleCell) {
 			if(Game.mode != "two-player-online")
-	        	await ValidateMove({cell: $("#table").rows[i].cells[j], i, j});
+	        	await ValidateMove({cell: $("#table").children[i*Game.boardSize+j], i, j});
 			else
-				$("#table").rows[i].cells[j].classList.add("helper_filled");
+				$("#table").children[i*Game.boardSize+j].classList.add("helper_filled");
 	        return;
 	    } 
 	    else if(Game.helper || Game.capturesHelper) {
-	        for(let cell of other.helperPath) {
-	            if(cell.source)
-	            $("#table").rows[cell.i].cells[cell.j].classList.add("helper_filled");
+	        for(let arr of general.sorted) {
+	            let cell = arr[0];
+				if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper_filled")) 
+	            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
 	        } 
 	        return;
 	    }
@@ -2661,10 +2698,12 @@ const Helper = async (moves, state, isMultJump = false) => {
 
 const PlayAs = (elem) => { 
     if(elem.parentNode.id == "playerA") {
-        if(elem.innerHTML != "ALTERNATE") {
+        if(elem.innerHTML != "ALTERNATELY") {
             let num = elem.classList.length - 1;
-            Disable($(`#playerB .${elem.classList[num]}`), other.disabled, "#B4B4B4");
-            Enable($(`#playerB button:not(.${elem.classList[num]})`), other.default, "#fff");
+            Enable($$("#playerB button")[0], general.default, "#fff");
+            Enable($$("#playerB button")[1], general.default, "#fff");
+            Disable($(`#playerB .${elem.classList[num]}`), general.disabled, "#B4B4B4");
+            Enable($(`#playerB button:not(.${elem.classList[num]})`), general.default, "#fff");
             let btns = $$("#item4 button");
             for(let btn of btns) {
             	if(btn.innerHTML === elem.innerHTML) {
@@ -2680,14 +2719,14 @@ const PlayAs = (elem) => {
            
             btns = $$("#playerB button");
             for(let btn of btns) {
-               if(GetValue(btn, "background-image") === other.default) {
-                   Disable(btn, other.disabled, "#B4B4B4");
+               if(GetValue(btn, "background-image") === general.default) {
+                   Disable(btn, general.disabled, "#B4B4B4");
                    break;
                } 
             } 
         } 
     } 
-    if(elem.innerHTML != "ALTERNATE") {
+    if(elem.innerHTML != "ALTERNATELY") {
         Game.alternatePlayAs = false;
         let playAsWhite = (elem.innerHTML == "WHITE");
         playerA.pieceColor = (playAsWhite)? "White": "Black";
@@ -2699,8 +2738,8 @@ const PlayAs = (elem) => {
             	if(btn.innerHTML === elem.innerHTML) {
             	    Clicked(btn, btn.parentNode, false);
                     let num = btn.classList.length - 1;
-                    Disable($(`#playerB .${btn.classList[num]}`), other.disabled, "#B4B4B4");
-                    Enable($(`#playerB button:not(.${btn.classList[num]})`), other.default, "#fff");
+                    Disable($(`#playerB .${btn.classList[num]}`), general.disabled, "#B4B4B4");
+                    Enable($(`#playerB button:not(.${btn.classList[num]})`), general.default, "#fff");
                     break;
             	} 
             } 
@@ -2712,8 +2751,8 @@ const PlayAs = (elem) => {
         Clicked(btns, btns.parentNode, false);
         btns = $$("#playerB button");
         for(let btn of btns) {
-           if(GetValue(btn, "background-image") === other.default) {
-               Disable(btn, other.disabled, "#B4B4B4");
+           if(GetValue(btn, "background-image") === general.default) {
+               Disable(btn, general.disabled, "#B4B4B4");
                break;
            } 
         } 
@@ -2746,6 +2785,248 @@ const GetGames = () => {
         Notify("Your Games will be displayed here.");
 }
 
+const ShowTotalStats = async () => {
+	let sec = $(".games_totals");
+	sec.style.transform = "translate(0%, 0%)";
+	BackState.state.push([".games_totals"]);
+}
+
+const GetTotals = () => {
+	for(let div of $$(".totals_div")) {
+		let p = div.$("p");
+		p.innerHTML = p.innerHTML.replace(/\d+/gi, 0);
+		p.setAttribute("total", 0);
+		let conts = div.$$("div");
+		for(let cont of conts) 
+			div.removeChild(cont);
+	} 
+	for(const stat of Game.stats) {
+		let mode = stat.mode;
+		let names = JSON.parse(JSON.stringify(stat.playerName));
+		let name1 = stat.playerName[0];
+		let name2 = stat.playerName[1];
+		let status1 = stat.gameStatus[0].toLowerCase();
+		let status2 = stat.gameStatus[1].toLowerCase();
+		let version = stat.version.toUpperCase();
+		version = version? version.length == 3? Object.keys(Game.versions).find((v) => {
+			return v.toUpperCase().startsWith(version);
+		}).toUpperCase() + " CHECKERS": version: "Unknown";
+		
+		let table = $(`#${names.join("-")}`) || $(`#${names.reverse().join("-")}`) || $$$("table", ["id", names.join("-")]);
+		let thead = table.$("thead") || $$$("thead");
+		let tbody = table.$("tbody") || $$$("tbody");
+		let tr1 = thead.$$("tr")[0] || $$$("tr");
+		let tr2 = thead.$$("tr")[1] || $$$("tr");
+		let tr3 = tbody.$$("tr")[0] || $$$("tr", ["name", name1]);
+		let tr4 = tbody.$$("tr")[1] || $$$("tr", ["name", name2]);
+		
+		if(!tr1.parentNode || !tr1.$(`th[value='${version}']`)) {
+			let th;
+			if(!tr1.parentNode) {
+				th = $$$("th", ["textContent", "Player", "rowspan", "2"]);
+				tr1.appendChild(th);
+			} 
+			th = $$$("th", ["textContent", version, "value", version, "colspan", "4"]);
+			tr1.appendChild(th);
+			th = $$$("th", ["textContent", "Wins", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Losses", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Draws", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Win Probability", "value", version]);
+			tr2.appendChild(th);
+			
+			if(!tr1.parentNode) {
+				thead.appendChild(tr1);
+				thead.appendChild(tr2);
+			} 
+			
+			let td;
+			if(!tr3.parentNode) {
+				td = $$$("td", ["textContent", name1, "name", name1]);
+				tr3.appendChild(td);
+			} 
+			let count = status1 == "won"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			count = status1 == "lost"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			count = status1 == "draw"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			
+			let cells = tr3.$$(`td[value='${version}']`);
+			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "class", prob >= 50? "default": "red_ui"]);
+			tr3.appendChild(td);
+			
+			if(!tr4.parentNode) {
+				td = $$$("td", ["textContent", name2, "name", name2]);
+				tr4.appendChild(td);
+			} 
+			count = status2 == "won"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			count = status2 == "lost"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			count = status2 == "draw"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			
+			cells = tr4.$$(`td[value='${version}']`);
+			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "class", prob >= 50? "default": "red_ui"]);
+			tr4.appendChild(td);
+			
+			if(!tr3.parentNode) {
+				tbody.appendChild(tr3);
+				tbody.appendChild(tr4);
+				
+				table.appendChild(thead);
+				table.appendChild(tbody);
+			} 
+		}
+		else if(tr1.$(`th[value='${version}']`)) {
+			tr3 = tbody.$(`td[name='${name1}']`).parentNode;
+			let cells = tr3.$$(`td[value='${version}']`);
+			let cell = status1 == "won"? cells[0]: status1 == "lost"? cells[1]: cells[2];
+			let count = parseInt(cell.getAttribute("count")) + 1;
+			cell.textContent = count;
+			cell.setAttribute("count", count);
+			
+			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			cells[3].textContent = prob + "%";
+			cells[3].classList.remove("default", "red_ui");
+			cells[3].classList.add(prob >= 50? "default": "red_ui");
+			
+			tr4 = tbody.$(`td[name='${name2}']`).parentNode;
+			cells = tr4.$$(`td[value='${version}']`);
+			cell = status2 == "won"? cells[0]: status2 == "lost"? cells[1]: cells[2];
+			count = parseInt(cell.getAttribute("count")) + 1;
+			cell.textContent = count;
+			cell.setAttribute("count", count);
+			
+			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			cells[3].textContent = prob + "%";
+			cells[3].classList.remove("default", "red_ui");
+			cells[3].classList.add(prob >= 50? "default": "red_ui");
+		}
+		else {
+			
+		} 
+		
+		let div;
+		if(mode == "single-player" || name1.toLowerCase() == "you" && name2.toLowerCase("ai")) {
+			div = $(".single_player_totals");
+		}
+		else if(mode == "two-player-online") {
+			div = $(".online_totals");
+		}
+		else if(mode == "two-player-offline") {
+			div = $(".offline_totals");
+		}
+		else {
+			div = $(".uncategorized_totals");
+		}
+		
+		if(!table.parentNode) {
+			let cont = $$$("div");
+			cont.appendChild(table);
+			div.appendChild(cont);
+		} 
+			
+		let p = div.$("p");
+		let count = parseInt(p.getAttribute("total")) + 1;
+		p.innerHTML = p.innerHTML.replace(/\d+/gi, count);
+		p.setAttribute("total", count);
+	} 
+} 
+
+class GamesScroll {
+	static lastScrollTop = 0;
+	static check = (e) => {
+		if(Game.stats.length == 0) return;
+		let dir = e.target.scrollTop - this.lastScrollTop; // > 0 == scroll up else scroll down
+		let floatDate = $(".float_date");
+		let date = floatDate.getAttribute("value") || $(".games_date").getAttribute("date");
+		let targetElem = $$(`.game_item[date='${date}']`);
+		
+		targetElem = targetElem[dir > 0? targetElem.length-1: 0];
+		let threshold;
+		if(dir > 0) {
+			let parTop = e.target.getBoundingClientRect().top;
+			let targetElemTop = targetElem.getBoundingClientRect().top;
+			threshold = targetElemTop - parTop;
+		}
+		else if(dir < 0) {
+			let parBottom = e.target.getBoundingClientRect().bottom;
+			let targetElemBottom = targetElem.getBoundingClientRect().bottom;
+			threshold = parBottom - targetElemBottom;
+		} 
+		
+		if(threshold <= -20 && targetElem.nextElementSibling) {
+			date = dir > 0? targetElem.nextElementSibling : targetElem.previousElementSibling.previousElementSibling;
+			floatDate.textContent = $(`.games_date[date='${date.getAttribute("date")}']`).textContent;
+			floatDate.setAttribute("value", date.getAttribute("date"));
+		}
+		else if(!floatDate.getAttribute("value")) {
+			date = $(".games_date");
+			floatDate.textContent = date.textContent;
+			floatDate.setAttribute("value", date.getAttribute("date"));
+		} 
+		floatDate.classList.add("show_float_date");
+		clearTimeout(general.floatTimeout);
+		general.floatTimeout = setTimeout(() => {
+			floatDate.classList.remove("show_float_date");
+		}, 2000);
+		this.lastScrollTop = e.target.scrollTop;
+	} 
+}
+
+const ConvertTo = (time, to, includeSec = false) => {
+	try {
+		if(time == "Invalid Date")
+			return "";
+		time = time.split(" ")[0];
+		let hr = parseInt(time.split(":")[0]);
+		let min = time.split(" ")[0].split(":")[1];
+		let sec = time.split(" ")[0].split(":")[2] || "00";
+		let converted = "";
+		if(to == 24) {
+			let prd = time.split(" ")[1];
+			if(prd == "PM" && hr < 12) {
+				converted = String((hr + 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
+			} 
+			else if(prd == "AM" && hr == 12) {
+				converted = "00:" + min + (includeSec? ":" + sec: "");
+			} 
+			else {
+				converted = String(hr).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
+			} 
+		} 
+		else if(to == 12) {
+			if(hr == 0) {
+				converted = "12:" + min + (includeSec? ":" + sec: "") + " AM";
+			} 
+			else if(hr > 12) {
+				converted = String((hr - 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "") + " PM";
+			} 
+			else if(hr == 12) {
+				converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " PM";
+			} 
+			else {
+				converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " AM";
+			} 
+		} 
+		return converted;
+	} catch (error) {
+		reportError(error);
+	} 
+} 
+
 const ClearGames = () => {
 	Clicked();
 	if(Game.stats.length > 0) {
@@ -2763,47 +3044,72 @@ const ClearGames = () => {
 			Cancel();
 		}
 		else if(response == "CLEAR") {
-			Cancel();
 			$("#games").innerHTML = "";
+			let p = $(".totals_footer p");
+			p.innerHTML = p.innerHTML.replace(/\d+/gi, 0);
 		    Game.stats = [];
+			GetTotals();
+			$(".float_date").textContent = "";
+			$(".float_date").removeAttribute("value");
 		    Notify("Games cleared successfully");
 		    if(storage) {
-			    storage.removeItem("stats");
-		    } 
+			    storage.removeItem("Checkers - stats");
+		    }
+			Cancel();
 		} 
     } 
 } 
 
-const GetStats = (no) => { try {
-    let props = $$(".figures");
-    let stats = Game.stats[no];
-    props[0].innerHTML = stats.pieceColor[0];
-    props[1].innerHTML = stats.pieceColor[1];
-    props[2].innerHTML = stats.gameStatus[0];
-    props[3].innerHTML = stats.gameStatus[1];
-    props[4].innerHTML = stats.piecesRemaining[0];
-    props[5].innerHTML = stats.piecesRemaining[1];
-    props[6].innerHTML = stats.kingsMade[0];
-    props[7].innerHTML = stats.kingsMade[1];
-    props[8].innerHTML = stats.movesMade[0];
-    props[9].innerHTML = stats.movesMade[1];
-    props[10].innerHTML = stats.capturesMade[0];
-    props[11].innerHTML = stats.capturesMade[1];
-    props[12].innerHTML = stats.longestCapture[0];
-    props[13].innerHTML = stats.longestCapture[1];
+const GetStats = (no) => { 
+	let section = $(".stats_section");
+	section.innerHTML = "";
+	let stat = Game.stats[no];
+	let imgs = $$(".stats_header img");
+	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[16]: srcs[17];
+	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[16]: srcs[17];
+	
+    for(let key of Object.keys(stat)) {
+    	if(/version|level|ms|mode/gi.test(key))
+    		continue;
+    	let value = stat[key];
+    	let item = $$$("div");
+		item.classList.add("stats_item");
+		let val1 = $$$("div");
+		val1.classList.add("stats_value");
+		let name = $$$("div");
+		val1.classList.add("stats_name");
+		let val2 = $$$("div");
+		val2.classList.add("stats_value");
+		
+		for(let ch of key) {
+			if(ch == ch.toUpperCase()) {
+				let index = key.indexOf(ch);
+				key = key.slice(0, index) + " " + key.slice(index);
+				break;
+			}
+		} 
+		
+		val1.innerHTML = String(value[0]).toLowerCase().replace(/^\w/, (t) => t.toUpperCase());
+		val2.innerHTML = String(value[1]).toLowerCase().replace(/^\w/, (t) => t.toUpperCase());
+		name.innerHTML = key.replace(/^\w/, (t) => t.toUpperCase());;
+		
+		item.appendChild(val1);
+		item.appendChild(name);
+		item.appendChild(val2);
+		section.appendChild(item);
+    } 
     Clicked();
     
     BackState.state.push(["#games-window", "#stats-window"]);
     $("#games-window").style.display = "none";
     $("#stats-window").style.display = "grid";
-    } catch (error) {alert(error + "\n" + no + "\nGet starts error")}
 } 
 
 const Mode = async (type, click = true) => {
     if(type == 2) {
         Game.mode = "two-player-offline";
-        playerA.name = $("#playerA-name").value;
-        playerB.name = $("#playerB-name").value;
+        playerA.name = $(".playerA_name").value;
+        playerB.name = $(".playerB_name").value;
         $("#two-players-window h2").innerHTML = "TWO PLAYERS OFFLINE";
         $("#item4").style.display = "none";
         $("#online").style.display = "none";
@@ -2845,7 +3151,7 @@ const Settings = (elem) => {
     let modes = $$("#main-window #main div");
     let previousMode;
     for(let mode of modes) {
-        if(GetValue(mode, "background-image") === other.default) { 
+        if(GetValue(mode, "background-image") === general.default) { 
             previousMode = mode;
             break;
         } 
@@ -2871,9 +3177,9 @@ const Confirm = async (option, callBack) => {
 
 const Notify = (data) => {
     if(typeof data === "object") {
-        other.Handler0 = null;
-        other.Handler1 = null;
-        other.Handler2 = null;
+        general.Handler0 = null;
+        general.Handler1 = null;
+        general.Handler2 = null;
         let note_window = $("#notification-window"), 
             note_main = $("#note"), 
             note_image = $(".note_img"), 
@@ -2885,16 +3191,14 @@ const Notify = (data) => {
          
         note_window.classList.remove("fade_note");
         note_window.style.justifyContent = "center";
-        note_main.style.gridTemplateRows = "15px auto auto auto";
-        note_main.style.gridTemplateColumns = "75px auto";
+        note_main.style.gridTemplateRows = "auto auto auto";
+        note_main.style.gridTemplateColumns = "60px auto 25px";
         note_main.style.gridRowGap = "5px";
         note_main.style.padding = "10px";
-        note_image.style.padding = "10px";
-        note_image.style.gridArea = "1 / 1 / 3 / 2";
+        note_image.style.padding = "5px";
         note_head.style.textAlign = "left";
-        note_head.style.fontWeight = "700";
+        note_head.style.fontWeight = "900";
         note_head.style.alignItems = "center";
-        note_head.style.gridArea = "2 / 2 / 3 / 3";
         note_body.style.display = "block";
         note_head.innerHTML = data.header || "";
         note_body.innerHTML = data.message || "";
@@ -2925,13 +3229,11 @@ const Notify = (data) => {
             note_main.style.padding = "5px";
             note_main.style.gridRowGap = "0px";
             note_image.style.padding = "0px 10px 0px 0px";
-            note_image.style.gridArea = "1 / 1 / 2 / 2";
            
             note_close_button.style.display = "none";
             note_head.style.textAlign = "center";
-            note_head.style.fontWeight = "400";
+            note_head.style.fontWeight = "500";
             note_head.style.alignItems = "center";
-            note_head.style.gridArea = "1 / 2 / 2 / 3";
             note_body.style.display = "none";
             note_image.src = data.icon;
             note_image.style.height = "60px";
@@ -2957,10 +3259,13 @@ const Notify = (data) => {
             if(data.icon === undefined) 
                 note_image.src = Icons.confirmIcon;
             else {
-                if(data.iconType == "winner")
-                note_image.style.height = "80px";
-                else if(data.iconType == "draw")
-                note_image.style.width = "80px";
+                if(data.iconType == "winner") {
+                	note_image.style.height = "80px";
+                } 
+                else if(data.iconType == "draw") {
+                	note_main.style.gridTemplateColumns = "80px auto 25px";
+                	note_image.style.width = "80px";
+                } 
                 note_image.src = data.icon;
             } 
             
@@ -2984,6 +3289,7 @@ const Notify = (data) => {
                 note_image.style.height = "80px";
             } 
             else if(data.iconType == "draw") {
+            	note_main.style.gridTemplateColumns = "80px auto 25px";
                 note_image.style.width = "80px";
                 note_image.style.height = "60px";
             } 
@@ -3064,7 +3370,7 @@ const Version = async (elem, index, click = true) => {
                 await Clicked(levels[Game.versions[Game.version].length-1], levels[Game.versions[Game.version].length-1].parentNode, false);
             }
             else {
-                other.level = levels[Game.versions[Game.version].length-1];
+                general.level = levels[Game.versions[Game.version].length-1];
             }
             await loopingDone();
             elem.parentNode.classList.remove("disabled_container");
@@ -3101,7 +3407,7 @@ const Version = async (elem, index, click = true) => {
         else {
             level.children[0].innerHTML = "LOCKED";
             level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
-            level.style.backgroundImage = other.disabled;
+            level.style.backgroundImage = general.disabled;
             level.children[1].style.backgroundImage = `url(${srcs[srcs.length-2]})`;
 
             for(let label of level.children[1].children) {
@@ -3110,7 +3416,7 @@ const Version = async (elem, index, click = true) => {
         }
        
         if(Game.mode !== "single-player") {
-            await Disable(level.parentNode, other.disabled, "#B4B4B4");
+            await Disable(level.parentNode, general.disabled, "#B4B4B4");
         } 
         
         await loop(m+1);
@@ -3129,27 +3435,38 @@ const Version = async (elem, index, click = true) => {
     } 
 }
 
-const RestartLevels = async () => { try {
-	await Notify({action: "alert_special", 
-			header: "Please Wait!", 
-			message: "Resetting levels..."});
-	
-	Object.keys(Game.versions).map((key) => {
-		Game.versions[key] = [{score: 3, validForHint: true}];
-	});
-	if(storage) {
-        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
-        storage.setItem("Checkers - version", Game.version);
-    }
-    let version = Game.version;
-    for(let h2 of $$(".version h2")) {
-        if(h2.innerHTML.includes(version.toUpperCase())) {
-            version = h2.parentNode;
-            break;
-        } 
-    }
-    await Version(version, undefined, false);
-    Cancel();
+const RestartLevels = async () => { 
+	try {
+		Notify({action: "confirm", 
+				header: "Are you sure restart all levels!", 
+				message: "Once done this action can not be reversed.",
+				type: "CANCEL/RESTART", 
+				onResponse: RestartLevelsOption});
+				
+		async function RestartLevelsOption (option) {
+			if(option == "RESTART") {
+				await Notify({action: "alert_special", 
+						header: "Please Wait!", 
+						message: "Resetting levels..."});
+				
+				Object.keys(Game.versions).map((key) => {
+					Game.versions[key] = [{score: 3, validForHint: true}];
+				});
+				if(storage) {
+			        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+			        storage.setItem("Checkers - version", Game.version);
+			    }
+			    let version = Game.version;
+			    for(let h2 of $$(".version h2")) {
+			        if(h2.innerHTML.includes(version.toUpperCase())) {
+			            version = h2.parentNode;
+			            break;
+			        } 
+			    }
+			    await Version(version, undefined, false);
+			} 
+		    Cancel();
+		} 
     } catch(error) {alert("Restart Error!\n" + error.message)}
 } 
 
@@ -3201,7 +3518,7 @@ const Level = async (elem, index, click = true) => {
     else {
         let level = $$("#levels #nav div")[Game.level+1];
         if(level.children[0].innerHTML === "LOCKED") {
-            level.style.backgroundImage = other.background;
+            level.style.backgroundImage = general.background;
             level.children[0].innerHTML = Game.levels[Game.level+1].level.replace(" ", "<br/>");
             level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
             level.children[1].style.backgroundImage = `none`;
@@ -3243,36 +3560,24 @@ const End = (event) => {
         let popUpNote = $("#pop-up-note");
         popUpNote.style.display = "none";
     } 
-    else if(event.animationName === "fade-out") { try {
+    else if(event.animationName === "fade-out") { 
+		try {
             event.target.removeAttribute("onanimationend");
             event.target.classList.remove("captured");
             event.target.parentNode.removeChild(event.target);
+            if(!$(".captured")) {
+            	general.captureFadeTime.end();
+            } 
         } catch (error) {}
     }
     else if(event.animationName === "fade-note") {
         event.target.removeAttribute("onanimationend");
         event.target.style.display = "none";
         event.target.classList.remove("fade_note");
-    } 
-} 
-
-const AdjustScreen = (orientation, exitFullscreen = false) => { try {
-    let vh = document.documentElement.clientHeight || window.innerHeight || window.screen.availHeight;
-    let h = window.screen.height;
-   
-    if(!exitFullscreen) {
-	    if(orientation.includes("portrait")) {
-	        if(other.notch.has && h == vh)
-	            document.documentElement.style.setProperty("--border-top",  `${other.notch.top}px` );
-	    } 
-	    else if(orientation.includes("landscape")) {
-	        document.documentElement.style.setProperty("--border-top", "0");
-	    } 
     }
-    else {
-    	document.documentElement.style.setProperty("--border-top", "0");
+    else if(event.animationName === "slide_float_date") {
+    	event.target.classList.remove("show_float_date");
     } 
-    } catch (error) {alert (error)}
 } 
 
 const Home = async () => {
@@ -3286,7 +3591,7 @@ const Home = async () => {
                 await Clicked(current_state[2], current_state[2].parentNode, false);
             } 
             $(current_state[1]).style.display = "none";
-            $(current_state[0]).style.display = "grid"; } catch (error) {document.write(error)}
+            $(current_state[0]).style.display = "grid"; } catch (error) {console.log(error)}
         } 
         await Home();
     }
@@ -3294,12 +3599,9 @@ const Home = async () => {
     return true;
 }
 
-async function play (isAutoRotate = false, accepted = false) {
-    if(isAutoRotate && other.fullscreen) {
-        AdjustScreen(screen.orientation.type.toLowerCase());
-    } 
+async function play (accepted = false) {
     if(Lobby != undefined && Lobby.isConnected && Game.mode === "two-player-online" || Game.mode === "single-player") {
-        if(GetValue($("#play-window"), "display") == "none" && !isAutoRotate || accepted) {
+        if(GetValue($("#play-window"), "display") == "none" || accepted) {
         	// If game mode is online, request consent from opponent, otherwise just display the play window
             if(Game.mode === "two-player-online" && !accepted) {
                 if(Game.alternatePlayAs) {
@@ -3314,7 +3616,7 @@ async function play (isAutoRotate = false, accepted = false) {
                     }
                     else {
                         let btns = $$("#item3 button");
-                        Game.whiteTurn = (GetValue(btns[0], "background-image") == other.default);
+                        Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
                         Game.firstMove = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? true: false;
                     }
                 	
@@ -3331,7 +3633,7 @@ async function play (isAutoRotate = false, accepted = false) {
             } 
             
             if(Game.mode !== "two-player-online") {
-                $("#play-window .footer_section p").style.display = "flex";
+                $("#play-window .controls_section .score_cont").style.display = "flex";
                 if(Game.alternatePlayAs) {
                     let color = playerA.pieceColor;
                     await Alternate(color);
@@ -3359,11 +3661,7 @@ async function play (isAutoRotate = false, accepted = false) {
             $("#play-window").style.display = "grid";
         }
         if(GetValue($("#play-window"), "display") == "grid") {
-            let board = $(".board");
-            let root = document.documentElement;
-            root.style.setProperty("--angleZ", "0deg");
-            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
-            
+            AdjustBoard();
             if(Game.mode === "single-player") {
                 $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
                 $(".face_bottom #level").innerHTML = `${$("#levels h2").innerHTML}`;
@@ -3377,85 +3675,93 @@ async function play (isAutoRotate = false, accepted = false) {
                 $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
                 $(".face_bottom #level").innerHTML = `${playerA.name} VS ${playerB.name}`;
             } 
-            
-            if(screen.orientation.type.toLowerCase().includes("landscape")) {
-                let vh = document.documentElement.clientHeight || window.innerHeight || window.screen.availHeight;
-                let vw = document.documentElement.clientWidth || window.innerWidth || window.screen.availWidth;
-                let height = Math.max(vh, vw);
-                let width = Math.min(vh, vw);
-                let ratio = Math.round(width/height);
-                let top = -5;
-                let bg_top = -15.5; 
-                top += ((ratio > 0)? (ratio - 2.5): 0);
-                bg_top += ((ratio > 0)? (ratio - 3): 0);
-               
-                Game.top = top;
-                root.style.setProperty("--top", `${top}vh`);
-                $(".perspective_background").style.top = `${bg_top}vh`;
-                
-                let shadowWidth = (width * 2.5)/276;
-                root.style.setProperty("--angleX", "33deg"); 
-                root.style.setProperty("--length", "112vmin");
-                root.style.setProperty("--shadow-width", `${shadowWidth}px`);
-                root.style.setProperty("--piece_size", "80%");
-                
-            } 
-            else if(screen.orientation.type.toLowerCase().includes("portrait")) {
-                //Game.top = 0;
-                root.style.setProperty("--top", `0vmin`);
-                
-                root.style.setProperty("--angleX", "0deg"); 
-                root.style.setProperty("--length", "calc(100vmin - 10px)");
-                root.style.setProperty("--shadow-width", "0px");
-                root.style.setProperty("--piece_size", "85%");
-            } 
         }
     } 
-    else if(Game.mode === "two-player-offline" && playerA.name != "You" && playerA.name !== "" && playerB.name != "AI" && playerB.name !== "") { try {
-        let board = $(".board");
-        let root = document.documentElement;
+    else if(Game.mode === "two-player-offline" && playerA.name != "You" && playerA.name !== "" && playerB.name != "AI" && playerB.name !== "") { 
         $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
-        root.style.setProperty("--top", `0vh`);
-        root.style.setProperty("--angleX", "0deg"); 
-        root.style.setProperty("--length", "calc(100vmin - 10px)");
-        root.style.setProperty("--shadow-width", "0px");
-        root.style.setProperty("--piece_size", "85%");
         
-        if(screen.orientation.type.toLowerCase().includes("landscape")) {
-            root.style.setProperty("--angleZ", "0deg");
-            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
+        $("#play-window .controls_section .score_cont").style.display = "none";
+        if(Game.alternatePlayAs) {
+            let color = playerA.pieceColor;
+            await Alternate(color);
         } 
-        else if(screen.orientation.type.toLowerCase().includes("portrait")) {
-            root.style.setProperty("--angleZ", "90deg");
-            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
-        } 
+        await Refresh(true);
         
-        if(!isAutoRotate) {
-            $("#play-window .footer_section p").style.display = "none";
-            if(Game.alternatePlayAs) {
-                let color = playerA.pieceColor;
-                await Alternate(color);
-            } 
-            await Refresh(true);
-            
-            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
-            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
-            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
-            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
-            
-            BackState.state.push(["#main-window", "#play-window"]);
-            $("#main-window").style.display = "none";
-            $("#play-window").style.display = "grid";
-        } 
-        } catch (error) {document.write (error);} 
+        $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+        $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+        $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+        $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+        
+        BackState.state.push(["#main-window", "#play-window"]);
+        $("#main-window").style.display = "none";
+        $("#play-window").style.display = "grid";
     } 
-    else if(!isAutoRotate) {
+    else {
         if(Game.mode === 'two-player-online')
             Notify("Can't play, you have no opponent. Please wait or invite one or join another channel.");
         else if(Game.mode === 'two-player-offline')
             Notify("Can't play, you haven't filled out players details. Fill them out and try again.");
-    } 
+    }
 }
+
+const AdjustBoard = () => {
+	general.orientation = screen.orientation.type;
+	let offlineMode = Game.mode == "two-player-offline";
+	let root = document.documentElement;
+	if(screen.orientation.type.toLowerCase().includes("landscape")) {
+        let vh = document.documentElement.clientHeight || window.innerHeight || window.screen.availHeight;
+        let vw = document.documentElement.clientWidth || window.innerWidth || window.screen.availWidth;
+        let width = Math.min(vh, vw);
+        
+        let shadowWidth = (width * 2.5)/276;
+        if(offlineMode) {
+        	root.style.setProperty("--z-plane-distance", "0px");
+        	root.style.setProperty("--perspective-y", "50%");
+        	root.style.setProperty("--shadow-width", `0px`);
+        	root.style.setProperty("--piece_size", "85%");
+        	root.style.setProperty("--angleX", "0deg");
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 0 2vmin 4vmin #000";
+        } 
+        else {
+        	root.style.setProperty("--z-plane-distance", "122px");
+        	root.style.setProperty("--perspective-y", "80%");
+        	root.style.setProperty("--shadow-width", `${shadowWidth}px`);
+        	root.style.setProperty("--piece_size", "80%");
+        	root.style.setProperty("--angleX", "30deg");
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 -4vmin 2vmin 4vmin #000";
+            $("#play-window .middle_section .score").style.display = "flex";
+        	$("#play-window .middle_section .penalties").style.display = "flex";
+        } 
+    } 
+    else if(screen.orientation.type.toLowerCase().includes("portrait")) {
+        root.style.setProperty("--shadow-width", "0px");
+        root.style.setProperty("--piece_size", "85%");
+        root.style.setProperty("--angleX", "0deg");
+        root.style.setProperty("--z-plane-distance", "0px");
+        root.style.setProperty("--perspective-y", "50%");
+        $("#play-window .middle_section .face_back").style.boxShadow = "0 0 2vmin 4vmin #000";
+       
+        $("#play-window .middle_section .score").style.display = "none";
+	    $("#play-window .middle_section .penalties").style.display = "none";
+        
+        if(offlineMode) {
+        	root.style.setProperty("--angleZ", "90deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+        }
+        else {
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+        } 
+    } 
+} 
 
 const Fullscreen = async (value, isEvent = false) => { 
     try {
@@ -3475,10 +3781,9 @@ const Fullscreen = async (value, isEvent = false) => {
         		await enterFullscreen.call(elem, {navigationUI: "hide"});
         		
         		Clicked($("#fs-on"), $("#fs-on").parentNode);
-        		AdjustScreen(screen.orientation.type.toLowerCase());
-			    other.fullscreen = value;
+			    general.fullscreen = value;
 			    
-			    let res = await orientationLocking(document.documentElement, other.orientation);
+			    let res = await orientationLocking(document.documentElement, general.orientation);
                 if(!res) {
                     $("#item1").style.display = "none";
                 } 
@@ -3490,23 +3795,22 @@ const Fullscreen = async (value, isEvent = false) => {
 	    } 
 	    else if(!isEvent) {
 		    if(exitFullscreen && isFullScreen()) {
-			    other.fullscreen = value;
+			    general.fullscreen = value;
 			    $("#item1").style.display = "none";
         		await exitFullscreen.call(document);
-        		AdjustScreen("", true);
         		Clicked($("#fs-off"), $("#fs-off").parentNode);
         	}
 	    } 
 	    else if(isEvent && !isFullScreen()) {
 		    $("#item1").style.display = "none";
 		    let btns = $$("#item0 button");
-		    btns[0].style.background = other.background;
-		    btns[1].style.background = other.default;
-		    other.fullscreen = false;
+		    btns[0].style.background = general.background;
+		    btns[1].style.background = general.default;
+		    general.fullscreen = false;
 		} 
 
 	} catch (error) {
-		if(!other.fullscreen)
+		if(!general.fullscreen)
 		    $("#item1").style.display = "none";
 		Notify({action: "alert",
 				header: "Fullscreen Error",
@@ -3518,17 +3822,6 @@ async function orientationLocking (elem, orientation) {
 	let res = false;
 	try {
 		await screen.orientation.lock(orientation).then(_ => {
-            let viewBtns = $$("#item1 button");
-            if(screen.orientation.type.toLowerCase().includes("portrait")) {
-                viewBtns[1].style.background = other.default;
-                viewBtns[0].style.background = other.background;
-                other.orientation = "portrait";
-            } 
-            else if(screen.orientation.type.toLowerCase().includes("landscape")) {
-                viewBtns[0].style.background = other.default;
-                viewBtns[1].style.background = other.background;
-                other.orientation = "landscape";
-            }
             res = true;
         }).catch((error) => {
             if(error.name != "NotSupportedError")
@@ -3549,26 +3842,23 @@ async function back (undo = false, isComp = false) {
     if(!undo) {
     	if(GetValue($("#settings-window"), "display") == "grid") {
 	        let btns;
-			if(other.fullscreen && GetValue($("#item1"), "display") == "grid") {
+			if(general.fullscreen && GetValue($("#item1"), "display") == "grid") {
 	        	btns = $$("#item1 button");
 		        for(let btn of btns) {
-		            if(GetValue(btn, "background-image") == other.default) { 
-		                if(btn.innerHTML == "HORIZ." && screen.orientation.type.toLowerCase().includes("portrait")) {
+		            if(GetValue(btn, "background-image") == general.default) { 
+		                if(btn.innerHTML == "HORIZ." && general.orientation.toLowerCase().includes("portrait")) {
 		                    orientationLocking(document.documentElement, "landscape-primary"); 
-		                    other.orientation = "landscape-primary";
 		                } 
-		                else if(btn.innerHTML == "VERT." && screen.orientation.type.toLowerCase().includes("landscape")) {
+		                else if(btn.innerHTML == "VERT." && general.orientation.toLowerCase().includes("landscape")) {
 		                    orientationLocking(document.documentElement, "portrait-primary");
-		                    other.orientation = "portrait-primary";
 		                } 
-						AdjustScreen(other.orientation);
 		            } 
 		        }
 			} 
 	        
 	        btns = $$("#item3 button");
 	        for(let btn of btns) {
-	            if(GetValue(btn, "background-image") == other.default) { 
+	            if(GetValue(btn, "background-image") == general.default) { 
 	                if(btn.innerHTML != "ROLL DICE") {
 	                    Game.whiteTurn = btn.innerHTML == "WHITE";
 	                    Game.rollDice = false;
@@ -3584,7 +3874,7 @@ async function back (undo = false, isComp = false) {
 	        
 	        btns = $$("#item5 button");
 	        for(let btn of btns) {
-	            if(GetValue(btn, "background-image") == other.default) { 
+	            if(GetValue(btn, "background-image") == general.default) { 
 	                Game.mandatoryCapture = btn.innerHTML === "ON";
 	                break;
 	            } 
@@ -3594,7 +3884,7 @@ async function back (undo = false, isComp = false) {
 	        
 	        btns = $$("#item6 button");
 	        for(let btn of btns) {
-	            if(GetValue(btn, "background-image") === other.default) {
+	            if(GetValue(btn, "background-image") === general.default) {
 	                if(btn.id === "active") {
 	                    Game.helper = true;
 	                    Game.capturesHelper = true;
@@ -3617,7 +3907,7 @@ async function back (undo = false, isComp = false) {
 		} 
         
         let length = BackState.state.length;
-        if(length > 0) { try {
+        if(length > 0) { 
             let current_state = BackState.state[length-1];
             await BackState.state.pop();
             
@@ -3626,15 +3916,20 @@ async function back (undo = false, isComp = false) {
             }
             else
             	await Clicked();
-            $(current_state[1]).style.display = "none";
-            $(current_state[0]).style.display = "grid"; } catch (error) {document.write(error)}
+            if($(current_state[0]).classList.contains("games_totals")) {
+            	$(current_state[0]).style.transform = "translate(0, 100%)";
+            }
+            else {
+	            $(current_state[1]).style.display = "none";
+	            $(current_state[0]).style.display = "grid"; 
+			}
         } 
     } 
     else if(!Game.over) { 
         let moving = $$("#transmitter .outer");
         if(moving.length == 0) {
             let length = BackState.moves.length;
-            if(isComp || length > 0 && Game.mode === "two-player-offline" || ((Game.mode == "two-player-online" || Game.mode === "single-player") && length > 1 && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") )) {
+            if(isComp || length > 0 && Game.mode === "two-player-offline" || ((Game.mode == "two-player-online" || Game.mode === "single-player" && Game.undoCount < 5) && length > 1 && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") )) {
             	let move = BackState.moves[length-1];
                 await BackState.moves.pop();
                 Undo.move(move);
@@ -3667,10 +3962,11 @@ async function back (undo = false, isComp = false) {
                 	}
                 	else {
 	                	Game.validForHint = false;
-	                    let hint_label = $("#play-window .footer_section p label:last-of-type");
-	                    hint_label.style.backgroundImage = "var(--undo)";
-	                    if(!hint_label.classList.contains("not_valid_for_hint"))
-	                        hint_label.classList.add("not_valid_for_hint");
+						Game.undoCount++;
+						$$("#play-window .penalties div:first-of-type span")[0].textContent = Game.undoCount;
+						$$("#play-window .penalties div:first-of-type span")[1].textContent = Game.undoCount;
+						$$("#play-window .penalties div:first-of-type")[0].style.display = "block";
+						$$("#play-window .penalties div:first-of-type")[1].style.display = "block"; 
 					} 
                      
                     await back(true, true);
@@ -3678,29 +3974,31 @@ async function back (undo = false, isComp = false) {
                 }
 
                 // To avoid clushing due to multiple click events will use setTimeout function. 
-                clearTimeout(other.timeout);
-                other.timeout = setTimeout(async _ => {
-                	other.helperPath = [];
+                clearTimeout(general.timeout);
+                general.timeout = setTimeout(async _ => {
+                	general.sorted = [];
 	                let id = Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black"? playerA.pieceColor.charAt(0): playerB.pieceColor.charAt(0);
-	                Game.possibleCaptures = await Iterate({id, state: Game.state, func: AssesCaptures});
-	                Game.possibleMoves = await Iterate({id, state: Game.state, func: AssesMoves});
-	                if(Game.possibleCaptures.length) {
-	                	if(!Game.mandatoryCapture) {
-	                		await Helper(Game.possibleMoves.concat(Game.possibleCaptures), Copy(Game.state));
-	                		await Helper(Game.possibleCaptures, Copy(Game.state));
-	                	}
-	                	else
-	                		await Helper(Game.possibleCaptures, Copy(Game.state));
-	                }
-	                else if(Game.mode == "two-player-offline" || (Game.mode === "single-player" || Game.mode === "two-player-online") && Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") {
-	                	await Helper(Game.possibleMoves, Copy(Game.state));
-	                }
+	                Game.moves = await AssessAll({id, state: Game.state});
+	                
+	                await Helper(Game.moves, Copy(Game.state));
                     await UpdatePiecesStatus();
 				}, 100);
             } 
             else if((Game.mode == "single-player" || Game.mode == "two-player-online") && length <= 1 && (Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black") || length == 0) {
                 Notify("No moves made yet");
             }
+            else if(Game.mode == "single-player" && Game.undoCount >= 5) {
+            	let elem = general.orientation.toLowerCase().includes("landscape")? $(".horiz_controls:nth-of-type(2)") : $(".controls:nth-of-type(2)");
+            	//resetting size
+            	clearTimeout(general.timeout);
+	            elem.style.backgroundSize = "3vmax 3vmax";
+	            //restarting
+	            elem.style.backgroundSize = "4vmax 4vmax";
+	            general.timeout = setTimeout(() => {
+					elem.style.backgroundSize = "3vmax 3vmax";
+					Notify("You can't undo more than five (5) times in a game.");
+				}, 300);
+            } 
             else {
             	Notify("Please wait for opponent's move");
             } 
@@ -3754,9 +4052,13 @@ class Undo {
             	playerA.moves--;
             else
             	playerB.moves--;
+           
+            // Undoing draw checker
+            Game.drawStateCount = Game.drawStateCount > 0? Game.drawStateCount-1: Game.drawStateCount;
+            Game.baseStateCount = Game.baseStateCount > 1? Game.baseStateCount-1: Game.baseStateCount;
             
-			try{table.rows[i].cells[j].removeChild(piece);} catch(error) {};
-			table.rows[m].cells[n].appendChild(piece);
+			table.children[i*Game.boardSize+j].innerHTML = "";
+			table.children[m*Game.boardSize+n].appendChild(piece);
 			Game.state[i][j] = "EC";
 			Game.state[m][n] = id;
 			
@@ -3765,7 +4067,7 @@ class Undo {
                 	await caps[0].classList.remove("captured");
                     i = caps[1];
                     j = caps[2];
-                    $("#table").rows[i].cells[j].appendChild(caps[0]);
+                    $("#table").children[i*Game.boardSize+j].appendChild(caps[0]);
                     Game.state[i][j] = caps[3];
                 } 
             }

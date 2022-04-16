@@ -22,8 +22,9 @@
                 position: relative;
                 height: 100vh;
                 width: 100vw;
+                background: #444;
                 background-position: center;
-                background-size: cover;
+                background-size: 100vmax 100vmax;
                 background-repeat: no-repeat;
             } 
             
@@ -37,28 +38,53 @@
             
             .install {
                 position: absolute;
-                top: -100%;
+                bottom: -100%;
                 left: 50%;
                 transform: translate(-50%, 0%);
                 height: fit-content;
                 width: fit-content;
-                padding: 10px;
+                max-width: 80%;
+                padding: 30px;
                 border: none;
-                border-radius: 0 0 10px 10px;
-                background: linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9));
-                color: #fff;
-                font-size: 1.2rem;
+                border-radius: 4px;
+                background: url("./src/images/frame.jpeg");
+                box-shadow: 0 0 3px 2px #000;
+                background-size: cover;
+                color: #444;
+                font-size: 1rem;
                 z-index: 5;
+                overflow: visible;
+            } 
+            
+            .install:before {
+            	content: "";
+            	position: absolute;
+            	top: 10px;
+            	left: 10px;
+            	height: calc(100% - 20px);
+            	width: calc(100% - 20px);
+            	border-radius: 4px;
+            	box-shadow: inset 0 0 0 1px #444;
+            	background: url("./src/images/white cell.jpeg");
+            	z-index: -1;
             } 
             
             .install section {
+            	width: 100%;
                 padding-bottom: 10px;
-                display: grid;
-                grid-template-columns: 40px auto;
-                grid-template-rows: 40px;
-                justify-content: center;
-                align-items: start;
                 overflow: hidden;
+            } 
+            
+            .install_header {
+            	display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-flow: row nowrap;
+                margin-bottom: 10px;
+            } 
+            
+            .install_header label {
+            	display: inline-block;
             } 
             
             .install_icon {
@@ -66,33 +92,39 @@
                 width: 40px;
                 border-bottom: 1.5px solid #000;
                 border-left: 1.5px solid #000;
-                background: url("./src/images/homescreen 48icon.png"), linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9));
+                background: url("./src/images/homescreen 48icon.png"), url("./src/images/black cell.jpeg");
                 background-size: 30px 30px, 40px 40px;
                 background-position: center;
                 background-repeat: no-repeat;
             } 
             
-            .install_prompt {
-                height: 100%;
-                border-bottom: 1.5px solid #000;
-                font-size: 1rem;
-                font-weight: 500;
-                padding: 10px;
-                display: flex;
-                align-items: center;
-                background: linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9));
+            .install_title {
+           	 font-size: 1.5rem;
+           	 font-weight: 900;
+           	 padding-left: 10px;
+            } 
+            
+            .install_body {
+            	font-weight: 500;
             } 
             
             .install_btn {
                 color: #fff;
                 float: right;
-                padding: 10px;
+                padding: 10px 20px;
                 margin: 0 10px;
                 border: none;
                 outline: none;
-                border-radius: 10px;
+                border-radius: 8px;
                 font-weight: 500;
-                background: linear-gradient(#001AFF, #00008B);
+            } 
+            
+            .install_btn:first-of-type {
+            	background: linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9));
+            } 
+            
+            .install_btn:last-of-type {
+            	background: linear-gradient(rgba(110, 110, 110, 0.9), rgba(70, 70, 70, 0.9));
             } 
             
             .show_install_prompt {
@@ -104,12 +136,12 @@
             } 
             
             @keyframes slide_in {
-                0% {top: -100%;}
-                100% {top: 0%;}
+                0% {bottom: -100%;}
+                100% {bottom: 10%;}
             } 
             @keyframes slide_out {
-                0% {top: 0%;}
-                100% {top: -100%;}
+                0% {bottom: 10%;}
+                100% {bottom: -100%;}
             } 
                         
             #load-window {
@@ -156,7 +188,7 @@
             	position: absolute;
             	bottom: 0;
             	left: 0;
-                background: #D1D1D1;
+                background: #434343;
                 height: 10px;
                 width: 100vw;
                 padding: 0;
@@ -178,8 +210,11 @@
     <body>
         <article class="install">
             <section>
-                <label class="install_icon"></label>
-                <label class="install_prompt">Install this game and play even while offline.</label>
+            	<div class="install_header">
+                	<label class="install_icon"></label>
+                	<label class="install_title">CHECKERS</label>
+                </div>
+                <div class="install_body">Install Checkers, and play it without opening browser anytime even while offline.</div>
             </section>
             <button class="install_btn" onclick="InstallApp()">Install</button>
             <button class="install_btn" onclick="HideInstallPrompt()">Cancel</button>
@@ -337,17 +372,17 @@
             <section id="main-section-tp">
                 <form id="offline" class="form">
                     <section class="inner_item" id="playerA">
-                        <h2 class="first_item">PLAYER 1</h2>
-                        <input type="text" maxlength="20" id="playerA-name" name="offline-form" class="field middle_item" placeholder="Enter Name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
-                        <p class="span_rows">PLAY AS:</p>
+                        <h2 class="only_item">PLAYER 1</h2>
+                        <input type="text" maxlength="20" name="offline-form" class="field only_item playerA_name" placeholder="Enter your name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
+                        <p class="span_rows">Play as:<br><span>Choose the preferred color of your pieces</span></p>
                         <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="default white">WHITE</button>
                         <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="black">BLACK</button>
-                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="third_item bottom">ALTERNATE</button>
+                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="only_item">ALTERNATELY</button>
                     </section>
                     <section class="inner_item" id="playerB">
-                        <h2 class="first_item">PLAYER 2</h2>
-                        <input type="text" maxlength="20" id="playerB-name" name="offline-form" class="field middle_item" placeholder="Enter Name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
-                        <p class="span_rows">PLAY AS:</p>
+                        <h2 class="only_item">PLAYER 2</h2>
+                        <input type="text" maxlength="20" name="offline-form" class="field only_item playerB_name" placeholder="Enter your name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
+                        <p class="span_rows">Play as:<br><span>Your pieces color will be as indicated here</span></p>
                         <button type="button" class="white">WHITE</button>
                         <button type="button" class="default black">BLACK</button>
                     </section>
@@ -355,33 +390,33 @@
                 </form>
                 <form id="online" class="form">
                     <section class="inner_item">
-                        <h2 class="first_item">STATUS DETAILS</h2>
-                        <p>STATUS:</p>
-                        <label class="only_item top first" id="connectivity">NOT CONNECTED</label>
-                        <p>YOU:</p>
-                        <label class="default only_item middle_top first" id="player-1-status">ONLINE</label>
-                        <p>OPPONENT:</p>
-                        <label class="only_item bottom" id="player-2-status">N/A</label>
+                        <h2 class="only_item">CHANNEL STATUS DETAILS</h2>
+                        <p>Status:<br><span>Your current connection status to the channel</span></p>
+                        <label class="only_item orange_ui" id="connectivity">NOT CONNECTED</label>
+                        <p>You Are:<br><span>Your current internet connection status</span></p>
+                        <label class="default only_item" id="player-1-status">ONLINE</label>
+                        <p>Opponent:<br><span>Opponent's current connection status to the channel</span></p>
+                        <label class="only_item black_ui" id="player-2-status">N/A</label>
                     </section>
                     <section class="inner_item">
-                        <h2 class="first_item">CHANNEL DETAILS</h2>
-                        <input type="text" id="channel-name" name="online-form" class="field middle_item" placeholder="Enter Channel Name" onkeyup="Edit(this, true)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
-                        <p>CHANNEL SUBSCRIBED:</p>
-                        <label class="only_item lobby_name top">N/A</label>
-                        <p>UNSUBSCRIBE CHANNEL:</p>
-                        <button type="button" class="only_item middle_top first" onclick="Clicked(), Unsubscribe()">UNSUBSCRIBE</button>
-                        <p>SHARE CHANNEL:</p>
-                        <button type="button" class="only_item middle_bottom" onclick="Clicked(), Share(this)">SHARE</button>
-                        <p>READ FAQS:</p>
-                        <button type="button" class="only_item bottom" onclick="Clicked(), AboutOnline()">FAQS</button>
+                        <h2 class="only_item">CHANNEL DETAILS</h2>
+                        <input type="text" id="channel-name" name="online-form" class="field only_item" placeholder="Enter name of the channel" onkeyup="Edit(this, true)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
+                        <p>Channel Joined<br><span>The name of the channel you are connected to</span>:</p>
+                        <label class="only_item lobby_name black_ui">N/A</label>
+                        <p>Leave Channel:<br><span>Leave the channel you are connected to</span></p>
+                        <button type="button" class="only_item red_ui" onclick="Clicked(), Unsubscribe()">LEAVE</button>
+                        <p>Share Channel:<br><span>Invite your friends to this channel</span></p>
+                        <button type="button" class="only_item blue_ui" onclick="Clicked(), Share(this)">SHARE</button>
+                        <p>Read FAQS:<br><span>Get more light about channel connection and online gaming.</span></p>
+                        <button type="button" class="only_item blue_ui" onclick="Clicked(), AboutOnline()">FAQS</button>
                     </section>
                     <section class="inner_item">
-                        <h2 class="first_item">PLAYER DETAILS</h2>
-                        <input type="text" maxlength="20" id="playerA-name" name="online-form" class="field middle_item" placeholder="Enter Name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
-                        <p>PLAYER 1 NAME:</p>
-                        <label class="only_item player_name top">N/A</label>
-                        <p>PLAYER 2 NAME:</p>
-                        <label class="only_item player_name middle_top">N/A</label>
+                        <h2 class="only_item">PLAYER DETAILS</h2>
+                        <input type="text" maxlength="20" name="online-form" class="field only_item playerA_name" placeholder="Enter your name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
+                        <p>Player 1 Name:<br><span>Your opponent will refer to you using this name</span></p>
+                        <label class="only_item player_name black_ui">N/A</label>
+                        <p>Player 2 Name:<br><span>You will refer to your opponent using this name</span></p>
+                        <label class="only_item player_name black_ui">N/A</label>
                     </section>
                     <input type="submit" id="hidden-submit-button" name="online-form" onclick="Submit(event)" hidden>
                 </form>
@@ -396,19 +431,33 @@
                 <h2>AMERICAN CHECKERS</h2>
                 <h3>BEGINNER LEVEL</h3>
             </section>
+            <section class="timer_section">
+            	<div class="player_A_timer"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
+            	<div class="player_B_timer"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
+			</section>
             <section class="middle_section">
                 <button onclick="Clicked(), Restart()" class="horiz_controls"></button>
                 <button onclick="Clicked(), back(true)" class="horiz_controls"></button>
                 <button onclick="Clicked(), Hint(this)" class="horiz_controls"></button>
                 <button onclick="Clicked(), AboutCheckers()" class="horiz_controls"></button>
                 <button onclick="Exit()" class="horiz_controls"></button>
+                <div class="player_A_timer"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
+            	<div class="player_B_timer"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
+				<div class="score">
+                   <label></label>
+                   <label></label>
+                   <label></label>
+                </div>
+                <div class="penalties">
+					<div><span></span></div>
+					<div><span></span></div>
+				</div>
                 <section class="scene">
                     <section class="perspective_background"></section>
                     <div class="board">
                         <div class="face face_front">
                             <div class="wrapper">
-                                <table id="table"></table>
-                                <div id="transmitter"></div>
+                                <div id="table"></div>
                                 <div class="frame frame_top">
                                     <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
                                 </div>
@@ -426,12 +475,23 @@
                         <div class="face face_back"></div>
                         <div class="face face_bottom">
                             <p class="p" id="level">BEGINNER LEVEL</p>
-                            <pre class="p">White: 12        Black: 12</pre>
+                            <pre class="p">White: 12    Black: 12</pre>
                         </div>
                     </div>
                 </section>
             </section>
             <section class="controls_section">
+            	<div class="score_cont">
+            		<div class="score">
+	                   <label></label>
+	                   <label></label>
+	                   <label></label>
+	                </div>
+					<div class="penalties">
+						<div><span></span></div>
+						<div><span></span></div>
+					</div>
+            	</div>
                 <button onclick="Clicked(), Restart()" class="controls"></button>
                 <button onclick="Clicked(), back(true)" class="controls"></button>
                 <button onclick="Clicked(), Hint(this)" class="controls"></button>
@@ -439,67 +499,61 @@
                 <button onclick="Exit()" class="controls"></button>
             </section>
             <section class="footer_section">
-                <pre>White: 12        Black: 12</pre>
-                <p>
-                   <label></label>
-                   <label></label>
-                   <label></label>
-                   <label></label>
-                </p>
+                <pre>White: 12    Black: 12</pre>
             </section>
         </article>
         <article id="settings-window" hidden>
             <h2>SETTINGS</h2>
             <section id="main-section">
             	<section class="inner_item" id="item0">
-            		<p>FULLSCREEN:</p>
+            		<p>Fullscreen:<br><span>Choose whether to enter fullscreen</span></p>
                     <button id="fs-on" onclick="Fullscreen(true)">ON</button>
                     <button id="fs-off" onclick="Fullscreen(false)" class="default">OFF</button>
                 </section>
                 <section class="inner_item" id="item1" hidden>
-                    <p>VIEW:</p>
+                    <p>View:<br><span>Choose your preferred orientation</span></p>
                     <button id="horiz" onclick="Clicked(this, this.parentNode)">HORIZ.</button>
                     <button id="vert" onclick="Clicked(this, this.parentNode)" class="default">VERT.</button>
                 </section>
                 <section class="inner_item" id="item2">
-                    <p>SOUND:</p>
+                    <p>Sound:<br><span>Choose whether to mute sound</span></p>
                     <button id="unmute" onclick="Mute(false), Clicked(this, this.parentNode)" class="default">ON</button>
                     <button id="mute" onclick="Mute(true), Clicked(this, this.parentNode)">OFF</button>
                 </section>
                 <section class="inner_item three_items" id="item3">
-                    <p>FIRST MOVE:</p>
+                    <p>First Move:<br><span>Choose who should make the first move</span></p>
                     <button onclick="Clicked(this, this.parentNode)">WHITE</button>
                     <button onclick="Clicked(this, this.parentNode)" class="default">BLACK</button>
-                    <button onclick="Clicked(this, this.parentNode)" class="third_item bottom">ROLL DICE</button>
+                    <button onclick="Clicked(this, this.parentNode)" class="only_item">ROLL DICE</button>
                 </section>
                 <section class="inner_item three_items" id="item4">
-                    <p>PLAY AS:</p>
+                    <p>Play as:<br><span>Choose the preferred color of your pieces</span></p>
                     <button onclick="Clicked(this, this.parentNode), PlayAs(this)" class="default">WHITE</button>
                     <button onclick="Clicked(this, this.parentNode), PlayAs(this)">BLACK</button>
-                    <button onclick="Clicked(this, this.parentNode), PlayAs(this)" class="third_item bottom">ALTERNATE</button>
+                    <button onclick="Clicked(this, this.parentNode), PlayAs(this)" class="only_item">ALTERNATELY</button>
                 </section>
                 <section class="inner_item" id="item5">
-                    <p>MANDATORY CAPTURE:</p>
+                    <p>Mandatory Capture:<br><span>Choose whether to make captures/jumps mandatory</span></p>
                     <button id="must-jump" onclick="Clicked(this, this.parentNode)" class="default">ON</button>
                     <button id="not-must-jump" onclick="Clicked(this, this.parentNode)">OFF</button>
                 </section>
                 <section class="inner_item three_items" id="item6">
-                    <p>HELPER:</p>
+                    <p>Helper:<br><span>Choose whether to be guided/given tips while playing</span></p>
                     <button id="active" onclick="Clicked(this, this.parentNode)" class="default">ON</button>
                     <button id="inactive" onclick="Clicked(this, this.parentNode)">OFF</button>
-                    <button id="only-captures" onclick="Clicked(this, this.parentNode)" class="third_item bottom">ONLY CAPTURES</button>
+                    <button id="only-captures" onclick="Clicked(this, this.parentNode)" class="only_item">ONLY CAPTURES</button>
                 </section>
                 <section class="inner_item" id="item7">
-                    <p>RESTART LEVELS:</p>
-                    <button onclick="Clicked(), RestartLevels()" class="only_item middle">RESTART</button>
+                    <p>Restart Levels:<br><span>Choose whether to restart all levels. Once done can not be reversed</span></p>
+                    <button onclick="Clicked(), RestartLevels()" class="only_item red_ui">RESTART</button>
                 </section>
                 <section class="inner_item" id="item8">
-                    <p>SUPPORT:</p>
-                    <button onclick="Clicked(), Contact()" class="only_item">CONTACT ME</button>
+                    <p>Support:<br><span>Help me build this game. Share your thoughts</span></p>
+                    <button onclick="Clicked(), Contact()" class="only_item blue_ui">CONTACT ME</button>
                 </section>
                 <section class="inner_item" id="item9">
-                    <p>ATTRIBUTES:</p>
-                    <button onclick="Clicked(), Attribute()" class="only_item">ATTRIBUTES</button>
+                    <p>Attributes:<br><span>Find out contributors who made this game a success</span></p>
+                    <button onclick="Clicked(), Attribute()" class="only_item blue_ui">ATTRIBUTES</button>
                 </section>
             </section>
             <section class="footer_section">
@@ -509,55 +563,58 @@
         </article>
         <article id="games-window" hidden>
             <h2>GAMES</h2>
-            <section id="games">
-                <!--<section class="sub_item">
-                    <p>WHITE vs BLACK</p>
-                    <button onclick="Clicked(), GetStats()" class="default middle_top">SEE STATS</button>
-                </section>-->
-            </section>
+            <section class="games_cont">
+            	<section class="float_date" onanimationend="End(event)"></section>
+	            <section id="games">
+	            	<!--<section class="games_date">Today</section>
+	                <section class="game_item">
+	                    <p>WHITE vs BLACK</p>
+	                    <button onclick="Clicked(), GetStats()" class="default middle_top">SEE STATS</button>
+	                </section>-->
+	            </section>
+				<section class="totals_footer">
+					<p>Total Games Played: </p>
+					<button class="blue_ui">SEE MORE STATS</button>
+				</section>
+				<section class="games_totals black_ui">
+					<h2>Total Games Stats</h2>
+					<section class="totals_main_cont">
+						<section class="totals_cont">
+							<div class="single_player_totals totals_div">
+								<p total="0">Single Player Games: 0</p>
+							</div>
+							<div class="online_totals totals_div">
+								<p total="0">Online Games: 0</p>
+							</div>
+							<div class="offline_totals totals_div">
+								<p total="0">Offline Games: 0</p>
+							</div>
+							<div class="uncategorized_totals totals_div">
+								<p total="0">Uncategorized Games: 0<br><span>***This games were played prior to this version. They therefore can't be categorized as either online or offline***</span></p>
+							</div>
+						</section>
+					</section>
+				</section>
+			</section>
             <section class="footer_section">
                 <button class="left_btn" onclick="back()">BACK</button>
                 <button class="right_btn" onclick="ClearGames()">CLEAR GAMES</button>
             </section>
         </article>
         <article id="stats-window" hidden>
-            <h2>STATS</h2>
-            <section id="stats">
-                <section class="sub_item">
-                    <p class="header">STAT</p>
-                    <p class="header figures">WHITE</p>
-                    <p class="header figures">BLACK</p>
-                </section>
-                <section class="sub_item">
-                    <p>GAME STATUS:</p>
-                    <p class="figures">WON</p>
-                    <p class="figures">LOST</p>
-                </section>
-                <section class="sub_item">
-                    <p>PIECES REMAINING:</p>
-                    <p class="figures">5</p>
-                    <p class="figures">0</p>
-                </section>
-                <section class="sub_item">
-                    <p>KINGS MADE:</p>
-                    <p class="figures">3</p>
-                    <p class="figures">2</p>
-                </section>
-                <section class="sub_item">
-                    <p>MOVES MADE:</p>
-                    <p class="figures">40</p>
-                    <p class="figures">37</p>
-                </section>
-                <section class="sub_item">
-                    <p>CAPTURES MADE:</p>
-                    <p class="figures">12</p>
-                    <p class="figures">7</p>
-                </section>
-                <section class="sub_item">
-                    <p>LONGEST CAPTURE:</p>
-                    <p class="figures">3</p>
-                    <p class="figures">3</p>
-                </section>
+            <header class="stats_header">
+            	<img class="stats_icon">
+            	<div>GAME STATS</div>
+            	<img class="stats_icon">
+            </header>
+            <section class="stats_section">
+                <!--
+                	<div class="stats_item">
+                		<div class="stats_value"></div>
+	                	<div class="stats_name"></div>
+	                	<div class="stats_value"></div>
+					</div>
+                -->
             </section>
             <section class="footer_section">
                 <button class="left_btn" onclick="back()">BACK</button>
@@ -574,7 +631,7 @@
                     <img src="./src/images/Github.png">
                     <label>GITHUB</label>
                 </a>
-                <a href="https:www.linkedin.com/in/mark-etale-26aba41ab">
+                <a href="https://www.linkedin.com/in/mark-etale-26aba41ab">
                     <img src="./src/images/LinkedIn.png">
                     <label>LINKEDIN</label>
                 </a>
@@ -614,25 +671,41 @@
                 } 
                 deferredEvent = null;
             } 
-            function $(elem) {
+            window.$ = function (elem) {
                 return document.querySelector(elem);
             } 
 
-            function $$(elem) {
+            window.$$ = function (elem) {
                 return document.querySelectorAll(elem);
             }
             
-            function $$$(type) {
-                return document.createElement(type);
+            window.$$$ = function (type, data = []) {
+            	if(!Array.isArray(data)) {
+            		throw new Error("Data object passed is not an array. At $$$ line: 658");
+            	} 
+                let elem = document.createElement(type);
+                for(let i = 0; i < data.length; i+=2) {
+                	if(/^(innerHTML|textContent)$/gi.test(data[i]))
+                		elem[data[i]] = data[i+1];
+                	else
+                		elem.setAttribute(data[i], data[i+1]);
+                } 
+                return elem;
             } 
-            var deferredEvent;
-            var version = "15.4.5.22";
+            Element.prototype.$ = function (elem) {
+            	if(/button/gi.test(this.tagName)) return $(elem);
+            	return this.querySelector(elem);
+            } 
+            Element.prototype.$$ = function (elem) {
+            	return this.querySelectorAll(elem);
+            } 
+			
+            let deferredEvent;
+            let version = "15.4.5.46";
+            let newSW;
+            let workers = [];
             
-            function pageComplete () {
-                window.addEventListener("beforeinstallprompt", e => {
-                    e.preventDefault();
-                    deferredEvent = e;
-                });
+            async  function pageComplete () {
                 let head = document.head;
                 let SheetLink = $$$("link");
                 let JsLink0 = $$$("script");
@@ -640,6 +713,7 @@
                 let JsLink2 = $$$("script");
                 let JsLink3 = $$$("script");
                 let JsLink4 = $$$("script");
+                let JsLink5 = $$$("script");
                 
                 SheetLink.onload = () => LoadedExternalFiles.run();
                 JsLink0.onload = () => LoadedExternalFiles.run();
@@ -647,37 +721,46 @@
                 JsLink2.onload = () => LoadedExternalFiles.run();
                 JsLink3.onload = () => LoadedExternalFiles.run();
                 JsLink4.onload = () => LoadedExternalFiles.run();
-                //JsLink5.onload = () => LoadedExternalFiles.run();
+                JsLink5.onload = () => LoadedExternalFiles.run();
                 
                 SheetLink.type = "text/css";
                 SheetLink.rel = "stylesheet";
                 SheetLink.href = "./index.css";
                 
                 JsLink0.src = "./AI.js";
-                JsLink1.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js";
-                JsLink2.src = "./UI.js";
-                JsLink3.src = "./Channel.js";
-                JsLink4.src = "./Core.js";
+                JsLink1.src = "./UI.js";
+                JsLink2.src = "./Channel.js";
+                JsLink3.src = "./Core.js";
+                JsLink4.src = "./Objects.js";
+                JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js";
                 
                 head.appendChild(JsLink0);
                 head.appendChild(JsLink1);
                 head.appendChild(JsLink2);
                 head.appendChild(JsLink3);
                 head.appendChild(JsLink4);
+                head.appendChild(JsLink5);
                 head.appendChild(SheetLink);
                 
-                JsLink1.id = "pubnub-file";
+                //JsLink5.id = "pubnub-file";
+                for(let n = 0; n < 15; n++) {
+                	let worker = new Worker("./Worker.js");
+                	workers.push(worker);
+                } 
             } 
             class LoadedExternalFiles {
             	static n = 0;
-            	static total = 6;
-            	static run = function (type) {
+            	static total = 7;
+            	static run = async function (type) {
             		this.n++;
             		let loadingInfo = $("#load-window p");
             			loadingInfo.innerHTML = "Loading External Files: " + (this.n/this.total*100).toFixed(0) + "%<br>Loading Internal Files: 0%";
             		if(this.n == this.total) {
             			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
-            				//ZobristHash.initTable();
+            				ZobristHash.initTable();
+            				for(let worker of workers) {
+                				await worker.postMessage({type: "init-worker", table: ZobristHash.table});
+            				} 
 							Publish.sleep = new Sleep();
             				LoadResources(srcs[0]);
 						} 
@@ -688,20 +771,34 @@
             	} 
             } 
 			//window.onload = pageComplete();
-            const InvokeSWUpdateFlow = async (reg) => {
-				let refresh = await confirm("APP UPDATE\nVersion: " + version + "\n\nNew version of Checkers available.\n\n What's New?\n\n\t- Improved internal operations.\n\t- Fixed offline loading problems.\n\nDo you want to update?");
-				if(refresh) {
-					await reg.waiting.postMessage({type: "skip-waiting"});
+            const InvokeSWUpdateFlow = async () => {
+				Notify({action: "confirm", 
+						header: "APP UPDATE", 
+						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>Current version: " + version + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Changed the interface a bit.<li>Added total games stats.</li><li>Added player timer.</li><li>Fixed online playing lagging.</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
+						type: "LATER/UPDATE",
+						onResponse: UpdateResponse});
+				async function UpdateResponse (refresh) {
+					if(refresh == "UPDATE") {
+						Notify("Updating app...");
+						await newSW.waiting.postMessage({type: "skip-waiting"});
+					} 
+					else {
+						Cancel();
+						Notify("App update declined.");
+						if(deferredEvent) 
+							$(".install").classList.add("show_install_prompt");
+					} 
 				} 
 			} 
 			
 			const FinishInstalling = async (reg) => {
 				if(reg.waiting) {
 					if(navigator.serviceWorker.controller) {
-						await InvokeSWUpdateFlow(reg);
+						newSW = reg;
 					} 
 					else {
 						console.log("Service initialized for the first time");
+						pageComplete();
 					} 
 				} 
 				else if(reg.active && !navigator.serviceWorker.controller) {
@@ -709,22 +806,28 @@
 				} 
 			} 
 			
+			window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredEvent = e;
+            });
+			
 			window.addEventListener("load", async () => {
 				if("serviceWorker" in navigator) {
 					const reg = await navigator.serviceWorker.register("./Service Worker.js");
-					reg.update();
+					/*try {
+						reg.update();
+					} catch (error) {console.warn("Offline mode")}*/
 					if(reg.waiting) {
-						await InvokeSWUpdate(reg);
+						newSW = reg;
 					} 
 						
-					reg.addEventListener("updatefound", async () => {
+					reg.addEventListener("updatefound", () => {
 						if(reg.installing) {
 							reg.installing.addEventListener("statechange", () => {
 								FinishInstalling(reg);
 							});
 						} 
 					});
-					
 					let refreshing = false;
 					navigator.serviceWorker.addEventListener("controllerchange", (e) => {
 						if(!refreshing) {

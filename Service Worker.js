@@ -1,5 +1,5 @@
 // Service worker
-const version = "22";
+const version = "380";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -12,6 +12,7 @@ const appShellFiles = [
     "./src/images/background.jpeg", 
     "./src/images/black cell.jpeg", 
     "./src/images/white cell.jpeg",
+    "./src/images/frame.jpeg",
     "./src/images/hint.png", 
     "./src/images/menu.png", 
     "./src/images/restart.png", 
@@ -55,6 +56,7 @@ const appShellFiles = [
     "./src/audio/game win.mp3", 
     "./src/audio/game lose.mp3", 
     "./src/audio/notification.mp3", 
+    "./Objects.js", 
     "./AI.js", 
     "./UI.js", 
     "./Channel.js", 
@@ -63,8 +65,7 @@ const appShellFiles = [
     "./index.css", 
     "./index.html",
     "./manifest.webmanifest", 
-    "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js", 
-    "./"
+    "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js"
 ];
 
 self.addEventListener("install", (e) => {
@@ -78,17 +79,20 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
-        	if(res) {
-            	return res;
+        	/*if(/(?<!min).(html|css|js).*$/gi.test(e.request.url)) {
+            	//fetch;
             }
+            else */if(res) {
+            	return res;
+            } 
             else if(!e.request.url.includes("pndsn.com")) {
-            	console.log(e.request.url);
+            	//console.log(e.request.url);
             } 
             
             return fetch(e.request).then((res2) => {
-            	if(e.request.url.includes("pndsn.com")) {
+            	/*if(e.request.url.includes("pndsn.com")) {
             		return res2;
-            	} 
+            	} */
             	
                 return caches.open(cacheName).then((cache) => {
                     cache.put(e.request, res2.clone());
@@ -119,9 +123,22 @@ self.addEventListener("activate", (e) => {
     )
 });
 
-self.addEventListener("message", (e) => {
+self.addEventListener("message", async (e) => {
 	if(e.data && e.data.type == "skip-waiting") {
 		self.skipWaiting();
 	} 
+	else if(e.data && e.data.type == "move-search") {
+		sendMsg(e.data.content);
+		await searchMove(e.data.content);
+	} 
 });
+
+function sendMsg(msg) {
+	self.clients.matchAll({type: 'window'}).
+	then((clients) => {
+		for(let client of clients) {
+			client.postMessage(msg);
+		} 
+	});
+} 
 

@@ -14,7 +14,7 @@ const CheckHref = async () => {
         Notify({action: "alert", 
     			header: "Message", 
     			message: `Please fill in your name in the field named 'Player Details' and hit submit to join.`});
-    	$("#online #playerA-name").focus();
+    	$("#online .playerA_name").focus();
 	} 
 	history.pushState(null, "", "?window1");
 } 
@@ -27,14 +27,14 @@ const ChannelFunction = () => {
 		return;
 	} 
 	
-    let name = $("#online #playerA-name").value.trim();
+    let name = $("#online .playerA_name").value.trim();
     let channel = $("#online #channel-name").value;
     if(channel === "") {
         $("#online #channel-name").focus();
     	Notify("Please fill out channel name.");
     } 
 	else if(name === "") {
-		$("#online #playerA-name").focus();
+		$("#online .playerA_name").focus();
         Notify("Please fill out your name.");
     } 
     else {
@@ -137,7 +137,8 @@ const ChannelFunction = () => {
 									status.innerHTML = "offline";
 									let opponentStatus = $("#player-2-status");
 						        	opponentStatus.innerHTML = "OFFLINE";
-						        	opponentStatus.style.backgroundImage = "linear-gradient(rgba(193, 115, 0, 0.9), rgba(153, 75, 0, 0.9))";
+						        	opponentStatus.classList.remove("black_ui", "default");
+									opponentStatus.classList.add("orange_ui");
 								} 
 	                        } 
 							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
@@ -148,7 +149,8 @@ const ChannelFunction = () => {
 									status.innerHTML = "offline";
 									let opponentStatus = $("#player-2-status");
 						        	opponentStatus.innerHTML = "OFFLINE";
-						        	opponentStatus.style.backgroundImage = "linear-gradient(rgba(193, 115, 0, 0.9), rgba(153, 75, 0, 0.9))";
+						        	opponentStatus.classList.remove("black_ui", "default");
+									opponentStatus.classList.add("orange_ui");
 								} 
 							} 
 							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { try {
@@ -174,7 +176,8 @@ const ChannelFunction = () => {
 											dot.style.display = "none";
 											let opponentStatus = $("#player-2-status");
 							        		opponentStatus.innerHTML = "ONLINE";
-							        		opponentStatus.style.backgroundImage = other.default;
+							        		opponentStatus.classList.remove("black_ui", "orange_ui");
+											opponentStatus.classList.add("default");
 										} 
 									} 
 									else {
@@ -191,6 +194,7 @@ const ChannelFunction = () => {
                         if(!Lobby.isConnected && event.category === 'PNConnectedCategory') {
                             Lobby.timeoutID = setTimeout( () => {
                                 let connectivityStatus = $("#connectivity");
+                                connectivityStatus.classList.remove("orange_ui");
                                 connectivityStatus.classList.add("default");
                                 connectivityStatus.innerHTML = "CONNECTED";
                                 $("#online .lobby_name").innerHTML = Lobby.CHANNEL;
@@ -255,7 +259,8 @@ const ChannelFunction = () => {
 							status.innerHTML = "online";
 							let opponentStatus = $("#player-2-status");
 						    opponentStatus.innerHTML = "ONLINE";
-						    opponentStatus.style.backgroundImage = other.default;
+						    opponentStatus.classList.remove("orange_ui", "black_ui");
+							opponentStatus.classList.add("default");
 						} 
                         if(msg.channel === Lobby.CHANNEL) {
                             if(msg.message.title === 'ConfirmLeave') {
@@ -277,7 +282,8 @@ const ChannelFunction = () => {
 								status.innerHTML = "online";
 								let opponentStatus = $("#player-2-status");
 							    opponentStatus.innerHTML = "ONLINE";
-							    opponentStatus.style.backgroundImage = other.default;
+							    opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
                             } 
                             else if(msg.message.title === "NameChange") {
                         		name = msg.message.content;
@@ -291,7 +297,8 @@ const ChannelFunction = () => {
                                 $$("#online .player_name")[1].innerHTML = name;
                                 let opponentStatus = $("#player-2-status");
                                 opponentStatus.innerHTML = "ONLINE";
-                                opponentStatus.style.backgroundImage = other.default;
+                                opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
                                 $("#chat-icon").style.display = 'block';
                                 $$(".chat_header h2")[1].innerHTML = name;
                                 playerB.name = name;
@@ -341,7 +348,7 @@ const ChannelFunction = () => {
                             else if(msg.message.title === "AcceptedRequest") {
                                 Notify($$("#online .player_name")[1].innerHTML + " accepted the request, the game will start shortly.");
                                 Cancel();
-                                setTimeout(() => play(false, true), 2000);
+                                setTimeout(() => play(true), 2000);
                             } 
                             else if(msg.message.title === "DeclinedRequest") {
                                 Notify($$("#online .player_name")[1].innerHTML + " declined your request.");
@@ -370,14 +377,14 @@ const ChannelFunction = () => {
                     withPresence: true
                 }); 
             } 
-            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online #playerA-name").value.toLowerCase()) {
+            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online .playerA_name").value.toLowerCase()) {
                 Notify({action: "alert", 
                         header: "Duplicate Action", 
                         message: `<p>You are already subscribed to <b>${Lobby.CHANNEL}</b> channel. To join another channel, unsubscribe from this channel first.</p>`});
             } 
-            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online #playerA-name").value.toLowerCase()) {
-            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online #playerA-name").value.replaceAll(/^\w|\s\w/g, t => t.toUpperCase())}});
-            	$$("#online .player_name")[0].innerHTML = $("#online #playerA-name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
+            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online .playerA_name").value.toLowerCase()) {
+            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online .playerA_name").value.replaceAll(/^\w|\s\w/g, t => t.toUpperCase())}});
+            	$$("#online .player_name")[0].innerHTML = $("#online .playerA_name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
             	Notify("Name changed successfully");
             } 
         } catch (error) {
@@ -395,46 +402,62 @@ const ChannelFunction = () => {
     } 
 }
 
-const Unsubscribe = async (intentional = true) => {
+const Unsubscribe = async () => {
     if(Lobby.isConnected) {
-    	Notify({action: "alert_special", 
-    			header: "Please wait", 
-    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
-    	Lobby.sleep = new Sleep();
-    	Publish.send({channel: Lobby.CHANNEL, message: {title: "IntentionalExit", content: ""}});
-    	await Lobby.sleep.start();
-    	Cancel();
-        Lobby.PUBNUB.unsubscribe({
-            channels: [Lobby.CHANNEL]
-        });
-        
-        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
-        if(intentional) 
-        	Notify(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
-        
-        clearTimeout(Lobby.timeoutID);
-        clearInterval(Lobby.offlineInterval);
-        clearInterval(Lobby.timeoutInterval);
-        let connectivityStatus = $("#connectivity");
-        connectivityStatus.classList.remove("default");
-        connectivityStatus.innerHTML = "DISCONNECTED";
-        $("#online .lobby_name").innerHTML = "N/A";
-        $("#online #channel-name").value = "";
-        let opponentStatus = $("#player-2-status");
-        opponentStatus.innerHTML = "N/A";
-        opponentStatus.style.backgroundImage = "linear-gradient(rgba(0, 120, 225, 0.9), rgba(0, 80, 185, 0.9))";
-        $$("#online .player_name")[1].innerHTML = "N/A";
-        Lobby.CHANNEL = null;
-        Lobby.isConnected = false;
-        Lobby.intentionalExit = false;
-        Lobby.PUBNUB = null;
-        Lobby.isHost = false;
-        Lobby.offlineInterval = null;
-        Lobby.timeoutInterval = null;
-        $("#chat-icon").style.display = 'none';
+    	Notify({action: "confirm", 
+    			header: "Do you really want to leave " + Lobby.CHANNEL + " channel?", 
+    			message: "Without a channel you cannot play an online match.", 
+    			type: "NOT NOW/LEAVE ANYWAY", 
+    			onResponse: UnsubscribeResponse});
     } 
     else {
         Notify("You have not joined any channel.");
+    } 
+    
+    async function UnsubscribeResponse (choice) { try {
+    	if(choice == "LEAVE ANYWAY") {
+	    	Notify({action: "alert_special", 
+	    			header: "Please wait", 
+	    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
+	    	Lobby.sleep = new Sleep();
+	    	Publish.send({channel: Lobby.CHANNEL, message: {title: "IntentionalExit", content: ""}});
+	    	await Lobby.sleep.start();
+	    	Cancel();
+	        Lobby.PUBNUB.unsubscribe({
+	            channels: [Lobby.CHANNEL]
+	        });
+	        
+	        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
+	        Notify(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
+	        
+	        clearTimeout(Lobby.timeoutID);
+	        clearInterval(Lobby.offlineInterval);
+	        clearInterval(Lobby.timeoutInterval);
+	        let connectivityStatus = $("#connectivity");
+	        connectivityStatus.classList.remove("default");
+	        connectivityStatus.classList.add("orange_ui");
+	        connectivityStatus.innerHTML = "DISCONNECTED";
+	        $("#online .lobby_name").innerHTML = "N/A";
+	        $("#online #channel-name").value = "";
+	        let opponentStatus = $("#player-2-status");
+	        opponentStatus.innerHTML = "N/A";
+	        opponentStatus.classList.remove("default", "orange_ui");
+			opponentStatus.classList.add("black_ui");
+			$("#online .playerA_name").value = "";
+	        $("#online .player_name:first-of-type").innerHTML = "N/A";
+			$("#online .player_name:last-of-type").innerHTML = "N/A";
+	        Lobby.CHANNEL = null;
+	        Lobby.isConnected = false;
+	        Lobby.intentionalExit = false;
+	        Lobby.PUBNUB = null;
+	        Lobby.isHost = false;
+	        Lobby.offlineInterval = null;
+	        Lobby.timeoutInterval = null;
+	        $("#chat-icon").style.display = 'none';
+		} 
+		else if(choice == "NOT NOW") {
+			Cancel();
+		} } catch (error) {console.log(error)}
     } 
 } 
 
@@ -464,7 +487,7 @@ class OpponentMove {
 class Publish { 
 	static messages = [];
 	static retryCount = 0;
-	static sleep = new Sleep();
+	static sleep = null;
 	static send = async (prop) => {
 	    const MetaConfig = {
 	        "uuid": Lobby.UUID
@@ -532,7 +555,8 @@ const LeftChannel = (response) => {
         $$("#online .player_name")[1].innerHTML = "N/A";
         let opponentStatus = $("#player-2-status");
         opponentStatus.innerHTML = "N/A";
-        opponentStatus.style.backgroundImage = "linear-gradient(rgba(0, 120, 225, 0.9), rgba(0, 80, 185, 0.9))";
+        opponentStatus.classList.remove("default", "orange_ui");
+		opponentStatus.classList.add("black_ui");
         $("#chat-icon").style.display = 'none';
         $("#chat-window").style.display = "none";
         Lobby.isHost = true;
@@ -551,12 +575,14 @@ const UpdateOnlineStatus = () => {
 	let yourStatus = $("#player-1-status");
 	if(!navigator.onLine) {
 	    yourStatus.innerHTML = "OFFLINE";
-	    yourStatus.style.backgroundImage = "linear-gradient(rgba(193, 115, 0, 0.9), rgba(153, 75, 0, 0.9))";
+	    yourStatus.classList.remove("default");
+		yourStatus.classList.add("orange_ui");
 	    //Notify(`You are offline.`);
 	} 
 	else {
 		yourStatus.innerHTML = "ONLINE";
-	    yourStatus.style.backgroundImage = other.default;
+	    yourStatus.classList.remove("orange_ui");
+		yourStatus.classList.add("default");
 	    //Notify(`You are online.`);
 	} 
 } 
@@ -743,7 +769,7 @@ const Request = async (prop) => {
                 } 
                 await Version(version, 0, true);
                 await Cancel();
-                setTimeout(() => play(false, true), 2000);
+                setTimeout(() => play(true), 2000);
             }, 200);
             } catch (error) {Notify(error + " request error")}
         } 
