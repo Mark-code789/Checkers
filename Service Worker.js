@@ -41,6 +41,7 @@ const appShellFiles = [
     "./src/images/favicon32.png",
     "./src/images/favicon96.png",
     "./src/images/favicon.ico",
+    "./src/images/warning.png", 
     "./src/images/lock.png", 
     "./src/images/star.png", 
     "./src/images/Sololearn.png", 
