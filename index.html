@@ -22,10 +22,10 @@
                 position: relative;
                 height: 100vh;
                 width: 100vw;
-                background: #444;
+                background-image: var(--bg1);
                 background-position: center;
-                background-size: 100vmax 100vmax;
-                background-repeat: no-repeat;
+                background-size: auto 100%;
+                background-repeat: repeat;
             } 
             
             *, *:before, *:after {
@@ -47,7 +47,7 @@
                 padding: 30px;
                 border: none;
                 border-radius: 4px;
-                background: url("./src/images/frame.jpeg");
+                background: var(--frame);
                 box-shadow: 0 0 3px 2px #000;
                 background-size: cover;
                 color: #444;
@@ -65,7 +65,8 @@
             	width: calc(100% - 20px);
             	border-radius: 4px;
             	box-shadow: inset 0 0 0 1px #444;
-            	background: url("./src/images/white cell.jpeg");
+            	background: var(--bg2);
+            	background-size: cover;
             	z-index: -1;
             } 
             
@@ -149,61 +150,96 @@
                 height: 100vh;
                 width: 100vw;
                 padding: 0;
-                background: #2D2D2D;
+                background: linear-gradient(to top, #0000, #5550), url("./src/images/background1.jpeg");
+                background-position: center;
+                background-size: 100% 100%, auto 100vh;
+                background-repeat: no-repeat, repeat-x;
             } 
             
             #load-window img {
                 position: absolute;
-                top: 40%;
+                top: 50%;
                 left: 50%;
-                transform: translate(-50%, -40%);
-                max-height: 40vmin;
-                max-width: 40vmin;
-                border: 2px solid #aaa;
-                border-radius: 5px;
+                transform: translate(-20vw, -50%) rotate(30deg);
+                max-height: 100vmin;
+                max-width: 100vmin;
+                box-shadow: 0 20px 2px 2px #0006, -5px 3px 2px 2px #0006;
             } 
             
             #load-window h1 {
             	position: absolute;
-            	bottom: 10%;
-            	left: 50%;
-            	transform: translateX(-50%);
-                width: 100%;
-                color: #D1D1D1;
+            	top: 0%;
+            	left: 0%;
+                color: #ddda;
                 text-align: center;
-                font-size: 2rem;
-                font-weight: 500;
+                padding: 10px 30px;
+                margin: 10px;
+                font-size: 4rem;
+                font-weight: 700;
+                border-radius: 4px;
+                background-image: url("./src/images/frame.jpeg");
+                background-size: auto 100%;
+                background-repeat: repeat;
+                text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
+                filter: brightness(110%);
+                box-shadow: 0 2px 2px 2px #0006, 0 10px 2px 1px #0006;
             } 
-            #load-window p {
+            
+            #load-window .loader {
             	position: absolute;
             	bottom: 5%;
-            	left: 0;
-            	text-align: center;
-            	color: #D1D1D1;
+            	left: 5%;
+            	padding: 20px 30px;
+            	color: #dddb;
+            	width: fit-content;
+            	height: fit-content;
+            	border-radius: 4px;
+            	background-image: url("./src/images/frame.jpeg");
+                background-size: auto 100%;
+                background-repeat: repeat;
+                filter: brightness(110%);
+                box-shadow: 0 2px 2px 2px #0006, 0 10px 2px 1px #0006;
+            } 
+            
+            #load-window h1:before,
+			#load-window .loader:before {
+            	content: "";
+            	position: absolute;
+            	top: 50%;
+            	left: 50%;
+            	transform: translate(-50%, -50%);
+            	height: calc(100% - 20px);
+            	width: calc(100% - 20px);
+            	box-shadow: inset 0 0 5px 4px #0007, inset 0 10px 5px 0 #0008;
+            	background: #fff0;
+            } 
+            
+            #load-window .loader p {
+            	margin: 0;
+            	padding: 0 0 10px 0;
             	width: 100%;
-            	height: content-fit;
-            	background: transparent;
+            	color: #dddb;
+            	font-size: 1.4em;
+            	text-align: center;
+            	text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
             } 
             .bar {
-            	position: absolute;
-            	bottom: 0;
-            	left: 0;
-                background: #434343;
-                height: 10px;
-                width: 100vw;
-                padding: 0;
-                
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                flex-flow: row nowrap;
-                overflow: hidden;
+                height: 20px;
+                width: 70vw;
+                border-radius: 10px;
+                padding: 2px;
+                background: #0004;
+                box-shadow: inset 0 0 5px 4px #0007, inset 0 10px 5px 0 #0008;
+				overflow: visible;
             } 
             .progress {
-                background: #009819;
-                height: 10px;
+                height: 100%;
                 width: 0%;
-                margin: 0;
+                border-radius: inherit;
+                background: radial-gradient(ellipse closest-side at 50% 30%, #fff, #00A82966, #00981966, #00880966);
+                box-shadow: 3px -3px 1px 0 #0006, 0 3px 2px 0 #0006;
+                margin: 0 0 5px 0;
+                transition: width 0.1s ease-out;
             } 
         </style>
     </head>
@@ -251,17 +287,19 @@
             </section>
         </article>
         <article id="load-window">
-            <img src="./src/images/homescreen 512icon.png">
+            <img src="./src/images/background4.jpeg">
             <h1>CHECKERS</h1>
-            <p>Loading External Files: 0%<br>Loading Internal Files: 0%</p>
-            <div class="bar">
-                <div class="progress"></div>
+            <div class="loader">
+            	<p>loading files...</p>
+                <div class="bar">
+					<div class="progress"></div>
+				</div>
             </div>
         </article>
         <section onanimationend="End(event)" id="pop-up-note" hidden></section>
         <article id="notification-window" hidden>
             <section id="note">
-                <h2 class="note_header"></h2>
+                <div class="note_header"></div>
                 <div class="close_btn"></div>
                 <img class="note_img">
                 <div class="note_body"></div>
@@ -282,31 +320,31 @@
                     <h2>AMERICAN CHECKERS</h2>
                     <div class="versions_wrapper">
                         <nav class="versions_container" id="vc">
-                            <div class="version default" onclick="Version(this, 0)">
+                            <div class="version default" onclick="Version(this, 0)" value="american">
                                 <div></div>
                                 <h2>AMERICAN<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 1)">
+                            <div class="version" onclick="Version(this, 1)" value="kenyan">
                                 <div></div>
                                 <h2>KENYAN<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 2)">
+                            <div class="version" onclick="Version(this, 2)" value="casino">
                                 <div></div>
                                 <h2>CASINO<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 3)">
+                            <div class="version" onclick="Version(this, 3)" value="international">
                                 <div></div>
                                 <h2>INTERNATIONAL<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 4)">
+                            <div class="version" onclick="Version(this, 4)" value="pool">
                                 <div></div>
                                 <h2>POOL<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 5)">
+                            <div class="version" onclick="Version(this, 5)" value="russian">
                                 <div></div>
                                 <h2>RUSSIAN<br/>CHECKERS</h2>
                             </div>
-                            <div class="version" onclick="Version(this, 6)">
+                            <div class="version" onclick="Version(this, 6)" value="nigerian">
                                 <div></div>
                                 <h2>NIGERIAN<br/>CHECKERS</h2>
                             </div>
@@ -316,47 +354,47 @@
             </section>
             <section class="item" id="main">
                 <h2>SINGLE PLAYER</h2>
-                <div onclick="Mode(1)" class="default">SINGLE PLAYER</div>
-                <div onclick="Mode(2)">TWO PLAYERS<br/> OFFLINE</div>
-                <div onclick="Mode(3)">TWO PLAYERS<br/> ONLINE</div>
-                <div onclick="Settings(this)">SETTINGS</div>
+                <div onclick="Mode(1)" class="default" value="single-player">SINGLE PLAYER</div>
+                <div onclick="Mode(2)" value="two-player-offline">TWO PLAYERS<br/> OFFLINE</div>
+                <div onclick="Mode(3)" value="two-player-online">TWO PLAYERS<br/> ONLINE</div>
+                <div onclick="Settings(this)" value="settings">SETTINGS</div>
             </section>
             <section class="item" id="levels">
                 <h2>BEGINNER LEVEL</h2>
                 <nav id="nav">
-                    <div onclick="Level(this, 0)" class="default"><p>BEGINNER<br/>LEVEL</p><p>
+                    <div onclick="Level(this, 0)" class="default" value="beginner"><p>BEGINNER<br/>LEVEL</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div>
-                    <div onclick="Level(this, 1)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 1)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--EASY-->
-                    <div onclick="Level(this, 2)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 2)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--MEDIUM-->
-                    <div onclick="Level(this, 3)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 3)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--HARD-->
-                    <div onclick="Level(this, 4)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 4)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--ADVANCED-->
-                    <div onclick="Level(this, 5)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 5)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--EXPERT-->
-                    <div onclick="Level(this, 6)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 6)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--CANDIDATE MASTER-->
-                    <div onclick="Level(this, 7)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 7)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--MASTER-->
-                    <div onclick="Level(this, 8)"><p>LOCKED</p><p>
+                    <div onclick="Level(this, 8)" value="locked"><p>LOCKED</p><p>
                                                                  <label></label>
                                                                  <label></label>
                                                                  <label></label></p></div> <!--GRAND MASTER-->
@@ -375,9 +413,9 @@
                         <h2 class="only_item">PLAYER 1</h2>
                         <input type="text" maxlength="20" name="offline-form" class="field only_item playerA_name" placeholder="Enter your name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
                         <p class="span_rows">Play as:<br><span>Choose the preferred color of your pieces</span></p>
-                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="default white">WHITE</button>
-                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="black">BLACK</button>
-                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="only_item">ALTERNATELY</button>
+                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" value="play-as-white" class="default white">WHITE</button>
+                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" value="play-as-black" class="black">BLACK</button>
+                        <button type="button" onclick="Clicked(this, this.parentNode), PlayAs(this)" value="play-as-alternately" class="only_item">ALTERNATELY</button>
                     </section>
                     <section class="inner_item" id="playerB">
                         <h2 class="only_item">PLAYER 2</h2>
@@ -394,14 +432,14 @@
                         <p>Status:<br><span>Your current connection status to the channel</span></p>
                         <label class="only_item orange_ui" id="connectivity">NOT CONNECTED</label>
                         <p>You Are:<br><span>Your current internet connection status</span></p>
-                        <label class="default only_item" id="player-1-status">ONLINE</label>
+                        <label class="default only_item" id="player-1-status" value="online">ONLINE</label>
                         <p>Opponent:<br><span>Opponent's current connection status to the channel</span></p>
-                        <label class="only_item black_ui" id="player-2-status">N/A</label>
+                        <label class="only_item black_ui" id="player-2-status" value="N/A">N/A</label>
                     </section>
                     <section class="inner_item">
                         <h2 class="only_item">CHANNEL DETAILS</h2>
                         <input type="text" id="channel-name" name="online-form" class="field only_item" placeholder="Enter name of the channel" onkeyup="Edit(this, true)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
-                        <p>Channel Joined<br><span>The name of the channel you are connected to</span>:</p>
+                        <p>Channel Joined:<br><span>The name of the channel you are connected to</span></p>
                         <label class="only_item lobby_name black_ui">N/A</label>
                         <p>Leave Channel:<br><span>Leave the channel you are connected to</span></p>
                         <button type="button" class="only_item red_ui" onclick="Clicked(), Unsubscribe()">LEAVE</button>
@@ -414,9 +452,9 @@
                         <h2 class="only_item">PLAYER DETAILS</h2>
                         <input type="text" maxlength="20" name="online-form" class="field only_item playerA_name" placeholder="Enter your name" onkeyup="Edit(this)" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" required>
                         <p>Player 1 Name:<br><span>Your opponent will refer to you using this name</span></p>
-                        <label class="only_item player_name black_ui">N/A</label>
+                        <label class="only_item player_name black_ui" value="N/A">N/A</label>
                         <p>Player 2 Name:<br><span>You will refer to your opponent using this name</span></p>
-                        <label class="only_item player_name black_ui">N/A</label>
+                        <label class="only_item player_name black_ui" value="N/A">N/A</label>
                     </section>
                     <input type="submit" id="hidden-submit-button" name="online-form" onclick="Submit(event)" hidden>
                 </form>
@@ -432,8 +470,8 @@
                 <h3>BEGINNER LEVEL</h3>
             </section>
             <section class="timer_section">
-            	<div class="player_A_timer"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
-            	<div class="player_B_timer"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
+            	<div class="three_d_timer"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
+            	<div class="three_d_timer"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
 			</section>
             <section class="middle_section">
                 <button onclick="Clicked(), Restart()" class="horiz_controls"></button>
@@ -441,8 +479,7 @@
                 <button onclick="Clicked(), Hint(this)" class="horiz_controls"></button>
                 <button onclick="Clicked(), AboutCheckers()" class="horiz_controls"></button>
                 <button onclick="Exit()" class="horiz_controls"></button>
-                <div class="player_A_timer"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
-            	<div class="player_B_timer"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
+                <button onclick="Mute()" class="horiz_controls"></button>
 				<div class="score">
                    <label></label>
                    <label></label>
@@ -457,6 +494,11 @@
                     <div class="board">
                         <div class="face face_front">
                             <div class="wrapper">
+                            	<div class="transmitter">
+									<div class="cell cargo">
+										<div></div>
+									</div>
+								</div>
                                 <div id="table"></div>
                                 <div class="frame frame_top">
                                     <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
@@ -477,6 +519,16 @@
                             <p class="p" id="level">BEGINNER LEVEL</p>
                             <pre class="p">White: 12    Black: 12</pre>
                         </div>
+                        <div class="three_d_timer timer_front_a"><span class="player_A_icon"></span><span class="player_A_time">00:00</span></div>
+                        <div class="three_d_timer timer_back_a"></div>
+                        <div class="three_d_timer timer_bottom_a"></div>
+                        <div class="three_d_timer timer_right_a"></div>
+                        <div class="three_d_timer timer_left_a"></div>
+                        <div class="three_d_timer timer_front_b"><span class="player_B_icon"></span><span class="player_B_time">00:00</span></div>
+                        <div class="three_d_timer timer_back_b"></div>
+                        <div class="three_d_timer timer_bottom_b"></div>
+                        <div class="three_d_timer timer_right_b"></div>
+                        <div class="three_d_timer timer_left_b"></div>
                     </div>
                 </section>
             </section>
@@ -497,6 +549,7 @@
                 <button onclick="Clicked(), Hint(this)" class="controls"></button>
                 <button onclick="Clicked(), AboutCheckers()" class="controls"></button>
                 <button onclick="Exit()" class="controls"></button>
+                <button onclick="Mute()" class="controls"></button>
             </section>
             <section class="footer_section">
                 <pre>White: 12    Black: 12</pre>
@@ -522,15 +575,15 @@
                 </section>
                 <section class="inner_item three_items" id="item3">
                     <p>First Move:<br><span>Choose who should make the first move</span></p>
-                    <button onclick="Clicked(this, this.parentNode)">WHITE</button>
-                    <button onclick="Clicked(this, this.parentNode)" class="default">BLACK</button>
-                    <button onclick="Clicked(this, this.parentNode)" class="only_item">ROLL DICE</button>
+                    <button id="first-move-white" onclick="Clicked(this, this.parentNode)">WHITE</button>
+                    <button id="first-move-black" onclick="Clicked(this, this.parentNode)" class="default">BLACK</button>
+                    <button id="first-move-roll-dice" onclick="Clicked(this, this.parentNode)" class="only_item black_ui">ROLL DICE</button>
                 </section>
                 <section class="inner_item three_items" id="item4">
                     <p>Play as:<br><span>Choose the preferred color of your pieces</span></p>
-                    <button onclick="Clicked(this, this.parentNode), PlayAs(this)" class="default">WHITE</button>
-                    <button onclick="Clicked(this, this.parentNode), PlayAs(this)">BLACK</button>
-                    <button onclick="Clicked(this, this.parentNode), PlayAs(this)" class="only_item">ALTERNATELY</button>
+                    <button value="play-as-white" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="default">WHITE</button>
+                    <button value="play-as-black" onclick="Clicked(this, this.parentNode), PlayAs(this)">BLACK</button>
+                    <button value="play-as-alternately" onclick="Clicked(this, this.parentNode), PlayAs(this)" class="only_item black_ui">ALTERNATELY</button>
                 </section>
                 <section class="inner_item" id="item5">
                     <p>Mandatory Capture:<br><span>Choose whether to make captures/jumps mandatory</span></p>
@@ -541,7 +594,7 @@
                     <p>Helper:<br><span>Choose whether to be guided/given tips while playing</span></p>
                     <button id="active" onclick="Clicked(this, this.parentNode)" class="default">ON</button>
                     <button id="inactive" onclick="Clicked(this, this.parentNode)">OFF</button>
-                    <button id="only-captures" onclick="Clicked(this, this.parentNode)" class="only_item">ONLY CAPTURES</button>
+                    <button id="only-captures" onclick="Clicked(this, this.parentNode)" class="only_item black_ui">ONLY CAPTURES</button>
                 </section>
                 <section class="inner_item" id="item7">
                     <p>Restart Levels:<br><span>Choose whether to restart all levels. Once done can not be reversed</span></p>
@@ -701,7 +754,7 @@
             } 
 			
             let deferredEvent;
-            let version = "16.5.6.47";
+            let appVersion = "17.6.7.48";
             let newSW;
             let workers = [];
             
@@ -753,8 +806,10 @@
             	static total = 7;
             	static run = async function (type) {
             		this.n++;
-            		let loadingInfo = $("#load-window p");
-            			loadingInfo.innerHTML = "Loading External Files: " + (this.n/this.total*100).toFixed(0) + "%<br>Loading Internal Files: 0%";
+            		let loadingInfo = $("#load-window .loader p");
+            			loadingInfo.innerHTML = "Loading files...";
+            		let progress = $("#load-window .loader .progress");
+            			progress.style.width = `calc(100% / 3 * ${this.n / this.total})`;
             		if(this.n == this.total) {
             			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
             				ZobristHash.initTable();
@@ -774,7 +829,7 @@
             const InvokeSWUpdateFlow = async () => {
 				Notify({action: "confirm", 
 						header: "APP UPDATE", 
-						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>Current version: " + version + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Changed the interface a bit.<li>Added total games stats.</li><li>Added player timer.</li><li>Fixed online playing lagging.</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
+						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Massive change of the interface</li><li>Discover more by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
 						type: "LATER/UPDATE",
 						onResponse: UpdateResponse});
 				async function UpdateResponse (refresh) {
@@ -797,7 +852,7 @@
 						newSW = reg;
 					} 
 					else {
-						console.log("Service initialized for the first time");
+						alert("Thank you for downloading Checkers.\nDid you know?\nPlaying board games stimulates brain areas that are responsible for memory formation and complex thought processes for all ages. Engaging in play assists in practicing essential cognitive skills, such as decision making, higher level strategic thinking, and problem solving.");
 						pageComplete();
 					} 
 				} 

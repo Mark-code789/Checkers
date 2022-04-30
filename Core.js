@@ -73,10 +73,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     			moves.captures.push({cell: `${i}${j}`, empty: `${a}${b}`, capture: `${oppA.x}${oppA.y}`});
     		} 
     	} 
-    	else if(cell && cell.endsWith(opp) && !oppA) {
+    	else if(cell && cell.endsWith(opp) && !oppA && !obstacleA) {
     		oppA = {x: a, y: b};
     	} 
-    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppA && cell && cell.includes(opp)) {
     		obstacleA = true;
     	} 
     
@@ -99,10 +99,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     			moves.captures.push({cell: `${i}${j}`, empty: `${c}${d}`, capture: `${oppB.x}${oppB.y}`});
     		} 
     	} 
-    	else if(cell && cell.endsWith(opp) && !oppB) {
+    	else if(cell && cell.endsWith(opp) && !oppB && !obstacleB) {
     		oppB = {x: c, y: d};
     	} 
-    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppB && cell && cell.includes(opp)) {
     		obstacleB = true;
     	} 
     
@@ -122,10 +122,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     			moves.captures.push({cell: `${i}${j}`, empty: `${e}${f}`, capture: `${oppC.x}${oppC.y}`});
     		} 
     	} 
-    	else if(cell && cell.endsWith(opp) && !oppC) {
+    	else if(cell && cell.endsWith(opp) && !oppC && !obstacleC) {
     		oppC = {x: e, y: f};
     	} 
-    	else if(cell && cell.includes(id.slice(1,2))  || cell == "IP") {
+    	else if(cell && cell.includes(id.slice(-1))  || cell == "IP" || oppC && cell && cell.includes(opp)) {
     		obstacleC = true;
     	} 
     	
@@ -145,10 +145,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     			moves.captures.push({cell: `${i}${j}`, empty: `${g}${h}`, capture: `${oppD.x}${oppD.y}`});
     		} 
     	} 
-    	else if(cell && cell.endsWith(opp) && !oppD) {
+    	else if(cell && cell.endsWith(opp) && !oppD && !obstacleD) {
     		oppD = {x: g, y: h};
     	} 
-    	else if(cell && cell.includes(id.slice(1,2)) || cell == "IP") {
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppD && cell && cell.includes(opp)) {
     		obstacleD = true;
     	} 
     	
@@ -213,7 +213,8 @@ const SortCaptures = (moves) => {
 } 
 
 const Log = async (...data) => {
-	await self.postMessage(data);
+	//await self.postMessage(data);
+	console.log(...data);
 } 
 
 const LogState = async (state) => {

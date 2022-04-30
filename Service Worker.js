@@ -1,5 +1,5 @@
 // Service worker
-const version = "381";
+const version = "392";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -9,9 +9,12 @@ const appShellFiles = [
     "./src/images/pool flag.jpeg",
     "./src/images/russian flag.jpeg",
     "./src/images/nigerian flag.jpeg",
-    "./src/images/background.jpeg", 
+    "./src/images/background1.jpeg", 
+    "./src/images/background2.jpeg", 
     "./src/images/black cell.jpeg", 
     "./src/images/white cell.jpeg",
+    "./src/images/sound on.png",
+    "./src/images/sound off.png",
     "./src/images/frame.jpeg",
     "./src/images/hint.png", 
     "./src/images/menu.png", 
@@ -80,10 +83,10 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
-        	/*if(/(?<!min).(html|css|js).*$/gi.test(e.request.url)) {
+        	if(/html.*$/gi.test(e.request.url)) {
             	//fetch;
             }
-            else */if(res) {
+            else if(res) {
             	return res;
             } 
             else if(!e.request.url.includes("pndsn.com")) {

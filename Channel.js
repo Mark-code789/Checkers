@@ -136,6 +136,7 @@ const ChannelFunction = () => {
 									let status = $$(".chat_header p")[1];
 									status.innerHTML = "offline";
 									let opponentStatus = $("#player-2-status");
+									opponentStatus.setAttribute("value", "offline");
 						        	opponentStatus.innerHTML = "OFFLINE";
 						        	opponentStatus.classList.remove("black_ui", "default");
 									opponentStatus.classList.add("orange_ui");
@@ -148,6 +149,7 @@ const ChannelFunction = () => {
 									let status = $$(".chat_header p")[1];
 									status.innerHTML = "offline";
 									let opponentStatus = $("#player-2-status");
+									opponentStatus.setAttribute("value", "offline");
 						        	opponentStatus.innerHTML = "OFFLINE";
 						        	opponentStatus.classList.remove("black_ui", "default");
 									opponentStatus.classList.add("orange_ui");
@@ -175,6 +177,7 @@ const ChannelFunction = () => {
 											dot.classList.remove("bouncing");
 											dot.style.display = "none";
 											let opponentStatus = $("#player-2-status");
+											opponentStatus.setAttribute("value", "online");
 							        		opponentStatus.innerHTML = "ONLINE";
 							        		opponentStatus.classList.remove("black_ui", "orange_ui");
 											opponentStatus.classList.add("default");
@@ -197,7 +200,7 @@ const ChannelFunction = () => {
                                 connectivityStatus.classList.remove("orange_ui");
                                 connectivityStatus.classList.add("default");
                                 connectivityStatus.innerHTML = "CONNECTED";
-                                $("#online .lobby_name").innerHTML = Lobby.CHANNEL;
+                                $("#online .lobby_name").innerHTML = Lobby.CHANNEL + (Lobby.isHost? " (Host)": " (Guest)");
                                 Lobby.isConnected = true;
                                 if(Lobby.isHost) {
                                     Notify(`Connected to ${Lobby.CHANNEL} channel successfully. Waiting for opponent...`);
@@ -252,13 +255,15 @@ const ChannelFunction = () => {
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
-                    	if($("#player-2-status").innerHTML == "OFFLINE" && msg.message.title != "Reconnected") {
+                    	if($("#player-2-status").getAttribute("value") == "offline" && msg.message.title != "Reconnected") {
                     		clearInterval(Lobby.timeoutInterval);
 							Notify(`${playerB.name} is back online.`);
                             let status = $$(".chat_header p")[1];
 							status.innerHTML = "online";
 							let opponentStatus = $("#player-2-status");
+							opponentStatus.setAttribute("value", "online");
 						    opponentStatus.innerHTML = "ONLINE";
+							opponentStatus.setAttribute("value", "online");
 						    opponentStatus.classList.remove("orange_ui", "black_ui");
 							opponentStatus.classList.add("default");
 						} 
@@ -281,6 +286,7 @@ const ChannelFunction = () => {
                                 let status = $$(".chat_header p")[1];
 								status.innerHTML = "online";
 								let opponentStatus = $("#player-2-status");
+								opponentStatus.setAttribute("value", "online");
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.classList.remove("orange_ui", "black_ui");
 								opponentStatus.classList.add("default");
@@ -296,6 +302,7 @@ const ChannelFunction = () => {
                                 name = msg.message.content;
                                 $$("#online .player_name")[1].innerHTML = name;
                                 let opponentStatus = $("#player-2-status");
+                                opponentStatus.setAttribute("value", "online");
                                 opponentStatus.innerHTML = "ONLINE";
                                 opponentStatus.classList.remove("orange_ui", "black_ui");
 								opponentStatus.classList.add("default");
@@ -475,12 +482,12 @@ class OpponentMove {
 			let prop = self.moves[0];
             let i = Game.boardSize-1 - prop.i, 
                 j = Game.boardSize-1 - prop.j,
-                cell = $("#table").rows[i].cells[j];
+                cell = $("#table").children[i*Game.boardSize+j];
             await ValidateMove({cell, i, j, isComputer: true});
 			await this.moves.shift();
 			if(this.moves.length > 0)
 				await this.make();
-        } catch (error) {alert(error + "")}
+        } catch (error) {console.error(error)}
 	} 
 } 
 
@@ -532,10 +539,9 @@ class Publish {
 					if(JSON.parse(config.message).title === "IntentionalExit")
 	        			Lobby.sleep.end(); 
 					else
-						alert("We couldn't communicate with the opponent please try again");
-						/*Notify({action: "alert", 
-		                    header: "Communication Error", 
-		                    message: status.message + "<br>" + status.category});*/
+						Notify({action: "alert", 
+		                    header: "Network Error", 
+		                    message: "We couldn't communicate with the opponent. Please try again.<br>Details:<br>" + status.message + "<br>" + status.category});
 				} 
             } 
 			if(self.messages.length > 0) 
@@ -559,6 +565,7 @@ const LeftChannel = (response) => {
 		opponentStatus.classList.add("black_ui");
         $("#chat-icon").style.display = 'none';
         $("#chat-window").style.display = "none";
+        $("#online .lobby_name").innerHTML = Lobby.CHANNEL + " (Host)";
         Lobby.isHost = true;
         Notify(`${name} left ${Lobby.CHANNEL} channel.`);
     }
@@ -574,12 +581,14 @@ const CalculateSize = (text) => {
 const UpdateOnlineStatus = () => {
 	let yourStatus = $("#player-1-status");
 	if(!navigator.onLine) {
+		yourStatus.setAttribute("value", "offline");
 	    yourStatus.innerHTML = "OFFLINE";
 	    yourStatus.classList.remove("default");
 		yourStatus.classList.add("orange_ui");
 	    //Notify(`You are offline.`);
 	} 
 	else {
+		yourStatus.setAttribute("value", "online");
 		yourStatus.innerHTML = "ONLINE";
 	    yourStatus.classList.remove("orange_ui");
 		yourStatus.classList.add("default");
@@ -751,8 +760,8 @@ const Request = async (prop) => {
                 let color = playerA.pieceColor;
                 await Alternate(color);
             }
-            setTimeout(async () => {
-                Publish.send({channel: Lobby.CHANNEL, message: {title: "AcceptedRequest", content: ""} });
+            await setTimeout(async () => {
+                await Publish.send({channel: Lobby.CHANNEL, message: {title: "AcceptedRequest", content: ""} });
                 Notify("The game will start shortly...");
                 Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
                 await Mode(3, false);
@@ -760,16 +769,11 @@ const Request = async (prop) => {
                 // Updating ui
                 let btn = (Game.mandatoryCapture)? $("#must-jump"): $("#not-must-jump");
                 await Clicked(btn, btn.parentNode, false);
-                let version = null;
-                for(let h2 of $$(".version h2")) {
-                    if(h2.innerHTML.includes(Game.version.toUpperCase())) {
-                        version = h2.parentNode;
-                        break;
-                    } 
-                } 
+                let version = $(`#main-window .version[value='${Game.version}']`);
                 await Version(version, 0, true);
                 await Cancel();
-                setTimeout(() => play(true), 2000);
+                await new Sleep().wait(2);
+                await play(true);
             }, 200);
             } catch (error) {Notify(error + " request error")}
         } 

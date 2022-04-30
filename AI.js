@@ -14,6 +14,7 @@ function Prms (value) {
 
 // AI class object
 // Methods and variables are self explanatory
+let subworkers = [];
 class AI {
 	ai = playerB.pieceColor.slice(0,1);
 	opp = playerA.pieceColor.slice(0,1);
@@ -58,17 +59,36 @@ class AI {
                     if(piece.includes("K")) { // threatening
                     	if(Game.version == "american") 
                     		ai += 1010;
-                    	else if(Game.version == "kenyan" || Game.version == "casino") 
+                    	else if(/kenyan|casino/gi.test(Game.version))
                     		ai += 1015;
                     	else
                         	ai += 1020; // value to piece
+                        
+                        if(/american|kenyan|casino/gi.test(Game.version)) {
+	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
+	                        	ai += 10;
+	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
+	                        	ai += 10;
+	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
+	                        	ai += 10;
+	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
+	                        	ai += 10;
+						} 
                     } 
                     if(movesStrA.includes(`"cell":"${i}{j}"`)) // movable piece 
-                    	ai += 2;
-                    if(movesStrB.includes(`"capture":"${i}{j}"`)) // will be captured 
-                    	ai -= 2;
+                    	ai += 500;
+                    if(movesStrB.includes(`"capture":"${i}{j}"`)) {// will be captured 
+                    	if(piece.includes("M"))
+                    		ai -= 1000;
+                    	else if(Game.version == "american") 
+                    		ai -= 1010;
+                    	else if(/kenyan|casino/gi.test(Game.version))
+                    		ai -= 1015;
+                    	else
+                    		ai -= 1020;
+                    } 
                     else // safe piece
-                    	ai += 2;
+                    	ai += 100;
                 } 
                 else if(piece.includes(this.opp)) {
                 	if(piece.includes("M")) {
@@ -83,13 +103,32 @@ class AI {
                     		human += 1015;
                     	else
                         	human += 1020; // value to piece
+                        
+                        if(/american|kenyan|casino/gi.test(Game.version)) {
+	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
+	                        	human += 10;
+	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
+	                        	human += 10;
+	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
+	                        	human += 10;
+	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
+	                        	human += 10;
+						} 
                     } 
                     if(movesStrB.includes(`"cell":"${i}{j}"`)) // movable piece 
-                    	human += 2;
-                    if(movesStrA.includes(`"capture":"${i}{j}"`)) // will be captured 
-                    	human -= 2;
+                    	human += 500;
+                    if(movesStrA.includes(`"capture":"${i}{j}"`)) {// will be captured 
+                    	if(piece.includes("M"))
+                    		human -= 1000;
+                    	else if(Game.version == "american") 
+                    		human -= 1010;
+                    	else if(/kenyan|casino/gi.test(Game.version))
+                    		human -= 1015;
+                    	else
+                    		human -= 1020;
+                    } 
                     else // safe piece
-                    	human += 2;
+                    	human += 100;
                 } 
             } 
         } 
@@ -152,9 +191,7 @@ class AI {
     	this.depthSearched = Math.min(depth, this.depthSearched);
     	//this.alpha = alpha;
     	//this.beta = beta;
-    	
-    	/*await Log("Subworker: ", this.subworker);
-    	await Log("Depth: ", depth);
+    	/*await Log("Depth: ", depth);
     	await LogState(state);
     	await Log('');*/
     	
@@ -216,7 +253,7 @@ class AI {
 	                    moves2 = moves2.nonCaptures.concat(moves2.captures);
 	                } 
 					
-					/*if(!subworkers || subworkers.length == 0) {
+					if(!subworkers || subworkers.length == 0) {
 						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves);
 					} 
 					else {
@@ -224,9 +261,9 @@ class AI {
 						worker.onmessage = this.workerMessage;
 						worker.postMessage({type: "move-search", content: [this.depth, i, cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves, false, Game.mandatoryCapture, Game.boardSize, Game.version, playerA.pieceColor, playerB.pieceColor]});
 						this.total++;
-					} */
+					} 
 					
-					if(moves.indexOf(move) == 0) { 
+					/*if(moves.indexOf(move) == 0) { 
 						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // initial search
 					} 
 					else {
@@ -234,7 +271,7 @@ class AI {
 						
 						if(value > alpha && value < beta) // if it fails high i.e has possibility of raising alpha
 							value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // research to get the exact value
-					} 
+					} */
 				} 
 				else {
 					let moves2 = res.continuousJump;
@@ -355,6 +392,7 @@ class AI {
 					/*if(move.cell == "03" && move.empty == "12") {}
 					else continue;*/
 					
+					self.depthSearched = self.depth;
 					let cloneState = Copy(state);
 					let res = await self.move(cloneState, move); // make move
 		                cloneState = res.state; 
@@ -393,7 +431,7 @@ class AI {
 						]; 
 						if(test) {
 							let value = -await self.negascout(...data.slice(2,10));
-							console.log(value, move);
+							console.log(value, move, self.depth - self.depthSearched);
 							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
 						} 
 						else {
@@ -424,7 +462,7 @@ class AI {
 						]; 
 						if(test) {
 							let value = await self.negascout(...data.slice(2,10));
-							console.log(value, move);
+							console.log(value, move, self.depth - self.depthSearched);
 							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
 						} 
 						else {
@@ -442,7 +480,7 @@ class AI {
             	let move = moves[i];
             	count++;
             	// evaluating 
-            	//console.log(value, move, i);
+            	//console.log(value, move, e.data.content.depth);
             	let section = $("#play-window .footer_section");
             	let faceBottom = $("#play-window .middle_section .face_bottom");
             	widthA = parseFloat(GetValue(section, "width")) - 5;

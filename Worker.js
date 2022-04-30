@@ -1,5 +1,4 @@
 self.importScripts("./Objects.js", "./AI.js", "./Core.js");
-let subworkers = [];
 let searches = [];
 let timestamp = null;
 self.addEventListener("message", async (e) => {
@@ -59,7 +58,7 @@ class Search {
 				value = -await this.ai.negascout(...data.slice(2,10));
 				
 			let actualDepthSearched = this.ai.depth - this.ai.depthSearched;
-				value -= actualDepthSearched;
+				value -= actualDepthSearched * 1000;
 				
 			if(!this.ai.stop) {
 				await self.postMessage({type: "search-result", content: {value, id}});

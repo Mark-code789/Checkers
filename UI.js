@@ -35,7 +35,8 @@ let srcs = ["american flag.jpeg",
             "pool flag.jpeg",
             "russian flag.jpeg",
             "nigerian flag.jpeg",
-            "background.jpeg", 
+            "background1.jpeg",
+            "background2.jpeg", 
             "black cell.jpeg", 
             "white cell.jpeg",
             "frame.jpeg", 
@@ -48,6 +49,8 @@ let srcs = ["american flag.jpeg",
             "white piece.png", 
             "black crown.png", 
             "white crown.png",
+            "sound on.png",
+            "sound off.png",
             "send.png", 
             "cancel.png", 
             "alert.png",
@@ -78,7 +81,8 @@ let imageProps = ["--english-flag",
                     "--pool-flag",
                     "--russian-flag",
                     "--nigerian-flag", 
-                    "--bg", 
+                    "--bg1",
+                    "--bg2", 
                     "--black-cell", 
                     "--white-cell",
                     "--frame",
@@ -91,6 +95,8 @@ let imageProps = ["--english-flag",
                     "--white-piece", 
                     "--black-crown", 
                     "--white-crown",
+                    "--sound-on",
+                    "--sound-off",
                     "--send-btn",
                     "--cancel",
                     Object.keys(Icons)[0],
@@ -102,23 +108,23 @@ let imageProps = ["--english-flag",
                     Object.keys(Icons)[6]
                     ];
 // use recursive function to load the images in srcs and updating the progress bar
-let i, bar, label, width;
-try {
-	i = 0;
-	label = $("#load-window p");
-	bar = $(".bar"); // Loading bar
-} catch {}
+let loadingInfo = $("#load-window .loader p");
+let progress = $("#load-window .loader .progress");
 
-async function LoadResources (src) { 
-    if(src.includes(".mp3"))
+async function LoadResources (src, i = 0) {
+    if(src.includes(".mp3")) {
         src = "./src/audio/" + src;
-    else
+    } 
+    else {
         src = "./src/images/" + src;
+    }
     let response = await fetch(src);
     if(response.status === 200) {
         let blob = await response.blob();
         if(blob.size > 0) {
             if(!src.includes(".mp3")) {
+            	loadingInfo.innerHTML = "Loading textures...";
+            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1) / srcs.length} + calc(100% / 3))`;
                 src = await URL.createObjectURL(blob);
                 srcs.splice(i, 1, src);
                 if(i < imageProps.length - Object.keys(Icons).length) {
@@ -129,22 +135,22 @@ async function LoadResources (src) {
                 }
             } 
             else {
+            	loadingInfo.innerHTML = "Loading audio...";
+            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1 - srcs.length) / sounds.length} + calc(100% / 1.5))`;
                 src = await URL.createObjectURL(blob);
                 let audio = new Audio(src);
                 Sound[soundProps[i - srcs.length]] = audio;
             }
-            width = parseInt(window.getComputedStyle(bar, null).getPropertyValue("width"));
-            bar.children[0].style.width = ((i+1) * width / (srcs.length + sounds.length)) + "px";
-            label.innerHTML = "Loading External Files: 100%<br>Loading Internal Files: " + (parseInt(window.getComputedStyle(bar.children[0], null).getPropertyValue("width")) / width * 100).toFixed(0) + "%";
             i++;
             if(i < srcs.length) {
-                LoadResources(srcs[i]);
+                LoadResources(srcs[i], i);
             }
             else if(i < srcs.length + sounds.length) {
-                LoadResources(sounds[i - srcs.length]);
+                LoadResources(sounds[i - srcs.length], i);
             }
             else {
-                setTimeout(LoadingDone, 100);
+                await setTimeout(LoadingDone, 1000);
+                loadingInfo.innerHTML = "Finishing...";
             } 
         }
         else if(!goingToRefresh) {
@@ -152,6 +158,7 @@ async function LoadResources (src) {
         } 
     }
     else {
+    	console.log(i, srcs.length);
         alert("LOADING ERROR!\nFailed to load AppShellFiles - " + src + ". Either you have bad network or you have lost internet connection.");
     } 
 } 
@@ -160,16 +167,15 @@ async function LoadingDone () {
 	imageProps = null;
 	soundProps = null;
 	sounds = null;
-	bar = null;
-	width = null;
-	i = null;
 	srcs.slice(6, srcs.length - 8);
+	
+	if(screen.orientation.type.includes("landscape")) {
+		document.body.style.backgroundSize = "auto 70vmax";
+	} 
 	
     document.documentElement.style.setProperty("--star", `url(${srcs[srcs.length-1]})`);
     document.documentElement.style.setProperty("--warning", `url(${srcs[srcs.length-3]})`);
-    document.body.style.backgroundImage = `var(--bg)`;
-    $("#load-window").style.display = "none";
-    $("#main-window").style.display = "grid";
+    
     $("#item1").style.display = "none";
    
     document.addEventListener("fullscreenchange", _ => Fullscreen(true, true), false);
@@ -210,7 +216,7 @@ async function LoadingDone () {
     if(storage === null || storage.getItem("Checkers - versions") === null) {
         for(btn of btns) {
             p = btn.children[1];
-            if(btn.children[0].innerHTML != "LOCKED") {
+            if(btn.getAttribute("value") != "lockers ") {
                 p.children[0].classList.add("not_achieved");
                 p.children[1].classList.add("not_achieved");
                 p.children[2].classList.add("not_achieved");
@@ -229,13 +235,9 @@ async function LoadingDone () {
         try {
             Game.versions = JSON.parse(storage.getItem("Checkers - versions"));
             let version = storage.getItem("Checkers - version");
+            version = /^\d+/gi.test(version)? "american": version;
             Game.version = version;
-            for(let h2 of $$(".version h2")) {
-                if(h2.innerHTML.includes(version.toUpperCase())) {
-                    version = h2.parentNode;
-                    break;
-                } 
-            }
+            version = $(`#main-window .version[value='${version}']`);
             Version(version, undefined, false);
         } catch (error) {alert("Version Initialization Error: " + error.message + "\nVersion: " + storage.getItem("Checkers - version"))}
         
@@ -311,13 +313,13 @@ async function LoadingDone () {
         } catch (error) {console.log(error)}
       
         // Mute
-        let muted = JSON.parse(storage.getItem("Checkers - muted"));
-        if(muted == false) {
+        let muted = storage.getItem("Checkers - muted");
+        if(muted == "false") {
             Mute(JSON.parse(muted));
             $("#unmute").style.background = general.default;
             $("#mute").style.background = general.background;
         }
-        else if(muted == true) {
+        else if(muted == "true") {
             Mute(JSON.parse(muted));
             $("#mute").style.background = general.default;
             $("#unmute").style.background = general.background;
@@ -438,6 +440,8 @@ async function LoadingDone () {
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
     window.addEventListener("popstate", () => setTimeout(PopState, 0), false);
+    $("#load-window").style.display = "none";
+    $("#main-window").style.display = "grid";
     CheckHref();
 }
 
@@ -500,15 +504,16 @@ class Drag {
 			else if(this.dragItem === $(".games_totals")) {
 				let rect = this.dragItem.getBoundingClientRect();
 				let parRect = this.dragItem.parentNode.getBoundingClientRect();
-				if(rect.top >= (parRect.height * 0.5) + parRect.top) {
+				let offset = rect.bottom - parRect.bottom;
+				if(rect.top >= (rect.height * 0.25) + rect.top - offset) {
 					let dist = parRect.bottom - rect.top;
 					this.translate(0, this.currentY + dist, this.dragItem);
 					this.currentY = 0;
 					BackState.state.pop();
 				}
 				else {
-					let dist = (parRect.height * 0.15) + parRect.top - rect.top;
-					this.currentY += dist;
+					let dist = rect.bottom - parRect.bottom;
+					this.currentY -= dist;
 					this.translate(0, this.currentY, this.dragItem);
 				} 
 			}
@@ -543,16 +548,13 @@ class Drag {
 					let rect = this.dragItem.getBoundingClientRect();
 					let parRect = this.dragItem.parentNode.getBoundingClientRect();
 					let dist = this.currentY - this.yOffset;
-					let yThreshold = parRect.height * 0.15;
-					let expectedY = (dist + rect.top) - parRect.top;
+					let yThreshold = parRect.bottom - rect.height;
+					let expectedY = dist + rect.top;
 					if(expectedY < yThreshold) {
 						this.currentY -= (expectedY - yThreshold);
 					}
-					this.translate(0, this.currentY, this.dragItem);
-				}
-				else {
-					this.translate(0, this.currentY, this.dragItem);
 				} 
+				this.translate(0, this.currentY, this.dragItem);
 			}
 			this.xOffset = this.currentX;
 			this.yOffset = this.currentY;
@@ -790,15 +792,15 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
 		Game.state = JSON.parse(storage.getItem("Checkers-Test-State"));
 	}
 	else {
-		Game.state = gameState
-	    /*[["NA", "MB", "NA", "MB", "NA", "MB", "NA", "MB"],
-		["MB", "NA", "MB", "NA", "MB", "NA", "MB", "NA"],
-		["NA", "MB", "NA", "MB", "NA", "MB", "NA", "EC"],
-		["EC", "NA", "EC", "NA", "EC", "NA", "MB", "NA"],
-		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "MW"],
-		["MW", "NA", "MW", "NA", "MW", "NA", "EC", "NA"],
-		["NA", "MW", "NA", "MW", "NA", "MW", "NA", "MW"],
-		["MW", "NA", "MW", "NA", "MW", "NA", "MW", "NA"]]*/;
+		Game.state = gameState;
+	   /*[["NA", "KB", "NA", "KW", "NA", "EC", "NA", "EC"],
+		["MW", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "KB", "NA", "EC", "NA", "EC", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"]];*/
 	} 
 	BackState.moves = [];
     Game.track = [];
@@ -838,7 +840,14 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
             let id = playerA.pieceColor.slice(0,1);
             Game.moves = await AssessAll({id, state: Game.state});
             await Helper(Game.moves, Copy(Game.state));
+            Notify("You are the one to start. Make a move.");
         }
+        else {
+        	let id = playerB.pieceColor.slice(0,1);
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
+            Notify(`${playerB.name} will make the first move. Please wait.`);
+        } 
         AdjustBoard();
         return Prms(true);
     } 
@@ -880,20 +889,24 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
                 Timer.start("A");
             }
             else {
+            	let id = playerA.pieceColor.slice(0,1);
+                Game.moves = await AssessAll({id, state: Game.state});
             	Timer.start("A");
             } 
         }
-        else if(Game.helper && Game.mode === "two-player-offline") {
+        else if(Game.mode === "two-player-offline") {
             let id = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
             Game.moves = await AssessAll({id, state: Game.state});
-            await Helper(Game.moves, Copy(Game.state));
+            if(Game.helper) 
+            	await Helper(Game.moves, Copy(Game.state));
             let player = Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"? "A": "B";
             Timer.start(player);
         }
-        else if(Game.helper && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
+        else if((Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
             let id = playerA.pieceColor.slice(0,1);
             Game.moves = await AssessAll({id, state: Game.state});
-            await Helper(Game.moves, Copy(Game.state));
+            if(Game.helper)
+            	await Helper(Game.moves, Copy(Game.state));
             Timer.start("A");
         }
         else {
@@ -939,11 +952,7 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         
     async function aiStart () {
     	for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) { 
-            cell.classList.remove("valid");
-            cell.classList.remove("pre_valid");
-            cell.classList.remove("hint");
-            cell.classList.remove("helper_empty");
-            cell.classList.remove("helper_filled");
+            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
         } 
         let state = Game.state;
     	let id = playerB.pieceColor.substring(0,1);
@@ -963,7 +972,7 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         let ai = new AI({moves, depth: Game.level, state});
         await ai.makeMove();
         return;*/
-        //console.log(Game.moves);
+        //console.log(await AssessAll({id: "KB", state}));
         //return;
         
         let chosen = (Math.random()*(moves.length - 1)).toFixed(0);
@@ -1041,19 +1050,16 @@ const GetPosition = function (x, y) {
 
 class Move {
     root = document.documentElement;
-    moving = $$("#table .outer");
+    moving = $$(".transmitter.cargo_ready .cargo.move");
     constructor (prop) {
         if(this.moving.length === 0 && prop.select) {
-            this.select(prop);
-            return;
+            return this.select(prop);
         }
         else if(this.moving.length === 0 && prop.movePiece) {
-            this.makePath(prop);
-            return;
+            return this.makePath(prop);
         } 
         else if(this.moving.length === 0 && prop.capture) { 
-        	this.select(prop);
-        	return;
+        	return this.select(prop);
         }
         else if(this.moving.length === 0 && prop.captureMove) {
         	return this.captures(prop);
@@ -1065,9 +1071,7 @@ class Move {
     	let validMove = false;
     	// Remove Helper cells for filtering purposes 
     	for(let cell of $$("#table .helper_empty, #table .pre_valid, #table .valid")) {
-    		cell.classList.remove("helper_empty");
-    		cell.classList.remove("pre_valid");
-    		cell.classList.remove("valid");
+    		cell.classList.remove("helper_empty", "pre_valid", "valid");
     	} 
     	for(let sort of general.sorted) {
     		for(let move of sort) {
@@ -1151,7 +1155,7 @@ class Move {
    	 if(n == Game.track.length-1) {
    		 prop.final = true;
    	 } 
-   	 new Move({}).attachToScene(prop, true);
+   	 new Move({}).sendCargo(prop, true);
     }
         
         
@@ -1162,17 +1166,13 @@ class Move {
         }
         
         if(this.moving.length > 0) {
-            await Move.detachFromScene();
+            await Move.receiveCargo();
         } 
        
         if(!capture)
 	        for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-	            cell.classList.remove("valid");
-	            cell.classList.remove("pre_valid");
-	            cell.classList.remove("hint");
-	            cell.classList.remove("helper_empty");
-	            cell.classList.remove("helper_filled");
-	        } 
+	            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+	        }
         
         Game.pieceSelected = true;
         Game.isComputer = prop.isComputer;
@@ -1196,21 +1196,26 @@ class Move {
         } 
         
         if(!capture)
-            this.attachToScene({cell: prop.cell, i: prop.i, j: prop.j});
+            this.sendCargo({cell: prop.cell, i: prop.i, j: prop.j});
         else {
         	return {cell: prop.cell, i: prop.i, j: prop.j};
         } 
         //} catch (error) {Notify({action: "alert", header: "Error 1!", message: error});} 
     } 
     
-    attachToScene = async function (prop, capture = false) { //try {
+    sendCargo = async function (prop, capture = false) { //try {
         let piece = Game.prop.cell.lastChild;
-        let clone = Game.prop.cell.cloneNode(true);
-        clone.classList.add("transmitter");
+        let transmitter = $(".transmitter");
+        let cargo = transmitter.lastElementChild;
+        cargo.lastElementChild.classList.add(...Array.from(piece.classList));
         Game.prop.cell.removeChild(piece);
+        let data1 = await GetPosition(prop.i, prop.j);
+        let data2 = await GetPosition(Game.prop.i, Game.prop.j);
+        cargo.style.top = data2.top + "px";
+        cargo.style.left = data2.left + "px";
         
-        this.root.style.setProperty('--ept', `calc(100% * ${prop.i - Game.prop.i})`);
-        this.root.style.setProperty('--epl', `calc(100% * ${prop.j - Game.prop.j})`);
+        this.root.style.setProperty('--ept', `${data1.top - data2.top}px/*calc(100% * ${prop.i - Game.prop.i})*/`);
+        this.root.style.setProperty('--epl', `${data1.left - data2.left}px/*calc(100% * ${prop.j - Game.prop.j})*/`);
         
         let mt = 0.35;
     	let increase = mt * 0.25;
@@ -1221,52 +1226,38 @@ class Move {
     	this.root.style.setProperty("--mt", mt + "s");
         
        
-        if(/*screen.orientation.type.toLowerCase().includes("landscape")*/true) {
-        	mt += mt * 0.1;
+        /*if(general.orientation.toLowerCase().includes("landscape")) {
+        	mt += mt * 0.5;
         	this.root.style.setProperty("--mt", mt + "s");
-        } 
+        } */
         
         general.prop = prop;
         
-        clone.setAttribute('onanimationend', `Move.detachFromScene(${capture})`);
-        $("#table").appendChild(clone);
-        clone.classList.add("move");
+        cargo.setAttribute('onanimationend', `Move.receiveCargo(${capture})`);
+        transmitter.classList.add("cargo_ready");
+        cargo.classList.add("move");
         //} catch (error) {Notify({action: "alert", header: "Error 2!", message: error});} 
     } 
     
-    static detachFromScene = async function (capture) { 
+    static receiveCargo = async function (capture) { 
         let prop = general.prop;
         let root = document.documentElement;
         Game.pieceSelected = false;
         //try {
         if(Game.prop != null && prop != null) {
             for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-                cell.classList.remove("valid");
-                cell.classList.remove("pre_valid");
-                cell.classList.remove("hint");
-                cell.classList.remove("helper_empty");
-                cell.classList.remove("helper_filled");
+                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
             } 
             general.sorted = [];
-            let transmitter = $("#table .transmitter");
-            let piece = transmitter.lastChild;
-            transmitter.removeChild(piece);
-            $("#table").removeChild(transmitter);
+            let transmitter = $(".transmitter");
+            let cargo = transmitter.lastElementChild;
+            let piece = cargo.lastElementChild.cloneNode(true);
+            transmitter.classList.remove("cargo_ready");
+            cargo.classList.remove("move");
+            cargo.lastElementChild.classList.remove("piece_black", "crown_black", "piece_white", "crown_white");
             
             prop.cell.classList.remove("cell_disabled");
             prop.cell.appendChild(piece);
-            piece.style.height = "var(--piece_size)";
-            piece.style.width  = "var(--piece_size)";
-            piece.style.margin = "auto";
-            piece.style.marginTop = "calc(calc(100% - var(--piece_size)) / 2 - var(--shadow-width))";
-            piece.style.boxShadow = piece.classList.contains("piece_black")? `0 var(--shadow-width) 0 0 #1A1A1A, 0 calc(var(--shadow-width) + 2px) 3px 0 var(--shadow-color)`: `0 var(--shadow-width) 0 0 #999999, 0 calc(var(--shadow-width) + 2px) 3px 0 var(--shadow-color)`;
-            
-            if(screen.orientation.type.toLowerCase().includes("landscape")) {
-                root.style.setProperty("--piece_size", "80%");
-            }
-            else {
-                root.style.setProperty("--piece_size", "85%");
-            }
             
             prop.piece = piece;
             
@@ -1287,7 +1278,9 @@ class Move {
                 }
                
                 prop.piece = piece;
-                prop.king = true; 
+                prop.king = true;
+                if(capture)
+                	Game.track[prop.n][1] = prop;
             }  
             
             // Updating Game state
@@ -1393,8 +1386,10 @@ class Move {
                     else {
                         // Marking the initial steps including the initial place the piece was marked
                         let captures = [];
+                        let moves = [];
                         for(let track of Game.track) {
                             //marking the moves made
+                            moves.push(track[1]);
                             if(Game.helper || Game.capturesHelper) {
                                 track[0].cell.classList.add("valid");
                                 track[1].cell.classList.add("valid");
@@ -1415,7 +1410,8 @@ class Move {
                             capturedPiece.setAttribute("onanimationend", "End(event)");
                             capturedPiece.classList.add("captured");
                         }
-                        BackState.moves.push([Game.track[0][0], prop, captures]);
+                        moves.unshift(Game.track[0][0]);
+                        BackState.moves.push([...moves, captures]);
                         
                         //Playing audios
                         if(!prop.king && Game.track.length > 1) {
@@ -1428,8 +1424,8 @@ class Move {
                             AudioPlayer.play("king", 1);
                         }
                        
-                        general.captureFadeTime = new Sleep();
-                        await general.captureFadeTime.start();
+                        //general.captureFadeTime = new Sleep();
+                        //await general.captureFadeTime.start();
                             
                         Game.track = [];
                         Helper(Game.moves, Copy(Game.state));
@@ -1546,7 +1542,7 @@ const ValidateMove = async (prop) => {
                 for(let type of Game.moves.captures) {
                     if(type.cell == posId) {
                         prop.capture = true;
-                        new Move(prop);
+                        await new Move(prop);
                         if(general.sorted.length > 0) {
                         	let emptyCells = [];
                             for(let arr of general.sorted) {
@@ -1603,8 +1599,8 @@ const ValidateMove = async (prop) => {
                 Game.moves = await AssesMoves({id, i: prop.i, j: prop.j, state: Game.state});
                 if(Game.moves.nonCaptures.length > 0) {
                 	prop.select = true;
-                    new Move(prop) ;
-                    if(Game.helper && general.aiPath.length == 0) {
+                    await new Move(prop);
+                    if(Game.helper && !prop.isComputer) {
                         for(let move of Game.moves.nonCaptures) {
                             let m = parseInt(move.empty.slice(0,1));
                             let n = parseInt(move.empty.slice(1,2));
@@ -1618,7 +1614,7 @@ const ValidateMove = async (prop) => {
                 for(let type of Game.moves.nonCaptures) {
                     if(type.empty == posId && type.cell == `${Game.prop.i}${Game.prop.j}`) {
                     	prop.movePiece = true;
-                        new Move(prop) ;
+                        await new Move(prop) ;
                         return;
                     } 
                 } 
@@ -1668,10 +1664,19 @@ class Timer {
 	}
 	static reset = () => {
 		this.AH = this.AM = this.BH = this.BM = 0;
-		$$("#play-window .player_A_icon")[0].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
-		$$("#play-window .player_A_icon")[1].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
-		$$("#play-window .player_B_icon")[0].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
-		$$("#play-window .player_B_icon")[1].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		let icons = $$("#play-window .player_A_icon, #play-window .player_B_icon");
+		icons[0].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		icons[2].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		icons[1].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		icons[3].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		icons[0].classList.remove("black_icon", "white_icon");
+		icons[0].classList.add(`${playerA.pieceColor.toLowerCase()}_icon`);
+		icons[2].classList.remove("black_icon", "white_icon");
+		icons[2].classList.add(`${playerA.pieceColor.toLowerCase()}_icon`);
+		icons[1].classList.remove("black_icon", "white_icon");
+		icons[1].classList.add(`${playerB.pieceColor.toLowerCase()}_icon`);
+		icons[3].classList.remove("black_icon", "white_icon");
+		icons[3].classList.add(`${playerB.pieceColor.toLowerCase()}_icon`);
 		this.show('all');
 	}
 	static show = (player) => {
@@ -2124,7 +2129,7 @@ class AudioPlayer {
 const Clicked = async (elem, parent, click = true) => { try {
     if(click) 
         AudioPlayer.play("click", 1);
-    if(elem != undefined && !elem.innerHTML.includes("LOCKED") || elem != undefined && !click) {
+    if(elem != undefined && elem.getAttribute("value") != "locked" || elem != undefined && !click) {
         let btns = parent.children;
         for(let btn of btns) {
             if(parent.id !== "vc" && btn.tagName.toLowerCase() == "div" || parent.id !== "vc" && btn.tagName.toLowerCase() == "button") {
@@ -2142,7 +2147,7 @@ const Clicked = async (elem, parent, click = true) => { try {
         else if(parent.id === "main") { 
             $(`#${parent.id} h2`).innerHTML = elem.innerHTML.split("<br>").join(" ");
             
-            if(elem.innerHTML == "SINGLE PLAYER") 
+            if(elem.getAttribute("value") == "single-player") 
                 $("#main-window #levels h2").style.color = "#000";
             else
                 $("#main-window #levels h2").style.color = "#6C6C6C";
@@ -2165,7 +2170,7 @@ const Clicked = async (elem, parent, click = true) => { try {
                 } 
             } 
             
-            if(elem.innerHTML === "SINGLE PLAYER" || parent.id === "nav") {
+            if(elem.getAttribute("value") === "single-player" || parent.id === "nav") {
                 if(parent.id === "nav") general.level = elem;
                 await Enable($("#main-window #levels #nav"), general.background, "#fff");
             } 
@@ -2174,7 +2179,7 @@ const Clicked = async (elem, parent, click = true) => { try {
             }
         }
     }
-    else if(elem != undefined && elem.innerHTML.includes("LOCKED")) {
+    else if(elem != undefined && elem.getAttribute("value") == "locked") {
         //resetting size
         clearTimeout(general.timeout);
         elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
@@ -2283,7 +2288,7 @@ const Enable = async (parent, bgColor, color) => { try {
         } 
         
         if(child.children.length > 0) {
-            if(child.children[0].innerHTML === "LOCKED") {
+            if(child.getAttribute("value") === "locked") {
                 child.style.background = general.disabled;
             } 
             
@@ -2306,9 +2311,31 @@ const Enable = async (parent, bgColor, color) => { try {
 } 
 
 const Mute = (mute) => {
+	if(mute == undefined) {
+		Sound.muted = !Sound.muted;
+		mute = Sound.muted;
+		if(mute) {
+			$("#unmute").style.background = general.background;
+            $("#mute").style.background = general.default;
+            Clicked();
+		}
+		else {
+			$("#unmute").style.background = general.default;
+            $("#mute").style.background = general.background;
+		} 
+	}
+	let btns = $$('.middle_section .horiz_controls:nth-of-type(6), .controls_section .controls:nth-of-type(6)');
+	if(mute) {
+		btns[0].style.backgroundImage = "var(--sound-on)";
+		btns[1].style.backgroundImage = "var(--sound-on)";
+	}
+	else {
+		btns[0].style.backgroundImage = "var(--sound-off)";
+		btns[1].style.backgroundImage = "var(--sound-off)";
+	} 
     Sound.muted = mute;
     if(storage) {
-        storage.setItem("Checkers - muted", JSON.stringify(mute));
+        storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
     } 
 } 
 
@@ -2588,7 +2615,7 @@ const AboutCheckers = () => {
         }
         //alert(src);
         Notify({action: "alert", 
-                header: `<img style="height: 100%; width: 80px; margin-right: 15px; object-fit: cover;" src=${src}> ${version}`, 
+                header: `<img src=${src}> <span>${version}</span>`, 
                 message});
     } 
     else
@@ -2598,14 +2625,12 @@ const AboutCheckers = () => {
 
 const Helper = async (moves, state, isMultJump = false) => {
     for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, #table .helper_empty, #table .helper_filled")) {
-        cell.classList.remove("hint");
-        cell.classList.remove("helper_empty");
-        cell.classList.remove("helper_filled");
+        cell.classList.remove("hint", "helper_empty", "helper_filled");
     }
     let showNonCapture = Game.mandatoryCapture && Game.moves.captures.length == 0 || !Game.mandatoryCapture;
     // check if moves is an attack move or not
     if(showNonCapture && !isMultJump) {
-    	if(!(Game.mode == "single-player" && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && Game.helper) 
+    	if(!((Game.mode == "single-player" || Game.mode == "two-player-online") && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && Game.helper) 
 	        for(let move of moves.nonCaptures) {
 	            let i = parseInt(move.cell.slice(0,1));
 	            let j = parseInt(move.cell.slice(1,2));
@@ -2688,29 +2713,31 @@ const Helper = async (moves, state, isMultJump = false) => {
 	    else if(Game.helper || Game.capturesHelper) {
 	        for(let arr of general.sorted) {
 	            let cell = arr[0];
-				if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper_filled")) 
 	            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
 	        } 
 	        return;
 	    }
+	}
+	else if((Game.helper || Game.capturesHelper) && !Game.mandatoryCapture && (Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode != "single-player")) {
+		for(let arr of general.sorted) {
+            let cell = arr[0];
+            $("#table").children[cell.i*Game.boardSize+cell.j].classList.remove("pre_valid");
+            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+        } 
+        return;
 	} 
 } 
 
 const PlayAs = (elem) => { 
     if(elem.parentNode.id == "playerA") {
-        if(elem.innerHTML != "ALTERNATELY") {
+        if(elem.getAttribute("value") != "play-as-alternately") {
             let num = elem.classList.length - 1;
             Enable($$("#playerB button")[0], general.default, "#fff");
             Enable($$("#playerB button")[1], general.default, "#fff");
             Disable($(`#playerB .${elem.classList[num]}`), general.disabled, "#B4B4B4");
             Enable($(`#playerB button:not(.${elem.classList[num]})`), general.default, "#fff");
-            let btns = $$("#item4 button");
-            for(let btn of btns) {
-            	if(btn.innerHTML === elem.innerHTML) {
-            	    Clicked(btn, btn.parentNode);
-                    break;
-            	} 
-            }
+            let btn = $(`#item4 button[value='${elem.getAttribute("value")}']`);
+            Clicked(btn, btn.parentNode, false);
         }
         else {
             Game.alternatePlayAs = true;
@@ -2726,16 +2753,16 @@ const PlayAs = (elem) => {
             } 
         } 
     } 
-    if(elem.innerHTML != "ALTERNATELY") {
+    if(elem.getAttribute("value") != "play-as-alternately") {
         Game.alternatePlayAs = false;
-        let playAsWhite = (elem.innerHTML == "WHITE");
+        let playAsWhite = (elem.getAttribute("value") == "play-as-white");
         playerA.pieceColor = (playAsWhite)? "White": "Black";
         playerB.pieceColor = (playAsWhite)? "Black": "White";
         
         if(elem.parentNode.id !== "playerA") {
             let btns = $$("#playerA button");
             for(let btn of btns) {
-            	if(btn.innerHTML === elem.innerHTML) {
+            	if(btn.getAttribute("value") === elem.getAttribute("value")) {
             	    Clicked(btn, btn.parentNode, false);
                     let num = btn.classList.length - 1;
                     Disable($(`#playerB .${btn.classList[num]}`), general.disabled, "#B4B4B4");
@@ -2859,7 +2886,7 @@ const GetTotals = () => {
 			
 			let cells = tr3.$$(`td[value='${version}']`);
 			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
-			td = $$$("td", ["textContent", prob + "%", "value", version, "class", prob >= 50? "default": "red_ui"]);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
 			tr3.appendChild(td);
 			
 			if(!tr4.parentNode) {
@@ -2878,7 +2905,7 @@ const GetTotals = () => {
 			
 			cells = tr4.$$(`td[value='${version}']`);
 			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
-			td = $$$("td", ["textContent", prob + "%", "value", version, "class", prob >= 50? "default": "red_ui"]);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
 			tr4.appendChild(td);
 			
 			if(!tr3.parentNode) {
@@ -2899,8 +2926,7 @@ const GetTotals = () => {
 			
 			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
 			cells[3].textContent = prob + "%";
-			cells[3].classList.remove("default", "red_ui");
-			cells[3].classList.add(prob >= 50? "default": "red_ui");
+			cells[3].setAttribute("prob", prob);
 			
 			tr4 = tbody.$(`td[name='${name2}']`).parentNode;
 			cells = tr4.$$(`td[value='${version}']`);
@@ -2911,12 +2937,22 @@ const GetTotals = () => {
 			
 			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
 			cells[3].textContent = prob + "%";
-			cells[3].classList.remove("default", "red_ui");
-			cells[3].classList.add(prob >= 50? "default": "red_ui");
+			cells[3].setAttribute("prob", prob);
 		}
-		else {
-			
-		} 
+		let prob1 = tr3.$$(`td[value='${version}']`);
+		let prob2 = tr4.$$(`td[value='${version}']`);
+		prob1 = prob1[prob1.length-1];
+		prob2 = prob2[prob2.length-1];
+		prob1.classList.remove("default", "red_ui");
+		prob2.classList.remove("default", "red_ui");
+		if(prob1.getAttribute("prob") > prob2.getAttribute("prob")) {
+			prob1.classList.add("default");
+			prob2.classList.add("red_ui");
+		}
+		else if(prob1.getAttribute("prob") < prob2.getAttribute("prob")) {
+			prob1.classList.add("red_ui");
+			prob2.classList.add("default");
+		}
 		
 		let div;
 		if(mode == "single-player" || name1.toLowerCase() == "you" && name2.toLowerCase("ai")) {
@@ -3065,8 +3101,8 @@ const GetStats = (no) => {
 	section.innerHTML = "";
 	let stat = Game.stats[no];
 	let imgs = $$(".stats_header img");
-	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[16]: srcs[17];
-	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[16]: srcs[17];
+	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[17]: srcs[18];
+	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[17]: srcs[18];
 	
     for(let key of Object.keys(stat)) {
     	if(/version|level|ms|mode/gi.test(key))
@@ -3196,9 +3232,8 @@ const Notify = (data) => {
         note_main.style.gridRowGap = "5px";
         note_main.style.padding = "10px";
         note_image.style.padding = "5px";
-        note_head.style.textAlign = "left";
+        note_image.style.objectFit = "contain";
         note_head.style.fontWeight = "900";
-        note_head.style.alignItems = "center";
         note_body.style.display = "block";
         note_head.innerHTML = data.header || "";
         note_body.innerHTML = data.message || "";
@@ -3210,8 +3245,8 @@ const Notify = (data) => {
         note_close_button.style.display = "block";
         if(data.action == "alert") {
             note_image.src = Icons.alertIcon;
-            note_image.style.height = "60px";
             note_image.style.width = "60px";
+            note_image.style.height = "60px";
             note_buttons[0].style.display = "none";
             note_buttons[1].style.display = "none";
             note_buttons[2].style.display = "inline-block";
@@ -3229,15 +3264,17 @@ const Notify = (data) => {
             note_main.style.padding = "5px";
             note_main.style.gridRowGap = "0px";
             note_image.style.padding = "0px 10px 0px 0px";
+            if(data.iconType == "flag") {
+            	note_image.style.height = "6ch";
+            	note_image.style.objectFit = "fill";
+            	note_main.style.gridTemplateColumns = "auto auto";
+            } 
            
             note_close_button.style.display = "none";
-            note_head.style.textAlign = "center";
             note_head.style.fontWeight = "500";
-            note_head.style.alignItems = "center";
             note_body.style.display = "none";
             note_image.src = data.icon;
-            note_image.style.height = "60px";
-            note_image.style.width = data.iconType == "dice"? "60px": "100px";
+            note_image.style.width = data.iconType == "dice"? "60px": data.iconType =="flag"? "auto": "100px";
             note_buttons[0].style.display = "none";
             note_buttons[1].style.display = "none";
             note_buttons[2].style.display = "none";
@@ -3246,7 +3283,6 @@ const Notify = (data) => {
         } 
         else if(data.action === "alert_special") {
             note_image.src = Icons.loadIcon;
-            note_image.style.height = "60px";
             note_image.style.width = "60px";
             note_buttons[0].style.display = "none";
             note_buttons[1].style.display = "none";
@@ -3254,8 +3290,8 @@ const Notify = (data) => {
             note_close_button.style.pointerEvents = "none";
         } 
         else if(data.action == "confirm") {
-            note_image.style.height = "60px";
             note_image.style.width = "60px";
+            note_image.style.height = "60px";
             if(data.icon === undefined) 
                 note_image.src = Icons.confirmIcon;
             else {
@@ -3274,8 +3310,8 @@ const Notify = (data) => {
             note_buttons[2].style.display = "inline-block";
             note_buttons[1].innerHTML = data.type.split("/")[0];
             note_buttons[2].innerHTML = data.type.split("/")[1];
-            const Handler1 = `Confirm("${note_buttons[1].innerHTML}", ${data.onResponse})`;
-            const Handler2 = `Confirm("${note_buttons[2].innerHTML}", ${data.onResponse})`;
+            const Handler1 = `Confirm("${data.type.split('/')[0]}", ${data.onResponse})`;
+            const Handler2 = `Confirm("${data.type.split('/')[1]}", ${data.onResponse})`;
             note_buttons[1].setAttribute("onclick", Handler1);
             note_buttons[2].setAttribute("onclick", Handler2);
             note_close_button.setAttribute("onclick", Handler1);
@@ -3284,6 +3320,7 @@ const Notify = (data) => {
         }
         else if(data.action == "other") {
             note_image.src = data.icon;
+            note_image.style.height = "60px";
             if(data.iconType == "winner") {
                 note_image.style.width = "60px";
                 note_image.style.height = "80px";
@@ -3291,7 +3328,6 @@ const Notify = (data) => {
             else if(data.iconType == "draw") {
             	note_main.style.gridTemplateColumns = "80px auto 25px";
                 note_image.style.width = "80px";
-                note_image.style.height = "60px";
             } 
             
             note_buttons[0].style.display = "inline-block";
@@ -3300,9 +3336,9 @@ const Notify = (data) => {
             note_buttons[0].innerHTML = data.type.split("/")[0];
             note_buttons[1].innerHTML = data.type.split("/")[1];
             note_buttons[2].innerHTML = data.type.split("/")[2];
-            const Handler0 = `Confirm("${note_buttons[0].innerHTML}", ${data.onResponse})`;
-            const Handler1 = `Confirm("${note_buttons[1].innerHTML}", ${data.onResponse})`;
-            const Handler2 = `Confirm("${note_buttons[2].innerHTML}", ${data.onResponse})`;
+            const Handler0 = `Confirm("${data.type.split('/')[0]}", ${data.onResponse})`;
+            const Handler1 = `Confirm("${data.type.split('/')[1]}", ${data.onResponse})`;
+            const Handler2 = `Confirm("${data.type.split('/')[2]}", ${data.onResponse})`;
             note_buttons[0].setAttribute("onclick", Handler0);
             note_buttons[1].setAttribute("onclick", Handler1);
             note_buttons[2].setAttribute("onclick", Handler2);
@@ -3332,7 +3368,7 @@ const Version = async (elem, index, click = true) => {
     if(click) {
         let scores = [];
         levels.forEach((level, index) => {
-            if(level.children[0].innerHTML !== "LOCKED") {
+            if(level.getAttribute("value") !== "locked") {
                 let score = 3;
                 for(let i = 0; i < level.children[1].children.length; i++) {
                     let label = level.children[1].children[i];
@@ -3346,15 +3382,14 @@ const Version = async (elem, index, click = true) => {
             } 
         });
         Game.versions[Game.version] = scores;
-        let version = elem.children[1].innerHTML.toLowerCase().split(/<br>/g)[0];
-        Game.version = version;
+        Game.version = elem.getAttribute("value");
         $(".header_div:last-of-type h2").innerHTML = Game.version.toUpperCase() + " CHECKERS";
         await Clicked(elem, elem.parentNode, click);
         
         
         if(storage) {
             storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
-            storage.setItem("Checkers - version", version);
+            storage.setItem("Checkers - version", Game.version);
         }
         await loop();
     }
@@ -3364,7 +3399,7 @@ const Version = async (elem, index, click = true) => {
         await loop();
     } 
     
-    async function loop (m = 0) { 
+    async function loop (m = 0) {
         if(m === levels.length) {
             if(Game.mode === "single-player") {
                 await Clicked(levels[Game.versions[Game.version].length-1], levels[Game.versions[Game.version].length-1].parentNode, false);
@@ -3405,6 +3440,7 @@ const Version = async (elem, index, click = true) => {
             }
         }
         else {
+        	level.setAttribute("value", "locked");
             level.children[0].innerHTML = "LOCKED";
             level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
             level.style.backgroundImage = general.disabled;
@@ -3431,7 +3467,6 @@ const Version = async (elem, index, click = true) => {
             Game.rowNo = 4;
         }
         document.documentElement.style.setProperty("--board-size", Game.boardSize);
-        Game.level;
     } 
 }
 
@@ -3456,13 +3491,7 @@ const RestartLevels = async () => {
 			        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
 			        storage.setItem("Checkers - version", Game.version);
 			    }
-			    let version = Game.version;
-			    for(let h2 of $$(".version h2")) {
-			        if(h2.innerHTML.includes(version.toUpperCase())) {
-			            version = h2.parentNode;
-			            break;
-			        } 
-			    }
+			    let version = $(`#main-window .version[value='${Game.version}']`);
 			    await Version(version, undefined, false);
 			} 
 		    Cancel();
@@ -3473,7 +3502,7 @@ const RestartLevels = async () => {
 const Level = async (elem, index, click = true) => {
     if(typeof elem === "object") {
         await Clicked(elem, elem.parentNode, click);
-        if(!elem.innerHTML.includes("LOCKED")) {
+        if(elem.getAttribute("value") != "locked") {
             try {
                 let level = index;
                 storage.setItem("Checkers - currentLevel", (level).toString());
@@ -3485,7 +3514,7 @@ const Level = async (elem, index, click = true) => {
         let level = $$("#levels #nav div")[Game.level+1];
         await Clicked(level, level.parentNode, false);
         $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
-        $(".face_bottom #level").innerHTML = `${$("#levels h2").innerHTML}`;
+        $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${$("#levels h2").innerHTML}`;
         for(level of Game.levels) {
             if(level.level === $("#levels h2").innerHTML) {
                 Game.level = Game.levels.indexOf(level);
@@ -3517,25 +3546,25 @@ const Level = async (elem, index, click = true) => {
     } 
     else {
         let level = $$("#levels #nav div")[Game.level+1];
-        if(level.children[0].innerHTML === "LOCKED") {
+        if(level.getAttribute("value") == "locked") {
+        	level.setAttribute("value", Game.levels[Game.level+1].level.toLowerCase().replace(" level", ""));
             level.style.backgroundImage = general.background;
             level.children[0].innerHTML = Game.levels[Game.level+1].level.replace(" ", "<br/>");
             level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
             level.children[1].style.backgroundImage = `none`;
-    
             if(level.children[1].children[0].className === "" || !level.children[1].children[0].className.includes("achieved")) {
                 level.children[1].children[0].classList.add("not_achieved");
                 level.children[1].children[1].classList.add("not_achieved");
                 level.children[1].children[2].classList.add("not_achieved");
             }
-        } 
+        }
     } 
     
     if(storage && index != "version") {
         let levels = $$("#nav div");
         let scores = [];
         levels.forEach((level, index) => {
-            if(level.children[0].innerHTML !== "LOCKED") {
+            if(level.getAttribute("value") !== "locked") {
                 let score = 3;
                 for(let i = 0; i < level.children[1].children.length; i++) {
                     let label = level.children[1].children[i];
@@ -3565,9 +3594,9 @@ const End = (event) => {
             event.target.removeAttribute("onanimationend");
             event.target.classList.remove("captured");
             event.target.parentNode.removeChild(event.target);
-            if(!$(".captured")) {
+            /*if(!$(".captured")) {
             	general.captureFadeTime.end();
-            } 
+            } */
         } catch (error) {}
     }
     else if(event.animationName === "fade-note") {
@@ -3628,12 +3657,10 @@ async function play (accepted = false) {
                 return;
             }
             else if(Game.mode === "two-player-online" && accepted) {
-                $("#play-window .footer_section p").style.display = "none";
                 await setTimeout(async () => await Refresh(true), 200);
             } 
             
             if(Game.mode !== "two-player-online") {
-                $("#play-window .controls_section .score_cont").style.display = "flex";
                 if(Game.alternatePlayAs) {
                     let color = playerA.pieceColor;
                     await Alternate(color);
@@ -3664,7 +3691,7 @@ async function play (accepted = false) {
             AdjustBoard();
             if(Game.mode === "single-player") {
                 $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
-                $(".face_bottom #level").innerHTML = `${$("#levels h2").innerHTML}`;
+                $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${$("#levels h2").innerHTML}`;
                 for(let level of Game.levels) {
                     if(level.level === $("#levels h2").innerHTML) {
                         Game.level = Game.levels.indexOf(level);
@@ -3673,14 +3700,12 @@ async function play (accepted = false) {
             } 
             else {
                 $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
-                $(".face_bottom #level").innerHTML = `${playerA.name} VS ${playerB.name}`;
+                $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${playerA.name} VS ${playerB.name}`;
             } 
         }
     } 
     else if(Game.mode === "two-player-offline" && playerA.name != "You" && playerA.name !== "" && playerB.name != "AI" && playerB.name !== "") { 
         $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
-        
-        $("#play-window .controls_section .score_cont").style.display = "none";
         if(Game.alternatePlayAs) {
             let color = playerA.pieceColor;
             await Alternate(color);
@@ -3708,57 +3733,88 @@ const AdjustBoard = () => {
 	general.orientation = screen.orientation.type;
 	let offlineMode = Game.mode == "two-player-offline";
 	let root = document.documentElement;
+    if(BackState.state.length && BackState.state[BackState.state.length-1][0] == ".games_totals") {
+    	$(".games_totals").style.transform = "translate(0, 100%)";
+    	BackState.state.pop();
+    }
+    let width = parseInt(GetValue($("#table"), "width")) / Game.boardSize * 0.1;
+
 	if(screen.orientation.type.toLowerCase().includes("landscape")) {
-        let vh = document.documentElement.clientHeight || window.innerHeight || window.screen.availHeight;
-        let vw = document.documentElement.clientWidth || window.innerWidth || window.screen.availWidth;
-        let width = Math.min(vh, vw);
+		$("#horiz").style.backgroundImage = general.default;
+		$("#vert").style.backgroundImage = general.background;
+		document.body.style.backgroundSize = "auto 70vmax";
         
-        let shadowWidth = (width * 2.5)/276;
         if(offlineMode) {
         	root.style.setProperty("--z-plane-distance", "0px");
         	root.style.setProperty("--perspective-y", "50%");
-        	root.style.setProperty("--shadow-width", `0px`);
-        	root.style.setProperty("--piece_size", "85%");
+        	root.style.setProperty("--shadow-width", "0px");
+        	root.style.setProperty("--unrotated-shadow", `${width * 1.3}px`);
         	root.style.setProperty("--angleX", "0deg");
         	root.style.setProperty("--angleZ", "0deg");
-            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
             root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
-            $("#play-window .middle_section .face_back").style.boxShadow = "0 0 2vmin 4vmin #000";
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
+            $("#play-window .middle_section .score").style.display = "none";
+            $("#play-window .middle_section .penalties").style.display = "none";
+            $("#play-window .middle_section .timer_front_a").classList.add("unrotated");
+            $("#play-window .middle_section .timer_front_b").classList.add("unrotated");
         } 
         else {
         	root.style.setProperty("--z-plane-distance", "122px");
         	root.style.setProperty("--perspective-y", "80%");
-        	root.style.setProperty("--shadow-width", `${shadowWidth}px`);
-        	root.style.setProperty("--piece_size", "80%");
+        	root.style.setProperty("--shadow-width", `${width}px`);
+        	root.style.setProperty("--unrotated-shadow", "0px");
         	root.style.setProperty("--angleX", "30deg");
         	root.style.setProperty("--angleZ", "0deg");
             root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
             root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
-            $("#play-window .middle_section .face_back").style.boxShadow = "0 -4vmin 2vmin 4vmin #000";
-            $("#play-window .middle_section .score").style.display = "flex";
-        	$("#play-window .middle_section .penalties").style.display = "flex";
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 -4vmin 2vmin 4vmin #000, 0 4vmin 2vmin 0 #0006";
+            $("#play-window .middle_section .timer_front_a").classList.remove("unrotated");
+        	$("#play-window .middle_section .timer_front_b").classList.remove("unrotated");
+            if(Game.mode == "single-player") {
+	            $("#play-window .middle_section .score").style.display = "flex";
+	        	$("#play-window .middle_section .penalties").style.display = "flex";
+			}
+			else {
+				$("#play-window .middle_section .score").style.display = "none";
+	        	$("#play-window .middle_section .penalties").style.display = "none";
+			} 
         } 
     } 
     else if(screen.orientation.type.toLowerCase().includes("portrait")) {
+    	$("#horiz").style.backgroundImage = general.background;
+		$("#vert").style.backgroundImage = general.default;
+    	document.body.style.backgroundSize = "auto 100vmax";
         root.style.setProperty("--shadow-width", "0px");
-        root.style.setProperty("--piece_size", "85%");
+        root.style.setProperty("--unrotated-shadow", `${width * 1.3}px`);
         root.style.setProperty("--angleX", "0deg");
         root.style.setProperty("--z-plane-distance", "0px");
         root.style.setProperty("--perspective-y", "50%");
-        $("#play-window .middle_section .face_back").style.boxShadow = "0 0 2vmin 4vmin #000";
+        
        
         $("#play-window .middle_section .score").style.display = "none";
 	    $("#play-window .middle_section .penalties").style.display = "none";
+		$("#play-window .middle_section .timer_front_a").classList.remove("unrotated");
+        $("#play-window .middle_section .timer_front_b").classList.remove("unrotated");
         
         if(offlineMode) {
         	root.style.setProperty("--angleZ", "90deg");
-            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "180deg");
-            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "-90deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "-90deg");
+            $("#play-window .controls_section .score_cont").style.display = "none";
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
         }
         else {
         	root.style.setProperty("--angleZ", "0deg");
             root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
             root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
+            if(Game.mode == "single-player") {
+            	$("#play-window .controls_section .score_cont").style.display = "flex";
+            }
+            else {
+            	$("#play-window .controls_section .score_cont").style.display = "none";
+            } 
         } 
     } 
 } 
@@ -3846,10 +3902,10 @@ async function back (undo = false, isComp = false) {
 	        	btns = $$("#item1 button");
 		        for(let btn of btns) {
 		            if(GetValue(btn, "background-image") == general.default) { 
-		                if(btn.innerHTML == "HORIZ." && general.orientation.toLowerCase().includes("portrait")) {
+		                if(btn.id == "horiz" && general.orientation.toLowerCase().includes("portrait")) {
 		                    orientationLocking(document.documentElement, "landscape-primary"); 
 		                } 
-		                else if(btn.innerHTML == "VERT." && general.orientation.toLowerCase().includes("landscape")) {
+		                else if(btn.id == "vert" && general.orientation.toLowerCase().includes("landscape")) {
 		                    orientationLocking(document.documentElement, "portrait-primary");
 		                } 
 		            } 
@@ -3859,8 +3915,8 @@ async function back (undo = false, isComp = false) {
 	        btns = $$("#item3 button");
 	        for(let btn of btns) {
 	            if(GetValue(btn, "background-image") == general.default) { 
-	                if(btn.innerHTML != "ROLL DICE") {
-	                    Game.whiteTurn = btn.innerHTML == "WHITE";
+	                if(btn.id != "first-move-roll-dice") {
+	                    Game.whiteTurn = btn.id == "first-move-white";
 	                    Game.rollDice = false;
 	                } 
 	                else
@@ -3875,7 +3931,7 @@ async function back (undo = false, isComp = false) {
 	        btns = $$("#item5 button");
 	        for(let btn of btns) {
 	            if(GetValue(btn, "background-image") == general.default) { 
-	                Game.mandatoryCapture = btn.innerHTML === "ON";
+	                Game.mandatoryCapture = btn.id === "must-jump";
 	                break;
 	            } 
 	        }
@@ -3935,30 +3991,25 @@ async function back (undo = false, isComp = false) {
                 Undo.move(move);
                
                 for(let move of BackState.moves) {
-                    if(move.length === 3) { try {
+                    if(move.length === 3) { 
                         let piece = move[1].piece || move[0].cell.firstChild;
                         if(piece.className.includes(playerA.pieceColor.toLowerCase()))
                             playerA.longestCapture = Math.max(move[2].length, playerA.longestCapture);
                         else
                             playerB.longestCapture = Math.max(move[2].length, playerB.longestCapture);
-						} catch (error) {console.log(move[1].piece)}
                     } 
                 } 
                
                 for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-	                cell.classList.remove("valid");
-	                cell.classList.remove("pre_valid");
-	                cell.classList.remove("hint");
-	                cell.classList.remove("helper_empty");
-	                cell.classList.remove("helper_filled");
+	                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
 	            }
 				
                 Game.whiteTurn = !Game.whiteTurn;
                 
                 if(!isComp && (Game.mode === "single-player" || Game.mode == "two-player-online") && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")) {
                 	if(Game.mode == "two-player-online") {
-                		Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
-                		Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
+                		await Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
+                		await Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
                 	}
                 	else {
 	                	Game.validForHint = false;
@@ -4025,6 +4076,11 @@ class Undo {
 		let table = $("#table");
 		while(this.moves.length > 0) {
 			let move = this.moves[0];
+			let king = false;
+			if(move.length >= 3) {
+				king = await move.some((prop) => prop.king);
+				move = [move[0], move.slice(-2,-1)[0], move.slice(-1)[0]];
+			} 
 			let i = move[1].i;
 			let j = move[1].j;
 			let m = move[0].i;
@@ -4032,7 +4088,7 @@ class Undo {
 			let piece = move[1].piece;
 			let id = Game.state[i][j];
 			await piece.classList.remove("captured");
-			if(move[1].king) {
+			if(move[1].king || king) {
 	            if(piece.className.includes("white")) {
 	                piece.classList.remove("crown_white");
 	            } 
