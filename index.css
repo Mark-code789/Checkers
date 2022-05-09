@@ -1798,7 +1798,7 @@ article {
 
 #play-window .controls_section .controls:nth-of-type(6),
 #play-window .middle_section .horiz_controls:nth-of-type(6) {
-    background: var(--sound-on), rgba(0, 0, 0, 0.4);
+    background: var(--sound-off), rgba(0, 0, 0, 0.4);
     background-size: 3.5vmax 3.5vmax, 100%;
 } 
 
