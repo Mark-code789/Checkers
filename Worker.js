@@ -18,7 +18,7 @@ self.addEventListener("message", async (e) => {
 			Log(...e.data);
 		} 
 	} catch (error) {
-		self.postMessage(data[1] + " Error: " + error.message + "\n" + error.stack);
+		self.postMessage("Error: " + error.message + "\n" + error.stack);
 	} 
 });
 
@@ -51,14 +51,14 @@ class Search {
 				await self.postMessage({type: "search-result", content: {value, id}, workerID: data[15]});
 			} 
 		} catch (error) {
-			self.postMessage(data[1] + " Error: " + error.message + "\n" + error.stack);
+			self.postMessage("Error: " + error.message + "\n" + error.stack);
 		} 
 	} 
 	stop = () => {
 		try {
 			this.ai.stop = true;
 		} catch (error) {
-			self.postMessage(data[1] + " Error: " + error.message + "\n" + error.stack);
+			self.postMessage("Error: " + error.message + "\n" + error.stack);
 		} 
 	} 
 }
