@@ -313,7 +313,7 @@ async function LoadingDone () {
                 mainSec.insertBefore(itemSec, ref.nextElementSibling);
             }
             GetTotals();
-        } catch (error) {navigator.serviceWorker.controller.postMessage(error.message + "\n" + error.stack);}
+        } catch (error) {alert(error.message); navigator.serviceWorker.controller.postMessage(error.message + "\n" + error.stack);}
       
         // Mute
         let muted = storage.getItem("Checkers - muted");
