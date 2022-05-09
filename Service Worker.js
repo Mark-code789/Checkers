@@ -102,11 +102,9 @@ self.addEventListener("fetch", (e) => {
                     cache.put(e.request, res2.clone());
                     return res2;
                 }).catch((error) => {
-					console.log("Put Error", error);
 					return res2;
 				});
             }).catch((error) => {
-            	console.log("Fetch Error", error);
             	return res;
             });
         })
