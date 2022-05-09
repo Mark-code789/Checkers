@@ -1,32 +1,18 @@
 self.importScripts("./Objects.js", "./AI.js", "./Core.js");
-let searches = [];
-let timestamp = null;
+let search;
 self.addEventListener("message", async (e) => {
 	try {
 		if(e.data && e.data.type == "move-search") {
-			if(timestamp != e.data.content[16]) {
-				searches = [];
-				timestamp = e.data.content[16];
-			} 
-			let search = new Search();
+			search = new Search();
 			search.start(e.data.content);
-			searches.push(search);
+			
+			await subworker.postMessage({type: "init-game-data", content: e.data.content.slice(11,16)});
 		} 
 		else if(e.data && e.data.type == "stop-search") {
-			for(let search of searches) {
-				search.stop();
-			} 
+			search.stop();
 		} 
 		else if(e.data && e.data.type == "init-worker") {
-			for(let i = 0; i < 0; i++) {
-				let worker = new Worker("./Subworker.js");
-				worker.postMessage({type: "init-worker", table: e.data.table});
-				subworkers.push(worker);
-			} 
 			ZobristHash.table = e.data.table;
-		} 
-		else if(e.data && e.data.type == "tt-entry") {
-			TranspositionTable.store(e.data.entry, true);
 		} 
 		else {
 			Log(...e.data);
@@ -40,28 +26,29 @@ class Search {
 	ai = null;
 	start = async (data) => {
 		try {
-			Game.mandatoryCapture = data[11];
-			Game.boardSize = data[12];
-			Game.version = data[13];
-			playerA.pieceColor = data[14];
-			playerB.pieceColor = data[15];
+			Game.mandatoryCapture = data[10];
+			Game.boardSize = data[11];
+			Game.version = data[12];
+			playerA.pieceColor = data[13];
+			playerB.pieceColor = data[14];
 			
 			let id = data[1];
-			let isContinuousCapture = data[10];
+			let isContinuousCapture = data[9];
 			
-			this.ai = new AI({depth: data[0], state: data[2], moves: data[3], worker: true});
+			this.ai = new AI({depth: data[0], state: data[3], moves: data[2], worker: true});
+			await this.ai.evaluate(data[3]);
 			let value;
 			
 			if(isContinuousCapture) 
-				value = await this.ai.negascout(...data.slice(2,10));
+				value = await this.ai.negascout(...data.slice(2,9));
 			else 
-				value = -await this.ai.negascout(...data.slice(2,10));
+				value = -await this.ai.negascout(...data.slice(2,9));
 				
 			let actualDepthSearched = this.ai.depth - this.ai.depthSearched;
 				value -= actualDepthSearched * 1000;
 				
 			if(!this.ai.stop) {
-				await self.postMessage({type: "search-result", content: {value, id}});
+				await self.postMessage({type: "search-result", content: {value, id}, workerID: data[15]});
 			} 
 		} catch (error) {
 			self.postMessage(data[1] + " Error: " + error.message + "\n" + error.stack);

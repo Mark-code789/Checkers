@@ -1,5 +1,5 @@
 // Service worker
-const version = "392";
+const version = "393";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -83,7 +83,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
-        	if(/html.*$/gi.test(e.request.url)) {
+        	if(/(?<!min).(html).*$/gi.test(e.request.url)) {
             	//fetch;
             }
             else if(res) {

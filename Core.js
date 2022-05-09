@@ -3,14 +3,23 @@
 const AssessAll = async (prop) => {
     if(prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
         throw new Error(`Missing important attribute of the argument provided.`);
-    let id = prop.id.slice(-1), 
+    
+    let id = prop.id == "both"? prop.id: prop.id.slice(-1), 
         state = prop.state,
-        moves = {nonCaptures: [], captures: []};
+        moves = prop.id == "both"? {B: {nonCaptures: [], captures: []}, W: {nonCaptures: [], captures: []}}: {nonCaptures: [], captures: []};
     
     for(let i = 0; i < Game.boardSize; i++) {
         for(let j = 0; j < Game.boardSize; j++) {
             let piece = state[i][j];
-            if(piece.includes(id)) {
+            if(id == "both") {
+            	if(/^(M|K)/gi.test(piece)) {
+            		let movesObj = await AssesMoves({i, j, state});
+            		let color = piece.slice(-1);
+            		moves[color].nonCaptures.push(...movesObj.nonCaptures);
+                	moves[color].captures.push(...movesObj.captures);
+            	} 
+            } 
+            else if(piece.includes(id)) {
             	let movesObj = await AssesMoves({i, j, state});
                 
                 moves.nonCaptures.push(...movesObj.nonCaptures);
@@ -213,8 +222,7 @@ const SortCaptures = (moves) => {
 } 
 
 const Log = async (...data) => {
-	//await self.postMessage(data);
-	console.log(...data);
+	await self.postMessage(data);
 } 
 
 const LogState = async (state) => {

@@ -1,4 +1,4 @@
-// Game object to store game details 
+/*Game object to store game details*/
 const Game = {
     mode: "single-player",
     version: "american",
@@ -18,6 +18,7 @@ const Game = {
     hintCount: 0,
     undoCount: 0,
     path: {index: 0},
+    possibleWin: false, 
     isComputer: false, 
     pieceSelected: false, 
     thinking: false,
@@ -45,7 +46,7 @@ const Game = {
     stats: []
 } 
 
-// Player Object to store plyer details 
+/*Player Object to store plyer details*/
 const Player = function () {
     this.name = "";
     this.pieces = (Game.boardSize / 2) * Game.rowNo;
@@ -58,14 +59,14 @@ const Player = function () {
 const playerA = new Player();
 const playerB = new Player();
 
-// Initializing players details 
+/*Initializing players details*/
 playerA.pieceColor = "White";
 playerA.name = "You";
 playerB.pieceColor = "Black";
 playerB.name = "AI";
 
-// General Object to store other details when needed
-var general = {
+/*General Object to store other details when needed*/
+const general = {
     orientation: 'natural',
     initialLoading: true,
     fullscreenSupport: false,
@@ -80,7 +81,7 @@ var general = {
     aiPath: []
 }
 
-// Zobrist hashing
+/*Zobrist hashing*/
 class ZobristHash {
 	static table = [];
 	static generateRandom = (n) => {
@@ -117,7 +118,7 @@ class ZobristHash {
 	} 
 	static initTable = () => {
 		this.table = [];
-		for(let i = 0; i < 10; i++) { // 10 maximum board size
+		for(let i = 0; i < 10; i++) { /* 10 maximum board size*/
 			this.table.push([]);
 			for(let j = 0; j < 10; j++) {
 				this.table[i].push([]);
@@ -125,7 +126,7 @@ class ZobristHash {
 			} 
 		} 
 	} 
-	static computeKey = (array, color) => {
+	static computeKey = (array) => {
 		let key = 0n;
 		for(let i = 0; i < Game.boardSize; i++) {
 			for(let j = 0; j < Game.boardSize; j++) {
@@ -136,29 +137,32 @@ class ZobristHash {
 				} 
 			} 
 		} 
-		if(color == 1) key ^= this.table[1][1][1];
-		else if(color == -1) key ^= this.table[0][0][0];
 		return key;
 	} 
 }
 
-// Transposition Table Heuristic
+/*Transposition Table Heuristic*/
 class TranspositionTable {
 	static size = 2*((Game.boardSize/2*Game.boardSize)*2);
-	static table = new Array(this.size);
+	static table = {};
 	static store = (entry, fromOtherWorkers = false) => {
-		entry.version = Game.version;
+		let table = this.table[Game.version];
 		let key = entry.key;
 		let index = Number(key % BigInt(this.size));
-		this.table[index] = entry;
+		table[index] = entry;
 	} 
-	static lookUp = (state, color) => {
-		let key = ZobristHash.computeKey(state, color);
+	static lookUp = (state) => {
+		let table = this.table[Game.version];
+		if(!table) {
+			this.table[Game.version] = new Array(this.size);
+			table = this.table[Game.version];
+		} 
+		let key = ZobristHash.computeKey(state);
 		let index = Number(key % BigInt(this.size));
-		let entry = this.table[index];
-		if(entry && entry.key == key && entry.version == Game.version) {
+		let entry = table[index];
+		if(entry && entry.key == key) {
 			return entry;
 		} 
-		return {key, version: Game.version};
+		return {key};
 	} 
 }

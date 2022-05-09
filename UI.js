@@ -208,6 +208,9 @@ async function LoadingDone () {
     Disable($("#two-players-window #playerB .white"), general.disabled, "#B4B4B4");
     general.selected = $("#main .default");
     general.level = $("#nav .default");
+   
+    $("#load-window").style.display = "none";
+    $("#main-window").style.display = "grid";
     
     let btns = $$("#main-window #levels #nav div");
     let btn = null;
@@ -238,8 +241,8 @@ async function LoadingDone () {
             version = /^\d+/gi.test(version)? "american": version;
             Game.version = version;
             version = $(`#main-window .version[value='${version}']`);
-            Version(version, undefined, false);
-        } catch (error) {alert("Version Initialization Error: " + error.message + "\nVersion: " + storage.getItem("Checkers - version"))}
+            await Version(version, undefined, false);
+        } catch (error) {console.log(error);}
         
         Game.stats = JSON.parse(storage.getItem("Checkers - stats")) || [];
         
@@ -310,7 +313,7 @@ async function LoadingDone () {
                 mainSec.insertBefore(itemSec, ref.nextElementSibling);
             }
             GetTotals();
-        } catch (error) {console.log(error)}
+        } catch (error) {navigator.serviceWorker.controller.postMessage(error.message + "\n" + error.stack);}
       
         // Mute
         let muted = storage.getItem("Checkers - muted");
@@ -374,8 +377,10 @@ async function LoadingDone () {
         } 
        
         // Mandatory Capture
-        let mandatoryCapture = JSON.parse(storage.getItem("Checkers - mandatory_capture"));
+        let mandatoryCapture = storage.getItem("Checkers - mandatory_capture");
+        
         if(mandatoryCapture) {
+        	mandatoryCapture = JSON.parse(mandatoryCapture);
             Game.mandatoryCapture = mandatoryCapture;
             btns = $$("#item5 button");
             if(mandatoryCapture == true) {
@@ -440,8 +445,6 @@ async function LoadingDone () {
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
     window.addEventListener("popstate", () => setTimeout(PopState, 0), false);
-    $("#load-window").style.display = "none";
-    $("#main-window").style.display = "grid";
     CheckHref();
 }
 
@@ -793,13 +796,13 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
 	}
 	else {
 		Game.state = gameState;
-	   /*[["NA", "KB", "NA", "KW", "NA", "EC", "NA", "EC"],
-		["MW", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "KB", "NA", "EC", "NA", "EC", "NA", "EC"],
+	   /*[["NA", "EC", "NA", "EC", "NA", "EC", "NA", "MB"],
+		["MB", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "KW", "NA", "MW", "NA", "KW", "NA", "EC"],
 		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
+		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "KB"],
 		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "EC"],
+		["NA", "EC", "NA", "EC", "NA", "MB", "NA", "MW"],
 		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"]];*/
 	} 
 	BackState.moves = [];
@@ -807,6 +810,7 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
     Game.moves = {};
     Game.date = new Date();
     Game.over = false;
+    Game.possibleWin = false;
     Game.isComputer = false;
     Game.pieceSelected = false;
     Game.validForHint = true;
@@ -970,7 +974,9 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         }
         /*await Helper(Game.moves, Copy(Game.state));
         let ai = new AI({moves, depth: Game.level, state});
-        await ai.makeMove();
+        console.log(JSON.stringify(moves));
+        moves = await ai.sort(moves.reverse(), state);
+        console.log(JSON.stringify(moves));
         return;*/
         //console.log(await AssessAll({id: "KB", state}));
         //return;
@@ -1479,7 +1485,12 @@ class Move {
             //Calling this method to update the players pieces to help ascertain if game is over
             await UpdatePiecesStatus();
             // Checking if its a draw
-            //console.log(playerA.kings, playerA.pieces, playerB.kings, playerB.pieces);
+            if(Game.possibleWin) {
+            	Game.drawStateCount = 0;
+            	Game.baseStateCount = 1;
+				return Prms(false);
+			} 
+            
         	if(Game.level > 0 && playerA.pieces == playerB.pieces && playerA.pieces <= 2) {
         		if(Game.drawStateCount == 12) {
         			GameOver(true);
@@ -3367,6 +3378,7 @@ const Version = async (elem, index, click = true) => {
 
     if(click) {
         let scores = [];
+        let levelIndex;
         levels.forEach((level, index) => {
             if(level.getAttribute("value") !== "locked") {
                 let score = 3;
@@ -3379,6 +3391,7 @@ const Version = async (elem, index, click = true) => {
                 }
                 let validForHint = Game.levels[index].validForHint;
                 scores.push({score, validForHint});
+                levelIndex = index;
             } 
         });
         Game.versions[Game.version] = scores;
@@ -3390,6 +3403,7 @@ const Version = async (elem, index, click = true) => {
         if(storage) {
             storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
             storage.setItem("Checkers - version", Game.version);
+            storage.setItem("Checkers - currentLevel", levelIndex);
         }
         await loop();
     }
@@ -3400,9 +3414,20 @@ const Version = async (elem, index, click = true) => {
     } 
     
     async function loop (m = 0) {
+    	
         if(m === levels.length) {
             if(Game.mode === "single-player") {
-                await Clicked(levels[Game.versions[Game.version].length-1], levels[Game.versions[Game.version].length-1].parentNode, false);
+            	let level = levels[Game.versions[Game.version].length-1];
+            	if(storage && !click) {
+            		let lvl = storage.getItem("Checkers - currentLevel");
+            		if(lvl) {
+            			lvl = levels[lvl];
+            			if(lvl && lvl.getAttribute("value") != "locked") {
+            				level = lvl;
+            			} 
+					} 
+            	} 
+                await Clicked(level, level.parentNode, false);
             }
             else {
                 general.level = levels[Game.versions[Game.version].length-1];
@@ -3490,6 +3515,7 @@ const RestartLevels = async () => {
 				if(storage) {
 			        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
 			        storage.setItem("Checkers - version", Game.version);
+					storage.setItem("Checkers - currentLevel", 0);
 			    }
 			    let version = $(`#main-window .version[value='${Game.version}']`);
 			    await Version(version, undefined, false);

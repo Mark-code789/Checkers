@@ -154,27 +154,48 @@
                 background-position: center;
                 background-size: 100% 100%, auto 100vh;
                 background-repeat: no-repeat, repeat-x;
+                
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            } 
+            
+            #load-window .img {
+            	position: relative;
+            	height: calc(100vmin + 3px);
+            	width: 100vmin;
+            	overflow: visible;
+            } 
+            
+            #load-window .shadow {
+            	position: absolute;
+            	left: 7.5px;
+            	width: calc(100% - 15px);
+            	height: 100%;
+            	background: #0007;
+            	box-shadow: 0 0 2px 2px #0005;
+            	z-index: 0;
             } 
             
             #load-window img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-20vw, -50%) rotate(30deg);
-                max-height: 100vmin;
-                max-width: 100vmin;
-                box-shadow: 0 20px 2px 2px #0006, -5px 3px 2px 2px #0006;
+            	position: relative;
+            	display: block;
+            	margin: 0 auto;
+                height: calc(100% - 20px);
+                width: calc(100% - 20px);
+                z-index: 1;
             } 
             
             #load-window h1 {
             	position: absolute;
-            	top: 0%;
-            	left: 0%;
+            	top: 50%;
+            	left: 50%;
+            	transform: translate(-50%, -50%);
                 color: #ddda;
                 text-align: center;
-                padding: 10px 30px;
-                margin: 10px;
-                font-size: 4rem;
+                padding: 15px 30px;
+                margin: -70vmin 0 0 0;
+                font-size: 12vmin;
                 font-weight: 700;
                 border-radius: 4px;
                 background-image: url("./src/images/frame.jpeg");
@@ -187,8 +208,10 @@
             
             #load-window .loader {
             	position: absolute;
-            	bottom: 5%;
-            	left: 5%;
+            	bottom: 50%;
+            	left: 50%;
+            	transform: translate(-50%, -50%);
+            	margin: 0 0 -90vmin 0;
             	padding: 20px 30px;
             	color: #dddb;
             	width: fit-content;
@@ -219,13 +242,13 @@
             	padding: 0 0 10px 0;
             	width: 100%;
             	color: #dddb;
-            	font-size: 1.4em;
+            	font-size: 5vmin;
             	text-align: center;
             	text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
             } 
             .bar {
                 height: 20px;
-                width: 70vw;
+                width: 70vmin;
                 border-radius: 10px;
                 padding: 2px;
                 background: #0004;
@@ -241,9 +264,37 @@
                 margin: 0 0 5px 0;
                 transition: width 0.1s ease-out;
             } 
+            
+            @media only screen and (orientation: landscape) {
+            	#load-window .img {
+            		height: 95vmin;
+            		width: 95vmin;
+            		margin-left: 40%;
+            	} 
+            	#load-window h1 {
+            		margin: -20vmin 0 0 -60vmin;
+            	} 
+            	
+            	#load-window .loader {
+            		margin: 0 0 -40vmin -60vmin;
+            	} 
+            } 
         </style>
     </head>
     <body>
+    	<article id="load-window">
+    		<div class="img">
+    			<div class="shadow"></div>
+            	<img src="./src/images/background4.jpeg">
+            </div>
+            <h1>CHECKERS</h1>
+            <div class="loader">
+            	<p>loading files...</p>
+                <div class="bar">
+					<div class="progress"></div>
+				</div>
+            </div>
+        </article>
         <article class="install">
             <section>
             	<div class="install_header">
@@ -285,16 +336,6 @@
                     <div class="send_button" onclick="Message({action: 'send'})" role="button"></div>
                 </div>
             </section>
-        </article>
-        <article id="load-window">
-            <img src="./src/images/background4.jpeg">
-            <h1>CHECKERS</h1>
-            <div class="loader">
-            	<p>loading files...</p>
-                <div class="bar">
-					<div class="progress"></div>
-				</div>
-            </div>
         </article>
         <section onanimationend="End(event)" id="pop-up-note" hidden></section>
         <article id="notification-window" hidden>
@@ -754,7 +795,7 @@
             } 
 			
             let deferredEvent;
-            let appVersion = "17.6.7.48";
+            let appVersion = "18.7.8.49";
             let newSW;
             let workers = [];
             
@@ -796,7 +837,8 @@
                 head.appendChild(SheetLink);
                 
                 //JsLink5.id = "pubnub-file";
-                for(let n = 0; n < 15; n++) {
+                let totalThreads = navigator.hardwareConcurrency || 1;
+                for(let n = 0; n < totalThreads; n++) {
                 	let worker = new Worker("./Worker.js");
                 	workers.push(worker);
                 } 
@@ -829,7 +871,7 @@
             const InvokeSWUpdateFlow = async () => {
 				Notify({action: "confirm", 
 						header: "APP UPDATE", 
-						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Massive change of the interface</li><li>Discover more by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
+						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed some errors</li><li>Discover more by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
 						type: "LATER/UPDATE",
 						onResponse: UpdateResponse});
 				async function UpdateResponse (refresh) {

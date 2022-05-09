@@ -2280,6 +2280,7 @@ article {
     text-align: center;
     padding: 5px 10px;
     font-weight: 500;
+    overflow: auto;
 } 
 
 #notification-window .note_footer {
@@ -2476,7 +2477,7 @@ article {
     } 
 } 
 
-@media only screen and (orientation:landscape) {
+@media only screen and (orientation:landscape), (orientation: portrait) and (max-height: 480px) {
     :root {
         --length: calc(100vmin - 28px);
         --width: calc(var(--length) * 0.12); 
