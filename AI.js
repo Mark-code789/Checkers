@@ -14,24 +14,22 @@ function Prms (value) {
 
 // AI class object
 // Methods and variables are self explanatory
-let subworkers = [];
 class AI {
-	ai = playerB.pieceColor.slice(0,1);
-	opp = playerA.pieceColor.slice(0,1);
+	b = playerB.pieceColor.slice(0,1);
+	a = playerA.pieceColor.slice(0,1);
+	playerA = [0];
+	playerB = [0];
 	MAX = 1000000;
 	MIN = -1000000;
 	stop = false;
+	workerValue = -1000000;
 	
 	constructor (prop) {
 		if(prop.state != undefined && prop.state.length > 7 && prop.depth != undefined && prop.moves != undefined) {
 	        this.state = Copy(prop.state);
-	        this.depth = prop.worker? prop.depth: prop.depth + 1;
+	        this.depth = prop.depth + 1;
 			this.depthSearched = this.depth;
 	        this.moves = Copy(prop.moves);
-			this.total = 0;
-			this.count = 0;
-			this.sleep = new Sleep();
-			this.values = [];
         } 
         else {
             throw new Error("Possible error. Check your attributes passed to AI object arguments. <br>\n" + JSON.stringify(prop));
@@ -39,101 +37,77 @@ class AI {
     } 
     
     // Evaluation function 
-    evaluate = async (state, movesA, movesB, colorA) => {
-    	let aiMoves = colorA == 1? movesA: movesB;
-    	let humanMoves = colorA == 1? movesB: movesA;
-    	let movesStrA = JSON.stringify(aiMoves);
-    	let movesStrB = JSON.stringify(humanMoves);
-        let ai = 0, human = 0;
+    evaluate = async (state) => {
+        let aValue = 0;
+		let bValue = 0;
+        let aPieces = 0;
+        let bPieces = 0;
         
         for(let i = 0; i < Game.boardSize; i++) {
             for(let j = 0; j < Game.boardSize; j++) {
                 let piece = state[i][j];
                 
-                if(piece.includes(this.ai)) { 
+                if(piece.includes(this.b)) { 
+                	bPieces++;
                 	if(piece.includes("M")) {
-                        ai += 1000; // value to piece 
+                        bValue += 1000; // value to piece 
                         if(i == 0)
-                        	ai += 2;
+                        	bValue += 2;
                     } 
                     if(piece.includes("K")) { // threatening
                     	if(Game.version == "american") 
-                    		ai += 1010;
+                    		bValue += 1010;
                     	else if(/kenyan|casino/gi.test(Game.version))
-                    		ai += 1015;
+                    		bValue += 1015;
                     	else
-                        	ai += 1020; // value to piece
+                        	bValue += 1020; // value to piece
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
-	                        	ai += 10;
+	                        	bValue += 10;
 	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
-	                        	ai += 10;
+	                        	bValue += 10;
 	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
-	                        	ai += 10;
+	                        	bValue += 10;
 	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
-	                        	ai += 10;
+	                        	bValue += 10;
 						} 
                     } 
-                    if(movesStrA.includes(`"cell":"${i}{j}"`)) // movable piece 
-                    	ai += 500;
-                    if(movesStrB.includes(`"capture":"${i}{j}"`)) {// will be captured 
-                    	if(piece.includes("M"))
-                    		ai -= 1000;
-                    	else if(Game.version == "american") 
-                    		ai -= 1010;
-                    	else if(/kenyan|casino/gi.test(Game.version))
-                    		ai -= 1015;
-                    	else
-                    		ai -= 1020;
-                    } 
-                    else // safe piece
-                    	ai += 100;
                 } 
-                else if(piece.includes(this.opp)) {
+                else if(piece.includes(this.a)) {
+                	aPieces++;
                 	if(piece.includes("M")) {
-                        human += 1000; // value to piece 
+                        aValue += 1000; // value to piece 
                         if(i == Game.boardSize-1) 
-                        	human += 2;
+                        	aValue += 2;
                     }
                     if(piece.includes("K")) { // Becomes more threatening
                         if(Game.version == "american") 
-                    		human += 1010
+                    		aValue += 1010
                     	else if(Game.version == "kenyan" || Game.version == "casino") 
-                    		human += 1015;
+                    		aValue += 1015;
                     	else
-                        	human += 1020; // value to piece
+                        	aValue += 1020; // value to piece
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
-	                        	human += 10;
+	                        	aValue += 10;
 	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
-	                        	human += 10;
+	                        	aValue += 10;
 	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
-	                        	human += 10;
+	                        	aValue += 10;
 	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
-	                        	human += 10;
+	                        	aValue += 10;
 						} 
                     } 
-                    if(movesStrB.includes(`"cell":"${i}{j}"`)) // movable piece 
-                    	human += 500;
-                    if(movesStrA.includes(`"capture":"${i}{j}"`)) {// will be captured 
-                    	if(piece.includes("M"))
-                    		human -= 1000;
-                    	else if(Game.version == "american") 
-                    		human -= 1010;
-                    	else if(/kenyan|casino/gi.test(Game.version))
-                    		human -= 1015;
-                    	else
-                    		human -= 1020;
-                    } 
-                    else // safe piece
-                    	human += 100;
                 } 
             } 
         } 
         
-        let currentValue = ai - human;
+        let currentValue = bValue - aValue;
+        this.playerA = [[aValue, aPieces]];
+        this.playerB = [[bValue, bPieces]];
+        
         return Prms(currentValue);
     } 
     
@@ -148,6 +122,8 @@ class AI {
             continuousJump = [], 
             crowned = false, 
             id;
+        let l = Game.boardSize;
+        let cornerMoves = [[0,1,1,0], [1,0,0,1], [l-1,l-2,l-2,l-1], [l-2,l-1,l-1,l-2]];
             
         id = state[i][j];
         state[i][j] = "IP"; // INITIAL-POSITION
@@ -159,6 +135,20 @@ class AI {
         if(cap != undefined) {
             let a = parseInt(cap.slice(0,1)), 
                 b = parseInt(cap.slice(1,2));
+			let captured = state[a][b];
+            let color = captured.includes(this.b)? "playerB": "playerA";
+        	let value = this[color].slice(-1)[0][0];
+        	let pieces = this[color].slice(-1)[0][1];
+        	--pieces;
+        	
+        	if(captured.includes("K")) {
+        		value -= /american/gi.test(Game.version)? 1010: /kenyan|casino/gi.test(Game.version)? 1015: 1020;
+        	} 
+        	else {
+        		value -= 1000;
+        	} 
+        	
+        	this[color].push([value, pieces]);
                 
             state[a][b] = "EC";
             id = crowned && /^casino|international|nigerian$/gi.test(Game.version)? id.replace("K", "M"): id;
@@ -171,7 +161,65 @@ class AI {
 					id = id.replace("M", "K");
 				} 
 			} 
+        }
+        else {
+        	let color = id.includes(this.b)? "playerA": "playerB";
+        	let value = this[color].slice(-1)[0][0];
+        	let pieces = this[color].slice(-1)[0][1];
+        	this[color].push([value, pieces]);
         } 
+        
+        let color = id.includes(this.b)? "playerB": "playerA";
+        let value = this[color].slice(-1)[0][0];
+        let pieces = this[color].slice(-1)[0][1];
+        
+        if(crowned) {
+        	value += /american/gi.test(Game.version)? 10: /kenyan|casino/gi.test(Game.version)? 15: 20;
+        } 
+        if(id.includes("M") && (i == 0 || i == Game.boardSize-1)) {
+        	value -= 2;
+        } 
+        
+    	if(/american|kenyan|casino/gi.test(Game.version)) {
+    		let cornerMove;
+			for(let move of cornerMoves) {
+				if(move[0] == m && move[1] == n && id.includes("K") && /EC|IP/gi.test(state[move[2]][move[3]])) {
+					cornerMove = {dir: "to", move};
+					break;
+				} 
+				else if(move[0] == i && move[1] == j && /K/gi.test(state[move[2]][move[3]])) {
+					cornerMove = {dir: "from", move};
+					break;
+				} 
+				else if(move[0] == i && move[1] == j && id.includes("K") && /EC|IP/gi.test(state[move[2]][move[3]])) {
+					cornerMove = {dir: "from"};
+					break;
+				} 
+			}
+			if(cornerMove) {
+				if(cornerMove.dir == "to") {
+					value += 10;
+				} 
+				else if(cornerMove.dir == "from" && !cornerMove.move) {
+					value -= 10;
+				} 
+				else if(cornerMove.dir == "from") {
+					let clr = state[cornerMove.move[2]][cornerMove.move[3]].includes(this.b)? "playerB": "playerA";
+					if(clr != color) {
+						let val = this[clr].slice(-1)[0][0] + 10;
+						let pcs = this[clr].slice(-1)[0][1];
+						l = this[clr].length-1;
+						this[clr][l] = [val, pcs];
+					} 
+					else {
+						value += 10;
+					} 
+				} 
+			} 
+    	} 
+        
+        this[color].push([value, pieces]);
+        
         state[m][n] = id;
         return Prms({state, continuousJump});
         //} catch (error) {alert("AI move Error!\n" + error);} 
@@ -183,52 +231,59 @@ class AI {
         return Prms(JSON.parse(state));
     } 
     
-    negascout = async (state, moves, depth, color, alpha, beta, previousPlayer, movesB) => { // previousPlayer : 1 = ai || -1 = opp 
+    negascout = async (moves, state, depth, color, alpha, beta, previousPlayer) => { // previousPlayer : 1 = playerB || -1 = playerA
     	if(this.stop) {
     		return 0;
     	}
     	let best = this.MIN;
     	this.depthSearched = Math.min(depth, this.depthSearched);
-    	//this.alpha = alpha;
-    	//this.beta = beta;
-    	/*await Log("Depth: ", depth);
-    	await LogState(state);
-    	await Log('');*/
+    	
+    	let alphaOrig = alpha;
+    	let ttEntry;
     	
     	// Transposition Table Lookup:
-    	/*let alphaOrig = alpha;
-    	let ttEntry;
-		
-		if(depth < this.depth) {
-			ttEntry = TranspositionTable.lookUp(state, color);
+        if(depth < this.depth) {
+			ttEntry = await TranspositionTable.lookUp(state);
 	    	if(ttEntry.valid && ttEntry.depth <= depth) {
 	    		// flag property: 0 = exact, 1 = upper bound, -1 = lower bound
-	    		if(ttEntry.flag == 0) 
+				
+	    		if(ttEntry.flag == 0) {
+					this.depthSearched = Math.min(this.depthSearched, ttEntry.depthSearched);
 	    			return ttEntry.value;
-	    		else if(ttEntry.flag == -1) 
+				}
+	    		else if(ttEntry.flag == -1) {
 	    			alpha = Math.max(alpha, ttEntry.value);
-	    		else if(ttEntry.flag == 1)
+				} 
+	    		else if(ttEntry.flag == 1) {
 	    			beta = Math.min(beta, ttEntry.value);
-	    		
-	    		if(alpha >= beta) 
+	    		} 
+				
+	    		if(alpha >= beta) {
+					this.depthSearched = Math.min(this.depthSearched, ttEntry.depthSearched);
 	    			return ttEntry.value;
+				}
 	    	} 
-		} */
+		} 
     
         if(!moves.length || depth === 0) {
-        	let leafScore = !moves.length? (previousPlayer == 1? 100000: -100000): 0;
-        	let score = await this.evaluate(state, movesB, moves, previousPlayer);
+        	let leafScore = !moves.length? (previousPlayer == 1? 1_000_000: -1_000_000): 0;
+        	let bValue = this.playerB.slice(-1)[0][0];
+        	let bPieces = this.playerB.slice(-1)[0][1];
+        	let aValue = this.playerA.slice(-1)[0][0];
+        	let aPieces = this.playerA.slice(-1)[0][1];
+        	let score = bValue - aValue;//await this.evaluate(state);
         	score = score + leafScore;
             return Prms(score * color); 
         } 
         else {
-            let opp = color == 1? this.opp: this.ai;
+            let opp = color == 1? this.a: this.b;
+            let you = color == 1? this.b: this.a;
             let cloneState;
             
             // Move ordering
             //moves = moves.slice(0,1);
-            moves = color == 1? moves.reverse(): moves//await this.sort(moves, state);
-            //moves = await this.sort(moves, state);
+            moves = color == 1? moves.reverse(): moves;
+            moves = await this.sort(moves, state);
             
             for(let i = 0; i < moves.length; i++) {
             	let move = moves[i];
@@ -239,131 +294,97 @@ class AI {
             	cloneState = Copy(state);
             	let res = await this.move(cloneState, move); // make move
                     cloneState = res.state;
-                    
+                
+                /*await Log(depth);
+                await LogState(cloneState);
+                await Log(this.playerB.slice(-1)[0], this.playerA.slice(-1)[0]);*/
                 if(res.continuousJump.length === 0) {
                 	cloneState = await this.correct(cloneState); // Removing the ip cells
                     let moves2 = await AssessAll({id: opp, state: cloneState});
-                    if(Game.mandatoryCapture && moves2.captures.length > 0) {
-                    	moves2 = moves2.captures;
-                    } 
-                    else if(Game.mandatoryCapture && moves2.captures.length === 0) {
-                        moves2 = moves2.nonCaptures;
-                    }
-                    else if(!Game.mandatoryCapture) {
-	                    moves2 = moves2.nonCaptures.concat(moves2.captures);
-	                } 
+                    moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
 					
-					if(!subworkers || subworkers.length == 0) {
-						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves);
+					//value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color);
+					
+					if(moves.indexOf(move) == 0) { 
+						value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); // initial search
 					} 
 					else {
-						let worker = subworkers[i % subworkers.length];
-						worker.onmessage = this.workerMessage;
-						worker.postMessage({type: "move-search", content: [this.depth, i, cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves, false, Game.mandatoryCapture, Game.boardSize, Game.version, playerA.pieceColor, playerB.pieceColor]});
-						this.total++;
-					} 
-					
-					/*if(moves.indexOf(move) == 0) { 
-						value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // initial search
-					} 
-					else {
-                    	value = -await this.negascout(cloneState, moves2, depth-1, -color, -alpha-1, -alpha, color, moves); // null window search
+                    	value = -await this.negascout(moves2, cloneState, depth-1, -color, -alpha-1, -alpha, color); // null window search
 						
 						if(value > alpha && value < beta) // if it fails high i.e has possibility of raising alpha
-							value = -await this.negascout(cloneState, moves2, depth-1, -color, -beta, -alpha, color, moves); // research to get the exact value
-					} */
+							value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); // research to get the exact value
+					} 
 				} 
 				else {
 					let moves2 = res.continuousJump;
 					
-					if(!subworkers || subworkers.length == 0) {
-						value = await this.negascout(cloneState, moves2, depth, color, alpha, beta, color, moves);
-					} 
-					else {
-						let worker = subworkers[i % subworkers.length];
-						worker.onmessage = this.workerMessage;
-						worker.postMessage({type: "move-search", content: [this.depth, i, cloneState, moves2, depth, color, alpha, beta, color, moves, true, Game.mandatoryCapture, Game.boardSize, Game.version, playerA.pieceColor, playerB.pieceColor]});
-						this.total++;
-					} 
+					value = await this.negascout(moves2, cloneState, depth, color, alpha, beta, color);
 				} 
 				
-				
-				if(subworkers && subworkers.length > 0 && i % subworkers.length == 0 && i+1 < moves.length) {
-					continue;
-				} 
-				else if(subworkers && subworkers.length > 0) {
-					await this.sleep.start();
-					value = Math.max(...this.values);
-					this.count = 0;
-					this.total = 0;
-					this.values = [];
-				} 
-				
+				this.playerA.pop();
+				this.playerB.pop();
 				best = Math.max(value, best);
 				alpha = Math.max(best, alpha);
-				//this.alpha = alpha;
-				//this.beta = beta;
 				
 				if(alpha >= beta) {
 					break; // alpha cut-off
 				} 
-				
-				// Transposition Table Storage 
-				/*if(depth < this.depth) {
-					ttEntry.value = value;
-					if(value <= alphaOrig) 
-						ttEntry.flag = 1; // upper bound
-					else if(value >= beta) 
-						ttEntry.flag = -1; // lower bound
-					else
-						ttEntry.flag = 0; // exact
-					
-					ttEntry.valid = true;
-					ttEntry.depth = depth;
-					TranspositionTable.store(ttEntry);
-				} */
             } 
+            // Transposition Table Storage 
+			if(depth < this.depth) {
+				ttEntry.value = best;
+				if(best <= alphaOrig) 
+					ttEntry.flag = 1; // upper bound
+				else if(best >= beta) 
+					ttEntry.flag = -1; // lower bound
+				else
+					ttEntry.flag = 0; // exact
+				
+				ttEntry.valid = true;
+				ttEntry.depth = depth;
+				ttEntry.depthSearched = this.depthSearched;
+				await TranspositionTable.store(ttEntry);
+			} 
             return Prms(best);
         } 
     } 
     
     workerMessage = async (e) => {
-    	if(e.data.type == "search-result") {
-    		this.values.push(e.data.content.value); 
-        	this.depthSearched = e.data.content.depth;
-        	this.count++;
-        	//this.alpha = Math.max(this.alpha, e.data.content.value);
-        	if(this.count == this.total) {
-        		this.sleep.end();
-        		/*for(let worker of subworkers) {
-        			worker.postMessage({type: "stop-search"});
-        		} */
-        	} 
-    	} 
-    	else {
-    		await Log(e.data);
-    	} 
-    } 
+		if(e.data && e.data.type == "search-result") {
+			this.workerValue = e.data.content.value;
+			this.depthSearched = Math.min(this.depthSearched, e.data.content.depth);
+			workerSleep.end();
+		} 
+		else {
+			await Log(...e.data);
+		} 
+	} 
     
     findBestMove = async (state, moves) => {
         let color = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? 1: -1; // false == playerA while true == playerB
-        let opp = color == 1? this.opp: this.ai;
+        let opp = color == 1? this.a: this.b;
+        let you = color == 1? this.b: this.a;
         let count = 0;
+        let idleSleep = new Sleep();
         let sleep = new Sleep();
         let self = this;
         let bestValue = this.MIN;
         let bestPossibleMoves = [];
         let widthA, widthB;
-        //let time = null;
+        let idleWorkers = Array.from(workers.keys());
+        let start = Date.now();
         for(let worker of workers) {
         	worker.onmessage = message;
         } 
         
         if(moves.length > 1 && this.depth > 1) { 
-    		//time = Date.now();
+    		moves = color == 1? moves.reverse(): moves;
+    		moves = await this.sort(moves, state);
     		//moves = moves.slice(0,1);
+    		//moves.push(moves[0]);
     		await search(state, moves, this.depth);
     		await sleep.start();
+    		//await TerminateWorkers();
 			
 			bestPossibleMoves = await this.filter(state, bestPossibleMoves, color);
 			let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
@@ -380,7 +401,6 @@ class AI {
 		} 
 		
 		async function search (state, moves, depth) {
-			let timestamp = Date.now();
 			let test = false;
 			$("#play-window .footer_section").style.backgroundImage = "linear-gradient(to right, #00981988 5px, #0000 5px)";
 			$("#play-window .middle_section .scene .board .face_bottom").style.backgroundImage = `linear-gradient(to right, #00981988 5px, #0000 5px), linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
@@ -389,85 +409,78 @@ class AI {
 	    			let move = moves[j];
 					if(!move) 
 						break;
-					/*if(move.cell == "03" && move.empty == "12") {}
+					/*if(move.cell == "10" && move.empty == "21") {}
 					else continue;*/
 					
 					self.depthSearched = self.depth;
 					let cloneState = Copy(state);
 					let res = await self.move(cloneState, move); // make move
-		                cloneState = res.state; 
-					
+		                cloneState = res.state;
 		            if(res.continuousJump.length === 0) {
 		            	cloneState = await self.correct(cloneState); // Removing the ip cells
 		                let moves2 = await AssessAll({id: opp, state: cloneState});
-						if(Game.mandatoryCapture && moves2.captures.length > 0) {
-							moves2 = moves2.captures;
-						} 
-		                else if(Game.mandatoryCapture && moves2.captures.length === 0) {
-		                    moves2 = moves2.nonCaptures;
-		                }
-		                else if(!Game.mandatoryCapture) {
-		                    moves2 = moves2.nonCaptures.concat(moves2.captures);
-		                } 
+                    	moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
 						
 						let data = [
-							self.depth, 
+							self.depth-1, 
 							j, 
-							cloneState, 
-							moves2, 
+							moves2,
+							cloneState,
 							depth-1, 
 							-color, 
 							self.MIN, 
 							self.MAX, 
 							color, 
-							moves, 
 							false, 
 							Game.mandatoryCapture, 
 							Game.boardSize, 
 							Game.version, 
 							playerA.pieceColor, 
 							playerB.pieceColor, 
-							timestamp
+							idleWorkers[0]
 						]; 
 						if(test) {
+							//console.log(...data.slice(2,10));
 							let value = -await self.negascout(...data.slice(2,10));
 							console.log(value, move, self.depth - self.depthSearched);
-							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
 						} 
 						else {
-							await workers[j % workers.length].postMessage({type: "move-search", content: data});
+							workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
+							idleWorkers.shift();
 						} 
 					} 
 					else {
 						let moves2 = res.continuousJump;
 						
 						let data = [
-							self.depth, 
+							self.depth-1, 
 							j, 
-							cloneState, 
 							moves2, 
+							cloneState, 
 							depth, 
 							color, 
 							self.MIN, 
 							self.MAX, 
 							color, 
-							moves, 
 							true, 
 							Game.mandatoryCapture, 
 							Game.boardSize, 
 							Game.version, 
 							playerA.pieceColor, 
-							playerB.pieceColor, 
-							timestamp
+							playerB.pieceColor,
+							idleWorkers[0]
 						]; 
 						if(test) {
 							let value = await self.negascout(...data.slice(2,10));
 							console.log(value, move, self.depth - self.depthSearched);
-							//navigator.serviceWorker.controller.postMessage({type: "move-search", content: data});
 						} 
 						else {
-							workers[j % workers.length].postMessage({type: "move-search", content: data});
+							workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
+							idleWorkers.shift();
 						} 
+					} 
+					if(idleWorkers.length == 0) {
+						await idleSleep.start();
 					} 
 				} 
 			} 
@@ -477,19 +490,22 @@ class AI {
             if(e.data.type == "search-result") {
             	let value = e.data.content.value; 
             	let i = e.data.content.id; 
+            	let j = e.data.workerID;
             	let move = moves[i];
             	count++;
             	// evaluating 
-            	//console.log(value, move, e.data.content.depth);
+            	//console.log(value, move);
+            	/*let end = Date.now();
+				console.log((end - start) / 1000);*/
             	let section = $("#play-window .footer_section");
             	let faceBottom = $("#play-window .middle_section .face_bottom");
-            	widthA = parseFloat(GetValue(section, "width")) - 5;
-            	widthB = parseFloat(GetValue(faceBottom, "width")) - 5;
+            	widthA = parseFloat(GetValue(section, "width"));
+            	widthB = parseFloat(GetValue(faceBottom, "width"));
             	let finishedSize = (count * widthA / moves.length) + "px";
             	section.style.backgroundImage = "linear-gradient(to right, #00981988 " + finishedSize + ", #0000 " + finishedSize + ")";
             	finishedSize = (count * widthB / moves.length) + "px";
             	faceBottom.style.backgroundImage = `linear-gradient(to right, #00981988 ${finishedSize}, #0000 ${finishedSize}), linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
-            
+            	
                 if(bestValue <= value) {
 	                if(bestValue < value) {
 	                    bestValue = value;
@@ -499,8 +515,15 @@ class AI {
 	                    bestPossibleMoves.push(move);
 	                } 
 	            } 
+	
+				Game.possibleWin = bestValue > 990_000? true: false;
+	
+				idleWorkers.push(j);
+				if(count % 1 == 0) {
+            		idleSleep.end();
+            	} 
                 
-                if(count == moves.length) {
+                if(workers.length == idleWorkers.length) {
                 	section.style.backgroundImage = "none";
                 	faceBottom.style.backgroundImage = `linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
 				    sleep.end();
@@ -609,11 +632,11 @@ class AI {
     		let b = parseInt(move.cell.slice(1,2));
     		let m = parseInt(move.empty.slice(0,1));
     		let n = parseInt(move.empty.slice(1,2));
-    		let opp = state[a][b].includes(this.ai)? this.opp: this.ai;
+    		let opp = state[a][b].includes(this.b)? this.a: this.b;
         	if(move.capture) {
         		captures.push(move);
         	} 
-        	if(state[a][b].includes("K")) {
+        	else if(state[a][b].includes("K") && !/american|kenyan|casino/gi.test(Game.version)) {
 				kings.push(move);
 			} 
 			else {
@@ -638,7 +661,7 @@ class AI {
         return captures.concat(kings).concat(ordinary);
     } 
     filter = async (state, moves, color) => {
-    	let opp = color == 1? this.opp: this.ai;
+    	let opp = color == 1? this.a: this.b;
     	let ordinary = [];
     	let kings = [];
     	let captures = [];
