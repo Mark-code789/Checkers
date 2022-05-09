@@ -305,7 +305,7 @@ async function LoadingDone () {
 					if(stat.level)
 						stat.level = stat.level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
 				}
-                p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + "<br>" + (!stat.mode? "": stat.mode == "single-player"? stat.level: stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
+                p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + (!stat.mode || stat.mode == "single-player"? (stat.level? "<br>" + stat.level: ""): "<br>" + stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
                 let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
                 btn.addEventListener("click", () => GetStats(no), false);
                 itemSec.appendChild(p);
