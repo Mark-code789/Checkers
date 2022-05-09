@@ -5,8 +5,6 @@ self.addEventListener("message", async (e) => {
 		if(e.data && e.data.type == "move-search") {
 			search = new Search();
 			search.start(e.data.content);
-			
-			await subworker.postMessage({type: "init-game-data", content: e.data.content.slice(11,16)});
 		} 
 		else if(e.data && e.data.type == "stop-search") {
 			search.stop();
