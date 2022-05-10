@@ -1481,6 +1481,10 @@ class Move {
             else
             await UpdatePiecesStatus("Captures Available!");
         } 
+        else if(Game.moves.nonCaptures.length == 0) {
+        	GameOver();
+        	return Prms(true);
+        } 
         else {
             //Calling this method to update the players pieces to help ascertain if game is over
             await UpdatePiecesStatus();
@@ -1523,11 +1527,6 @@ class Move {
                     Game.baseStateCount = 1;
                     Game.baseState = Copy(Game.state);
                 }
-            } 
-            // Checking if game is over
-            if(playerA.pieces === 0 || playerB.pieces === 0 || Game.moves.nonCaptures.length === 0) {
-                GameOver();
-                return Prms(true);
             } 
         } 
         return Prms(false);
