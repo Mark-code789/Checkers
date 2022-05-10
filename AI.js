@@ -19,8 +19,8 @@ class AI {
 	a = playerA.pieceColor.slice(0,1);
 	playerA = [0];
 	playerB = [0];
-	MAX = 1000000;
-	MIN = -1000000;
+	MAX = 100_000_000;
+	MIN = -100_000_000;
 	stop = false;
 	workerValue = -1000000;
 	
@@ -516,7 +516,7 @@ class AI {
 	                } 
 	            } 
 	
-				Game.possibleWin = bestValue > 990_000? true: false;
+				Game.possibleWin = Math.abs(bestValue) > 990_000? true: false;
 	
 				idleWorkers.push(j);
 				if(count % 1 == 0) {
