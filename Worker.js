@@ -7,6 +7,7 @@ self.addEventListener("message", async (e) => {
 			search.start(e.data.content);
 		} 
 		else if(e.data && e.data.type == "stop-search") {
+			if(search)
 			search.stop();
 		} 
 		else if(e.data && e.data.type == "init-worker") {
