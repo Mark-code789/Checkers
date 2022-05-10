@@ -795,7 +795,7 @@
             } 
 			
             let deferredEvent;
-            let appVersion = "18.8.18.406";
+            let appVersion = "18.8.19.407";
             let newSW;
             let workers = [];
             
@@ -836,7 +836,7 @@
                 head.appendChild(JsLink5);
                 head.appendChild(SheetLink);
                 
-                //JsLink5.id = "pubnub-file";
+                JsLink5.id = "pubnub-file";
                 let totalThreads = navigator.hardwareConcurrency || 1;
                 for(let n = 0; n < totalThreads; n++) {
                 	let worker = new Worker("./Worker.js");
