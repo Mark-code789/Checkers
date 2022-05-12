@@ -195,7 +195,7 @@
                 text-align: center;
                 padding: 15px 30px;
                 margin: -70vmin 0 0 0;
-                font-size: 12vmin;
+                font-size: 11vmin;
                 font-weight: 700;
                 border-radius: 4px;
                 background-image: url("./src/images/frame.jpeg");
@@ -242,7 +242,7 @@
             	padding: 0 0 10px 0;
             	width: 100%;
             	color: #dddb;
-            	font-size: 5vmin;
+            	font-size: 4vmin;
             	text-align: center;
             	text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
             } 
@@ -649,6 +649,10 @@
                     <p>Attributes:<br><span>Find out contributors who made this game a success</span></p>
                     <button onclick="Clicked(), Attribute()" class="only_item blue_ui">ATTRIBUTES</button>
                 </section>
+                <section class="inner_item" id="item10">
+                    <p>Version:<br><span>Check out the current version of the game and its updated features.</span></p>
+                    <button onclick="Clicked(), AppVersion()" class="only_item blue_ui">VERSION</button>
+                </section>
             </section>
             <section class="footer_section">
                 <button class="left_btn" onclick="back()">BACK</button>
@@ -765,15 +769,15 @@
                 } 
                 deferredEvent = null;
             } 
-            window.$ = function (elem) {
+            function $ (elem) {
                 return document.querySelector(elem);
             } 
 
-            window.$$ = function (elem) {
+            function $$ (elem) {
                 return document.querySelectorAll(elem);
             }
             
-            window.$$$ = function (type, data = []) {
+            function $$$ (type, data = []) {
             	if(!Array.isArray(data)) {
             		throw new Error("Data object passed is not an array. At $$$ line: 658");
             	} 
@@ -795,7 +799,7 @@
             } 
 			
             let deferredEvent;
-            let appVersion = "18.8.19.407";
+            let appVersion = "20.12.142.446";
             let newSW;
             let workers = [];
             
@@ -826,7 +830,7 @@
                 JsLink2.src = "./Channel.js";
                 JsLink3.src = "./Core.js";
                 JsLink4.src = "./Objects.js";
-                JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js";
+                JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.6.0.0.min.js";
                 
                 head.appendChild(JsLink0);
                 head.appendChild(JsLink1);
@@ -871,7 +875,7 @@
             const InvokeSWUpdateFlow = async () => {
 				Notify({action: "confirm", 
 						header: "APP UPDATE", 
-						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed some errors</li><li>Discover more by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
+						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
 						type: "LATER/UPDATE",
 						onResponse: UpdateResponse});
 				async function UpdateResponse (refresh) {

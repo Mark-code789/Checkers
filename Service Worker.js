@@ -1,5 +1,5 @@
 // Service worker
-const version = "407";
+const version = "446";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -69,7 +69,7 @@ const appShellFiles = [
     "./index.css", 
     "./index.html",
     "./manifest.webmanifest", 
-    "https://cdn.pubnub.com/sdk/javascript/pubnub.5.0.0.min.js"
+    "https://cdn.pubnub.com/sdk/javascript/pubnub.6.0.0.min.js"
 ];
 
 self.addEventListener("install", (e) => {
@@ -83,21 +83,15 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
-        	if(/(?<!min).(html).*$/gi.test(e.request.url)) {
-            	//fetch;
-            }
-            else if(res) {
+        	if(res && !/(?<!min).(html).*$/gi.test(e.request.url)) {
             	return res;
-            } 
-            else if(!e.request.url.includes("pndsn.com")) {
-            	//console.log(e.request.url);
-            } 
+            }
             
             return fetch(e.request).then((res2) => {
-            	/*if(e.request.url.includes("pndsn.com")) {
-            		return res2;
-            	} */
-            	
+            	if(e.request.url.includes("pndsn.com")) {
+            		return res2; 
+					/*Not storing this kind of request*/
+            	} 
                 return caches.open(cacheName).then((cache) => {
                     cache.put(e.request, res2.clone());
                     return res2;
@@ -105,7 +99,7 @@ self.addEventListener("fetch", (e) => {
 					return res2;
 				});
             }).catch((error) => {
-            	return res;
+            	return null;
             });
         })
     )

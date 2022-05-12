@@ -1,5 +1,7 @@
 'use strict' 
 
+// Version 20
+
 function Copy (obj) {
     if(obj == undefined || obj == null)
         throw new Error("Argument object can not be undefined or null");

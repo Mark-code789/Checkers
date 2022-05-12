@@ -1,3 +1,7 @@
+'use strict' 
+
+// Version: 20
+
 self.importScripts("./Objects.js", "./AI.js", "./Core.js");
 let search;
 self.addEventListener("message", async (e) => {

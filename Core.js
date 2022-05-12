@@ -1,5 +1,7 @@
 'use strict' 
 
+// Version: 20
+
 const AssessAll = async (prop) => {
     if(prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
         throw new Error(`Missing important attribute of the argument provided.`);

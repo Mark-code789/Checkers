@@ -1,5 +1,7 @@
 'use strict' 
 
+// Version: 38
+
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
 	
@@ -21,7 +23,7 @@ const CheckHref = async () => {
 
 const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutInterval: null, offlineInterval: null};
 
-const ChannelFunction = () => {
+const ChannelFunction = async () => {
 	if(!navigator.onLine) {
 		Notify("Can't complete this request. You are offline.");
 		return;
@@ -44,22 +46,32 @@ const ChannelFunction = () => {
         playerA.name = name;
         
         try { 
-            if(!Lobby.isConnected) {
+            if(!Lobby.isConnected) { 
             	$$("#online .player_name")[0].innerHTML = name;
-                Lobby.UUID = PubNub.generateUUID();
+            	if(storage) {
+            		if(storage.getItem("Checkers - uuid")) {
+                		Lobby.UUID = storage.getItem("Checkers - uuid");
+                	} 
+					else {
+						Lobby.UUID = PubNub.generateUUID();
+						storage.setItem("Checkers - uuid", Lobby.UUID);
+					} 
+                } 
+                else {
+					Lobby.UUID = PubNub.generateUUID();
+				} 
+                
                 Lobby.CHANNEL = channel;
                 Lobby.LOBBY = "Lobby"+channel;
                 Lobby.PUBNUB = new PubNub({
                     uuid: Lobby.UUID,
-                    publish_key: 'pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71',
-                    subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
+                    publish_key: 'pub-c-61e4df1b-f04b-47eb-9528-c754ba086839',
+                    subscribe_key: 'sub-c-67619f96-6b20-11ec-a4f8-fa616d2d2ecf',
                     ssl: true, 
-                    presenceTimeout: 60, 
-                    sendByPost: true, 
+                    presenceTimeout: 120, 
                     restore: true
                 });
-                Lobby.PUBNUB.setUUID(Lobby.UUID);
-                setTimeout( () => {Notify("Connecting..."); }, 100);
+                
                 Lobby.LOBBY_LISTENER = {
                 	presence: function(response) { 
 						if(response.channel == Lobby.LOBBY && response.action === "join") {
@@ -97,8 +109,17 @@ const ChannelFunction = () => {
 						else if(response.channel == Lobby.LOBBY && response.action === 'timeout') {
                             Notify(`Connection timeout to ${Lobby.CHANNEL} channel. Reconnecting...`);
                         } 
-                	} 
+                	}
                 } 
+                
+                Lobby.PUBNUB.addListener(Lobby.LOBBY_LISTENER);
+                Lobby.PUBNUB.subscribe({
+                    channels: [Lobby.LOBBY], 
+                    withPresence: true, 
+                }); 
+                
+                await new Sleep().wait(0.1);
+                Notify("Connecting...");
                 
                 Lobby.LISTENER = {
                     presence: function(response) { 
@@ -195,6 +216,7 @@ const ChannelFunction = () => {
                     }, 
                     status: function(event) {
                         if(!Lobby.isConnected && event.category === 'PNConnectedCategory') {
+                        	console.log("Connected");
                             Lobby.timeoutID = setTimeout( () => {
                                 let connectivityStatus = $("#connectivity");
                                 connectivityStatus.classList.remove("orange_ui");
@@ -378,11 +400,7 @@ const ChannelFunction = () => {
                         } 
                     } 
                 } 
-                Lobby.PUBNUB.addListener(Lobby.LOBBY_LISTENER);
-                Lobby.PUBNUB.subscribe({
-                    channels: [Lobby.LOBBY], 
-                    withPresence: true
-                }); 
+                /* End of listener*/
             } 
             else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online .playerA_name").value.toLowerCase()) {
                 Notify({action: "alert", 

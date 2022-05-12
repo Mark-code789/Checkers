@@ -1,5 +1,7 @@
 'use strict'
 
+// Version: 24
+
 // object to store the most needed images 
 const Icons = {
     alertIcon: "", 
@@ -2405,7 +2407,7 @@ const Submit = (event) => {
 const AboutOnline = () => {
     Notify({action: "alert", 
             header: "HOW TO CONNECT ONLINE CHANNEL", 
-            message: "To successfully play the online match, you are required to enter the name of the channel you wish to join in the text field provided and submit it. If the channel is full, you will be required to create new one of your own preference. After successful creation, share the channel name with your opponent to invite him/her.<span>Note</span><ul><li>Any full channel contains only two players at any particular time.</li><li>Leaving the channel while the game is still on, will cost you the game.</li><li>You can not join more than one channel at any time.</li><li>If both players leave the channel, it will be closed</li></ul>"});
+            message: "To successfully play the online match, you are required to be in a channel so that you and your opponent can communicate exclusively. Now, to do that, there is a field named \"CHANNEL DETAILS\" on TWO PLAYERS window. In that field, enter your preferred channel name. It can be anything as long as is an name as shown below.<img src='./src/images/channel image.png'>In the next field named \"PLAYER DETAILS\", enter your preferred name. This name will help identify you. Your opponent will refer to you using this name as well.<img src='./src/images/player image.png'>Once done filling the details, tap <kbd>SUBMIT</kbd> button at the bottom of the screen or just press <kbd>ENTER</kbd> on the keyboard. If you are successfully connected, under \"CHANNEL STATUS DETAILS\" at the top of the sreen, your status will change color to green and indicate your connection status<img src='./src/images/status image.png'>. Likewise, the channel you have joined will be shown under \"CHANEL DETAILS\" and indicate whether you are the host or guest.<img src='./src/images/channel joined image.png'>If you are the host of that channel, that means you will have to invite your opponent to your channel. You can do this by telling him/her the channel you have joined, or create and share the link to that channel by clicking the <kbd>SHARE</kbd> button under the \"CHANNEL DETAILS\".<br>Once you are all connected to the same channel, a chat button will pop at top right corner of the screen. You can share instant messages live on the app without leaving the app. To initiate a match, just hit the <kbd>PLAY</kbd> button on the screen."});
 }
 
 const Restart = async (option) => {
@@ -2799,13 +2801,33 @@ const PlayAs = (elem) => {
 } 
 
 const Contact = () => {
-    window.location.href = "mailto:marxeto8@gmail.com? &subject=Checkers%20Support%20Feedback";
+	Notify({action: "other",
+			header: "CONTACT DEVELOPER",
+			message: "Feel free to reach out to me via either of the following options. Let's build checkers together.",
+ 		   type: "NOT NOW/EMAIL/WHATSAPP",
+			icon: "./src/images/contact.png", 
+			onResponse: ContactResponse});
+	
+	function ContactResponse (response) {
+		if(response == "EMAIL") 
+    		window.location.href = "mailto:markcodes789@gmail.com? &subject=Checkers%20Support%20Feedback";
+    	else if(response == "WHATSAPP")
+    		window.location.href = "https://wa.me/+254798916984?";
+    	else
+    		Cancel();
+    } 
 } 
 
 const Attribute = () => {
     Notify({action: "alert", 
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
+}
+
+const AppVersion = () => {
+	Notify({action: "alert", 
+            header: "CHECKERS VERSION", 
+            message: "Your current app version is: " + appVersion + "<span>Updates of this version</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors</li></ul><label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
 } 
 
 const FollowUp = () => {

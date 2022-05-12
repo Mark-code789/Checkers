@@ -1,3 +1,7 @@
+'use strict' 
+
+// Version: 20
+
 /*Game object to store game details*/
 const Game = {
     mode: "single-player",

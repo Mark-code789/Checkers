@@ -1,3 +1,6 @@
+
+/* Version: 12*/
+
 :root {
     --english-flag: url("english flag.jpeg");
     --kenyan-flag: url("kenyan flag.jpeg");
@@ -2177,6 +2180,8 @@ article {
 
 #notification-window #note {
 	position: relative;
+	max-width: 600px;
+	max-height: 90%;
     background: var(--frame);
     background-size: contain;
     background-clip: border-box;
@@ -2321,6 +2326,30 @@ article {
     display: block;
     padding: 10px 0 0 0;
     text-align: left;
+} 
+
+#notification-window #note .note_body img {
+	display: block;
+	max-width: 100%;
+	object-fit: contain;
+	border: 2px solid #444;
+	border-radius: 8px;
+	margin: 8px 0;
+} 
+
+#notification-window #note .note_body kbd {
+	background-color: #eee;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+    color: #333;
+    display: inline-block;
+    font-family: monospace;
+    font-size: .85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
 } 
 
 #notification-window #note .note_body ul {
