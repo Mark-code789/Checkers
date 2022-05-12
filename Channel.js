@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 38
+// Version: 40
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -693,7 +693,7 @@ const Message = async (prop) => { try {
         if(unreadBubble != null) 
             unreadBubble.parentNode.removeChild(unreadBubble);
         
-        setTimeout(() => {anchor.scrollIntoView({block: "start", behavior: "smooth"});}, 200);
+        setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
         Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
         return;
     } 
@@ -728,12 +728,12 @@ const Message = async (prop) => { try {
         if(GetValue($("#chat-window"), "display") === "flex") {
         	Publish.send({channel:Lobby.CHANNEL, message: {title: "Read", content: prop.id}});
         	Lobby.unreadMessages = [];
-            setTimeout(() => {anchor.scrollIntoView({block: "start", behavior: "smooth"});}, 200);
+            setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
         } 
         else 
         	Lobby.unreadMessages.push(prop.id);
     } 
-    } catch (error) {Notify(error + "");}
+    } catch (error) {console.log(error)}
 } 
 
 const Request = async (prop) => {
@@ -793,7 +793,7 @@ const Request = async (prop) => {
                 await new Sleep().wait(2);
                 await play(true);
             }, 200);
-            } catch (error) {Notify(error + " request error")}
+            } catch (error) {console.log(error)}
         } 
         else if(option === "CANCEL") {
             Publish.send({channel: Lobby.CHANNEL, message: {title: "DeclinedRequest", content: ""} });
@@ -835,7 +835,7 @@ class AdjustWidth {
 			}, 1000);
 		} 
 		self.adjustWidth(elem);
-		} catch (error) {Notify(error + "")}
+		} catch (error) {console.log(error)}
 	} 
 	
 	static adjustWidth = (elem) => {
@@ -854,8 +854,9 @@ class AdjustWidth {
 	            Notify("message size exceeded limit");
 	        } 
 	    } 
-	    let height = elem.clientHeight || parseInt(GetValue(elem, "height"));
-	    document.documentElement.style.setProperty("--txtSize", (height + "px"));
+	    let height = elem.offsetHeight || parseFloat(GetValue(elem, "height"));
+		
+	    document.documentElement.style.setProperty("--txt-size", ((height + 20) + "px"));
 		this.finishedExecuting = true;
 	} 
 } 

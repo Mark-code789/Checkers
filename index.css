@@ -1,5 +1,5 @@
 
-/* Version: 12*/
+/* Version: 13*/
 
 :root {
     --english-flag: url("english flag.jpeg");
@@ -44,7 +44,7 @@
     --shadow-width: 0px;
     --shadow-color: #2B2B2B; /*#502C00*/;
     --piece_size: 80%;
-    --txtSize: 40px;
+    --txt-size: 65px;
     --M: 5px;
 } 
 
@@ -173,7 +173,6 @@ article {
     display: none;
     justify-content: center;
     align-items: center;
-    flex-flow: column nowrap;
 } 
 
 #chat-section {
@@ -186,7 +185,8 @@ article {
     
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 70px calc(100% - 70px - var(--txtSize) - 22px) var(--txtSize);
+    grid-template-rows: 70px calc(100% - 70px - var(--txt-size)) var(--txt-size);
+    grid-auto-rows: auto;
     justify-content: center;
     align-items: space-between;
 } 
@@ -258,7 +258,8 @@ article {
 } 
 
 .bubbles_container {
-    overflow: scroll;
+	height: 100%;
+    overflow: auto;
     overflow-anchor: none;
     padding: 0 10px;
     margin: 0;

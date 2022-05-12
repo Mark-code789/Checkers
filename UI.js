@@ -1,6 +1,6 @@
 'use strict'
 
-// Version: 24
+// Version: 25
 
 // object to store the most needed images 
 const Icons = {
