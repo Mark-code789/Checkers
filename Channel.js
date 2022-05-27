@@ -69,7 +69,7 @@ const ChannelFunction = async () => {
                     publish_key: 'pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71',
                     subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
                     ssl: true, 
-                    presenceTimeout: 60, 
+                    presenceTimeout: 20, 
                     restore: true
                 });
                 
