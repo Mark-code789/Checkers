@@ -583,6 +583,7 @@ class Drag {
 	
 	end = async (e) => {
 		e.preventDefault();
+		console.log(this.active, this.moved, this.dragItem.id, $("#chat-icon").id);
 	    if(this.active && this.moved && (e.type === "touchend" || e.type == "mouseup")) {
 			this.active = false;
 			this.dragItem.style.transitionDuration = this.transitionDuration;
@@ -3034,7 +3035,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "21.14.159.463";
+const currentAppVersion = "22.14.161.465";
 const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
