@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 44
+// Version: 46
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -221,7 +221,6 @@ const ChannelFunction = async () => {
                         else if(event.category === 'PNNetworkUpCategory') {
                         	//Lobby.PUBNUB.reconnect();
                             Notify("You are back online.");
-                            Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
                             Notify("Having trouble to connect, please check your device internet connection.");
@@ -488,6 +487,7 @@ const Unsubscribe = async (isClick = true) => {
 	        $("#chat-icon").style.display = 'none';
 		} 
 		else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
+			Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
 			Cancel();
 		} 
     } 
@@ -1171,7 +1171,7 @@ class Bubble {
 		let ids = "";
 		if(option != "CANCEL") {
 			for(let bubble of selected) {
-				if(bubble.$(".tick") && bubble.$(".tick").classList.contains("grey")) {
+				if(!bubble.classList.contains("deleted") && bubble.$(".tick") && bubble.$(".tick").classList.contains("grey")) {
 					bubble.$(".text > div").innerHTML = "You deleted this message.";
 					bubble.classList.add("deleted");
 					ids += bubble.$(".tick").id + "-";

@@ -2,7 +2,7 @@
 
 // Version: 22
 
-const appVersion = "21.14.156.461";
+const appVersion = "21.14.159.463";
 const versionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 
 /*Game object to store game details*/
