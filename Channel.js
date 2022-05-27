@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 42
+// Version: 43
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -139,10 +139,10 @@ const ChannelFunction = async () => {
 									} */
 								} 
 								else if(response.UUID != Lobby.UUID && response.occupancy <= 2) {
-									let chatIcon = $("#chat-icon");
+									/*let chatIcon = $("#chat-icon");
 									if(GetValue(chatIcon, "display") == "none") {
 										chatIcon.style.display = "block";
-									} 
+									} */
 								} 
 								else if(response.occupancy > 2) {
 									Unsubscribed();
@@ -219,8 +219,9 @@ const ChannelFunction = async () => {
                         	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         } 
                         else if(event.category === 'PNNetworkUpCategory') {
-                        	Lobby.PUBNUB.reconnect();
+                        	//Lobby.PUBNUB.reconnect();
                             Notify("You are back online.");
+                            Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
                             Notify("Having trouble to connect, please check your device internet connection.");
@@ -245,6 +246,7 @@ const ChannelFunction = async () => {
 							    opponentStatus.innerHTML = "ONLINE";
 							    opponentStatus.classList.remove("orange_ui", "black_ui");
 								opponentStatus.classList.add("default");
+								clearTimeout(Lobby.offlineTimeout);
                             } 
                             else if(msg.message.title === "NameChange") {
                         		name = msg.message.content;

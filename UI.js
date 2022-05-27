@@ -1,6 +1,6 @@
 'use strict'
 
-// Version: 27
+// Version: 28
 
 // object to store the most needed images 
 const Icons = {
@@ -3038,7 +3038,7 @@ const Attribute = () => {
 const AppVersion = () => {
 	Notify({action: "alert", 
             header: "CHECKERS VERSION", 
-            message: "Your current app version is: " + appVersion + "<span>Updates of this version</span>" + versionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
+            message: "<label style='display: block; text-align: left;'>Your current app version is: " + appVersion + "</label><span>Updates of this version</span>" + versionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
 } 
 
 const FollowUp = () => {
