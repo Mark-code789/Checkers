@@ -479,12 +479,14 @@ const Unsubscribe = async (isClick = true) => {
 			$("#online .playerA_name").value = "";
 	        $("#online .player_name:first-of-type").innerHTML = "N/A";
 			$("#online .player_name:last-of-type").innerHTML = "N/A";
+			if(GetValue($("#chat-window"), "display") == "flex")
+				 HideChat();
+			$("#chat-icon").style.display = 'none';
 	        Lobby.CHANNEL = null;
 	        Lobby.isConnected = false;
 	        Lobby.PUBNUB = null;
 	        Lobby.isHost = false;
 	        Lobby.offlineTimeout = null;
-	        $("#chat-icon").style.display = 'none';
 		} 
 		else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
 			if(choice == "AM ACTIVE") {
@@ -579,7 +581,8 @@ const LeftChannel = (response) => {
         opponentStatus.classList.remove("default", "orange_ui");
 		opponentStatus.classList.add("black_ui");
         $("#chat-icon").style.display = 'none';
-        $("#chat-window").style.display = "none";
+        if(GetValue($("#chat-window"), "display") == "flex")
+			HideChat();
         $("#online .lobby_name").innerHTML = Lobby.CHANNEL + " (Host)";
         Lobby.isHost = true;
         Notify(`${name} left ${Lobby.CHANNEL} channel.`);

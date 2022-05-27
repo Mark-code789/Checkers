@@ -778,20 +778,20 @@ const HideChat = (caller = "event") => {
     if(unreadBubble != null) {
         unreadBubble.parentNode.removeChild(unreadBubble);
     }
-    if(caller == "back") 
+    if(caller == "event") 
     	BackState.state.pop();
 }
 
 const ShowChat = () => {
     $("#chat-icon").style.display = "none";
     $("#chat-window").style.display = "flex";
-    general.chatFieldHadFocus = true;
+    general.chatFieldHadFocus = false;
    
     let badge = $(".badge");
     if(parseInt(badge.innerHTML) > 0) {
-        $(".center_bubble").scrollIntoView({block: "start", behavior: "smooth"});
+        setTimeout(() => {$(".center_bubble").scrollIntoView({block: "end", behavior: "smooth"});}, 200);
     } 
-    $('.chat_field').focus();
+    
     general.chatFieldHadFocus = true;
     badge.innerHTML = 0;
     badge.style.display = "none";
@@ -3035,7 +3035,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "22.14.161.468";
+const currentAppVersion = "22.14.161.469";
 const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
@@ -3411,6 +3411,8 @@ const Mode = async (type, click = true) => {
        
         let elem = $("#main div:nth-of-type(3)");
         await Clicked(elem, elem.parentNode, click);
+        if(Lobby.isConnected)
+        	ElemHint.setHint($("#online .field.playerA_name"), "To change your name, enter the name here and hit submit or enter.");
     } 
     else if(type == 1) { 
         Game.mode = "single-player";
