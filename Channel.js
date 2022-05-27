@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 43
+// Version: 44
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -184,7 +184,7 @@ const ChannelFunction = async () => {
 								} 
 								else {
 									let state = $(".state_container");
-									state.classList.remove(action);
+									state.classList.remove("recording", "typing");
 									let status = $$(".chat_header p")[1];
 									status.innerHTML = "online";
 								} 
@@ -1376,7 +1376,6 @@ const ChangeTextBox = async (isFocused, elem, event) => {
 		event.preventDefault();
 		if(event.type == "blur" && elem.classList.contains("chat_field")) {
 			if(Lobby.isConnected) {
-				clearTimeout(AdjustWidth.stateTimeout);
 				Lobby.PUBNUB.setState({
 					state: {action: "typing", value: false}, 
 					channels: [Lobby.CHANNEL]

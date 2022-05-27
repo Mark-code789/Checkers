@@ -1,6 +1,6 @@
 'use strict'
 
-// Version: 28
+// Version: 29
 
 // object to store the most needed images 
 const Icons = {
@@ -3034,11 +3034,12 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-
+const currentAppVersion = "21.14.156.461";
+const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
             header: "CHECKERS VERSION", 
-            message: "<label style='display: block; text-align: left;'>Your current app version is: " + appVersion + "</label><span>Updates of this version</span>" + versionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
+            message: "<label style='display: block; text-align: left;'>Your current app version is: " + currentAppVersion + "</label><span>Updates of this version</span>" + currentVersionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
 } 
 
 const FollowUp = () => {
