@@ -154,7 +154,7 @@ const ChannelFunction = async () => {
 									Unsubscribe(false);
 								} 
 								else { 
-									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 120_000);
+									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 180_000);
 									let opp = $$("#online .player_name")[1].innerHTML;
 									Notify(`${opp} went offline.`);
 									let status = $$(".chat_header p")[1];
@@ -487,7 +487,10 @@ const Unsubscribe = async (isClick = true) => {
 	        $("#chat-icon").style.display = 'none';
 		} 
 		else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
-			Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+			if(choice == "AM ACTIVE") {
+				Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+				clearTimeout(Lobby.offlineTimeout);
+			} 
 			Cancel();
 		} 
     } 
