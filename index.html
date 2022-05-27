@@ -47,7 +47,7 @@
                 padding: 30px;
                 border: none;
                 border-radius: 4px;
-                background: var(--frame);
+                background: url("./src/images/frame.jpeg");
                 box-shadow: 0 0 3px 2px #000;
                 background-size: cover;
                 color: #444;
@@ -65,7 +65,7 @@
             	width: calc(100% - 20px);
             	border-radius: 4px;
             	box-shadow: inset 0 0 0 1px #444;
-            	background: var(--bg2);
+            	background: url("./src/images/background2.jpeg");
             	background-size: cover;
             	z-index: -1;
             } 
@@ -282,6 +282,7 @@
         </style>
     </head>
     <body>
+    	<span class="elem_hint"></span>
     	<article id="load-window">
     		<div class="img">
     			<div class="shadow"></div>
@@ -304,15 +305,19 @@
                 <div class="install_body">Install Checkers, and play it without opening browser anytime even while offline.</div>
             </section>
             <button class="install_btn" onclick="InstallApp()">Install</button>
-            <button class="install_btn" onclick="HideInstallPrompt()">Cancel</button>
+            <button class="install_btn" onclick="HideInstallPrompt(event)">Cancel</button>
         </article>
         <article id="chat-icon" hidden>
             <section class="chat_icon_container">
                 <p id="dragItem">CHAT</p>
-                <span class="typing_container">
-	                <span class="typing"></span>
-	                <span class="typing"></span>
-	                <span class="typing"></span>
+                <span class="state_container">
+	                <span class="typing_dot"></span>
+	                <span class="typing_dot"></span>
+	                <span class="typing_dot"></span>
+					<span class="recording_dot">
+						<span class="recording_circle"></span>
+						<span class="recording_ring"></span>
+					</span>
 				</span>
                 <span class="badge" hidden>0</span>
             </section>
@@ -322,18 +327,32 @@
                 <div class="chat_header">
                     <h2>Pn</h2>
                     <p>powered by</p>
-                    <h2>Chat Bot Example</h2>
-                    <p>online</p>
+                    <h2 class="chat_name">Chat Bot Example</h2>
+                    <p class="chat_status">online</p>
                     <p role="button" onclick="HideChat()"></p>
+                    <div class="chat_menu">
+                    	<button class="chat_delete"></button>
+                    	<button class="chat_copy"></button>
+                    </div>
                 </div>
                 <div class="bubbles_container">
-                    <!--<div class="bubble left_bubble"><p class="text">Hello! <span class="report"><span class="time">5:34 PM</span><span class="tick"></span></span></p></div>
+                    <!--<div class="bubble left_bubble"><p class="text">Hello! <span class="report"><span class="time">5:34 PM</span><span class="tick"></span><span class="tick"></span></span></p></div>
                     <div class="bubble right_bubble"><p class="text">Hello to you friend.<span class="time">5:34 PM</span></p></div>-->
                     <div class="anchor"></div>
                 </div>
                 <div class="chat_field_container">
-                    <div class="chat_field" onfocus="ChangeTextBox(true, this)" onblur="ChangeTextBox(false, this)" onkeyup="AdjustWidth.adjust(this)" role="textbox" contenteditable autofocus></div>
-                    <div class="send_button" onclick="Message({action: 'send'})" role="button"></div>
+                	<div class="field_container">
+                    	<div class="chat_field" onclick="ChangeFocus()" onfocus="ChangeTextBox(true, this, event)" onblur="ChangeTextBox(false, this, event)" onkeyup="AdjustWidth.adjust(this, event)" onpaste="AdjustWidth.adjust(this, event)" role="textbox" placeholder="Write your message" contenteditable autofocus></div>
+                    </div>
+                    <button class="send_button" onfocus="ChangeTextBox(true, this, event)" onclick="Message({action: 'send'})" role="button"></button>
+                    <button class="recorder_button" role="button" onfocus="ChangeTextBox(true, this, event)"></button>
+                    <div class="recorder_container">
+                    	<div class="delete_and_time">
+                    		<div class="recorder_delete"></div>
+	                		<div class="recorder_time">0:00</div>
+						</div>
+	                	<div class="recorder_text">Slide to cancel</div>
+					</div>
                 </div>
             </section>
         </article>
@@ -753,10 +772,13 @@
         
         <script>
         	'use strict' 
-            const HideInstallPrompt = () => {
+            const HideInstallPrompt = (event) => {
                 $(".install").classList.remove("show_install_prompt");
                 $(".install").classList.add("hide_install_prompt");
+                if(typeof event == "object") 
+                	setTimeout(Permissions.check, 500);
             } 
+            
             const InstallApp = async () => {
                 HideInstallPrompt();
                 deferredEvent.prompt();
@@ -768,16 +790,78 @@
                     Notify("Installation canceled");
                 } 
                 deferredEvent = null;
+                Permissions.check();
             } 
-            function $ (elem) {
+            class Permissions {
+            	static permissions = {microphone: false, clipboard: false};
+	            static check = async (caller, name = "microphone") => {
+					let state;
+					try {
+	            		state = await navigator.permissions.query({name});
+						state = state.state;
+					} catch (error) {
+						if(caller == "recorder" || caller == "bubble")
+							Notify("An error occurred while trying to get permission to access your device's ." + name);
+						return;
+					}
+					
+	            	if(state == "prompt") {
+						if(name == "microphone") 
+	            		Notify({action: "confirm", 
+								header: "App Permissions", 
+								message: "Checkers provides in-app chat capabilities in two players online mode. This feature requires permission to use of your device microphone.", 
+								type: "NOT NOW/ALLOW", 
+								onResponse: Permissions.response});
+						else if(name == "clipboard-write") 
+							this.permissions.clipboard = true;
+	            	} 
+					else if(state == "denied" && (caller == "recorder" || caller == "bubble")) {
+						Notify({action: "alert", 
+								header: "App Permissions", 
+								message: "You have blocked this app from using your device microphone. Follow the following option to unblock:<ol>" + 
+										 "<li>Under browser menu, find settings option and click it.</li>" + 
+										 "<li>Under settings, find site settings and click it. Depending with your browser, this option might be directly under Settings or under another option in the Settings. For instance, Opera users it is under privacy option in Settings window. Which ever the case, it is named <b>'Site Settings'</b></li>" + 
+										 "<li>Under Site Settings, find " + name.split("-")[0] + " option and click it. You will be shown a list of sites that are allowed and not allowed.</li>" + 
+										 "<li>Under Blocked or Not allowed option, find <em><b>https://mark-code789.github.io/Checkers</b></em> and click to unblock.</li></ol>"});
+					} 
+					else {
+						if(name == "microphone") 
+						this.permissions.microphone = true;
+						else if(name == "clipboard-write") 
+						this.permissions.clipboard = true;
+					} 
+	            } 
+				static response = async (res) => {
+            		if(res == "ALLOW") {
+						try {
+							let stream = await navigator.mediaDevices.getUserMedia({audio: true});
+							for(let track of stream.getTracks()) {
+								track.stop();
+							} 
+							Permissions.permissions.microphone = true;
+							ElemHint.setHint($(".recorder_button"), "Hold to record. Release to send. Slide left to cancel.");
+						} catch (error) {
+							if(error.name == "NotAllowedError") 
+								Notify("Permission denied.");
+							else {
+								Notify(error.name + " occurred<br>Message: " + error.message);
+							} 
+						}
+					} 
+					
+					Cancel();
+            	} 
+			} 
+            
+            window.$ = (elem) => {
                 return document.querySelector(elem);
             } 
 
-            function $$ (elem) {
+            window.$$ = (elem) => {
                 return document.querySelectorAll(elem);
             }
             
-            function $$$ (type, data = []) {
+            window.$$$ = (type, data = []) => {
             	if(!Array.isArray(data)) {
             		throw new Error("Data object passed is not an array. At $$$ line: 658");
             	} 
@@ -799,7 +883,6 @@
             } 
 			
             let deferredEvent;
-            let appVersion = "20.13.145.451";
             let newSW;
             let workers = [];
             
@@ -863,7 +946,8 @@
                 				await worker.postMessage({type: "init-worker", table: ZobristHash.table});
             				} 
 							Publish.sleep = new Sleep();
-            				LoadResources(srcs[0]);
+            				LoadResources();
+            				Permissions.check(undefined, "clipboard-write");
 						} 
 						else {
 							alert("CRITICAL FAILURE\n\nYour browser lacks critical component for better performance of this game. Please, we recommend you update it or try another one preferably Chrome.");
@@ -875,7 +959,7 @@
             const InvokeSWUpdateFlow = async () => {
 				Notify({action: "confirm", 
 						header: "APP UPDATE", 
-						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul><br><label style='display: block; text-align: left;'>Do you want to update?</label>", 
+						message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span>" + versionDescription + "<label style='display: block; text-align: left;'>Do you want to update?</label>", 
 						type: "LATER/UPDATE",
 						onResponse: UpdateResponse});
 				async function UpdateResponse (refresh) {
@@ -888,6 +972,8 @@
 						Notify("App update declined.");
 						if(deferredEvent) 
 							$(".install").classList.add("show_install_prompt");
+						else 
+							Permissions.check();
 					} 
 				} 
 			} 

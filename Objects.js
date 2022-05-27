@@ -1,6 +1,9 @@
 'use strict' 
 
-// Version: 20
+// Version: 21
+
+const appVersion = "21.14.151.458";
+const versionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 
 /*Game object to store game details*/
 const Game = {

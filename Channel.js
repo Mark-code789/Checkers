@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 40
+// Version: 42
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -15,13 +15,13 @@ const CheckHref = async () => {
         
         Notify({action: "alert", 
     			header: "Message", 
-    			message: `Please fill in your name in the field named 'Player Details' and hit submit to join.`});
+    			message: `Please fill in your name in the field named 'PLAYER DETAILS' and hit <kbd>SUBMIT</kbd> button at the bottom right corner of this window to join ${name} channel as shown below. Your opponent will refer to you using the name you will provide.<img src='./src/images/player image.png'>`});
     	$("#online .playerA_name").focus();
 	} 
 	history.pushState(null, "", "?window1");
 } 
 
-const Lobby = {isConnected: false, intentionalExit: false, isHost: false, unreadMessages: [], timeoutInterval: null, offlineInterval: null};
+const Lobby = {isConnected: false, isHost: false, unreadMessages: [], offlineTimeout: null};
 
 const ChannelFunction = async () => {
 	if(!navigator.onLine) {
@@ -48,6 +48,7 @@ const ChannelFunction = async () => {
         try { 
             if(!Lobby.isConnected) { 
             	$$("#online .player_name")[0].innerHTML = name;
+            	$$("#online .player_name")[0].setAttribute("value", name);
             	if(storage) {
             		if(storage.getItem("Checkers - uuid")) {
                 		Lobby.UUID = storage.getItem("Checkers - uuid");
@@ -65,10 +66,10 @@ const ChannelFunction = async () => {
                 Lobby.LOBBY = "Lobby"+channel;
                 Lobby.PUBNUB = new PubNub({
                     uuid: Lobby.UUID,
-                    publish_key: 'pub-c-61e4df1b-f04b-47eb-9528-c754ba086839',
-                    subscribe_key: 'sub-c-67619f96-6b20-11ec-a4f8-fa616d2d2ecf',
+                    publish_key: 'pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71',
+                    subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
                     ssl: true, 
-                    presenceTimeout: 120, 
+                    presenceTimeout: 60, 
                     restore: true
                 });
                 
@@ -79,6 +80,7 @@ const ChannelFunction = async () => {
 	                    		channels: [Lobby.CHANNEL] 
 	                    	}, function (status, response2) {
 	                        	if(response2.totalOccupancy < 2) {
+									Lobby.isHost = response2.totalOccupancy == 0;
 									Lobby.PUBNUB.removeListener(Lobby.LOBBY_LISTENER);
 									Lobby.PUBNUB.unsubscribe({
 										channels: [Lobby.LOBBY] 
@@ -122,36 +124,37 @@ const ChannelFunction = async () => {
                 Notify("Connecting...");
                 
                 Lobby.LISTENER = {
-                    presence: function(response) { 
+                    presence: async function(response) { 
 						if(response.channel == Lobby.CHANNEL) {
-	                        if(response.action === 'join' && response.uuid == Lobby.UUID) {
-								Lobby.isTyping = false;
-								Lobby.PUBNUB.setState({
-				                	state: {"isTyping": false}, 
-				                	channels: [Lobby.CHANNEL]
-				                }, (status, res) => {});
-	                            if(response.occupancy === 1 && !Lobby.isConnected) {
-	                                Lobby.isHost = true;
-	                                Notify("You are the host in this channel.");
-	                            } 
-	                            else if(response.occupancy === 2 && !Lobby.isConnected) {
-	                                if(!Lobby.isHost) {
-	                                    Notify("You are a guest in this channel.");
-	                                } 
-	                            } 
+	                        if(response.action === 'join') {
+								if(response.uuid == Lobby.UUID && response.occupancy <= 2) {
+									/*let playerName = $$("#online .player_name")[1].getAttribute("value");
+									if(playerName == "N/A") {
+										Publish.send({
+		                                        channel: Lobby.CHANNEL, 
+		                                        message: {
+		                                                 title: "OpponentName", 
+		                                                 content: $$("#online .player_name")[0].textContent}
+		                                        });
+									} */
+								} 
+								else if(response.UUID != Lobby.UUID && response.occupancy <= 2) {
+									let chatIcon = $("#chat-icon");
+									if(GetValue(chatIcon, "display") == "none") {
+										chatIcon.style.display = "block";
+									} 
+								} 
+								else if(response.occupancy > 2) {
+									Unsubscribed();
+									Notify(`${Lobby.CHANNEL} channel is full please try another one`);
+								} 
 	                        } 
 	                        else if(response.action === 'timeout') {
 								if(response.uuid == Lobby.UUID) {
-	                            	// Nothing for now 
+									Unsubscribe(false);
 								} 
-								else {
-									let n = 1;
-									Lobby.timeoutInterval = setInterval(() => {
-										if(n < 3)
-											n++;
-										else
-											LeftChannel({totalOccupancy: 1});
-									}, 60000);
+								else { 
+									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 120_000);
 									let opp = $$("#online .player_name")[1].innerHTML;
 									Notify(`${opp} went offline.`);
 									let status = $$(".chat_header p")[1];
@@ -161,149 +164,79 @@ const ChannelFunction = async () => {
 						        	opponentStatus.innerHTML = "OFFLINE";
 						        	opponentStatus.classList.remove("black_ui", "default");
 									opponentStatus.classList.add("orange_ui");
+									console.log("opponent timeout event");
 								} 
 	                        } 
 							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
-								if(!Lobby.intentionalExit) {
-									let opp = $$("#online .player_name")[1].innerHTML;
-									Notify(`${opp} went offline.`);
-									let status = $$(".chat_header p")[1];
-									status.innerHTML = "offline";
-									let opponentStatus = $("#player-2-status");
-									opponentStatus.setAttribute("value", "offline");
-						        	opponentStatus.innerHTML = "OFFLINE";
-						        	opponentStatus.classList.remove("black_ui", "default");
-									opponentStatus.classList.add("orange_ui");
-								} 
+								LeftChannel({totalOccupancy: 1});
 							} 
-							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { try {
-								if(response.state.isTyping) {
-									$("#dragItem").innerHTML = "";
-									if(GetValue($("#chat-icon"), "display") === "block") {
-										for(let dot of $$(".typing")) {
-											void dot.offsetWidth;
-											dot.style.display = "inline-block";
-											dot.classList.add("bouncing");
-										} 
-									} 
-									else {
-										let status = $$(".chat_header p")[1];
-										status.innerHTML = "typing...";
-									} 
-								} 
-								else if(!response.state.isTyping) {
-									$("#dragItem").innerHTML = "CHAT";
-									if(GetValue($("#chat-icon"), "display") === "block") {
-										for(let dot of $$(".typing")) {
-											dot.classList.remove("bouncing");
-											dot.style.display = "none";
-											let opponentStatus = $("#player-2-status");
-											opponentStatus.setAttribute("value", "online");
-							        		opponentStatus.innerHTML = "ONLINE";
-							        		opponentStatus.classList.remove("black_ui", "orange_ui");
-											opponentStatus.classList.add("default");
-										} 
-									} 
-									else {
-										let status = $$(".chat_header p")[1];
-										status.innerHTML = "online";
-									} 
-								}
+							else if(response.action === "leave" && response.uuid == Lobby.UUID) {
+								console.log("Your own leave event");
+							} 
+							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { 
+								let action = response.state.action;
 								
-								} catch(error) {alert(error)} 
+								if(response.state.value == true) {
+									let state = $(".state_container");
+									state.classList.add(action);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = `${action}...`;
+								} 
+								else {
+									let state = $(".state_container");
+									state.classList.remove(action);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
+								} 
 							} 
                         } 
                     }, 
-                    status: function(event) {
+                    status: async function(event) {
                         if(!Lobby.isConnected && event.category === 'PNConnectedCategory') {
-                        	console.log("Connected");
-                            Lobby.timeoutID = setTimeout( () => {
-                                let connectivityStatus = $("#connectivity");
-                                connectivityStatus.classList.remove("orange_ui");
-                                connectivityStatus.classList.add("default");
-                                connectivityStatus.innerHTML = "CONNECTED";
-                                $("#online .lobby_name").innerHTML = Lobby.CHANNEL + (Lobby.isHost? " (Host)": " (Guest)");
-                                Lobby.isConnected = true;
-                                if(Lobby.isHost) {
-                                    Notify(`Connected to ${Lobby.CHANNEL} channel successfully. Waiting for opponent...`);
-                                } 
-                                else {
-                                    Notify(`Connected to ${Lobby.CHANNEL} channel successfully.`);
-                                    Publish.send({
-                                            channel: Lobby.CHANNEL, 
-                                            message: {
-                                                     title: "OpponentName", 
-                                                     content: $$("#online .player_name")[0].innerHTML}
-                                            });
-                                } 
-                            }, 5000);
+                        	let connectivityStatus = $("#connectivity");
+                            connectivityStatus.classList.remove("orange_ui");
+                            connectivityStatus.classList.add("default");
+                            connectivityStatus.textContent = "CONNECTED";
+                            Lobby.isConnected = true;
+                            
+							$("#online .lobby_name").textContent = Lobby.CHANNEL + (Lobby.isHost? " (Host)": " (Guest)");
+							
+                            if(Lobby.isHost) {
+                                Notify(`Connected to ${Lobby.CHANNEL} channel successfully as the host member. Waiting for opponent...`);
+                            } 
+                            else {
+                                Notify(`Connected to ${Lobby.CHANNEL} channel successfully as the guest member.`);
+                                Publish.send({
+                                        channel: Lobby.CHANNEL, 
+                                        message: {
+                                                 title: "OpponentName", 
+                                                 content: $$("#online .player_name")[0].innerHTML}
+                                        });
+                            } 
                         } 
                         else if(event.category === 'PNReconnectedCategory') {
                         	Notify(`Reconnected back to ${Lobby.CHANNEL} channel successfully.`);
+                        	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         } 
                         else if(event.category === 'PNNetworkUpCategory') {
-                        	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         	Lobby.PUBNUB.reconnect();
-                        	clearInterval(Lobby.offlineInterval);
                             Notify("You are back online.");
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
                             Notify("Having trouble to connect, please check your device internet connection.");
                         } 
                         else if(event.category === 'PNNetworkDownCategory') {
-                            Notify("You are offline. If this persists in 3 minutes, you will be unsubscribed from " + Lobby.CHANNEL + " channel.");
-                            if(!Lobby.offlineInterval) {
-                        		let n = 1;
-                        		Lobby.offlineInterval = setInterval(() => {
-                        			if(n < 3) 
-                        				n++;
-                        			else
-                        				Unsubscribe();
-                        		}, 60000);
-                        	} 
+                            Notify("You are offline.");
                         }
                         else if(event.category === 'PNTimeoutCategory') {
-                        	Notify("Connection Timeout. If this persists in 3 minutes, you will be unsubscribed from " + Lobby.CHANNEL + " channel.");
-                        	if(!Lobby.offlineInterval) {
-                        		let n = 1;
-                        		Lobby.offlineInterval = setInterval(() => {
-                        			if(n < 3)
-                        				n++;
-                        			else
-                        				Unsubscribe();
-                        		}, 60000);
-                        	} 
+							//Unsubscribe(false);
                         } 
                     }, 
                     message: function(msg) {
                     	msg.message = JSON.parse(msg.message);
-                    	if($("#player-2-status").getAttribute("value") == "offline" && msg.message.title != "Reconnected") {
-                    		clearInterval(Lobby.timeoutInterval);
-							Notify(`${playerB.name} is back online.`);
-                            let status = $$(".chat_header p")[1];
-							status.innerHTML = "online";
-							let opponentStatus = $("#player-2-status");
-							opponentStatus.setAttribute("value", "online");
-						    opponentStatus.innerHTML = "ONLINE";
-							opponentStatus.setAttribute("value", "online");
-						    opponentStatus.classList.remove("orange_ui", "black_ui");
-							opponentStatus.classList.add("default");
-						} 
+                    	clearTimeout(Lobby.offlineTimeout);
                         if(msg.channel === Lobby.CHANNEL) {
-                            if(msg.message.title === 'ConfirmLeave') {
-                                Publish.send({
-                                        channel: Lobby.CHANNEL, 
-                                        message: {
-                                                 title: "StillPresent", 
-                                                 content: ""}
-                                        });
-                            } 
-                            else if(msg.message.title === "IntentionalExit") {
-                            	Lobby.intentionalExit = true;
-                            	LeftChannel({totalOccupancy: 1});
-                            } 
-                            else if(msg.message.title === 'Reconnected') {
-                            	clearInterval(Lobby.timeoutInterval);
+                            if(msg.message.title === 'Reconnected') {
                             	Notify(`${playerB.name} is back online.`);
                                 let status = $$(".chat_header p")[1];
 								status.innerHTML = "online";
@@ -320,50 +253,65 @@ const ChannelFunction = async () => {
                         		playerB.name = name;
                         		Notify(`Your opponent changed name to ${name}`);
                         	} 
-                            else if(msg.message.title === 'OpponentName') {
+                            else if(msg.message.title === 'OpponentName') { 
                                 name = msg.message.content;
-                                $$("#online .player_name")[1].innerHTML = name;
+                                $$("#online .player_name")[1].textContent = name;
                                 let opponentStatus = $("#player-2-status");
                                 opponentStatus.setAttribute("value", "online");
                                 opponentStatus.innerHTML = "ONLINE";
                                 opponentStatus.classList.remove("orange_ui", "black_ui");
 								opponentStatus.classList.add("default");
                                 $("#chat-icon").style.display = 'block';
+                                setTimeout(() => {ElemHint.setHint($("#chat-icon"), "Drag to move. Click to open chat.");}, 1000);
                                 $$(".chat_header h2")[1].innerHTML = name;
+                                $(".bubbles_container").innerHTML = "<div class='anchor'></div>";
+                                
                                 playerB.name = name;
-                                Lobby.intentionalExit = false;
                                 Notify(`Your opponent is ${name}`);
+                                
                                 if(Lobby.isHost) {
-                                    Publish.send({
-                                             channel: Lobby.CHANNEL, 
-                                             message: {
-                                                      title: "OpponentName", 
-                                                      content: $$("#online .player_name")[0].innerHTML}
-                                             });
-                                } 
-                            } 
-                            else if(msg.message.title === "Delivered") { 
-								try {
-                            		let tick = $("#" + msg.message.content);
-                            		tick.style.background = "#C0C0C0";
-                            	} catch (error) {alert(error)} 
-                            } 
-                            else if(msg.message.title === "Read") {
-                            	try {
-                            		let tick = $("#" + msg.message.content);
-                            		tick.style.background = "#009819";
-                            	} catch (error) {alert(error)}
+	                                Publish.send({
+	                                         channel: Lobby.CHANNEL, 
+	                                         message: {
+	                                                  title: "OpponentName", 
+	                                                  content: $$("#online .player_name")[0].innerHTML}
+	                                         });
+								}
                             } 
                             else if(msg.message.title === 'ChatMessage') { 
-                            	Publish.send({channel: Lobby.CHANNEL, message: {title: "Delivered", content: msg.message.content.id}});
+                            	Lobby.PUBNUB.addMessageAction({
+									channel: Lobby.CHANNEL, 
+									messageTimetoken: msg.timetoken, 
+									action: {
+										type: "delivered", 
+										value: msg.message.content.id
+									} 
+								});
+								let state = $(".state_container");
+									state.classList.remove("recording", "typing");
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
                                 let badge = $(".badge");
                                 if(GetValue($("#chat-icon"), "display") === "block") {
-                                    badge.innerHTML = parseInt(badge.innerHTML)+1;
+                                    badge.textContent = parseInt(badge.innerHTML)+1;
                                     badge.style.display = "block";
-                                    Notify(`You have ${parseInt(badge.innerHTML) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                                    Notify(`You have ${parseInt(badge.textContent) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
                                     AudioPlayer.play("notification", 0.8);
                                 } 
-                                Message({action: 'receive', count: parseInt(badge.innerHTML), text: msg.message.content.text, id: msg.message.content.id});
+                                Message({action: 'receive', count: parseInt(badge.innerHTML), text: msg.message.content.text, id: msg.message.content.id, timetoken: msg.timetoken});
+                            } 
+                            else if(msg.message.title === "deleted") {
+                            	let ids = msg.message.ids.split("-");
+                            	let selected = [];
+                            	for(let id of ids) {
+                            		let bubble = $("#left-" + id);
+                            		if(bubble) {
+                            			selected.push(bubble);
+                            		} 
+                            	} 
+                            	
+                            	Bubble.selectedLeft = selected;
+                            	Bubble.deleteBubble("MYSELF", true);
                             } 
                             else if(msg.message.title === "RequestPlay") {
                             	Request(msg.message);
@@ -398,7 +346,50 @@ const ChannelFunction = async () => {
                                 back();
                             } 
                         } 
-                    } 
+                    }, 
+                    messageAction: function(action) { 
+                    	if(action.publisher != Lobby.UUID) {
+	                    	let type = action.data.type;
+	                    	let id = action.data.value;
+	                    	if(type == "delivered") {
+	                    		let tick = $("#" + id);
+	                            tick.classList.add("grey");
+	                    	} 
+	                    	else if(type == "read") {
+								if(/many-\d+$/gi.test(id)) {
+									let length = parseInt(id.split("-")[1]);
+									let ticks = Array.from($$(".tick.grey")).slice(-length);
+									for(let tick of ticks) {
+										tick.classList.add("blue");
+									} 
+								} 
+								else {
+	                    			let tick = $("#" + id);
+	                            	tick.classList.add("blue");
+								} 
+	                    	} 
+						}
+                    }, 
+                    file: function(event) {
+                    	let badge = $(".badge");
+                        if(GetValue($("#chat-icon"), "display") === "block") {
+                            badge.innerHTML = parseInt(badge.innerHTML)+1;
+                            badge.style.display = "block";
+                            Notify(`You have ${parseInt(badge.innerHTML) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                            AudioPlayer.play("notification", 0.8);
+                        } 
+                        
+						let player = new VoiceNotePlayer();
+						player.receive({id: event.file.id, name: event.file.name, channel: event.channel, message: {timetoken: event.timetoken, id: event.message.id, count: parseInt(badge.innerHTML)}});
+						Lobby.PUBNUB.addMessageAction({
+							channel: Lobby.CHANNEL, 
+							messageTimetoken: event.timetoken, 
+							action: {
+								type: "delivered", 
+								value: event.message.id
+							} 
+						});
+					} 
                 } 
                 /* End of listener*/
             } 
@@ -427,37 +418,53 @@ const ChannelFunction = async () => {
     } 
 }
 
-const Unsubscribe = async () => {
+const Unsubscribe = async (isClick = true) => {
     if(Lobby.isConnected) {
-    	Notify({action: "confirm", 
-    			header: "Do you really want to leave " + Lobby.CHANNEL + " channel?", 
-    			message: "Without a channel you cannot play an online match.", 
-    			type: "NOT NOW/LEAVE ANYWAY", 
-    			onResponse: UnsubscribeResponse});
+    	if(isClick) {
+	    	Notify({action: "confirm", 
+	    			header: "Do you really want to leave " + Lobby.CHANNEL + " channel?", 
+	    			message: "Without a channel you cannot play an online match.", 
+	    			type: "NOT NOW/LEAVE ANYWAY", 
+	    			onResponse: UnsubscribeResponse});
+		} 
+		else {
+			Notify({action: "confirm", 
+	    			header: "Connection Timeout?", 
+	    			message: `You have been dormant in a while, we couldn't establish a connection to ${Lobby.CHANNEL} channel. If this persist for 3 minutes without any action you will be unsubscribed from the channel.`, 
+	    			type: "AM ACTIVE/LEAVE ANYWAY", 
+	    			onResponse: UnsubscribeResponse});
+			
+			Lobby.offlineTimeout = setTimeout(() => {
+				UnsubscribeResponse("LEAVE ANYWAY");
+			}, 180_000); /* 3 minutes */
+		} 
     } 
     else {
         Notify("You have not joined any channel.");
     } 
     
-    async function UnsubscribeResponse (choice) { try {
+    async function UnsubscribeResponse (choice) { 
     	if(choice == "LEAVE ANYWAY") {
 	    	Notify({action: "alert_special", 
 	    			header: "Please wait", 
 	    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
-	    	Lobby.sleep = new Sleep();
-	    	Publish.send({channel: Lobby.CHANNEL, message: {title: "IntentionalExit", content: ""}});
-	    	await Lobby.sleep.start();
+			
+	    	//Lobby.sleep = new Sleep();
+	    	//Publish.send({channel: Lobby.CHANNEL, message: {title: "IntentionalExit", content: ""}});
+	    	//await Lobby.sleep.start();
+			
+			Lobby.PUBNUB.unsubscribe({
+				channels: [Lobby.CHANNEL]
+			});
+	
+			await new Sleep().wait(1);
+			//Lobby.PUBNUB.unsubscribeAll();
 	    	Cancel();
-	        Lobby.PUBNUB.unsubscribe({
-	            channels: [Lobby.CHANNEL]
-	        });
 	        
 	        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
 	        Notify(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
 	        
-	        clearTimeout(Lobby.timeoutID);
-	        clearInterval(Lobby.offlineInterval);
-	        clearInterval(Lobby.timeoutInterval);
+	        clearTimeout(Lobby.offlineTimeout);
 	        let connectivityStatus = $("#connectivity");
 	        connectivityStatus.classList.remove("default");
 	        connectivityStatus.classList.add("orange_ui");
@@ -473,16 +480,14 @@ const Unsubscribe = async () => {
 			$("#online .player_name:last-of-type").innerHTML = "N/A";
 	        Lobby.CHANNEL = null;
 	        Lobby.isConnected = false;
-	        Lobby.intentionalExit = false;
 	        Lobby.PUBNUB = null;
 	        Lobby.isHost = false;
-	        Lobby.offlineInterval = null;
-	        Lobby.timeoutInterval = null;
+	        Lobby.offlineTimeout = null;
 	        $("#chat-icon").style.display = 'none';
 		} 
-		else if(choice == "NOT NOW") {
+		else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
 			Cancel();
-		} } catch (error) {console.log(error)}
+		} 
     } 
 } 
 
@@ -512,7 +517,6 @@ class OpponentMove {
 class Publish { 
 	static messages = [];
 	static retryCount = 0;
-	static sleep = null;
 	static send = async (prop) => {
 	    const MetaConfig = {
 	        "uuid": Lobby.UUID
@@ -536,16 +540,8 @@ class Publish {
         let self = this;
 		Lobby.PUBNUB.publish(config, async (status, response) => {
             if(!status.error) {
-                if(JSON.parse(config.message).title === "IntentionalExit") {
-					self.retryCount = 0;
-        			self.messages = [];
-        			Lobby.sleep.end();
-				} 
-				else {
-					await self.sleep.wait(0.1);
-					self.messages.shift();
-        			self.retryCount = 0;
-				} 
+				self.messages.shift();
+    			self.retryCount = 0;
             } 
             if(status.error) {
 				if(self.retryCount <= 2) // retry twice
@@ -553,13 +549,9 @@ class Publish {
 				else {
 					self.retryCount = 0;
 		        	self.messages = [];
-					//alert(status.message);
-					if(JSON.parse(config.message).title === "IntentionalExit")
-	        			Lobby.sleep.end(); 
-					else
-						Notify({action: "alert", 
-		                    header: "Network Error", 
-		                    message: "We couldn't communicate with the opponent. Please try again.<br>Details:<br>" + status.message + "<br>" + status.category});
+					Notify({action: "alert", 
+	                    header: "Network Error", 
+	                    message: "We couldn't communicate with the opponent. Please try again.<br>Details:<br>" + status.message + "<br>" + status.category});
 				} 
             } 
 			if(self.messages.length > 0) 
@@ -646,16 +638,408 @@ const Share = (elem) => {
         Notify("You have not joined any channel.");
 } 
 
-const Message = async (prop) => { try {
+class VoiceNoteRecorder {
+	stream;
+	mediaRecorder;
+	audioChunks;
+	timer;
+	static recorder = null;
+	static requestAbortion = false;
+	static initiating = false;
+	static aborting = false;
+	static initializationError = false;
+	init = async () => {
+		try {
+			this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+		} catch (error) {
+			return error.name;
+		} 
+    	this.mediaRecorder = new MediaRecorder(this.stream);
+    	this.audioChunks = [];
+    	this.mediaRecorder.addEventListener("dataavailable", (event) => {
+			this.audioChunks.push(event.data);
+		});
+		
+		return "success";
+	} 
+	start = () => {
+		this.mediaRecorder.start();
+		let m = 0;
+		let s = 0;
+		let recorderTime = $(".recorder_time");
+		recorderTime.textContent = "0:00";
+		clearInterval(this.timer);
+		this.timer = setInterval(() => {
+			s++;
+			if(s == 60) {
+				m++;
+				s = 0;
+			} 
+			recorderTime.textContent = `${m}:${String(s).padStart(2, '0')}`;
+		}, 1000);
+	} 
+	stop = async (cancelled = false) => {
+		let data = null;
+		let sleep = new Sleep();
+		let self = this;
+		if(this.mediaRecorder) {
+			this.mediaRecorder.addEventListener("stop", () => {
+				if(!cancelled && this.audioChunks.length > 0) {
+					const audioBlob = new Blob(this.audioChunks);
+					const audioURL = URL.createObjectURL(audioBlob);
+					const audio = new Audio(audioURL);
+					const mimeType = self.mediaRecorder.mimeType.split(";")[0];
+					data = {audioBlob, mimeType, audio};
+				} 
+				else {
+					this.audioChunks = [];
+					data = null;
+				} 
+				clearInterval(this.timer);
+				$(".recorder_time").textContent = "0:00";
+				sleep.end();
+			});
+			
+			if(this.mediaRecorder.state == "recording") {
+				this.mediaRecorder.stop();
+				await sleep.start();
+			} 
+			this.stream.getTracks()[0].stop();
+		} 
+		else {
+			data = "no media";
+		} 
+		
+		return data;
+	} 
+	static record = async (elem) => {
+		if(!Permissions.permissions.microphone) {
+			Permissions.check("recorder");
+			return false;
+		} 
+		if(this.initiating || this.aborting) return false; /* Discard the request */
+		this.requestAbortion = false; /* Resetting call to abort */
+		this.initiating = true; /* Process started */
+		this.initializationError = false;
+		
+		/* Stopping all initial opened streams*/
+		try {
+			let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			for(let track of stream.getTracks()) {
+				track.stop();
+			} 
+		} catch (error) {}
+		
+		this.recorder = new VoiceNoteRecorder();
+		let res = await this.recorder.init();
+		
+		if(res != "success") {
+			Notify(res + " occurred. We couldn't proceed.");
+			navigator.vibrate([100,50,100]);
+			this.recorder = null;
+			this.initializationError = true;
+			this.initiating = false;
+			return false;
+		} 
+		let recorderCont = $(".recorder_container");
+		recorderCont.style.transitionDuration = "0.3s";
+		elem.style.transitionDuration = "0.3s";
+		elem.style.height = "70px";
+		elem.style.width = "70px";
+		elem.style.bottom = "-2.5px";
+		$(".field_container").style.opacity = 0;
+		recorderCont.style.display = "flex";
+		recorderCont.style.width = "calc(100% - 60px)";
+		AudioPlayer.play("startRecording", 1);
+		navigator.vibrate(50);
+		await new Sleep().wait(0.5); /* waiting for recording audio to finish playing*/
+		res = true;
+		if(this.requestAbortion) {
+			if(this.recorder && this.recorder.stream) 
+				this.recorder.stream.getTracks()[0].stop();
+			this.recorder = null;
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			recorderCont.style.width = "calc(100% - 70px)";
+			
+			await new Sleep().wait(0.3); /* wait for animation to finish */
+			$(".field_container").style.opacity = 1;
+			recorderCont.style.display = "none";
+			res = false;
+			ElemHint.setHint(elem, "Hold to record. Release to send. Slide left to cancel.");
+		} 
+		else {
+			if(Lobby.isConnected) {
+				Lobby.PUBNUB.setState({
+					state: {action: "recording", value: true}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+			this.recorder.start();
+		} 
+		this.initiating = false;
+		elem.style.transitionDuration = "0s";
+		recorderCont.style.transitionDuration = "0s";
+		return res;
+	} 
+	static stopRecording = async (elem, cancelled = false) => {
+		if(!Permissions.permissions.microphone) {
+			return;
+		} 
+		try {
+			this.requestAbortion = true;
+			if(this.initiating || this.initializationError || this.aborting) return; /* Discard the request */
+			this.aborting = true; /* Aborting process started */
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			await new Sleep().wait(0.3); /* Wait for animation to finish */
+			let res = await this.recorder.stop(cancelled);
+			if(cancelled) {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				setTimeout(() => {$(".recorder_delete").classList.add("delete_recording")}, 400);
+				setTimeout(() => {AudioPlayer.play("throwRecording", 1)}, 800);
+				$(".recorder_time").classList.add("delete_recording");
+				AudioPlayer.play("deleteRecording", 1);
+				navigator.vibrate(50);
+				
+				await new Sleep().wait(2.1);
+				$(".recorder_delete").classList.remove("delete_recording");
+				$(".recorder_time").classList.remove("delete_recording");
+				Notify("deleted successfully");
+			} 
+			else if(typeof res == "object") {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				let player = new VoiceNotePlayer();
+				player.send(res);
+				AudioPlayer.play("stopRecording", 1);
+				navigator.vibrate(50);
+			} 
+			
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} catch (error) {
+			/* Stopping all initial opened streams*/
+			try {
+				let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+				for(let track of stream.getTracks()) {
+					track.stop();
+				} 
+			} catch (error) {}
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			$(".recorder_delete").classList.remove("delete_recording");
+			$(".recorder_time").classList.remove("delete_recording");
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} 
+	} 
+} 
+
+class VoiceNotePlayer {
+	panel;
+	btn;
+	range;
+	time;
+	timer;
+	audio;
+	playing = false;
+	initialPlay = false;
+	static currentPlayer;
+	constructor () {
+		this.panel = $$$("div", ["class", "audio_panel"]);
+		this.btn = $$$("button", ["class", "audio_play audio_download"]);
+		this.range = $$$("input", ["type", "range", "max", "100", "value", "0", "class", "audio_slider"]);
+		this.time = $$$("label", ["class", "audio_current_time", "textContent", "0:00"]);
+		this.panel.appendChild(this.btn);
+		this.panel.appendChild(this.range);
+		this.panel.appendChild(this.time);
+		
+		this.btn.addEventListener("click", this.play, false);
+		this.btn.addEventListener("focus", (event) => ChangeTextBox(false, this.btn, event), false);
+		this.range.addEventListener("change", this.skip, false);
+		this.range.addEventListener("input", this.skipInput, false);
+		this.range.addEventListener("focus", (event) => ChangeTextBox(false, this.range, event), false);
+	} 
+	send = async (data) => {
+		this.audio = data.audio;
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.play();
+				this.audio.playbackRate = 10;
+				return;
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+		
+		const msgID = await Message({action: 'send', text: this.panel}, false);
+		const buffer = await data.audioBlob.arrayBuffer();
+		const mimeType = data.mimeType;
+		if(Lobby.isConnected) {
+			const MetaConfig = {
+		        "uuid": Lobby.UUID
+		    } 
+			const FileConfig = {
+				data: buffer, 
+				name: "CH-" + Date.now() + "." + mimeType.split("/")[1],
+				mimeType
+			} 
+			const MessageConfig = {
+				id: msgID
+			} 
+			Lobby.PUBNUB.sendFile({
+				channel: Lobby.CHANNEL, 
+				message: MessageConfig, 
+				file: FileConfig, 
+				meta: MetaConfig
+			});
+		} 
+	} 
+	receive = async (data) => {
+		Message({action: 'receive', text: this.panel, count: data.message.count, id: data.message.id, timetoken: data.message.timetoken});
+		let DownloadConfig = {
+			channel: data.channel,
+			id: data.id,
+			name: data.name
+		} 
+		let file = await Lobby.PUBNUB.downloadFile(DownloadConfig);
+		let blob = await file.toFile();
+		let url = URL.createObjectURL(blob);
+		this.audio = new Audio(url);
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+			if(this.initialPlay)
+				this.btn.click();
+			this.initialPlay = false;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.btn.classList.remove("audio_download");
+				this.range.style.pointerEvents = "none";
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+	} 
+	play = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		if(this.playing) {
+			this.playing = false;
+			this.audio.pause();
+			clearInterval(this.timer);
+			event.target.classList.remove("audio_pause");
+			VoiceNotePlayer.currentPlayer = null;
+		} 
+		else {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.playbackRate = 10;
+				this.btn.classList.add("audio_download");
+				this.panel.style.pointerEvents = "none";
+				this.initialPlay = true;
+				this.audio.play();
+				return;
+			} 
+			if(VoiceNotePlayer.currentPlayer) {
+				VoiceNotePlayer.currentPlayer.btn.click();
+			} 
+			VoiceNotePlayer.currentPlayer = this;
+			this.playing = true;
+			this.audio.play();
+			this.timer = setInterval(() => {
+				let m = Math.floor(this.audio.currentTime / 60);
+				let s = Math.floor(this.audio.currentTime % 60);
+				this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+				let pac = Math.floor(this.audio.currentTime / this.audio.duration * 100);
+				this.range.style.backgroundSize = `${pac}%`;
+				this.range.value = `${pac}`;
+			}, 1);
+			event.target.classList.add("audio_pause");
+		} 
+	} 
+	skip = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		let point = event.target.value;
+		let time = point / 100 * this.audio.duration;
+		this.audio.currentTime = time;
+		if(this.playing) {
+			this.playing = false;
+			this.btn.click();
+		} 
+	} 
+	skipInput = async (event) => {
+		if(!this.audio.paused) {
+			this.audio.pause();
+			clearInterval(this.timer);
+			this.btn.classList.remove("audio_pause");
+		} 
+		event.target.style.backgroundSize = `${event.target.value}%`;
+		let time = event.target.value / 100 * this.audio.duration;
+		let m = Math.floor(time / 60);
+		let s = Math.floor(time % 60);
+		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+	} 
+} 
+
+const Message = async (prop, publish = true) => { try {
     let container = $(".bubbles_container");
     let anchor = $(".anchor");
     let bubble = $$$("div");
-    let pText = $$$("p");
-    let pReport = $$$("span");
-    let pTime = $$$("span");
-    pText.classList.add("text");
-    pReport.classList.add("report");
-    pTime.classList.add("time");
+    let pText = $$$("div", ["class", "text"]);
+    let pReport = $$$("span", ["class", "report"]);
+    let pTime = $$$("span", ["class", "time"]);
+    bubble.addEventListener("touchstart", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("touchend", (event) => LongPress.end(event, bubble), false);
+    bubble.addEventListener("mousedown", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("mouseup", (event) => LongPress.end(event, bubble), false);
     
     let text = prop.text || $('.chat_field').innerHTML;
     let time = new Date();
@@ -665,7 +1049,12 @@ const Message = async (prop) => { try {
     h = (h > 12)? h%12: h;
     time = `${h}:${m} ${am_pm}`;
     
-    pText.innerHTML = text;
+    if(typeof text == "string") {
+    	pText.innerHTML = `<div>${text}</div>`;
+    } 
+    else {
+    	pText.appendChild(text);
+    } 
     pTime.innerHTML = time;
     pReport.appendChild(pTime);
     pText.appendChild(pReport);
@@ -676,10 +1065,12 @@ const Message = async (prop) => { try {
     	let pTick = $$$("span");
     	pTick.classList.add("tick");
     	pReport.appendChild(pTick);
+    	pReport.appendChild(pTick.cloneNode(true));
         $('.chat_field').innerHTML = "";
-        $('.chat_field').focus();
-        await ChangeTextBox(false, $(".chat_field"));
-        await AdjustWidth.adjust($(".chat_field", false));
+        if(general.chatFieldHadFocus)
+        	$('.chat_field').focus();
+        await ChangeTextBox(true, $(".chat_field"));
+        await AdjustWidth.adjust($(".chat_field"));
         
         bubble.classList.add("bubble", "right_bubble");
         bubble.appendChild(pText);
@@ -694,11 +1085,14 @@ const Message = async (prop) => { try {
             unreadBubble.parentNode.removeChild(unreadBubble);
         
         setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
-        Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
-        return;
+        if(Lobby.isConnected && publish) {
+        	Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
+        } 
+        return pTick.id;
     } 
     else if(prop.action === 'receive') {
         bubble.classList.add("bubble", "left_bubble");
+        bubble.id = "left-" + prop.id;
         let pAvatar = $$$("p");
         pAvatar.innerHTML = $$(".chat_header h2")[1].innerHTML.split(' ').map((n) => n[0]).join('');
         bubble.appendChild(pAvatar);
@@ -726,14 +1120,113 @@ const Message = async (prop) => { try {
         container.insertBefore(bubble, anchor);
         
         if(GetValue($("#chat-window"), "display") === "flex") {
-        	Publish.send({channel:Lobby.CHANNEL, message: {title: "Read", content: prop.id}});
+        	if(Lobby.isConnected) {
+	        	Lobby.PUBNUB.addMessageAction({
+					channel: Lobby.CHANNEL, 
+					messageTimetoken: prop.timetoken, 
+					action: {
+						type: "read", 
+						value: prop.id
+					} 
+				});
+			} 
         	Lobby.unreadMessages = [];
             setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
         } 
         else 
-        	Lobby.unreadMessages.push(prop.id);
+        	Lobby.unreadMessages.push({id: prop.id, timetoken: prop.timetoken});
     } 
     } catch (error) {console.log(error)}
+} 
+
+class Bubble {
+	static selectedLeft = [];
+	static selectedRight = [];
+	static requestDelete = () => {
+		this.selectedLeft = $$(".left_bubble.selected_bubble");
+		this.selectedRight = $$(".right_bubble.selected_bubble");
+		let total = this.selectedLeft.length + this.selectedRight.length;
+		if(this.selectedLeft.length || $(".selected_bubble.deleted")) {
+			Notify({action: "confirm",
+					header: `Delete ${total + (total > 1? " messages": " message")}`, 
+					message: "Whom do you want to delete for?", 
+					type: "CANCEL/MYSELF", 
+					onResponse: Bubble.deleteBubble
+			});
+		} 
+		else {
+			Notify({action: "other",
+					header: `Delete ${total + (total > 1? " messages": " message")}`, 
+					message: "Whom do you want to delete for?", 
+					type: "CANCEL/EVERYONE/MYSELF", 
+					onResponse: Bubble.deleteBubble
+			});
+		} 
+	} 
+	
+	static deleteBubble = (option, deletedByPublisher) => {
+		let selected = Array.from(Bubble.selectedLeft).concat(Array.from(Bubble.selectedRight));
+		let ids = "";
+		if(option != "CANCEL") {
+			for(let bubble of selected) {
+				if(bubble.$(".tick") && bubble.$(".tick").classList.contains("grey")) {
+					bubble.$(".text > div").innerHTML = "You deleted this message.";
+					bubble.classList.add("deleted");
+					ids += bubble.$(".tick").id + "-";
+				} 
+				else if(deletedByPublisher) {
+					bubble.$(".text > div").innerHTML = "This message was deleted.";
+					bubble.classList.add("deleted");
+				} 
+				else {
+					bubble.parentNode.removeChild(bubble);
+				} 
+				bubble.classList.remove("selected_bubble");
+			} 
+			
+			if(option == "EVERYONE" && Lobby.isConnected) {
+				ids = ids.replace(/-$/g, "");
+				Publish.send({
+					channel: Lobby.CHANNEL, 
+					message: {title: "deleted", ids}
+				});
+			} 
+		} 
+		else {
+			for(let bubble of selected) {
+				bubble.classList.remove("selected_bubble");
+			} 
+		} 
+		
+		window.$(".chat_header > h2:last-of-type").style.display = "block";
+		window.$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		window.$(".chat_menu").style.display = "none";
+		window.$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+		Bubble.selectedLeft = [];
+		Bubble.selectedRight = [];
+		Cancel();
+	} 
+	
+	static copyBubbleText = async () => {
+		if(Permissions.permissions.clipboard) {
+			let text = $(".selected_bubble .text > div").textContent;
+			navigator.clipboard.writeText(text).then(() => {
+				Notify("Text copied to clipboard");
+			}, () => {
+				Notify("Text was not copied to clipboard for some reason.");
+			});
+		} 
+		else {
+			Permissions.check("bubble", "clipboard-write");
+		} 
+		$(".selected_bubble").classList.remove("selected_bubble");
+		$(".chat_header > h2:last-of-type").style.display = "block";
+		$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		$(".chat_menu").style.display = "none";
+		$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+	} 
 } 
 
 const Request = async (prop) => {
@@ -806,71 +1299,101 @@ const Request = async (prop) => {
 
 class AdjustWidth {
 	static finishedExecuting = true;
-	static adjust = (elem, isEvent = true) => {
+	static stateTimeout;
+	static adjust = (elem, event) => {
+		if(event) {
+			event.preventDefault();
+		} 
 		if(this.finishedExecuting) {
 			this.finishedExecuting = false;
-			this.updateState(elem, isEvent);
+			this.updateState(elem, typeof event == "object");
 		} 
 		else
 			return;
 	} 
-	static updateState = (elem, isEvent) => { try {
+	static updateState = (elem, isEvent) => { 
 		let self = this;
-		clearTimeout(Lobby.timeoutID);
-		if(isEvent) {
-			if(!Lobby.isTyping) {
-				Lobby.isTyping = true;
+		
+		if(isEvent && Lobby.isConnected) {
+			clearTimeout(this.stateTimeout);
+			if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
 				Lobby.PUBNUB.setState({
-					state: {"isTyping": true}, 
+					state: {action: "typing", value: false}, 
 					channels: [Lobby.CHANNEL]
-				}, function (status, response) {});
+				});
 			} 
-			
-			Lobby.timeoutID = setTimeout(_=> {
-				Lobby.isTyping = false;
+			else {
 				Lobby.PUBNUB.setState({
-					state: {"isTyping": false}, 
+					state: {action: "typing", value: true}, 
 					channels: [Lobby.CHANNEL]
-				}, function (status, response) {});
-			}, 1000);
+				});
+				this.stateTimeout = setTimeout( () => {
+					Lobby.PUBNUB.setState({
+						state: {action: "typing", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				}, 1000);
+			} 
 		} 
 		self.adjustWidth(elem);
-		} catch (error) {console.log(error)}
 	} 
 	
 	static adjustWidth = (elem) => {
 	    let sendBtn = $(".send_button");
+		let recordBtn = $(".recorder_button");
 	    if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
 	        elem.innerHTML = "";
-	        sendBtn.style.filter = "invert(60%)";
-	        sendBtn.style.pointerEvents = "none";
+			sendBtn.style.display = "none";
+			recordBtn.style.display = "block";
+			recordBtn.classList.add("button_pop_up");
+			setTimeout(() => {recordBtn.classList.remove("button_pop_up")}, 300);
 	    } 
 	    else {
-	        sendBtn.style.filter = "invert(90%)";
-	        sendBtn.style.pointerEvents = "auto";
+			if(GetValue(recordBtn, "display") == "block") {
+				recordBtn.style.display = "none";
+				sendBtn.style.display = "block";
+				sendBtn.style.display = "block";
+				sendBtn.classList.add("button_pop_up");
+				setTimeout(() => {sendBtn.classList.remove("button_pop_up")}, 300);
+			} 
 	        
 	        if(CalculateSize(elem.innerHTML) >= 32768) {
 	            elem.innerHTML = elem.innerHTML.substring(0, elem.innerHTML.length-2);
 	            Notify("message size exceeded limit");
 	        } 
 	    } 
-	    let height = elem.offsetHeight || parseFloat(GetValue(elem, "height"));
-		
+	    let height = $(".field_container").offsetHeight || parseFloat(GetValue($(".field_container"), "height"));
 	    document.documentElement.style.setProperty("--txt-size", ((height + 20) + "px"));
 		this.finishedExecuting = true;
 	} 
 } 
 
-const ChangeTextBox = async (isFocused, elem) => { 
-	if($(".send_button") === document.activeElement) {
-		clearTimeout(Lobby.timeoutID);
-		Lobby.isTyping = false;
-		Lobby.PUBNUB.setState({
-			state: {"isTyping": false}, 
-			channels: [Lobby.CHANNEL]
-		}, function (status, response) {});
-		Message({action: "send"});
+const ChangeTextBox = async (isFocused, elem, event) => { 
+	let active = document.activeElement;
+	if(typeof event == "object") {
+		event.preventDefault();
+		if(event.type == "blur" && elem.classList.contains("chat_field")) {
+			if(Lobby.isConnected) {
+				clearTimeout(AdjustWidth.stateTimeout);
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: false}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+		} 
+		if(event.type == "focus" && general.chatFieldHadFocus && $("#chat-window").contains(active)) {
+			for(let bubble of $$(".selected_bubble")) {
+				bubble.classList.remove("selected_bubble");
+			} 
+			$(".chat_header > h2:last-of-type").style.display = "block";
+			$(".chat_header > p:nth-of-type(2)").style.display = "block";
+			$(".chat_menu").style.display = "none";
+			$(".bubbles_container").classList.remove("select_mode");
+			LongPress.selectMode = false;
+			$(".chat_field").focus();
+		} 
 	} 
+	
 	if(!elem.className.includes("chat_field")) {
 		elem.scrollIntoView(false);
 	} 
@@ -883,11 +1406,11 @@ const ChangeTextBox = async (isFocused, elem) => {
             if(elem.className.includes("chat_field")) {
                 $(".chat_header").style.display = "none";
                 $(".bubbles_container").style.display = "none";
-                $(".chat_field").style.maxHeight = "40px";
+                $(".chat_field").style.maxHeight = "45px";
             } 
             else {
                 $("#two-players-window h2").style.display = "none";
-                elem.scrollIntoView({block: "start", inline: "center", behavior: "smooth"});
+                //elem.scrollIntoView({block: "end", inline: "center", behavior: "smooth"});
             } 
         } 
         else if(vh < 150 && !isFocused || vh > 150) {
@@ -901,4 +1424,8 @@ const ChangeTextBox = async (isFocused, elem) => {
             } 
         } 
     }, 300);
+} 
+
+const ChangeFocus = () => {
+	general.chatFieldHadFocus = true;
 } 

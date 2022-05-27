@@ -719,10 +719,10 @@ class Sleep {
 			const it = setInterval(() => {
 				self.i+=0.001;
 				if(self.i >= self.j) {
-					resolve("Done");
 					self.i = 0;
 					self.j = 1_000;
 					clearInterval(it);
+					resolve("Done");
 				} 
 			}, 1);
 		});
@@ -731,10 +731,11 @@ class Sleep {
 		this.i = this.j;
 	} 
 	wait = async (sec) => {
-		this.j = sec;
-		this.i = 0;
-		await this.start();
-		return "done";
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve("Done");
+			}, sec * 1000);
+		});
 	} 
 } 
 

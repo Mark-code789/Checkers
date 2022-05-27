@@ -1,6 +1,6 @@
 'use strict'
 
-// Version: 25
+// Version: 27
 
 // object to store the most needed images 
 const Icons = {
@@ -10,7 +10,8 @@ const Icons = {
     loserIcon: "", 
     drawIcon: "",
     loadIcon: "",
-    diceIcon: "" 
+    diceIcon: "",
+    contactIcon: "", 
 }
 // object to store the most needed audio 
 const Sound = { 
@@ -18,9 +19,13 @@ const Sound = {
     capture: "",
     king: "", 
     collect: "", 
-    game_win: "", 
-    game_lose: "",
-    notification: "", 
+    gameWin: "", 
+    gameLose: "",
+    notification: "",
+    startRecording: "",
+    deleteRecording: "",
+    stopRecording: "",
+    throwRecording: "", 
     muted: false
 }
 
@@ -29,62 +34,77 @@ let storage = null;
 if(localStorage) storage = localStorage;
 
 // srcs to load the resources needed
-// images srcs
-let srcs = ["american flag.jpeg",
-            "kenyan flag.jpeg",
-            "casino flag.jpeg", 
-            "international flags.jpeg",
-            "pool flag.jpeg",
-            "russian flag.jpeg",
-            "nigerian flag.jpeg",
-            "background1.jpeg",
-            "background2.jpeg", 
-            "black cell.jpeg", 
-            "white cell.jpeg",
-            "frame.jpeg", 
-            "hint.png", 
-            "menu.png", 
-            "restart.png", 
-            "undo.png", 
-            "about.png",
-            "black piece.png",
-            "white piece.png", 
-            "black crown.png", 
-            "white crown.png",
-            "sound on.png",
-            "sound off.png",
-            "send.png", 
-            "cancel.png", 
-            "alert.png",
-            "confirm.png", 
-            "winner.png",
-            "loser.png", 
-            "draw.png",
-            "load.png",
-            "dice roll.png", 
-            "warning.png", 
-			"lock.png", 
-            "star.png"];
-// audio srcs 
-let sounds = ["click.mp3",
-              "capture.mp3", 
-              "king.mp3", 
-              "collect.mp3",
-              "game win.mp3", 
-              "game lose.mp3", 
-              "notification.mp3"];
+let appShells = ["alert.png",
+	            "confirm.png", 
+	            "winner.png",
+	            "loser.png", 
+	            "draw.png",
+	            "load.png",
+	            "dice roll.png",
+				"contact.png",
+				"american flag.jpeg",
+	            "kenyan flag.jpeg",
+	            "casino flag.jpeg", 
+	            "international flags.jpeg",
+	            "pool flag.jpeg",
+	            "russian flag.jpeg",
+	            "nigerian flag.jpeg",
+	            "black piece.png",
+	            "white piece.png",
+	            "cancel.png", 
+	            "lock.png", 
+	            "star.png",
+	            "background1.jpeg",
+	            "click.mp3",
+				"capture.mp3", 
+				"king.mp3", 
+				"collect.mp3",
+				"game win.mp3", 
+				"game lose.mp3", 
+				"notification.mp3", 
+				"start recording.mp3",
+				"delete recording.mp3", 
+				"stop recording.mp3", 
+				"throw recording.mp3", 
+	            "background2.jpeg", 
+	            "black cell.jpeg", 
+	            "white cell.jpeg",
+	            "frame.jpeg", 
+	            "hint.png", 
+	            "menu.png", 
+	            "restart.png", 
+	            "undo.png", 
+	            "about.png",
+	            "black crown.png", 
+	            "white crown.png",
+	            "sound on.png",
+	            "sound off.png",
+	            "send.png",
+	            "recorder.png", 
+				"bin.png",
+				"bin lid.png",
+				"copy.png", 
+	            "warning.png"];
+let srcs = [];
+            
 // to access audio object keys
 let soundProps = Object.keys(Sound);
 // to access css values and image keys
-let imageProps = ["--english-flag",
+let imageProps = [...Object.keys(Icons), 
+				    "--english-flag",
                     "--kenyan-flag",
                     "--casino-flag", 
                     "--international-flags",
                     "--pool-flag",
                     "--russian-flag",
                     "--nigerian-flag", 
+                    "--black-piece", 
+                    "--white-piece", 
+                    "--cancel",
+                    "--lock",
+                    "--star",
                     "--bg1",
-                    "--bg2", 
+                    "--bg2",
                     "--black-cell", 
                     "--white-cell",
                     "--frame",
@@ -93,27 +113,21 @@ let imageProps = ["--english-flag",
                     "--restart", 
                     "--undo", 
                     "--about",
-                    "--black-piece", 
-                    "--white-piece", 
                     "--black-crown", 
                     "--white-crown",
                     "--sound-on",
                     "--sound-off",
                     "--send-btn",
-                    "--cancel",
-                    Object.keys(Icons)[0],
-                    Object.keys(Icons)[1], 
-                    Object.keys(Icons)[2],
-                    Object.keys(Icons)[3], 
-                    Object.keys(Icons)[4],
-                    Object.keys(Icons)[5],
-                    Object.keys(Icons)[6]
-                    ];
+                    "--recorder-btn", 
+					"--delete-bin", 
+					"--delete-lid",
+					"--copy",
+					"--warning"];
 // use recursive function to load the images in srcs and updating the progress bar
 let loadingInfo = $("#load-window .loader p");
 let progress = $("#load-window .loader .progress");
 
-async function LoadResources (src, i = 0) {
+async function LoadResources (src = appShells[0], i = 0) {
     if(src.includes(".mp3")) {
         src = "./src/audio/" + src;
     } 
@@ -125,34 +139,37 @@ async function LoadResources (src, i = 0) {
         let blob = await response.blob();
         if(blob.size > 0) {
             if(!src.includes(".mp3")) {
-            	loadingInfo.innerHTML = "Loading textures...";
-            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1) / srcs.length} + calc(100% / 3))`;
+            	loadingInfo.textContent = "Loading textures...";
+            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1) / 21} + calc(100% / 3))`;
                 src = await URL.createObjectURL(blob);
-                srcs.splice(i, 1, src);
-                if(i < imageProps.length - Object.keys(Icons).length) {
-                    document.documentElement.style.setProperty(imageProps[i], `url(${src})`);
-                }
-                else if(i < imageProps.length) {
+                appShells.splice(i, 1, src);
+                if(i < Object.keys(Icons).length) {
                     Icons[imageProps[i]] = src;
+                }
+                else {
+                    document.documentElement.style.setProperty(imageProps[(i < Object.keys(Icons).length + 13? i: i - 11)], `url(${src})`);
                 }
             } 
             else {
             	loadingInfo.innerHTML = "Loading audio...";
-            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1 - srcs.length) / sounds.length} + calc(100% / 1.5))`;
+            	progress.style.width = `calc(calc(100% / 3) * ${(i - 20) / 11} + calc(100% / 1.5))`;
                 src = await URL.createObjectURL(blob);
                 let audio = new Audio(src);
-                Sound[soundProps[i - srcs.length]] = audio;
+                Sound[soundProps[i - 21]] = audio;
             }
+            if(i == 32) {
+            	loadingInfo.innerHTML = "Finishing...";
+                await LoadingDone();
+            }
+            
             i++;
-            if(i < srcs.length) {
-                LoadResources(srcs[i], i);
-            }
-            else if(i < srcs.length + sounds.length) {
-                LoadResources(sounds[i - srcs.length], i);
+            if(i < appShells.length) {
+                LoadResources(appShells[i], i);
             }
             else {
-                await setTimeout(LoadingDone, 1000);
-                loadingInfo.innerHTML = "Finishing...";
+            	appShells = null;
+            	imageProps = null;
+            	soundProps = null;
             } 
         }
         else if(!goingToRefresh) {
@@ -160,23 +177,17 @@ async function LoadResources (src, i = 0) {
         } 
     }
     else {
-    	console.log(i, srcs.length);
+    	console.log(response);
         alert("LOADING ERROR!\nFailed to load AppShellFiles - " + src + ". Either you have bad network or you have lost internet connection.");
     } 
 } 
 
 async function LoadingDone () {
-	imageProps = null;
-	soundProps = null;
-	sounds = null;
-	srcs.slice(6, srcs.length - 8);
+	srcs = appShells.slice(0, 17);
 	
 	if(screen.orientation.type.includes("landscape")) {
 		document.body.style.backgroundSize = "auto 70vmax";
 	} 
-	
-    document.documentElement.style.setProperty("--star", `url(${srcs[srcs.length-1]})`);
-    document.documentElement.style.setProperty("--warning", `url(${srcs[srcs.length-3]})`);
     
     $("#item1").style.display = "none";
    
@@ -185,11 +196,19 @@ async function LoadingDone () {
     document.addEventListener("mozFullscreenchange", _ => Fullscreen(true, true), false);
     document.addEventListener("webkitFullscreenchange", _ => Fullscreen(true, true), false);
    
-    let drag = new Drag($("#chat-icon"), "both", "0.5s");
+    let drag = new Drag($(".recorder_button"), "x", "0.3s");
+    $(".recorder_button").addEventListener("touchstart", drag.start, false);
+    $(".recorder_button").addEventListener("touchend", drag.end, false);
+    $(".recorder_button").addEventListener("touchmove", drag.move, false);
+   
+    $(".recorder_button").addEventListener("mousedown", drag.start, false);
+    $(".recorder_button").addEventListener("mouseup", drag.end, false);
+    $(".recorder_button").addEventListener("mousemove", drag.move, false);
+   
+    drag = new Drag($("#chat-icon"), "both", "0.5s");
     $("#chat-icon").addEventListener("touchstart", drag.start, false);
     $("#chat-icon").addEventListener("touchend", drag.end, false);
     $("#chat-icon").addEventListener("touchmove", drag.move, false);
-    $("#chat-icon").addEventListener("click", drag.end, false);
     
     $("#chat-icon").addEventListener("mousedown", drag.start, false);
     $("#chat-icon").addEventListener("mouseup", drag.end, false);
@@ -203,6 +222,9 @@ async function LoadingDone () {
     $(".games_totals").addEventListener("mousedown", drag.start, false);
     $(".games_totals").addEventListener("mouseup", drag.end, false);
     $(".games_totals").addEventListener("mousemove", drag.move, false);
+   
+    $(".chat_delete").addEventListener("click", Bubble.requestDelete, false);
+    $(".chat_copy").addEventListener("click", Bubble.copyBubbleText, false);
     
     $("#games").addEventListener("scroll", GamesScroll.check, false);
     $(".totals_footer button").addEventListener("click", ShowTotalStats, false);
@@ -228,7 +250,7 @@ async function LoadingDone () {
             } 
             else {
                 p.style.filter = "grayscale(0%) invert(0%) brightness(100%)";
-                p.style.backgroundImage = `url(${srcs[srcs.length-2]})`;
+                p.style.backgroundImage = 'var(--lock)';
             } 
         }
         if(storage) {
@@ -428,8 +450,12 @@ async function LoadingDone () {
     if(deferredEvent && !newSW) {
         $(".install").classList.add("show_install_prompt");
     } 
-    else if(newSW)
+    else if(newSW) {
     	InvokeSWUpdateFlow(newSW);
+    } 
+    else {
+    	Permissions.check();
+    } 
     
     document.addEventListener("visibilitychange", (e) => {
 		if(document.visibilityState == "visible") {
@@ -444,23 +470,82 @@ async function LoadingDone () {
         if(Lobby.isConnected)
             await Unsubscribe();
     });
+    window.addEventListener("resize", () => {
+		if(document.activeElement == $(".chat_field")) {
+			let height = parseFloat(GetValue($("#chat-section"), "height"));
+			if(general.initialHeight && general.initialHeight < height) {
+				document.activeElement.blur();
+				general.chatFieldHadFocus = false;
+			} 
+			general.initialHeight = height;
+		} 
+	});
     window.addEventListener("online", UpdateOnlineStatus, false);
     window.addEventListener("offline", UpdateOnlineStatus, false);
     window.addEventListener("popstate", () => setTimeout(PopState, 0), false);
     CheckHref();
-}
+} 
+
+class ElemHint {
+	static timeout;
+	static setHint = (elem, text) => {
+		clearTimeout(this.timeout);
+		let hint = $(".elem_hint");
+		let root = document.documentElement;
+		hint.textContent = text;
+		hint.style.display = "block";
+		hint.style.opacity = 1;
+		let hintRect = hint.getBoundingClientRect();
+		let elemRect = elem.getBoundingClientRect();
+		
+		if(elemRect.width / 2 >= hintRect.width / 2) { /* can be fit at the center */
+			root.style.setProperty('--hint-pointer-x', `${hintRect.width / 2 - 10}px`);
+			hint.style.left = `${elemRect.width / 2 + elemRect.left - (hintRect.width / 2)}px`;
+		}
+		else if(elemRect.width / 2 < hintRect.width / 2) {
+			if(elemRect.width / 2 + elemRect.left - (hintRect.width / 2) > 5 &&
+			   elemRect.right - (elemRect.width / 2) + (hintRect.width / 2) < window.innerWidth - 5) { /* center alignment */
+				root.style.setProperty('--hint-pointer-x', `${hintRect.width / 2 - 10}px`);
+				hint.style.left = `${elemRect.width / 2 + elemRect.left - (hintRect.width / 2)}px`;
+			}
+			else if(elemRect.left > 5 && elemRect.right < window.innerWidth / 2) { /* Not at extreme far left*/
+				root.style.setProperty('--hint-pointer-x', `${elemRect.width / 2 + elemRect.left - 15}px`);
+				hint.style.left = `5px`;
+			}
+			else if(elemRect.right < window.innerWidth - 5) { /* Not at extreme far right */
+				root.style.setProperty('--hint-pointer-x', `${(elemRect.width / 2 + elemRect.left - 10) - (window.innerWidth - hintRect.width - 5)}px`); /* 5 because of screen margin and border width which is 10*/
+				hint.style.left = `${window.innerWidth - hintRect.width - 5}px`;
+			} 
+		} 
+		
+		
+		if(elemRect.top - hintRect.height - 13 > 0) {
+			hint.classList.remove("top");
+			root.style.setProperty('--hint-pointer-y', '-10px');
+			hint.style.top = `${elemRect.top - hintRect.height - 13}px`;
+		} 
+		else if(elemRect.bottom + hintRect.height + 13 < window.innerHeight) {
+			hint.classList.add("top");
+			root.style.setProperty('--hint-pointer-y', '-10px');
+			hint.style.top = `${elemRect.bottom + 13}px`;
+		} 
+			
+		hint.style.opacity = 1;
+		this.timeout = setTimeout(() => {hint.style.display = "none";}, 3500);
+	} 
+} 
 
 class Drag {
 	initialX = 0;
 	initialY = 0;
 	currentX = 0;
-	cureentY = 0;
+	currentY = 0;
 	xOffset = 0;
 	yOffset = 0;
 	active = false;
+	moved = false;
 	direction = "both";
 	dragItem = null;
-	initialDrag = {x: 0, y: 0};
 	sleep;
 	transitionDuration;
 	
@@ -469,10 +554,22 @@ class Drag {
 		this.dragItem = dragItem;
 		this.transitionDuration = duration;
 		this.sleep = new Sleep();
-	} 
-	start = (e) => {
+	}
+	
+	start = async (e) => {
+		e.preventDefault();
 		if(this.dragItem == e.target) {
-			this.active = true;
+			if(this.dragItem.classList.contains("recorder_button")) {
+				general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+				this.xOffset = 0;
+				this.yOffset = 0;
+				this.recorderContainer = $(".recorder_container");
+				this.recorderContainer.style.transitionDuration = "0s";
+				this.active = await VoiceNoteRecorder.record(this.dragItem);
+			}
+			else {
+				this.active = true;
+			} 
 			this.dragItem.style.transitionDuration = "0s";
 		    if (e.type === "touchstart") {
 		        this.initialX = e.touches[0].clientX - this.xOffset;
@@ -485,26 +582,31 @@ class Drag {
 	}
 	
 	end = async (e) => {
-	    if(this.active && (e.type === "touchend" || e.type == "mouseup")) {
+		e.preventDefault();
+	    if(this.active && this.moved && (e.type === "touchend" || e.type == "mouseup")) {
 			this.active = false;
 			this.dragItem.style.transitionDuration = this.transitionDuration;
 			if(this.dragItem === $("#chat-icon")) {
-		        if(this.currentX < (65 - window.innerWidth)/2) {
-		            this.translate((65 - window.innerWidth), this.currentY, this.dragItem);
-		            this.currentX = (65 - window.innerWidth);
+				let rect = this.dragItem.getBoundingClientRect();
+		        if(rect.left < 10) {
+		            this.currentX += 10 - rect.left;
 		        }
-		        if(this.currentX > (65 - window.innerWidth)/2) {
-		            this.translate(5, this.currentY, this.dragItem);
-		            this.currentX = 5;
+		        else if(rect.right > window.innerWidth - 10) {
+		            this.currentX += window.innerWidth - 10 - rect.right;
 		        }
-		        if(this.currentY < -5) {
-		            this.translate(this.currentX, -5, this.dragItem);
-		            this.currentY = -5;
+				else if(rect.width / 2 + rect.left > window.innerWidth / 2) {
+					this.currentX += window.innerWidth - 10 - rect.right;
+				}
+				else if(rect.width / 2 + rect.left < window.innerWidth / 2) {
+					this.currentX += 10 - rect.left;
+				} 
+		        if(rect.top < 10) {
+		            this.currentY += 10 - rect.top;
 		        }
-		        if(this.currentY > (window.innerHeight - 65)) {
-		            this.translate(this.currentX, (window.innerHeight - 65), this.dragItem);
-		            this.currentY = (window.innerHeight - 65);
+		        else if(rect.bottom > window.innerHeight - 10) {
+		            this.currentY += window.innerHeight - 10 - rect.bottom;
 		        }
+				this.translate(this.currentX, this.currentY, this.dragItem);
 			}
 			else if(this.dragItem === $(".games_totals")) {
 				let rect = this.dragItem.getBoundingClientRect();
@@ -522,18 +624,29 @@ class Drag {
 					this.translate(0, this.currentY, this.dragItem);
 				} 
 			}
+			else if(this.dragItem === $(".recorder_button")) {
+				this.currentX = 0;
+				this.currentY = 0;
+				this.recorderContainer.style.transitionDuration = this.transitionDuration;
+				this.recorderContainer.style.width = `calc(100% - 70px)`;
+				VoiceNoteRecorder.stopRecording(this.dragItem);
+			} 
 			await this.sleep.wait(parseFloat(this.transitionDuration));
 	        this.xOffset = this.currentX;
 	        this.yOffset = this.currentY;
 	    }
-	    else if(!this.active && this.dragItem == e.target) {
-	        ShowChat();
+		else if(this.dragItem != $("#chat-icon")) {
+			VoiceNoteRecorder.stopRecording(this.dragItem);
 		} 
+	    else if(this.active && !this.moved && this.dragItem === $("#chat-icon")) {
+	        ShowChat();
+		}
+		this.moved = false;
 	}
 	
 	move = async (e) => {
+		e.preventDefault();
 	    if(this.active) {
-			e.preventDefault();
 	        if (e.type === "touchmove") {
 	            this.currentX = e.touches[0].clientX - this.initialX;
 	            this.currentY = e.touches[0].clientY - this.initialY;
@@ -546,6 +659,32 @@ class Drag {
 	        	this.translate(this.currentX, this.currentY, e.target);
 			} 
 			else if(this.direction == "x") {
+				if(this.dragItem.classList.contains("recorder_button")) {
+					let recCont = this.recorderContainer.getBoundingClientRect();
+					let targetRect = $(".chat_field_container").getBoundingClientRect();
+					let rect = this.dragItem.getBoundingClientRect();
+					let dist = this.currentX - this.xOffset;
+					let xThreshold1 = targetRect.width*0.5;
+					let xThreshold2 = targetRect.right - rect.width - 10 /*padding*/;
+					let expectedX = dist + rect.left;
+					if(expectedX < xThreshold1) {
+						this.currentX -= (expectedX - xThreshold1);
+						dist = this.currentX - this.xOffset;
+						this.recorderContainer.style.width = `${recCont.width + dist}px`;
+						this.translate(this.currentX, 0, e.target);
+						this.active = false;
+						this.dragItem.style.transitionDuration = this.transitionDuration;
+						this.recorderContainer.style.transitionDuration = this.transitionDuration;
+						this.recorderContainer.style.width = `calc(100% - 70px)`;
+						VoiceNoteRecorder.stopRecording(this.dragItem, true);
+						return;
+					}
+					if(expectedX > xThreshold2) {
+						this.currentX -= (expectedX - xThreshold2);
+						dist = this.currentX - this.xOffset;
+					} 
+					this.recorderContainer.style.width = `${recCont.width + dist}px`;
+				}
 				this.translate(this.currentX, 0, e.target);
 			}
 			else {
@@ -563,40 +702,113 @@ class Drag {
 			}
 			this.xOffset = this.currentX;
 			this.yOffset = this.currentY;
+			this.moved = true;
 	    }
 	}
 	
 	translate = (x, y, elem) => {
 	    elem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
 	}
+}
+
+class LongPress {
+	static selectMode = false;
+	static delay;
+	static hinted = false;
+	static start = (event, target) => {
+		if(event.target == target) {
+			event.preventDefault();
+			if(!this.selectMode) {
+				this.delay = setTimeout(() => {
+					$$(".chat_header h2")[1].style.display = "none";
+					$$(".chat_header p")[1].style.display = "none";
+					$(".chat_menu").style.display = "flex";
+					target.classList.toggle("selected_bubble");
+					$(".chat_copy").classList.remove("disabled_button");
+					if(target.$(".text > div").classList.contains("audio_panel")) {
+						$(".chat_copy").classList.add("disabled_button");
+					} 
+					this.selectMode = true;
+					$(".bubbles_container").classList.add("select_mode");
+				}, 500);
+			} 
+			if(this.selectMode) {
+				target.classList.toggle("selected_bubble");
+				let selected = $$(".selected_bubble");
+				
+				if(selected.length == 0) {
+					clearTimeout(this.delay);
+					$$(".chat_header h2")[1].style.display = "block";
+					$$(".chat_header p")[1].style.display = "block";
+					$(".chat_menu").style.display = "none";
+					this.selectMode = false;
+					$(".bubbles_container").classList.remove("select_mode");
+				}
+				else if(selected.length > 1) {
+					$(".chat_copy").classList.add("disabled_button");
+				}
+				else if(selected.length == 1) {
+					$(".chat_copy").classList.remove("disabled_button");
+				}
+				
+				if($(".selected_bubble .audio_panel")) {
+					$(".chat_copy").classList.add("disabled_button");
+				}
+			} 
+		}
+	}
+	static end = (event, target) => {
+		if(event.target == target) {
+			event.preventDefault();
+			clearTimeout(this.delay);
+			if(!this.selectMode && !this.hinted) {
+				ElemHint.setHint(target.$(".text"), "Long press for more options.");
+				this.hinted = true;
+			} 
+		} 
+	} 
 } 
 
-const HideChat = () => {
+const HideChat = (caller = "event") => {
     $("#chat-window").style.display = "none";
     $("#chat-icon").style.display = "block";
     
     let unreadBubble = $(".center_bubble");
     if(unreadBubble != null) {
         unreadBubble.parentNode.removeChild(unreadBubble);
-    } 
+    }
+    if(caller == "back") 
+    	BackState.state.pop();
 }
 
 const ShowChat = () => {
     $("#chat-icon").style.display = "none";
     $("#chat-window").style.display = "flex";
+    general.chatFieldHadFocus = true;
    
     let badge = $(".badge");
     if(parseInt(badge.innerHTML) > 0) {
         $(".center_bubble").scrollIntoView({block: "start", behavior: "smooth"});
     } 
     $('.chat_field').focus();
+    general.chatFieldHadFocus = true;
     badge.innerHTML = 0;
     badge.style.display = "none";
-    while(Lobby.unreadMessages.length > 0) {
-    	let id = Lobby.unreadMessages[0];
-    	Publish.send({channel: Lobby.CHANNEL, message: {title: "Read", content: id}});
-    	Lobby.unreadMessages.shift();
-    } 
+    if(Lobby.unreadMessages.length > 0) {
+    	let data = Lobby.unreadMessages.slice(-1)[0];
+    	let id = `many-${Lobby.unreadMessages.length}`;
+    	let timetoken = data.timetoken;
+    	Lobby.PUBNUB.addMessageAction({
+			channel: Lobby.CHANNEL, 
+			messageTimetoken: timetoken, 
+			action: {
+				type: "read", 
+				value: id
+			} 
+		});
+    	Lobby.unreadMessages = [];
+    }
+    BackState.state.push(["#chat-window"]);
 }
 
 const BoardClick = async (e) => {
@@ -1821,10 +2033,10 @@ const GameOver = async (draw = false) => {
     if(Game.mode === "single-player") {
         if(!Game.over && !draw) {
             if(name === playerA.name) {
-                AudioPlayer.play("game_lose", 1);
+                AudioPlayer.play("gameLose", 1);
             } 
             else {
-                AudioPlayer.play("game_win", 1);
+                AudioPlayer.play("gameWin", 1);
             } 
         } 
         if(name === playerA.name && !draw)
@@ -1903,7 +2115,7 @@ const GameOver = async (draw = false) => {
     } 
     else if(Game.mode === "two-player-offline") {
         if(!Game.over && !draw)
-            AudioPlayer.play("game_win", 1);
+            AudioPlayer.play("gameWin", 1);
         
         if(!draw) {
             Notify({action: "confirm", 
@@ -1938,10 +2150,10 @@ const GameOver = async (draw = false) => {
     else if(Game.mode === "two-player-online") {
         if(!Game.over && !draw) {
             if(name === playerA.name) {
-                AudioPlayer.play("game_lose", 1);
+                AudioPlayer.play("gameLose", 1);
             } 
             else {
-                AudioPlayer.play("game_win", 1);
+                AudioPlayer.play("gameWin", 1);
             } 
         } 
         if(name === playerA.name && !draw) {
@@ -2125,20 +2337,20 @@ class AudioPlayer {
 		Sound.capture.muted = true;
 	    Sound.king.muted = true;
 	    Sound.collect.muted = true;
-	    Sound.game_win.muted = true;
-	    Sound.game_lose.muted = true;
+	    Sound.gameWin.muted = true;
+	    Sound.gameLose.muted = true;
 		Sound.notification.muted = true;
 		Sound.click.play();
 	    Sound.capture.play();
 	    Sound.king.play();
 	    Sound.collect.play();
-	    Sound.game_win.play();
-	    Sound.game_lose.play();
+	    Sound.gameWin.play();
+	    Sound.gameLose.play();
 		Sound.notification.play();
 	} 
 } 
 
-const Clicked = async (elem, parent, click = true) => { try {
+const Clicked = async (elem, parent, click = true) => {
     if(click) 
         AudioPlayer.play("click", 1);
     if(elem != undefined && elem.getAttribute("value") != "locked" || elem != undefined && !click) {
@@ -2209,7 +2421,6 @@ const Clicked = async (elem, parent, click = true) => { try {
     	AudioPlayer.initializeAudios();
     	general.initialLoading = false;
     } 
-    } catch (error) {alert("Click error: " + error.message);}
 }
 
 const Scroll = async (elem, options, parent) => {
@@ -2805,7 +3016,7 @@ const Contact = () => {
 			header: "CONTACT DEVELOPER",
 			message: "Feel free to reach out to me via either of the following options. Let's build checkers together.",
  		   type: "NOT NOW/EMAIL/WHATSAPP",
-			icon: "./src/images/contact.png", 
+			icon: Icons.contactIcon, 
 			onResponse: ContactResponse});
 	
 	function ContactResponse (response) {
@@ -2827,7 +3038,7 @@ const Attribute = () => {
 const AppVersion = () => {
 	Notify({action: "alert", 
             header: "CHECKERS VERSION", 
-            message: "Your current app version is: " + appVersion + "<span>Updates of this version</span><ul><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors</li></ul><label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
+            message: "Your current app version is: " + appVersion + "<span>Updates of this version</span>" + versionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
 } 
 
 const FollowUp = () => {
@@ -3134,8 +3345,8 @@ const GetStats = (no) => {
 	section.innerHTML = "";
 	let stat = Game.stats[no];
 	let imgs = $$(".stats_header img");
-	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[17]: srcs[18];
-	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[17]: srcs[18];
+	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[srcs.length-2]: srcs[srcs.length-1];
+	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[srcs.length-2]: srcs[srcs.length-1];
 	
     for(let key of Object.keys(stat)) {
     	if(/version|level|ms|mode/gi.test(key))
@@ -3352,7 +3563,10 @@ const Notify = (data) => {
             note_close_button.style.pointerEvents = "auto";
         }
         else if(data.action == "other") {
-            note_image.src = data.icon;
+        	if(data.icon === undefined) 
+                note_image.src = Icons.confirmIcon;
+            else
+            	note_image.src = data.icon;
             note_image.style.height = "60px";
             if(data.iconType == "winner") {
                 note_image.style.width = "60px";
@@ -3491,7 +3705,7 @@ const Version = async (elem, index, click = true) => {
             level.children[0].innerHTML = "LOCKED";
             level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
             level.style.backgroundImage = general.disabled;
-            level.children[1].style.backgroundImage = `url(${srcs[srcs.length-2]})`;
+            level.children[1].style.backgroundImage = "var(--lock)";
 
             for(let label of level.children[1].children) {
                 label.classList.remove("achieved", "not_achieved");
@@ -3577,8 +3791,8 @@ const Level = async (elem, index, click = true) => {
             $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
         } 
         else if(!Game.levels[Game.level-1].validForHint) {
-            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = `url(${srcs[srcs.length-2]})`;
-            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = `url(${srcs[srcs.length-2]})`;
+            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
             $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
             $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
         } 
@@ -3724,8 +3938,8 @@ async function play (accepted = false) {
                 $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
             } 
             else if(!Game.levels[Game.level-1].validForHint) {
-                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = `url(${srcs[srcs.length-2]})`;
-                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = `url(${srcs[srcs.length-2]})`;
+                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
                 $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
                 $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
             }
@@ -4023,6 +4237,9 @@ async function back (undo = false, isComp = false) {
             if($(current_state[0]).classList.contains("games_totals")) {
             	$(current_state[0]).style.transform = "translate(0, 100%)";
             }
+            else if($(current_state[0]).id == "chat-window") {
+            	HideChat("back");
+            } 
             else {
 	            $(current_state[1]).style.display = "none";
 	            $(current_state[0]).style.display = "grid"; 
