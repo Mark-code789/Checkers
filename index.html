@@ -839,7 +839,6 @@
 								track.stop();
 							} 
 							Permissions.permissions.microphone = true;
-							ElemHint.setHint($(".recorder_button"), "Hold to record. Release to send. Slide left to cancel.");
 						} catch (error) {
 							if(error.name == "NotAllowedError") 
 								Notify("Permission denied.");
