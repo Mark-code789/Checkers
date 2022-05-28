@@ -1,5 +1,5 @@
 
-/* Version: 13*/
+/* Version: 15*/
 
 :root {
     --english-flag: url("english flag.jpeg");
@@ -150,7 +150,7 @@ article {
     
     color: #fff;
     font-weight: 700;
-    display: none;
+    display: block;
     overflow: visible;
     touch-action: none;
 } 
@@ -463,6 +463,7 @@ article {
     margin: 0;
     height: 100%;
     background: transparent;
+    scroll-behavior: smooth;
 } 
 
 .bubbles_container.select_mode .bubble:before {
@@ -934,7 +935,7 @@ article {
 	height: 17px;
 	width: 20px;
 	display: none;
-	background: var(--delete_bin);
+	background: var(--delete-bin);
 	background-size: contain;
 	background-position: 50% 0%;
 	background-repeat: no-repeat;
@@ -2663,6 +2664,11 @@ article {
 
 
 /*two-players-window*/
+#two-players-window #main-section-tp {
+	position: relative;
+	scroll-behavior: smooth;
+} 
+
 #two-players-window #main-section-tp .form {
     height: fit-content;
     width: 100%;

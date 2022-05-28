@@ -164,14 +164,13 @@ const ChannelFunction = async () => {
 						        	opponentStatus.innerHTML = "OFFLINE";
 						        	opponentStatus.classList.remove("black_ui", "default");
 									opponentStatus.classList.add("orange_ui");
-									console.log("opponent timeout event");
 								} 
 	                        } 
 							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
 								LeftChannel({totalOccupancy: 1});
 							} 
 							else if(response.action === "leave" && response.uuid == Lobby.UUID) {
-								console.log("Your own leave event");
+								//console.log("Your own leave event");
 							} 
 							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { 
 								let action = response.state.action;
