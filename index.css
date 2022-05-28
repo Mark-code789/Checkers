@@ -150,7 +150,7 @@ article {
     
     color: #fff;
     font-weight: 700;
-    display: block;
+    display: none;
     overflow: visible;
     touch-action: none;
 } 
