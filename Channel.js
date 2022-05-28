@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 46
+// Version: 47
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -70,7 +70,7 @@ const ChannelFunction = async () => {
                     subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
                     ssl: true, 
                     presenceTimeout: 20, 
-                    restore: true
+                    restore: false
                 });
                 
                 Lobby.LOBBY_LISTENER = {
@@ -153,7 +153,7 @@ const ChannelFunction = async () => {
 								if(response.uuid == Lobby.UUID) {
 									Unsubscribe(false);
 								} 
-								else { 
+								else if(Lobby.opponent) { 
 									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 180_000);
 									let opp = $$("#online .player_name")[1].innerHTML;
 									Notify(`${opp} went offline.`);
@@ -251,12 +251,13 @@ const ChannelFunction = async () => {
                         		name = msg.message.content;
                         		$$("#online .player_name")[1].innerHTML = name;
                         		$$(".chat_header h2")[1].innerHTML = name;
-                        		playerB.name = name;
+                        		Lobby.opponent = name;
                         		Notify(`Your opponent changed name to ${name}`);
                         	} 
                             else if(msg.message.title === 'OpponentName') { 
                                 name = msg.message.content;
                                 $$("#online .player_name")[1].textContent = name;
+                                Lobby.opponent = name;
                                 let opponentStatus = $("#player-2-status");
                                 opponentStatus.setAttribute("value", "online");
                                 opponentStatus.innerHTML = "ONLINE";
@@ -480,13 +481,15 @@ const Unsubscribe = async (isClick = true) => {
 	        $("#online .player_name:first-of-type").innerHTML = "N/A";
 			$("#online .player_name:last-of-type").innerHTML = "N/A";
 			if(GetValue($("#chat-window"), "display") == "flex")
-				 HideChat();
+				 BackState.state.pop();
+			$("#chat-window").style.display = "none";
 			$("#chat-icon").style.display = 'none';
 	        Lobby.CHANNEL = null;
 	        Lobby.isConnected = false;
 	        Lobby.PUBNUB = null;
 	        Lobby.isHost = false;
 	        Lobby.offlineTimeout = null;
+			Lobby.opponent = null;
 		} 
 		else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
 			if(choice == "AM ACTIVE") {
@@ -580,11 +583,13 @@ const LeftChannel = (response) => {
         opponentStatus.innerHTML = "N/A";
         opponentStatus.classList.remove("default", "orange_ui");
 		opponentStatus.classList.add("black_ui");
-        $("#chat-icon").style.display = 'none';
         if(GetValue($("#chat-window"), "display") == "flex")
-			HideChat();
+			BackState.state.pop();
+		$("#chat-icon").style.display = 'none';
+        $("#chat-window").style.display = "none";
         $("#online .lobby_name").innerHTML = Lobby.CHANNEL + " (Host)";
         Lobby.isHost = true;
+        Lobby.opponent = null;
         Notify(`${name} left ${Lobby.CHANNEL} channel.`);
     }
 } 
@@ -638,7 +643,7 @@ const Share = (elem) => {
         } 
         else {
             Notify({action: "alert", 
-                    header: "Error!", 
+                    header: "Oops! Sorry", 
                     message: "Your Browser does not support this kind of sharing. Please use your ordinary means."});
         } 
     } 
@@ -1092,7 +1097,7 @@ const Message = async (prop, publish = true) => { try {
         if(unreadBubble != null) 
             unreadBubble.parentNode.removeChild(unreadBubble);
         
-        setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
+        setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
         if(Lobby.isConnected && publish) {
         	Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
         } 
@@ -1139,7 +1144,7 @@ const Message = async (prop, publish = true) => { try {
 				});
 			} 
         	Lobby.unreadMessages = [];
-            setTimeout(() => {anchor.scrollIntoView({block: "end", behavior: "smooth"});}, 200);
+            setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
         } 
         else 
         	Lobby.unreadMessages.push({id: prop.id, timetoken: prop.timetoken});
@@ -1308,6 +1313,7 @@ const Request = async (prop) => {
 class AdjustWidth {
 	static finishedExecuting = true;
 	static stateTimeout;
+	static typing = false;
 	static adjust = (elem, event) => {
 		if(event) {
 			event.preventDefault();
@@ -1325,22 +1331,29 @@ class AdjustWidth {
 		if(isEvent && Lobby.isConnected) {
 			clearTimeout(this.stateTimeout);
 			if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
+				clearTimeout(AdjustWidth.stateTimeout);
 				Lobby.PUBNUB.setState({
 					state: {action: "typing", value: false}, 
 					channels: [Lobby.CHANNEL]
 				});
+				this.typing = false;
 			} 
-			else {
+			else if(!this.typing) {
 				Lobby.PUBNUB.setState({
 					state: {action: "typing", value: true}, 
 					channels: [Lobby.CHANNEL]
 				});
-				this.stateTimeout = setTimeout( () => {
+				this.typing = true;
+			} 
+			else {
+				clearTimeout(this.stateTimeout);
+				this.stateTimeout = setTimeout(() => {
 					Lobby.PUBNUB.setState({
 						state: {action: "typing", value: false}, 
 						channels: [Lobby.CHANNEL]
 					});
-				}, 1000);
+					this.typing = false;
+				}, 700);
 			} 
 		} 
 		self.adjustWidth(elem);
@@ -1350,11 +1363,13 @@ class AdjustWidth {
 	    let sendBtn = $(".send_button");
 		let recordBtn = $(".recorder_button");
 	    if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
-	        elem.innerHTML = "";
-			sendBtn.style.display = "none";
-			recordBtn.style.display = "block";
-			recordBtn.classList.add("button_pop_up");
-			setTimeout(() => {recordBtn.classList.remove("button_pop_up")}, 300);
+			if(GetValue(sendBtn, "display") == "block") {
+		        elem.innerHTML = "";
+				sendBtn.style.display = "none";
+				recordBtn.style.display = "block";
+				recordBtn.classList.add("button_pop_up");
+				setTimeout(() => {recordBtn.classList.remove("button_pop_up")}, 300);
+			}
 	    } 
 	    else {
 			if(GetValue(recordBtn, "display") == "block") {
@@ -1381,6 +1396,8 @@ const ChangeTextBox = async (isFocused, elem, event) => {
 	if(typeof event == "object") {
 		event.preventDefault();
 		if(event.type == "blur" && elem.classList.contains("chat_field")) {
+			AdjustWidth.typing = false;
+			clearTimeout(AdjustWidth.stateTimeout);
 			if(Lobby.isConnected) {
 				Lobby.PUBNUB.setState({
 					state: {action: "typing", value: false}, 
@@ -1402,7 +1419,12 @@ const ChangeTextBox = async (isFocused, elem, event) => {
 	} 
 	
 	if(!elem.className.includes("chat_field")) {
-		elem.scrollIntoView(false);
+		if(isFocused) {
+			setTimeout (() => {
+				let par = $("#main-section-tp");
+				par.scrollTop = elem.offsetHeight + elem.offsetTop - par.clientHeight + 20;
+			}, 200);
+		} 
 	} 
     if(elem.id === "channel-name") {
         elem.maxLength = "100";
@@ -1417,7 +1439,7 @@ const ChangeTextBox = async (isFocused, elem, event) => {
             } 
             else {
                 $("#two-players-window h2").style.display = "none";
-                //elem.scrollIntoView({block: "end", inline: "center", behavior: "smooth"});
+                elem.parentNode.scrollTop = elem.offsetTop;
             } 
         } 
         else if(vh < 150 && !isFocused || vh > 150) {

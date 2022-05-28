@@ -1,6 +1,6 @@
 'use strict'
 
-// Version: 30
+// Version: 31
 
 // object to store the most needed images 
 const Icons = {
@@ -225,7 +225,8 @@ async function LoadingDone () {
    
     $(".chat_delete").addEventListener("click", Bubble.requestDelete, false);
     $(".chat_copy").addEventListener("click", Bubble.copyBubbleText, false);
-    
+   
+    $(".bubbles_container").addEventListener("scroll", (event) => LongPress.end(event, $(".bubbles_container")), false);
     $("#games").addEventListener("scroll", GamesScroll.check, false);
     $(".totals_footer button").addEventListener("click", ShowTotalStats, false);
     
@@ -465,11 +466,6 @@ async function LoadingDone () {
     window.addEventListener("orientationchange", AdjustBoard);
     
     UpdateOnlineStatus();
-    window.addEventListener("beforeunload", async (e) => {
-        e.preventDefault();
-        if(Lobby.isConnected)
-            await Unsubscribe();
-    });
     window.addEventListener("resize", () => {
 		if(document.activeElement == $(".chat_field")) {
 			let height = parseFloat(GetValue($("#chat-section"), "height"));
@@ -714,11 +710,14 @@ class Drag {
 
 class LongPress {
 	static selectMode = false;
-	static delay;
+	static delay = null;
 	static hinted = false;
+	static scroll = false;
+	static firstTime = false;
 	static start = (event, target) => {
 		if(event.target == target) {
-			event.preventDefault();
+			this.scroll = false;
+			this.firstTime = false;
 			if(!this.selectMode) {
 				this.delay = setTimeout(() => {
 					$$(".chat_header h2")[1].style.display = "none";
@@ -732,39 +731,45 @@ class LongPress {
 					this.selectMode = true;
 					$(".bubbles_container").classList.add("select_mode");
 				}, 500);
-			} 
-			if(this.selectMode) {
-				target.classList.toggle("selected_bubble");
-				let selected = $$(".selected_bubble");
-				
-				if(selected.length == 0) {
-					clearTimeout(this.delay);
-					$$(".chat_header h2")[1].style.display = "block";
-					$$(".chat_header p")[1].style.display = "block";
-					$(".chat_menu").style.display = "none";
-					this.selectMode = false;
-					$(".bubbles_container").classList.remove("select_mode");
-				}
-				else if(selected.length > 1) {
-					$(".chat_copy").classList.add("disabled_button");
-				}
-				else if(selected.length == 1) {
-					$(".chat_copy").classList.remove("disabled_button");
-				}
-				
-				if($(".selected_bubble .audio_panel")) {
-					$(".chat_copy").classList.add("disabled_button");
-				}
+				this.firstTime = true;
 			} 
 		}
 	}
 	static end = (event, target) => {
 		if(event.target == target) {
-			event.preventDefault();
 			clearTimeout(this.delay);
-			if(!this.selectMode && !this.hinted) {
-				ElemHint.setHint(target.$(".text"), "Long press for more options.");
-				this.hinted = true;
+			if(!this.scroll && (event.type == "touchend" || event.type == "mouseup")) {
+				event.preventDefault();
+				if(!this.selectMode && !this.hinted) {
+					ElemHint.setHint(target.$(".text"), "Long press for more options.");
+					this.hinted = true;
+				}
+				else if(this.selectMode && !this.firstTime) {
+					target.classList.toggle("selected_bubble");
+					let selected = $$(".selected_bubble");
+					
+					if(selected.length == 0) {
+						clearTimeout(this.delay);
+						$$(".chat_header h2")[1].style.display = "block";
+						$$(".chat_header p")[1].style.display = "block";
+						$(".chat_menu").style.display = "none";
+						this.selectMode = false;
+						$(".bubbles_container").classList.remove("select_mode");
+					}
+					else if(selected.length > 1) {
+						$(".chat_copy").classList.add("disabled_button");
+					}
+					else if(selected.length == 1) {
+						$(".chat_copy").classList.remove("disabled_button");
+					}
+					
+					if($(".selected_bubble .audio_panel")) {
+						$(".chat_copy").classList.add("disabled_button");
+					}
+				} 
+			}
+			else if(event.type == "scroll") {
+				this.scroll = true;
 			} 
 		} 
 	} 
@@ -789,7 +794,9 @@ const ShowChat = () => {
    
     let badge = $(".badge");
     if(parseInt(badge.innerHTML) > 0) {
-        setTimeout(() => {$(".center_bubble").scrollIntoView({block: "end", behavior: "smooth"});}, 200);
+        setTimeout(() => {
+			$(".bubbles_container").scrollTop = $(".anchor").offsetTop;
+		}, 200);
     } 
     
     general.chatFieldHadFocus = true;
@@ -2583,7 +2590,7 @@ const Edit = (elem, extreme = false) => {
 
 const Submit = (event) => {
     event.preventDefault();
-    $("#two-players-window .footer_section .right_btn").focus();
+    document.activeElement.blur();
     let isOnlineForm = GetValue($("#online"), "display") == "grid";
     if(isOnlineForm) {
         if(navigator.onLine)
@@ -3035,7 +3042,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "22.14.161.469";
+const currentAppVersion = "22.14.163.471";
 const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
@@ -3411,8 +3418,12 @@ const Mode = async (type, click = true) => {
        
         let elem = $("#main div:nth-of-type(3)");
         await Clicked(elem, elem.parentNode, click);
-        if(Lobby.isConnected)
-        	ElemHint.setHint($("#online .field.playerA_name"), "To change your name, enter the name here and hit submit or enter.");
+        if(Lobby.isConnected) {
+        	setTimeout(() => {
+	        	if(GetValue($("#two-players-window"), "display") == "grid")
+	        	ElemHint.setHint($("#online .field.playerA_name"), "To change your name, enter the name here and hit submit or enter.");
+			}, 200);
+        } 
     } 
     else if(type == 1) { 
         Game.mode = "single-player";
@@ -3895,7 +3906,7 @@ const Home = async () => {
 }
 
 async function play (accepted = false) {
-    if(Lobby != undefined && Lobby.isConnected && Game.mode === "two-player-online" || Game.mode === "single-player") {
+    if(Lobby != undefined && Lobby.isConnected && Lobby.opponent && Game.mode === "two-player-online" || Game.mode === "single-player") {
         if(GetValue($("#play-window"), "display") == "none" || accepted) {
         	// If game mode is online, request consent from opponent, otherwise just display the play window
             if(Game.mode === "two-player-online" && !accepted) {
@@ -4231,6 +4242,7 @@ async function back (undo = false, isComp = false) {
         let length = BackState.state.length;
         if(length > 0) { 
             let current_state = BackState.state[length-1];
+
             await BackState.state.pop();
             
             if(current_state.length > 2) {
