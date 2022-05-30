@@ -1,8 +1,6 @@
 'use strict'
 
-// Version: 32
-
-// object to store the most needed images 
+/* Version: 33 */
 const Icons = {
     alertIcon: "", 
     confirmIcon: "", 
@@ -13,7 +11,6 @@ const Icons = {
     diceIcon: "",
     contactIcon: "", 
 }
-// object to store the most needed audio 
 const Sound = { 
     click: "",
     capture: "",
@@ -28,12 +25,8 @@ const Sound = {
     throwRecording: "", 
     muted: false
 }
-
-// for caching purposes 
 let storage = null;
 if(localStorage) storage = localStorage;
-
-// srcs to load the resources needed
 let appShells = ["alert.png",
 	            "confirm.png", 
 	            "winner.png",
@@ -86,10 +79,7 @@ let appShells = ["alert.png",
 				"copy.png", 
 	            "warning.png"];
 let srcs = [];
-            
-// to access audio object keys
 let soundProps = Object.keys(Sound);
-// to access css values and image keys
 let imageProps = [...Object.keys(Icons), 
 				    "--english-flag",
                     "--kenyan-flag",
@@ -123,7 +113,7 @@ let imageProps = [...Object.keys(Icons),
 					"--delete-lid",
 					"--copy",
 					"--warning"];
-// use recursive function to load the images in srcs and updating the progress bar
+
 let loadingInfo = $("#load-window .loader p");
 let progress = $("#load-window .loader .progress");
 
@@ -170,6 +160,17 @@ async function LoadResources (src = appShells[0], i = 0) {
             	appShells = null;
             	imageProps = null;
             	soundProps = null;
+            	await new Sleep().wait(0.5);
+            	
+            	if(deferredEvent && !newSW) {
+			        $(".install").classList.add("show_install_prompt");
+			    } 
+			    else if(newSW) {
+			    	InvokeSWUpdateFlow(newSW);
+			    } 
+			    else {
+			    	Permissions.check();
+			    } 
             } 
         }
         else if(!goingToRefresh) {
@@ -178,7 +179,7 @@ async function LoadResources (src = appShells[0], i = 0) {
     }
     else {
     	console.log(response);
-        alert("LOADING ERROR!\nFailed to load AppShellFiles - " + src + ". Either you have bad network or you have lost internet connection.");
+        alert("LOADING ERROR!\nFailed to load AppShellFiles. Either you have bad network or you have lost internet connection.");
     } 
 } 
 
@@ -260,87 +261,83 @@ async function LoadingDone () {
         } 
     }
     else {
-        try {
-            Game.versions = JSON.parse(storage.getItem("Checkers - versions"));
-            let version = storage.getItem("Checkers - version");
-            version = /^\d+/gi.test(version)? "american": version;
-            Game.version = version;
-            version = $(`#main-window .version[value='${version}']`);
-            await Version(version, undefined, false);
-        } catch (error) {console.log(error);}
+        Game.versions = JSON.parse(storage.getItem("Checkers - versions"));
+        let version = storage.getItem("Checkers - version");
+        version = /^\d+/gi.test(version)? "american": version;
+        Game.version = version;
+        version = $(`#main-window .version[value='${version}']`);
+        await Version(version, undefined, false);
         
         Game.stats = JSON.parse(storage.getItem("Checkers - stats")) || [];
         
         let length = Game.stats.length;
         let mainSec = $("#games-window #games");
-        try {
-        	$(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
-            for(let i = 0; i < length; i++) {
-                let no = i;
-                const stat = Game.stats[no];
-                let itemSec = $$$("section", ["class", "game_item"]);
-                let ref;
-                if(stat.ms) {
-                	let today = new Date();
-                	let yesterday = new Date();
-                	yesterday.setDate(today.getDate() - 1);
-                	let date = new Date(stat.ms);
-                	let str = date.toLocaleDateString('en-US', {weekday: "long", month: "short", year: "numeric"}).split(" ");
-                	str = date.toDateString() == today.toDateString()? "Today": date.toDateString() == yesterday.toDateString()? "Yesterday": str[2] + ", " + str[0] + " " + date.getDate() + " " + str[1];
-                	ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
-                	if(!ref) {
-                		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
-                		let leastDiff = Number.MAX_SAFE_INTEGER;
-                		for(let sec of mainSec.$$(".games_date")) {
-                			if(sec.getAttribute("date") == "sometime back") continue;
-                			let diff = new Date(sec.getAttribute("date")).getTime() - date.getTime();
-	                		if(Math.abs(diff) < leastDiff && diff < 0) {
-								leastDiff = Math.abs(diff);
-	                			ref = sec;
-	                		}
-	                	}
-						if(ref) {
-							ref = mainSec.$(`section[date='${ref.getAttribute("date")}']:last-of-type`);
-							//ref = ref[ref.length-1];
-							mainSec.insertBefore(dateSec, ref.nextElementSibling);
-						}
-						else {
-							mainSec.appendChild(dateSec);
-						} 
-						ref = dateSec;
+        
+    	$(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
+        for(let i = 0; i < length; i++) {
+            let no = i;
+            const stat = Game.stats[no];
+            let itemSec = $$$("section", ["class", "game_item"]);
+            let ref;
+            if(stat.ms) {
+            	let today = new Date();
+            	let yesterday = new Date();
+            	yesterday.setDate(today.getDate() - 1);
+            	let date = new Date(stat.ms);
+            	let str = date.toLocaleDateString('en-US', {weekday: "long", month: "short", year: "numeric"}).split(" ");
+            	str = date.toDateString() == today.toDateString()? "Today": date.toDateString() == yesterday.toDateString()? "Yesterday": str[2] + ", " + str[0] + " " + date.getDate() + " " + str[1];
+            	ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
+            	if(!ref) {
+            		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
+            		let leastDiff = Number.MAX_SAFE_INTEGER;
+            		for(let sec of mainSec.$$(".games_date")) {
+            			if(sec.getAttribute("date") == "sometime back") continue;
+            			let diff = new Date(sec.getAttribute("date")).getTime() - date.getTime();
+                		if(Math.abs(diff) < leastDiff && diff < 0) {
+							leastDiff = Math.abs(diff);
+                			ref = sec;
+                		}
                 	}
-                	itemSec.setAttribute("date", date.toDateString());
-                }
-                else {
-                	ref = mainSec.$("section[date='sometime back']:last-of-type");
-                	if(!ref) {
-                		let dateSec = $$$("section", ["class", "games_date", "date", "sometime back", "textContent", "Sometime Back"]);
-                		mainSec.appendChild(dateSec);
-                		ref = dateSec;
-                	}
-                	itemSec.setAttribute("date", "sometime back");
-                }
-                
-                if(stat.version) {
-                	if(stat.version.length == 3) {
-		                let versions = Object.keys(Game.versions);
-		                stat.version = versions.find((v) => {return v.startsWith(stat.version.toLowerCase())}).toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
-						stat.version += !/checkers$/gi.test(stat.version)? " Checkers": "";
+					if(ref) {
+						ref = mainSec.$(`section[date='${ref.getAttribute("date")}']:last-of-type`);
+						mainSec.insertBefore(dateSec, ref.nextElementSibling);
+					}
+					else {
+						mainSec.appendChild(dateSec);
 					} 
-					if(stat.level)
-						stat.level = stat.level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
-				}
-                p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + (!stat.mode || stat.mode == "single-player"? (stat.level? "<br>" + stat.level: ""): "<br>" + stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
-                let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
-                btn.addEventListener("click", () => GetStats(no), false);
-                itemSec.appendChild(p);
-                itemSec.appendChild(btn);
-                mainSec.insertBefore(itemSec, ref.nextElementSibling);
+					ref = dateSec;
+            	}
+            	itemSec.setAttribute("date", date.toDateString());
             }
-            GetTotals();
-        } catch (error) {alert(error.message); navigator.serviceWorker.controller.postMessage(error.message + "\n" + error.stack);}
+            else {
+            	ref = mainSec.$("section[date='sometime back']:last-of-type");
+            	if(!ref) {
+            		let dateSec = $$$("section", ["class", "games_date", "date", "sometime back", "textContent", "Sometime Back"]);
+            		mainSec.appendChild(dateSec);
+            		ref = dateSec;
+            	}
+            	itemSec.setAttribute("date", "sometime back");
+            }
+            
+            if(stat.version) {
+            	if(stat.version.length == 3) {
+	                let versions = Object.keys(Game.versions);
+	                stat.version = versions.find((v) => {return v.startsWith(stat.version.toLowerCase())}).toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+					stat.version += !/checkers$/gi.test(stat.version)? " Checkers": "";
+				} 
+				if(stat.level)
+					stat.level = stat.level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+			}
+            p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + (!stat.mode || stat.mode == "single-player"? (stat.level? "<br>" + stat.level: ""): "<br>" + stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
+            let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
+            btn.addEventListener("click", () => GetStats(no), false);
+            itemSec.appendChild(p);
+            itemSec.appendChild(btn);
+            mainSec.insertBefore(itemSec, ref.nextElementSibling);
+        }
+        GetTotals();
       
-        // Mute
+        /* Mute */
         let muted = storage.getItem("Checkers - muted");
         if(muted == "false") {
             Mute(JSON.parse(muted));
@@ -356,7 +353,7 @@ async function LoadingDone () {
             storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
         }
         
-        // First Move 
+        /* First Move */
         let firstMove = JSON.parse(storage.getItem("Checkers - first_move"));
         if(firstMove) {
             Game.whiteTurn = firstMove.whiteTurn;
@@ -383,7 +380,7 @@ async function LoadingDone () {
             storage.setItem("Checkers - first_move", JSON.stringify({whiteTurn: Game.whiteTurn, rollDice: Game.rollDice}));
         }
        
-        // Play As
+        /* Play As */
         let playAs = JSON.parse(storage.getItem("Checkers - play_as"));
         if(playAs) {
             if(playAs.alternate == true) {
@@ -401,7 +398,7 @@ async function LoadingDone () {
             storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
         } 
        
-        // Mandatory Capture
+        /* Mandatory Capture */
         let mandatoryCapture = storage.getItem("Checkers - mandatory_capture");
         
         if(mandatoryCapture) {
@@ -421,7 +418,7 @@ async function LoadingDone () {
             storage.setItem("Checkers - mandatory_capture", JSON.stringify(Game.mandatoryCapture));
         }
        
-        // Helper 
+        /* Helper */
         let helper = JSON.parse(storage.getItem("Checkers - helper"));
         if(helper) {
             Game.helper= helper.helper;
@@ -447,16 +444,6 @@ async function LoadingDone () {
             storage.setItem("Checkers - helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
         }
     }
-    
-    if(deferredEvent && !newSW) {
-        $(".install").classList.add("show_install_prompt");
-    } 
-    else if(newSW) {
-    	InvokeSWUpdateFlow(newSW);
-    } 
-    else {
-    	Permissions.check();
-    } 
     
     document.addEventListener("visibilitychange", (e) => {
 		if(document.visibilityState == "visible") {
@@ -917,32 +904,30 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
                 if(isEmpty) {
 	                if(i < Game.rowNo) {
 	                    let div = $$$("div");
-	                    //change color of the piece where according to the choice of the player
 	                    if(playerBPieceColor === "Black") {
 	                        div.classList.add("piece_black");
-	                        Game.state[i].push("MB"); // pushing MEN-BLACK
+	                        Game.state[i].push("MB");
 	                    } 
 	                    else if(playerBPieceColor === "White") {
 	                        div.classList.add("piece_white");
-	                        Game.state[i].push("MW"); // pushing MEN-WHITE
+	                        Game.state[i].push("MW");
 	                    } 
 	                    cell.appendChild(div);
 	                } 
 	                else if(i > Game.boardSize - Game.rowNo - 1) {
 	                    let div = $$$("div");
-	                    //change color of the piece where according to the choice of the player
 	                    if(playerAPieceColor === "White") {
 	                        div.classList.add("piece_white");
-	                        Game.state[i].push("MW"); // pushing MEN-WHITE
+	                        Game.state[i].push("MW");
 	                    } 
 	                    else if(playerAPieceColor === "Black") {
 	                        div.classList.add("piece_black");
-	                        Game.state[i].push("MB"); // pushing MEN-BLACK
+	                        Game.state[i].push("MB");
 	                    } 
 	                    cell.appendChild(div);
 	                } 
 	                else {
-	                    Game.state[i].push("EC"); // pushing EMPTY-CELL
+	                    Game.state[i].push("EC");
 	                }
 				}
 				else {
@@ -967,7 +952,7 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
                     cell.classList.add("cell_white");
                 }
                 if(isEmpty)
-                	Game.state[i].push("NA"); // pushing NOT-AVAILABLE
+                	Game.state[i].push("NA");
             } 
             await Prms("done");
         }
@@ -980,13 +965,10 @@ const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
         frame[2].children[i].style.display = "none";
         frame[3].children[i].style.display = "none";
     }
-    //$("#play-window").style.display = "none";
-	//$("#play-window").style.opacity = "1";
     return Prms("done");
 } 
 
 const Refresh = async (restart = false, color = playerA.pieceColor, gameState = []) => {
-    // remove all the temporary css classes 
     let cells = $$("#table .cell");
     for(let cell of cells) {
         cell.className = "";
@@ -1011,8 +993,7 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
 			} 
         } 
     } 
-   
-    // reset all the game states and players states
+    
     if(storage.getItem("Checkers-Test-State5")) {
 		Game.state = JSON.parse(storage.getItem("Checkers-Test-State"));
 	}
@@ -1200,8 +1181,6 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         moves = await ai.sort(moves.reverse(), state);
         console.log(JSON.stringify(moves));
         return;*/
-        //console.log(await AssessAll({id: "KB", state}));
-        //return;
         
         let chosen = (Math.random()*(moves.length - 1)).toFixed(0);
         let bestMove = moves[chosen];
@@ -1230,7 +1209,6 @@ const Alternate = async () => {
 } 
 
 const RollDice = () => {
-    //use while loop indefinitely to get the right value of the roll
     while(true) {
         let res = Math.round(Math.random()*7) + Math.round(Math.random()*7);
         if(res == 7 || res == 11)
@@ -1297,7 +1275,6 @@ class Move {
     captures = async function (prop) {
         let final = false;
     	let validMove = false;
-    	// Remove Helper cells for filtering purposes 
     	for(let cell of $$("#table .helper_empty, #table .pre_valid, #table .valid")) {
     		cell.classList.remove("helper_empty", "pre_valid", "valid");
     	} 
@@ -1326,8 +1303,7 @@ class Move {
     				else {
 					    final = true;
     				}
-				
-					//Filter helper cells
+					
 	    			if((Game.helper || Game.capturesHelper) && (Game.mode == "two-player-online" || Game.mode == "two-player-offline" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"))) {
 						let emptyCells = [];
 	    				for(let arr of general.sorted) {
@@ -1358,7 +1334,7 @@ class Move {
 				    track2.b = parseInt(move.capture.slice(1,2));
 				    Game.track.push([Game.prop, track2]);
 			    }
-			    // removing valid cell states
+			    
 			    for(let move of sort) {
 				    let i = parseInt(move.empty.slice(0,1));
 				    let j = parseInt(move.empty.slice(1,2));
@@ -1387,8 +1363,7 @@ class Move {
     }
         
         
-    select = async function (prop, capture = false) { //try {
-    	//publish for selecting both ordinary and capture moves
+    select = async function (prop, capture = false) { 
         if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
             await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         }
@@ -1408,11 +1383,9 @@ class Move {
         
         prop.cell.classList.add("valid");
         return Prms(true);
-        //} catch (error) {Notify({action: "alert", header: "Error 0!", message: error});} 
     } 
     
-    makePath = async function (prop, capture = false) { //try {
-    	// publish for ordinary moves
+    makePath = async function (prop, capture = false) { 
     	if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
             await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
         } 
@@ -1428,10 +1401,9 @@ class Move {
         else {
         	return {cell: prop.cell, i: prop.i, j: prop.j};
         } 
-        //} catch (error) {Notify({action: "alert", header: "Error 1!", message: error});} 
     } 
     
-    sendCargo = async function (prop, capture = false) { //try {
+    sendCargo = async function (prop, capture = false) { 
         let piece = Game.prop.cell.lastChild;
         let transmitter = $(".transmitter");
         let cargo = transmitter.lastElementChild;
@@ -1453,25 +1425,18 @@ class Move {
     	} 
     	this.root.style.setProperty("--mt", mt + "s");
         
-       
-        /*if(general.orientation.toLowerCase().includes("landscape")) {
-        	mt += mt * 0.5;
-        	this.root.style.setProperty("--mt", mt + "s");
-        } */
-        
         general.prop = prop;
         
         cargo.setAttribute('onanimationend', `Move.receiveCargo(${capture})`);
         transmitter.classList.add("cargo_ready");
         cargo.classList.add("move");
-        //} catch (error) {Notify({action: "alert", header: "Error 2!", message: error});} 
     } 
     
     static receiveCargo = async function (capture) { 
         let prop = general.prop;
         let root = document.documentElement;
         Game.pieceSelected = false;
-        //try {
+        
         if(Game.prop != null && prop != null) {
             for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
                 cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
@@ -1489,7 +1454,6 @@ class Move {
             
             prop.piece = piece;
             
-            // Updating moves made by the player
             if(!capture || prop.final) {
                 if(piece.className.includes(playerA.pieceColor.toLowerCase())) 
                 	playerA.moves++;
@@ -1511,7 +1475,6 @@ class Move {
                 	Game.track[prop.n][1] = prop;
             }  
             
-            // Updating Game state
             piece = Game.state[Game.prop.i][Game.prop.j];
             if(!piece.includes("K") && ((Game.version !== "russian" && prop.final || Game.version === "russian" && capture || !capture))) 
                 piece = await (prop.i === 0 && piece.includes(playerA.pieceColor.slice(0,1)) || prop.i === Game.boardSize - 1 && piece.includes(playerB.pieceColor.slice(0,1)))? piece.replace("M", "K"): piece;
@@ -1519,7 +1482,7 @@ class Move {
             Game.state[prop.i][prop.j] = piece;
             
             if(!capture) {
-                // Changing turn
+                
                 Game.whiteTurn = !Game.whiteTurn;
                 let id;
                 id = (piece.includes("W"))? "B":"W";
@@ -1529,7 +1492,7 @@ class Move {
                 let over = await this.isOver(id);
                 if(over)
                     return;
-                else { // Game not over
+                else { 
                     BackState.moves.push([initProp, prop]);
                     if(Game.helper) {
                         Game.prop.cell.classList.add("valid");
@@ -1545,7 +1508,7 @@ class Move {
                     
                     if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                         UpdatePiecesStatus("thinking...");
-                        setTimeout( async () => { //try {
+                        setTimeout( async () => { 
                             let id = playerB.pieceColor.substring(0,1);
                             let state = Copy(Game.state);
                             let moves = Game.moves.captures;
@@ -1560,19 +1523,16 @@ class Move {
                             let ai = new AI({state, moves, depth: Game.level});
                             await ai.makeMove();
                             ai = null;
-                            //} catch (error) {alert("Non capture Error\n" + error);} 
                         }, 1);
                     }
                     
-                } // End of else if isOver 
-            } // End of if capture
+                } 
+            } 
             else {
                 if(!prop.final) {
-                    // Getting the table position to aid undo in the array
                     let i = prop.a;
                     let j = prop.b;
                     
-                    // Removing the captured piece
                     let id = Game.state[i][j];
                     Game.state[i][j] = "EC";
                     
@@ -1583,40 +1543,32 @@ class Move {
                     this.startMoving(prop.n+1);
                 } 
                 else if(prop.final) {
-                    //Enabling the undo buttons
                     $$(".controls")[1].classList.remove("cell_disabled");
                     $$(".controls")[2].classList.remove("cell_disabled");
                     $$(".horiz_controls")[1].classList.remove("cell_disabled");
                     $$(".horiz_controls")[2].classList.remove("cell_disabled");
                     
-                    // Getting the table position to aid undo in the array
                     let i = prop.a;
                     let j = prop.b;
                     
-                    // Removing the captured piece
                     let id = Game.state[i][j];
                     Game.state[i][j] = "EC";
                     
-                    // Updating player's Longest capture stats 
                     if(piece.includes(playerA.pieceColor.slice(0,1)))
                         playerA.longestCapture = Math.max(Game.track.length, playerA.longestCapture);
                     else
                         playerB.longestCapture = Math.max(Game.track.length, playerB.longestCapture);
                     
-                    // Changing turn
                     Game.whiteTurn = !Game.whiteTurn;
                     
-                    // Checking if Game is over
                     id = (piece.includes("W"))? "B":"W";
                     let over = await this.isOver(id);
                     if(over)
                         return;
                     else {
-                        // Marking the initial steps including the initial place the piece was marked
                         let captures = [];
                         let moves = [];
                         for(let track of Game.track) {
-                            //marking the moves made
                             moves.push(track[1]);
                             if(Game.helper || Game.capturesHelper) {
                                 track[0].cell.classList.add("valid");
@@ -1624,24 +1576,23 @@ class Move {
 							} 
                             track[0].cell.classList.remove("cell_disabled");
                             track[1].cell.classList.remove("cell_disabled");
-                            // Getting the table position to aid undo in the array
                             i = track[1].a;
                             j = track[1].b;
                             let capturedPiece = $("#table").children[i*Game.boardSize+j].firstChild;
                             
                             id = (capturedPiece.className.includes("white"))? "W": "B";
                             id = ((capturedPiece.className.includes("crown"))? "K": "M") + id;
-                            // storing information for undo purposes 
+                            
                             captures.push([capturedPiece, i, j, id]);
                             
-                            // adding fading animation effect to the captured piece
+                            
                             capturedPiece.setAttribute("onanimationend", "End(event)");
                             capturedPiece.classList.add("captured");
                         }
                         moves.unshift(Game.track[0][0]);
                         BackState.moves.push([...moves, captures]);
                         
-                        //Playing audios
+                        
                         if(!prop.king && Game.track.length > 1) {
                             AudioPlayer.play("collect", 0.5);
                         } 
@@ -1651,16 +1602,13 @@ class Move {
                         else {
                             AudioPlayer.play("king", 1);
                         }
-                       
-                        //general.captureFadeTime = new Sleep();
-                        //await general.captureFadeTime.start();
                             
                         Game.track = [];
                         Helper(Game.moves, Copy(Game.state));
                         
                         if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                             UpdatePiecesStatus("thinking...");
-                            setTimeout( async () => { //try {
+                            setTimeout( async () => { 
                                 let id = playerB.pieceColor.substring(0,1);
                                 let state = Copy(Game.state);
                                 let moves = Game.moves.captures;
@@ -1675,12 +1623,11 @@ class Move {
                                 let ai = new AI({state, moves, depth: Game.level});
                                 await ai.makeMove();
                                 ai = null;
-                                //} catch (error) {alert("Capture Error\n" + error);} 
                             }, 1);
                         }
-                    } // end of else if isOver
-                } // end of if is prop.final
-            } // End of if capture
+                    } 
+                } 
+            } 
         }
        
         if(Game.whiteTurn && playerA.pieceColor == 'White' || !Game.whiteTurn && playerA.pieceColor == "Black") {
@@ -1691,7 +1638,6 @@ class Move {
         } 
         
         return;
-        //} catch (error) {Notify({action: "alert", header: "Error 3!", message: error});} 
     } 
     
     static isOver = async function (id) {
@@ -1708,9 +1654,8 @@ class Move {
         	return Prms(true);
         } 
         else {
-            //Calling this method to update the players pieces to help ascertain if game is over
             await UpdatePiecesStatus();
-            // Checking if its a draw
+            
             if(Game.possibleWin) {
             	Game.drawStateCount = 0;
             	Game.baseStateCount = 1;
@@ -1769,7 +1714,7 @@ const ValidateMove = async (prop) => {
         
         if(valid) {
             let id = Game.state[prop.i][prop.j];
-            let posId = `${prop.i}${prop.j}`; //posId for position identifier
+            let posId = `${prop.i}${prop.j}`; 
             if(Game.moves.captures.length > 0 && !isEmpty) {
                 for(let type of Game.moves.captures) {
                     if(type.cell == posId) {
@@ -1804,7 +1749,7 @@ const ValidateMove = async (prop) => {
                         prop.cell.classList.remove("invalid");
                         void prop.cell.offsetWidth;
                         prop.cell.classList.add("invalid");
-                        //if(Game.mode != "two-player-online") 
+                        
                         Notify("You must capture");
                         setTimeout(() => {
 							prop.cell.classList.remove("invalid");
@@ -1930,15 +1875,15 @@ class Timer {
 } 
 
 const UpdatePiecesStatus = (string = null) => {
-    let barA = $("#play-window .footer_section pre"); // bar representing the status bar on portrait mode
-    let barB = $(".face_bottom pre"); // status bar for landscape mode
+    let barA = $("#play-window .footer_section pre"); 
+    let barB = $(".face_bottom pre"); 
     if(string != null) {
         barA.innerHTML = string;
         barB.innerHTML = string;
     } 
     else {
         countPieces();
-        if(Game.mode === "single-player") { try {
+        if(Game.mode === "single-player") { 
             let labels = [$$("#play-window .score_cont .score label"), $$("#play-window .middle_section .score label")];
             if(Game.validForHint) {
                let threshold = Math.floor((Game.boardSize / 2 * Game.rowNo) / 4);
@@ -1992,7 +1937,7 @@ const UpdatePiecesStatus = (string = null) => {
 	                label[1].classList.add("not_achieved");
 	                label[2].classList.add("not_achieved");
 				} 
-            } } catch (error) {Notify(error + "");}
+            } 
             barA.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
             barB.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
         } 
@@ -2080,7 +2025,6 @@ const GameOver = async (draw = false) => {
                 let labels = $$("#levels #nav div")[Game.level].children[1].children;
                 let score = Game.levels[Game.level].score;
                 
-                // only change when there is an improvement
                 if(score < playerA.pieces) {
                     let threshold = Math.floor((Game.boardSize / 2 * Game.rowNo) / 4);
                     if(playerA.pieces >= threshold && playerA.pieces < threshold * 2) {
@@ -2107,7 +2051,7 @@ const GameOver = async (draw = false) => {
                 Game.levels[Game.level].score = score;
             }
             let level = Game.level;
-            //Unlock the next level
+            
             if(level < Game.levels.length-1)
                 await Level(false);
                
@@ -2284,7 +2228,7 @@ const AddItem = async function () {
     playerA.captures = Game.boardSize / 2 * Game.rowNo - playerB.pieces;
     playerB.captures = Game.boardSize / 2 * Game.rowNo - playerA.pieces;
     
-    // Caching stats
+    
     Game.stats.push({playerName: [playerA.name, playerB.name],
                      pieceColor: [playerA.pieceColor.toUpperCase(), playerB.pieceColor.toUpperCase()],
                      gameStatus: [draw? "DRAW": name === playerA.name? "LOST": "WON", draw? "DRAW": name === playerB.name? "LOST": "WON"], 
@@ -2297,7 +2241,7 @@ const AddItem = async function () {
 					 ms: date.getTime(),
 					 mode: Game.mode
                     });
-    // Updating Games window 
+    
     let length = Game.stats.length;
     let mainSec = $("#games-window #games");   
     let itemSec = $$$("section", ["class", "game_item", "date", date.toDateString()]);
@@ -2337,7 +2281,7 @@ class AudioPlayer {
                 Sound[tone].pause();
                 Sound[tone].currentTime = 0;
                 setTimeout(_ => Sound[tone].play(), 0.1);
-	        } catch (error) {Notify(error + "");}
+	        } catch (error) {}
 	    }
 	}
 	static initializeAudios = () => {
@@ -2385,15 +2329,13 @@ const Clicked = async (elem, parent, click = true) => {
                 $("#main-window #levels h2").style.color = "#6C6C6C";
         } 
         
-        //setting background to green
+        /*setting background to green*/
         if(parent.id !== "vc") 
-            elem.style.background = general.default; //"rgba(0, 152, 25, 0.9)";
+            elem.style.background = general.default;
         else {
             elem.classList.add("default");
             await Scroll(elem, {block: "nearest", inline: "center", behavior: "smooth"}, elem.parentNode.parentNode);
-            //alert("Version scr: " + scr);
         } 
-        //alert("done");
         
         if(parent.id == "main" || parent.id == "nav") {
             for(let btn of btns) {
@@ -2412,10 +2354,10 @@ const Clicked = async (elem, parent, click = true) => {
         }
     }
     else if(elem != undefined && elem.getAttribute("value") == "locked") {
-        //resetting size
+        
         clearTimeout(general.timeout);
         elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
-        //restarting
+        
         let size = GetValue(elem.children[1], "background-size");
         elem.children[1].style.backgroundSize = (parseInt(size) + 8) + "px";
         general.timeout = setTimeout(() => {
@@ -2436,13 +2378,11 @@ const Scroll = async (elem, options, parent) => {
         let tm = null;
         let scrLeft = elem.scrollLeft;
         if(elem instanceof Element) {	
-            try {
-                clearTimeout(tm);
-                parent.removeEventListener("scroll", check, false);
-                elem.scrollIntoView(options);
-                parent.addEventListener("scroll", check, false);
-                check();
-            } catch (error) {alert("Scroll Error: " + error.message)}
+            clearTimeout(tm);
+            parent.removeEventListener("scroll", check, false);
+            elem.scrollIntoView(options);
+            parent.addEventListener("scroll", check, false);
+            check();
         }
         else {
             reject("Argument Error: elem must be of type Element");
@@ -2451,7 +2391,7 @@ const Scroll = async (elem, options, parent) => {
         function check () {
             clearTimeout(tm);
             tm = setTimeout(() => {
-                //alert(parent.scrollLeft);
+                
                 parent.removeEventListener("scroll", check, false);
                 resolve(true);
             }, 300);
@@ -2469,7 +2409,7 @@ const Disable = async (parent, bgColor, color = "#7C7C7C") => {
         if(parent.id != "main") {
             if(GetValue(child, "background-image") === general.default) { 
                 general.selected = child;
-                //general.classList.remove("default");
+                
             } 
                 
             if(child.tagName.toLowerCase() != "p" && child.tagName.toLowerCase() != "h2") {
@@ -2492,7 +2432,7 @@ const Disable = async (parent, bgColor, color = "#7C7C7C") => {
                 } 
             } 
             
-            //disable the level buttons
+            
             child.style.pointerEvents = "none";
         } 
         else {
@@ -2505,7 +2445,7 @@ const Disable = async (parent, bgColor, color = "#7C7C7C") => {
     } 
 } 
 
-const Enable = async (parent, bgColor, color) => { try {
+const Enable = async (parent, bgColor, color) => { 
     let children = parent.children;
     children = (!children.length)? [parent]:children;
     
@@ -2530,15 +2470,13 @@ const Enable = async (parent, bgColor, color) => { try {
             child.children[1].children[2].classList.remove("disabled");
         } 
         
-        //enable the level buttons
+        
         child.style.pointerEvents = "auto";
     }
     
     if(parent.id == "nav") {
         await Scroll(general.level, {block: "nearest", inline: "center", behavior: "smooth"}, general.level.parentNode);
     }
-    
-    } catch (error) {Notify(error + "")} 
 } 
 
 const Mute = (mute) => {
@@ -2570,18 +2508,9 @@ const Mute = (mute) => {
     } 
 } 
 
-const Edit = (elem, extreme = false) => {
+const Edit = (elem) => {
     if(extreme) {
-        let preEdited = elem.value;
-        let channel = preEdited.replace('https://www.checkers.com/', "");
-        let isLink = /^(\d+%)+\d+$$/.test(channel);
-        if(!isLink) {
-            elem.value = preEdited.replace(/[.,*:\/\\\s]/g, '');
-            elem.maxLength = "20";
-        }
-        else {
-            elem.value = preEdited;
-        } 
+        elem.value = elem.value.replace(/\s+/g, '');
     } 
     else {
         elem.value = elem.value.replace(/\s+/g, ' ');
@@ -2602,10 +2531,10 @@ const Submit = (event) => {
         let playerA_name = $("#offline #playerA .playerA_name").value.trim();
         let playerB_name = $("#offline #playerB .playerB_name").value.trim();
         if(playerA_name != "" && playerB_name != "") {
-            //player 1 name
+            
             playerA.name = playerA_name.replace(/^\w|\s\w/g, t => t.toUpperCase());
         
-            //player 2 name
+            
             playerB.name = playerB_name.replace(/^\w|\s\w/g, t => t.toUpperCase());
             
             Notify("Names submitted successfully!");
@@ -2692,9 +2621,9 @@ const Hint = async (elem, state=Copy(Game.state)) => {
 		Notify("Please wait for opponent's move");
 		return;
 	}
-    if(!Game.over) { try {
-        // if player won previous level without using hints and undo
-        // is allowed to use hint
+    if(!Game.over) { 
+        
+        
         if(Game.mode === "two-player-offline" || Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode === "single-player" && Game.hintCount < 3 && (Game.level === 0 || Game.levels[Game.level-1].validForHint)) {
         	if(Game.mode === "single-player") {
 				Game.validForHint = false;
@@ -2715,11 +2644,11 @@ const Hint = async (elem, state=Copy(Game.state)) => {
 			await setTimeout( () => getHint(elem, state), 100);
 		}
 		else if (Game.mode === "single-player") { 
-            //resetting size
+            
             clearTimeout(general.timeout);
             let validForHint = Game.level > 0? Game.levels[Game.level-1].validForHint: true;
             elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
-            //restarting
+            
             elem.style.backgroundSize = validForHint? "5.5vmax 4.75vmax" : "4.75vmax 5.5vmax";
             general.timeout = setTimeout(() => {
 				elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
@@ -2731,9 +2660,8 @@ const Hint = async (elem, state=Copy(Game.state)) => {
         }
         else {
             Notify("Please wait for your turn.");
-            //alert(Game.whiteTurn + "\n" + playerA.pieceColor);
+            
         } 
-        } catch (error) {Notify(error + "")} 
     } 
     else {
         GameOver();
@@ -2771,7 +2699,7 @@ const Hint = async (elem, state=Copy(Game.state)) => {
     } 
 } 
 
-const Exit = () => { try {
+const Exit = () => { 
     if(BackState.moves.length > 0 && !Game.over) {
         Notify({action: "confirm", 
                 header: "Do you really want to exit?", 
@@ -2805,7 +2733,6 @@ const Exit = () => { try {
     else {
         GameOver();
     } 
-    } catch (error) {Notify(error + "");}
 } 
 
 const AboutCheckers = () => {
@@ -2817,34 +2744,34 @@ const AboutCheckers = () => {
         switch(Game.version) {
             case "american":
                 message = "American Checkers also known as English/Standard Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) are only allowed to move forwards. When there is multiple capturing sequence, one is expected to choose only one and not necessarily the one that will result in multiple captures. All the captures in the chosen sequence should be made. Kings (crowned pieces) can capture and move both forwards and backwards. However, they can move only one square.";
-                src = srcs[0];
+                src = srcs[Object.keys(Icons).length];
                 break;
             case "kenyan":
                 message = "Kenyan Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move and capture forward. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture both forwards and backwards. However in the event of a capture, a king can jump multiple steps and land only to the immediate square after the captured piece. Incase of multiple captures, one should make sure all the captures in the chosen path are made.";
-                src = srcs[1];
+                src = srcs[Object.keys(Icons).length + 1];
                 break;
             case "casino":
                 message = "Casino Checkers is a Kenyan checkers game played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move forward one square. They can however capture two squares both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture both forwards and backwards. However in the event of a capture, a king can jump multiple steps and land only to the immediate square after the captured piece. Incase of multiple captures, one should make sure all the captures in the chosen path are made.";
-                src = srcs[2];
+                src = srcs[Object.keys(Icons).length + 2];
                 break;
             case "international":
                 message = "International Checkers is played on 10x10 board with each player having 20 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively.";
-                src = srcs[3];
+                src = srcs[Object.keys(Icons).length + 3];
                 break;
             case "pool":
                 message = "Pool Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However, they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece stops and becomes crowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively";
-                src = srcs[4];
+                src = srcs[Object.keys(Icons).length + 4];
                 break;
             case "russian":
                 message = "Russian Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However, they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece is crowned and continues as a king. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However all the captures in the chosen path should be made exclusively.";
-                src = srcs[5];
+                src = srcs[Object.keys(Icons).length + 5];
                 break;
             case "nigerian":
                 message = "Nigerian Checkers is similar to international checkers with the difference being, the longest diagonal is align to the right of the players. The game is played on 10x10 board with each player having 20 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively.";
-                src = srcs[6];
+                src = srcs[Object.keys(Icons).length + 6];
                 break;
         }
-        //alert(src);
+        
         Notify({action: "alert", 
                 header: `<img src=${src}> <span>${version}</span>`, 
                 message});
@@ -2859,7 +2786,7 @@ const Helper = async (moves, state, isMultJump = false) => {
         cell.classList.remove("hint", "helper_empty", "helper_filled");
     }
     let showNonCapture = Game.mandatoryCapture && Game.moves.captures.length == 0 || !Game.mandatoryCapture;
-    // check if moves is an attack move or not
+    
     if(showNonCapture && !isMultJump) {
     	if(!((Game.mode == "single-player" || Game.mode == "two-player-online") && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && Game.helper) 
 	        for(let move of moves.nonCaptures) {
@@ -2885,7 +2812,7 @@ const Helper = async (moves, state, isMultJump = false) => {
         	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: true});
         else
         	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: false});
-        // Check if its a capture
+        
         if(move.capture != undefined) {
             let cloneState = Copy(state);
             let id = cloneState[i][j];
@@ -3042,7 +2969,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "22.15.164.472";
+const currentAppVersion = "22.15.165.475";
 const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
@@ -3070,7 +2997,7 @@ const ShowTotalStats = async () => {
 	BackState.state.push([".games_totals"]);
 }
 
-const GetTotals = () => { try {
+const GetTotals = () => { 
 	for(let div of $$(".totals_div")) {
 		let p = div.$("p");
 		p.innerHTML = p.innerHTML.replace(/\d+/gi, 0);
@@ -3231,14 +3158,13 @@ const GetTotals = () => { try {
 		p.innerHTML = p.innerHTML.replace(/\d+/gi, count);
 		p.setAttribute("total", count);
 	}
-	} catch (error) {alert(error);}
 } 
 
 class GamesScroll {
 	static lastScrollTop = 0;
 	static check = (e) => {
 		if(Game.stats.length == 0) return;
-		let dir = e.target.scrollTop - this.lastScrollTop; // > 0 == scroll up else scroll down
+		let dir = e.target.scrollTop - this.lastScrollTop; 
 		let floatDate = $(".float_date");
 		let date = floatDate.getAttribute("value") || $(".games_date").getAttribute("date");
 		let targetElem = $$(`.game_item[date='${date}']`);
@@ -3276,44 +3202,40 @@ class GamesScroll {
 }
 
 const ConvertTo = (time, to, includeSec = false) => {
-	try {
-		if(time == "Invalid Date")
-			return "";
-		time = time.split(" ")[0];
-		let hr = parseInt(time.split(":")[0]);
-		let min = time.split(" ")[0].split(":")[1];
-		let sec = time.split(" ")[0].split(":")[2] || "00";
-		let converted = "";
-		if(to == 24) {
-			let prd = time.split(" ")[1];
-			if(prd == "PM" && hr < 12) {
-				converted = String((hr + 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
-			} 
-			else if(prd == "AM" && hr == 12) {
-				converted = "00:" + min + (includeSec? ":" + sec: "");
-			} 
-			else {
-				converted = String(hr).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
-			} 
+	if(time == "Invalid Date")
+		return "";
+	time = time.split(" ")[0];
+	let hr = parseInt(time.split(":")[0]);
+	let min = time.split(" ")[0].split(":")[1];
+	let sec = time.split(" ")[0].split(":")[2] || "00";
+	let converted = "";
+	if(to == 24) {
+		let prd = time.split(" ")[1];
+		if(prd == "PM" && hr < 12) {
+			converted = String((hr + 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
 		} 
-		else if(to == 12) {
-			if(hr == 0) {
-				converted = "12:" + min + (includeSec? ":" + sec: "") + " AM";
-			} 
-			else if(hr > 12) {
-				converted = String((hr - 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "") + " PM";
-			} 
-			else if(hr == 12) {
-				converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " PM";
-			} 
-			else {
-				converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " AM";
-			} 
+		else if(prd == "AM" && hr == 12) {
+			converted = "00:" + min + (includeSec? ":" + sec: "");
 		} 
-		return converted;
-	} catch (error) {
-		reportError(error);
+		else {
+			converted = String(hr).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
+		} 
 	} 
+	else if(to == 12) {
+		if(hr == 0) {
+			converted = "12:" + min + (includeSec? ":" + sec: "") + " AM";
+		} 
+		else if(hr > 12) {
+			converted = String((hr - 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "") + " PM";
+		} 
+		else if(hr == 12) {
+			converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " PM";
+		} 
+		else {
+			converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " AM";
+		} 
+	} 
+	return converted;
 } 
 
 const ClearGames = () => {
@@ -3747,47 +3669,45 @@ const Version = async (elem, index, click = true) => {
 }
 
 const RestartLevels = async () => { 
-	try {
-		Notify({action: "confirm", 
-				header: "Are you sure restart all levels!", 
-				message: "Once done this action can not be reversed.",
-				type: "CANCEL/RESTART", 
-				onResponse: RestartLevelsOption});
-				
-		async function RestartLevelsOption (option) {
-			if(option == "RESTART") {
-				await Notify({action: "alert_special", 
-						header: "Please Wait!", 
-						message: "Resetting levels..."});
-				
-				Object.keys(Game.versions).map((key) => {
-					Game.versions[key] = [{score: 3, validForHint: true}];
-				});
-				if(storage) {
-			        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
-			        storage.setItem("Checkers - version", Game.version);
-					storage.setItem("Checkers - currentLevel", 0);
-			    }
-			    let version = $(`#main-window .version[value='${Game.version}']`);
-			    await Version(version, undefined, false);
-			} 
-		    Cancel();
+	Notify({action: "confirm", 
+			header: "Are you sure restart all levels!", 
+			message: "Once done this action can not be reversed.",
+			type: "CANCEL/RESTART", 
+			onResponse: RestartLevelsOption});
+			
+	async function RestartLevelsOption (option) {
+		if(option == "RESTART") {
+			await Notify({action: "alert_special", 
+					header: "Please Wait!", 
+					message: "Resetting levels..."});
+			
+			Object.keys(Game.versions).map((key) => {
+				Game.versions[key] = [{score: 3, validForHint: true}];
+			});
+			if(storage) {
+		        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+		        storage.setItem("Checkers - version", Game.version);
+				storage.setItem("Checkers - currentLevel", 0);
+		    }
+		    let version = $(`#main-window .version[value='${Game.version}']`);
+		    await Version(version, undefined, false);
 		} 
-    } catch(error) {alert("Restart Error!\n" + error.message)}
+	    Cancel();
+	} 
 } 
 
 const Level = async (elem, index, click = true) => {
     if(typeof elem === "object") {
         await Clicked(elem, elem.parentNode, click);
         if(elem.getAttribute("value") != "locked") {
-            try {
+            if(storage) {
                 let level = index;
                 storage.setItem("Checkers - currentLevel", (level).toString());
-            } catch (error) {} 
+            } 
             Game.level = index;
         }
     } 
-    else if(elem) { try {
+    else if(elem) { 
         let level = $$("#levels #nav div")[Game.level+1];
         await Clicked(level, level.parentNode, false);
         $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
@@ -3817,9 +3737,6 @@ const Level = async (elem, index, click = true) => {
         }
         await setTimeout(_ => {Refresh(true);}, 200);
         index = 0;
-        } catch (error) {Notify({action: "alert", 
-                                header: error.name, 
-                                message: error.message + " at Level."})}
     } 
     else {
         let level = $$("#levels #nav div")[Game.level+1];
@@ -3867,14 +3784,12 @@ const End = (event) => {
         popUpNote.style.display = "none";
     } 
     else if(event.animationName === "fade-out") { 
-		try {
-            event.target.removeAttribute("onanimationend");
-            event.target.classList.remove("captured");
-            event.target.parentNode.removeChild(event.target);
-            /*if(!$(".captured")) {
-            	general.captureFadeTime.end();
-            } */
-        } catch (error) {}
+        event.target.removeAttribute("onanimationend");
+        event.target.classList.remove("captured");
+        event.target.parentNode.removeChild(event.target);
+        /*if(!$(".captured")) {
+        	general.captureFadeTime.end();
+        } */
     }
     else if(event.animationName === "fade-note") {
         event.target.removeAttribute("onanimationend");
@@ -3889,7 +3804,7 @@ const End = (event) => {
 const Home = async () => {
     if(GetValue($("#main-window"), "display") === "none") {
         let length = BackState.state.length;
-        if(length > 0) { try {
+        if(length > 0) { 
             let current_state = BackState.state[length-1];
             await BackState.state.pop();
             
@@ -3897,7 +3812,7 @@ const Home = async () => {
                 await Clicked(current_state[2], current_state[2].parentNode, false);
             } 
             $(current_state[1]).style.display = "none";
-            $(current_state[0]).style.display = "grid"; } catch (error) {console.log(error)}
+            $(current_state[0]).style.display = "grid"; 
         } 
         await Home();
     }
@@ -3908,7 +3823,7 @@ const Home = async () => {
 async function play (accepted = false) {
     if(Lobby != undefined && Lobby.isConnected && Lobby.opponent && Game.mode === "two-player-online" || Game.mode === "single-player") {
         if(GetValue($("#play-window"), "display") == "none" || accepted) {
-        	// If game mode is online, request consent from opponent, otherwise just display the play window
+        	
             if(Game.mode === "two-player-online" && !accepted) {
                 if(Game.alternatePlayAs) {
                     let color = playerA.pieceColor;
@@ -3917,7 +3832,7 @@ async function play (accepted = false) {
                 setTimeout(async () => {
                     if(Game.rollDice) {
                         Game.firstMove = await RollDice();
-                        //Notify(Game.firstMove);
+                        
                         Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
                     }
                     else {
@@ -3945,7 +3860,7 @@ async function play (accepted = false) {
                 await Refresh(true);
             }
            
-            // choosing whether to display the hint button or not
+            
             if(Game.mode === "two-player-online" || Game.level === 0 || Game.levels[Game.level-1].validForHint) {
                 $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
                 $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
@@ -4305,7 +4220,7 @@ async function back (undo = false, isComp = false) {
                     return;
                 }
 
-                // To avoid clushing due to multiple click events will use setTimeout function. 
+                
                 clearTimeout(general.timeout);
                 general.timeout = setTimeout(async _ => {
                 	general.sorted = [];
@@ -4321,10 +4236,10 @@ async function back (undo = false, isComp = false) {
             }
             else if(Game.mode == "single-player" && Game.undoCount >= 5) {
             	let elem = general.orientation.toLowerCase().includes("landscape")? $(".horiz_controls:nth-of-type(2)") : $(".controls:nth-of-type(2)");
-            	//resetting size
+            	
             	clearTimeout(general.timeout);
 	            elem.style.backgroundSize = "3vmax 3vmax";
-	            //restarting
+	            
 	            elem.style.backgroundSize = "4vmax 4vmax";
 	            general.timeout = setTimeout(() => {
 					elem.style.backgroundSize = "3vmax 3vmax";
@@ -4336,7 +4251,7 @@ async function back (undo = false, isComp = false) {
             } 
         }
         else {
-            // nothing much here
+            
         }
     }
     else {
@@ -4347,7 +4262,7 @@ async function back (undo = false, isComp = false) {
 class Undo {
 	static moves = [];
 	static move = (move) => {
-		// To avoid clush during undo will use a queue.
+		
 		
 		this.moves.push(move);
 		if(this.moves.length == 1)
@@ -4384,13 +4299,13 @@ class Undo {
 	            
 	            id = id.replace("K", "M");
 			}
-			//Updating moves made by each player
+			
 			if(piece.className.includes(playerA.pieceColor.toLowerCase()))
             	playerA.moves--;
             else
             	playerB.moves--;
            
-            // Undoing draw checker
+            
             Game.drawStateCount = Game.drawStateCount > 0? Game.drawStateCount-1: Game.drawStateCount;
             Game.baseStateCount = Game.baseStateCount > 1? Game.baseStateCount-1: Game.baseStateCount;
             

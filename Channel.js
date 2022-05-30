@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 47
+/* Version: 48*/
 
 const CheckHref = async () => {
 	let split = document.location.href.split("?");
@@ -128,21 +128,10 @@ const ChannelFunction = async () => {
 						if(response.channel == Lobby.CHANNEL) {
 	                        if(response.action === 'join') {
 								if(response.uuid == Lobby.UUID && response.occupancy <= 2) {
-									/*let playerName = $$("#online .player_name")[1].getAttribute("value");
-									if(playerName == "N/A") {
-										Publish.send({
-		                                        channel: Lobby.CHANNEL, 
-		                                        message: {
-		                                                 title: "OpponentName", 
-		                                                 content: $$("#online .player_name")[0].textContent}
-		                                        });
-									} */
+									
 								} 
 								else if(response.UUID != Lobby.UUID && response.occupancy <= 2) {
-									/*let chatIcon = $("#chat-icon");
-									if(GetValue(chatIcon, "display") == "none") {
-										chatIcon.style.display = "block";
-									} */
+									
 								} 
 								else if(response.occupancy > 2) {
 									Unsubscribed();
@@ -170,7 +159,7 @@ const ChannelFunction = async () => {
 								LeftChannel({totalOccupancy: 1});
 							} 
 							else if(response.action === "leave" && response.uuid == Lobby.UUID) {
-								//console.log("Your own leave event");
+								
 							} 
 							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { 
 								let action = response.state.action;
@@ -218,7 +207,7 @@ const ChannelFunction = async () => {
                         	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
                         } 
                         else if(event.category === 'PNNetworkUpCategory') {
-                        	//Lobby.PUBNUB.reconnect();
+                        	
                             Notify("You are back online.");
                         } 
                         else if(event.category === 'PNNetworkIssueCategory') {
@@ -228,7 +217,7 @@ const ChannelFunction = async () => {
                             Notify("You are offline.");
                         }
                         else if(event.category === 'PNTimeoutCategory') {
-							//Unsubscribe(false);
+							
                         } 
                     }, 
                     message: function(msg) {
@@ -450,16 +439,16 @@ const Unsubscribe = async (isClick = true) => {
 	    			header: "Please wait", 
 	    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
 			
-	    	//Lobby.sleep = new Sleep();
-	    	//Publish.send({channel: Lobby.CHANNEL, message: {title: "IntentionalExit", content: ""}});
-	    	//await Lobby.sleep.start();
+	    	
+	    	
+	    	
 			
 			Lobby.PUBNUB.unsubscribe({
 				channels: [Lobby.CHANNEL]
 			});
 	
 			await new Sleep().wait(1);
-			//Lobby.PUBNUB.unsubscribeAll();
+			
 	    	Cancel();
 	        
 	        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
@@ -508,18 +497,16 @@ class OpponentMove {
 			this.make();
 	} 
 	static make = async () => {
-		try {
-			let self = this;
-			//await new Sleep().wait(0.1);
-			let prop = self.moves[0];
-            let i = Game.boardSize-1 - prop.i, 
-                j = Game.boardSize-1 - prop.j,
-                cell = $("#table").children[i*Game.boardSize+j];
-            await ValidateMove({cell, i, j, isComputer: true});
-			await this.moves.shift();
-			if(this.moves.length > 0)
-				await this.make();
-        } catch (error) {console.error(error)}
+		let self = this;
+		
+		let prop = self.moves[0];
+        let i = Game.boardSize-1 - prop.i, 
+            j = Game.boardSize-1 - prop.j,
+            cell = $("#table").children[i*Game.boardSize+j];
+        await ValidateMove({cell, i, j, isComputer: true});
+		await this.moves.shift();
+		if(this.moves.length > 0)
+			await this.make();
 	} 
 } 
 
@@ -553,7 +540,7 @@ class Publish {
     			self.retryCount = 0;
             } 
             if(status.error) {
-				if(self.retryCount <= 2) // retry twice
+				if(self.retryCount <= 2) 
                 	++self.retryCount;
 				else {
 					self.retryCount = 0;
@@ -607,14 +594,14 @@ const UpdateOnlineStatus = () => {
 	    yourStatus.innerHTML = "OFFLINE";
 	    yourStatus.classList.remove("default");
 		yourStatus.classList.add("orange_ui");
-	    //Notify(`You are offline.`);
+	    
 	} 
 	else {
 		yourStatus.setAttribute("value", "online");
 		yourStatus.innerHTML = "ONLINE";
 	    yourStatus.classList.remove("orange_ui");
 		yourStatus.classList.add("default");
-	    //Notify(`You are online.`);
+	    
 	} 
 } 
 
@@ -1041,7 +1028,7 @@ class VoiceNotePlayer {
 	} 
 } 
 
-const Message = async (prop, publish = true) => { try {
+const Message = async (prop, publish = true) => { 
     let container = $(".bubbles_container");
     let anchor = $(".anchor");
     let bubble = $$$("div");
@@ -1115,7 +1102,7 @@ const Message = async (prop, publish = true) => { try {
             bubble.classList.add("same_side_bubble");
         } 
         else {
-            // nothing for now
+            
         } 
             
         if($(".center_bubble") === null && prop.count === 1) {
@@ -1148,7 +1135,6 @@ const Message = async (prop, publish = true) => { try {
         else 
         	Lobby.unreadMessages.push({id: prop.id, timetoken: prop.timetoken});
     } 
-    } catch (error) {console.log(error)}
 } 
 
 class Bubble {
@@ -1274,7 +1260,7 @@ const Request = async (prop) => {
     } 
     
     async function RequestOption (option) { 
-        if(option === "ACCEPT") { try {
+        if(option === "ACCEPT") { 
             Game.firstMove = Lobby.firstMove;
             Game.mandatoryCapture = Lobby.mandatoryCapture;
             Game.version = Lobby.version;
@@ -1289,7 +1275,7 @@ const Request = async (prop) => {
                 Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
                 await Mode(3, false);
                 
-                // Updating ui
+                
                 let btn = (Game.mandatoryCapture)? $("#must-jump"): $("#not-must-jump");
                 await Clicked(btn, btn.parentNode, false);
                 let version = $(`#main-window .version[value='${Game.version}']`);
@@ -1298,7 +1284,6 @@ const Request = async (prop) => {
                 await new Sleep().wait(2);
                 await play(true);
             }, 200);
-            } catch (error) {console.log(error)}
         } 
         else if(option === "CANCEL") {
             Publish.send({channel: Lobby.CHANNEL, message: {title: "DeclinedRequest", content: ""} });

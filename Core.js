@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 20
+/* Version: 21 */
 
 const AssessAll = async (prop) => {
     if(prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
@@ -30,11 +30,11 @@ const AssessAll = async (prop) => {
         } 
     } 
     
-    return Prms(moves); // returns single dimension array
+    return Prms(moves); 
 } 
 
 const AssesMoves = async (prop, maximizing = false) => { 
-    //concept based on Assess Captures function 
+    
     if(prop.i == undefined || prop.j == undefined || prop.state == undefined)
         throw new Error(`Missing important attribute of the argument provided.`);
     let i = prop.i,
@@ -65,10 +65,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     let obstacleA, obstacleB, obstacleC, obstacleD;
     	obstacleA, obstacleB, obstacleC, obstacleD = false;
     for(;; a+=r, b-=1, c+=r, d+=1, e-=r, f+=1, g-=r, h-=1) {
-    	// Quadrant A
+    	
     	let cell = state[a]? state[a][b]: undefined;
-    	//console.log("AB", a, b, cell);
-    	if(cell == "EC" && !oppA && !obstacleA) {// Empty Cell  
+    	
+    	if(cell == "EC" && !oppA && !obstacleA) {
     		if(id.startsWith("M") && Math.abs(i - a) == 1) {
     			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${a}${b}`});
     		} 
@@ -91,10 +91,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     		obstacleA = true;
     	} 
     
-    	// Quadrant B
+    	
     	cell = state[c]? state[c][d]: undefined;
-    	//console.log("CD", c, d, cell);
-    	if(cell == "EC" && !oppB && !obstacleB) {// Empty Cell  
+    	
+    	if(cell == "EC" && !oppB && !obstacleB) {
     		if(id.startsWith("M") && Math.abs(i - a) == 1) {
     			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${c}${d}`});
     		} 
@@ -117,10 +117,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     		obstacleB = true;
     	} 
     
-    	// Quadrant C
+    	
     	cell = state[e]? state[e][f]: undefined;
-    	//console.log("EF", e, f, cell);
-    	if(cell == "EC" && !oppC && !obstacleC) {// Empty Cell  
+    	
+    	if(cell == "EC" && !oppC && !obstacleC) {
     		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - e) == 1)) {
     			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${e}${f}`});
     		} 
@@ -140,10 +140,10 @@ const AssesMoves = async (prop, maximizing = false) => {
     		obstacleC = true;
     	} 
     	
-    	// Quadrant D
+    	
     	cell = state[g]? state[g][h]: undefined;
-    	//console.log("GH", g, h, cell, oppD, obstacleD);
-    	if(cell == "EC" && !oppD && !obstacleD) {// Empty Cell  
+    	
+    	if(cell == "EC" && !oppD && !obstacleD) {
     		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - g) == 1)) {
     			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${g}${h}`});
     		} 

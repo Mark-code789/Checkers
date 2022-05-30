@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version 20
+/* Version 21 */
 
 function Copy (obj) {
     if(obj == undefined || obj == null)
@@ -14,8 +14,8 @@ function Prms (value) {
 	return new Promise(resolve => {return resolve(value)});
 } 
 
-// AI class object
-// Methods and variables are self explanatory
+
+
 class AI {
 	b = playerB.pieceColor.slice(0,1);
 	a = playerA.pieceColor.slice(0,1);
@@ -38,7 +38,7 @@ class AI {
         } 
     } 
     
-    // Evaluation function 
+    
     evaluate = async (state) => {
         let aValue = 0;
 		let bValue = 0;
@@ -52,17 +52,17 @@ class AI {
                 if(piece.includes(this.b)) { 
                 	bPieces++;
                 	if(piece.includes("M")) {
-                        bValue += 1000; // value to piece 
+                        bValue += 1000; 
                         if(i == 0)
                         	bValue += 2;
                     } 
-                    if(piece.includes("K")) { // threatening
+                    if(piece.includes("K")) { 
                     	if(Game.version == "american") 
                     		bValue += 1010;
                     	else if(/kenyan|casino/gi.test(Game.version))
                     		bValue += 1015;
                     	else
-                        	bValue += 1020; // value to piece
+                        	bValue += 1020; 
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
@@ -79,17 +79,17 @@ class AI {
                 else if(piece.includes(this.a)) {
                 	aPieces++;
                 	if(piece.includes("M")) {
-                        aValue += 1000; // value to piece 
+                        aValue += 1000; 
                         if(i == Game.boardSize-1) 
                         	aValue += 2;
                     }
-                    if(piece.includes("K")) { // Becomes more threatening
+                    if(piece.includes("K")) { 
                         if(Game.version == "american") 
                     		aValue += 1010
                     	else if(Game.version == "kenyan" || Game.version == "casino") 
                     		aValue += 1015;
                     	else
-                        	aValue += 1020; // value to piece
+                        	aValue += 1020; 
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
@@ -113,7 +113,7 @@ class AI {
         return Prms(currentValue);
     } 
     
-    move = async (state, move) => { //try {
+    move = async (state, move) => { 
         state = Copy(state);
         move = Copy(move);
         let i = parseInt(move.cell.slice(0,1)), 
@@ -128,7 +128,7 @@ class AI {
         let cornerMoves = [[0,1,1,0], [1,0,0,1], [l-1,l-2,l-2,l-1], [l-2,l-1,l-1,l-2]];
             
         id = state[i][j];
-        state[i][j] = "IP"; // INITIAL-POSITION
+        state[i][j] = "IP"; 
         if(id.includes("M") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
             id = id.replace("M", "K");
             crowned = true;
@@ -224,7 +224,7 @@ class AI {
         
         state[m][n] = id;
         return Prms({state, continuousJump});
-        //} catch (error) {alert("AI move Error!\n" + error);} 
+        
     } 
     
     correct = (state) => {
@@ -233,7 +233,7 @@ class AI {
         return Prms(JSON.parse(state));
     } 
     
-    negascout = async (moves, state, depth, color, alpha, beta, previousPlayer) => { // previousPlayer : 1 = playerB || -1 = playerA
+    negascout = async (moves, state, depth, color, alpha, beta, previousPlayer) => { 
     	if(this.stop) {
     		return 0;
     	}
@@ -243,11 +243,11 @@ class AI {
     	let alphaOrig = alpha;
     	let ttEntry;
     	
-    	// Transposition Table Lookup:
+    	
         if(depth < this.depth) {
 			ttEntry = await TranspositionTable.lookUp(state);
 	    	if(ttEntry.valid && ttEntry.depth <= depth) {
-	    		// flag property: 0 = exact, 1 = upper bound, -1 = lower bound
+	    		
 				
 	    		if(ttEntry.flag == 0) {
 					this.depthSearched = Math.min(this.depthSearched, ttEntry.depthSearched);
@@ -273,7 +273,7 @@ class AI {
         	let bPieces = this.playerB.slice(-1)[0][1];
         	let aValue = this.playerA.slice(-1)[0][0];
         	let aPieces = this.playerA.slice(-1)[0][1];
-        	let score = bValue - aValue;//await this.evaluate(state);
+        	let score = bValue - aValue;
         	score = score + leafScore;
             return Prms(score * color); 
         } 
@@ -282,8 +282,8 @@ class AI {
             let you = color == 1? this.b: this.a;
             let cloneState;
             
-            // Move ordering
-            //moves = moves.slice(0,1);
+            
+            
             moves = color == 1? moves.reverse(): moves;
             moves = await this.sort(moves, state);
             
@@ -294,27 +294,27 @@ class AI {
 					return 0;
 				} 
             	cloneState = Copy(state);
-            	let res = await this.move(cloneState, move); // make move
+            	let res = await this.move(cloneState, move); 
                     cloneState = res.state;
                 
                 /*await Log(depth);
                 await LogState(cloneState);
                 await Log(this.playerB.slice(-1)[0], this.playerA.slice(-1)[0]);*/
                 if(res.continuousJump.length === 0) {
-                	cloneState = await this.correct(cloneState); // Removing the ip cells
+                	cloneState = await this.correct(cloneState); 
                     let moves2 = await AssessAll({id: opp, state: cloneState});
                     moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
 					
-					//value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color);
+					
 					
 					if(moves.indexOf(move) == 0) { 
-						value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); // initial search
+						value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); 
 					} 
 					else {
-                    	value = -await this.negascout(moves2, cloneState, depth-1, -color, -alpha-1, -alpha, color); // null window search
+                    	value = -await this.negascout(moves2, cloneState, depth-1, -color, -alpha-1, -alpha, color); 
 						
-						if(value > alpha && value < beta) // if it fails high i.e has possibility of raising alpha
-							value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); // research to get the exact value
+						if(value > alpha && value < beta) 
+							value = -await this.negascout(moves2, cloneState, depth-1, -color, -beta, -alpha, color); 
 					} 
 				} 
 				else {
@@ -329,18 +329,18 @@ class AI {
 				alpha = Math.max(best, alpha);
 				
 				if(alpha >= beta) {
-					break; // alpha cut-off
+					break; 
 				} 
             } 
-            // Transposition Table Storage 
+            
 			if(depth < this.depth) {
 				ttEntry.value = best;
 				if(best <= alphaOrig) 
-					ttEntry.flag = 1; // upper bound
+					ttEntry.flag = 1; 
 				else if(best >= beta) 
-					ttEntry.flag = -1; // lower bound
+					ttEntry.flag = -1; 
 				else
-					ttEntry.flag = 0; // exact
+					ttEntry.flag = 0; 
 				
 				ttEntry.valid = true;
 				ttEntry.depth = depth;
@@ -363,7 +363,7 @@ class AI {
 	} 
     
     findBestMove = async (state, moves) => {
-        let color = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? 1: -1; // false == playerA while true == playerB
+        let color = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? 1: -1; 
         let opp = color == 1? this.a: this.b;
         let you = color == 1? this.b: this.a;
         let count = 0;
@@ -382,11 +382,11 @@ class AI {
         if(moves.length > 1 && this.depth > 1) { 
     		moves = color == 1? moves.reverse(): moves;
     		moves = await this.sort(moves, state);
-    		//moves = moves.slice(0,1);
-    		//moves.push(moves[0]);
+    		
+    		
     		await search(state, moves, this.depth);
     		await sleep.start();
-    		//await TerminateWorkers();
+    		
 			
 			bestPossibleMoves = await this.filter(state, bestPossibleMoves, color);
 			let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
@@ -416,10 +416,10 @@ class AI {
 					
 					self.depthSearched = self.depth;
 					let cloneState = Copy(state);
-					let res = await self.move(cloneState, move); // make move
+					let res = await self.move(cloneState, move); 
 		                cloneState = res.state;
 		            if(res.continuousJump.length === 0) {
-		            	cloneState = await self.correct(cloneState); // Removing the ip cells
+		            	cloneState = await self.correct(cloneState); 
 		                let moves2 = await AssessAll({id: opp, state: cloneState});
                     	moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
 						
@@ -442,7 +442,7 @@ class AI {
 							idleWorkers[0]
 						]; 
 						if(test) {
-							//console.log(...data.slice(2,10));
+							
 							let value = -await self.negascout(...data.slice(2,10));
 							console.log(value, move, self.depth - self.depthSearched);
 						} 
@@ -495,8 +495,8 @@ class AI {
             	let j = e.data.workerID;
             	let move = moves[i];
             	count++;
-            	// evaluating 
-            	//console.log(value, move);
+            	
+            	
             	/*let end = Date.now();
 				console.log((end - start) / 1000);*/
             	let section = $("#play-window .footer_section");
@@ -562,7 +562,7 @@ class AI {
             state = Copy(this.state);
             let id = state[i][j];
             let crowned = false;
-            state[i][j] = "IP"; // INITIAL-POSITION
+            state[i][j] = "IP"; 
             if(!id.includes("K") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
                 id = id.replace("M", "K");
                 crowned = true;
@@ -607,7 +607,7 @@ class AI {
             table.children[cell.i*Game.boardSize+cell.j].classList.add("valid");
             table.children[cell.m*Game.boardSize+cell.n].classList.add("valid");
         } 
-    	//return;
+    	
     	if($("#play-window").style.display == "grid") 
         await setTimeout( async () => {
         	let cell1 = general.aiPath[0];
@@ -645,7 +645,7 @@ class AI {
 				let dist = Game.boardSize+1;
 				for(let i = 0; i < Game.boardSize; i++) {
 	    			for(let j = 0; j < Game.boardSize; j++) {
-	    				if(state[i][j].includes(opp) && (a - m) * (a - i) >= 0 || state[i][j] == "K" + opp) { // if positive same sign
+	    				if(state[i][j].includes(opp) && (a - m) * (a - i) >= 0 || state[i][j] == "K" + opp) { 
 							if(j >= n - Math.abs(m - i) && j <= n + Math.abs(m - i) || state[i][j] == "K" + opp && a - i == 0 && Math.abs(m - i) == 1 && Math.abs(n - j) == 1)
 	    						dist = Math.min(dist, (Math.abs(i - m) || Math.abs(j - n)));
 	    				} 

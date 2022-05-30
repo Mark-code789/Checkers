@@ -1,5 +1,5 @@
-// Service worker
-const version = "472";
+/* Service worker */
+const version = "475";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -72,8 +72,7 @@ const appShellFiles = [
     "./Worker.js", 
     "./index.css", 
     "./index.html",
-    "./manifest.webmanifest", 
-    "https://cdn.pubnub.com/sdk/javascript/pubnub.6.0.0.min.js"
+    "./manifest.webmanifest"
 ];
 
 self.addEventListener("install", (e) => {
@@ -96,6 +95,10 @@ self.addEventListener("fetch", (e) => {
             		return res2; 
 					/*Not storing this kind of request*/
             	} 
+            	if(res2.status != 200) {
+	            	return res || res2;
+            	} 
+            	
                 return caches.open(cacheName).then((cache) => {
                     cache.put(e.request, res2.clone());
                     return res2;
@@ -103,7 +106,8 @@ self.addEventListener("fetch", (e) => {
 					return res2;
 				});
             }).catch((error) => {
-            	return null;
+            	console.log(e.request.url);
+            	return res || new Response(null, {"status": 200});
             });
         })
     )

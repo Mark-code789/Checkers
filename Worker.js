@@ -1,6 +1,6 @@
 'use strict' 
 
-// Version: 20
+/* Version: 21 */
 
 self.importScripts("./Objects.js", "./AI.js", "./Core.js");
 let search;

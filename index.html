@@ -44,7 +44,8 @@
                 transform: translate(-50%, 0%);
                 height: fit-content;
                 width: fit-content;
-                max-width: 80%;
+                max-width: 600px;
+                margin: auto;
                 padding: 30px;
                 border: none;
                 border-radius: 4px;
@@ -72,7 +73,8 @@
             } 
             
             .install section {
-            	width: 100%;
+            	width: fit-content;
+            	max-width: calc(80vw - 20px);
                 padding-bottom: 10px;
                 overflow: hidden;
             } 
@@ -94,10 +96,12 @@
                 width: 40px;
                 border-bottom: 1.5px solid #000;
                 border-left: 1.5px solid #000;
+                border-radius: 8px;
                 background: url("./src/images/homescreen 48icon.png"), url("./src/images/black cell.jpeg");
                 background-size: 30px 30px, 40px 40px;
                 background-position: center;
                 background-repeat: no-repeat;
+                box-shadow: -2px 2px 3px 0 #0008;
             } 
             
             .install_title {
@@ -138,12 +142,10 @@
             } 
             
             @keyframes slide_in {
-                0% {bottom: -100%;}
-                100% {bottom: 10%;}
+                100% {transform: translate3d(-50%, -110vh, 0);}
             } 
             @keyframes slide_out {
-                0% {bottom: 10%;}
-                100% {bottom: -1000%;}
+                100% {transform: translate3d(-50%, 0, 0);}
             } 
                         
             #load-window {
@@ -280,6 +282,37 @@
             		margin: 0 0 -40vmin -60vmin;
             	} 
             } 
+            #load-window .notify {
+            	position: absolute;
+            	top: 50%;
+            	left: 50%;
+            	transform: translate(-50%, -50%);
+            	width: fit-content;
+            	height: fit-content;
+            	max-width: 80%;
+            	max-height: 80%;
+            	padding: 20px;
+            	background: linear-gradient(to bottom, #282828E6, #000000E6);
+            	border-radius: 8px;
+            	display: none;
+            	z-index: 2;
+            } 
+            
+            #load-window .notify > div {
+            	height: fit-content;
+            	width: fit-content;
+            	color: #ccc;
+            } 
+            
+            #load-window .notify > button {
+            	background: linear-gradient(to bottom, #009819, #007000);
+            	padding: 10px 20px;
+            	border-radius: 8px;
+            	border: none;
+            	float: right;
+            	color: #fff;
+            	margin: 20px 0 0 0;
+            } 
         </style>
     </head>
     <body>
@@ -291,11 +324,15 @@
             </div>
             <h1>CHECKERS</h1>
             <div class="loader">
-            	<p>loading files...</p>
+            	<p>Staging App...</p>
                 <div class="bar">
 					<div class="progress"></div>
 				</div>
             </div>
+            <div class="notify">
+				<div></div>
+				<button></button>
+			</div>
         </article>
         <article class="install">
             <section>
@@ -885,6 +922,19 @@
             let deferredEvent;
             let newSW;
             let workers = [];
+            let finishedInstalling = false;
+            let randomFacts = [
+            	"Early version of checkers believed to be dated 1400 B.C, was played on a 5 x 5 board with each player having 10 pieces each. The game was called Quirkat or Alquerque.", 
+            	"During 13th century, checkers name was renamed to Fierges from Quirkat in southern France and was now played on 8 x 8 board. Later in 15th century it was renamed to Jeu De Dames popularly referred to as Dames.",
+            	"Checkers upon reaching to England from France it was renamed by English men to Draughts from Dames meaning to move or to draw. The Americans as well refer to it as Checkers what we call it today.", 
+            	"There are many version of checkers played in different countries and regions with there own rules and standards. For example the Nigerian checkers is played on 12 x 12 board with 20 pieces each.",
+            	"Chinese Checkers has nothing to do with checkers or draughts. In fact it was not invented in China. It was named that way as a marketing strategy.",
+            	"Checkers is played on the same board as chess — 8 x 8 board with 64 squares of black and white.",
+            	"The rule of crowing was introduced in the 13th century in France. Crowning meant the crowned piece becomes superior than other pieces.", 
+            	"The rule of mandatory jump or capture was introduced in 1535 by the English men when checkers arrived in America. Initially players were not forced to take opponents pieces when the opportunity was r8ght.",
+            	"In 1994 for the first time, a computer program became the 'Checkers World Champion. The program was called 'Chinook' and was developed in the University of Alberta.", 
+            	"Marion Tinsley was considered the greatest checkers player of all time. The late played checkers for 45 years and he only lost less 10 games. He died in 1995.", 
+            ]; 
             
             async  function pageComplete () {
                 let head = document.head;
@@ -896,13 +946,18 @@
                 let JsLink4 = $$$("script");
                 let JsLink5 = $$$("script");
                 
-                SheetLink.onload = () => LoadedExternalFiles.run();
-                JsLink0.onload = () => LoadedExternalFiles.run();
-                JsLink1.onload = () => LoadedExternalFiles.run();
-                JsLink2.onload = () => LoadedExternalFiles.run();
-                JsLink3.onload = () => LoadedExternalFiles.run();
-                JsLink4.onload = () => LoadedExternalFiles.run();
-                JsLink5.onload = () => LoadedExternalFiles.run();
+                SheetLink.onload = (event) => LoadedExternalFiles.run(event);
+                SheetLink.onerror = (event) => LoadedExternalFiles.error(event);
+                JsLink0.onload = (event) => LoadedExternalFiles.run(event);
+                JsLink1.onload = (event) => LoadedExternalFiles.run(event);
+                JsLink2.onload = (event) => LoadedExternalFiles.run(event);
+                JsLink3.onload = (event) => LoadedExternalFiles.run(event);
+                JsLink4.onload = (event) => LoadedExternalFiles.run(event);
+                JsLink0.onerror = (event) => LoadedExternalFiles.error(event);
+                JsLink1.onerror = (event) => LoadedExternalFiles.error(event);
+                JsLink2.onerror = (event) => LoadedExternalFiles.error(event);
+                JsLink3.onerror = (event) => LoadedExternalFiles.error(event);
+                JsLink4.onerror = (event) => LoadedExternalFiles.error(event);
                 
                 SheetLink.type = "text/css";
                 SheetLink.rel = "stylesheet";
@@ -913,7 +968,7 @@
                 JsLink2.src = "./Channel.js";
                 JsLink3.src = "./Core.js";
                 JsLink4.src = "./Objects.js";
-                JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.6.0.0.min.js";
+                JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.1.min.js";
                 
                 head.appendChild(JsLink0);
                 head.appendChild(JsLink1);
@@ -929,11 +984,20 @@
                 	let worker = new Worker("./Worker.js");
                 	workers.push(worker);
                 } 
+                
+                let fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+                let notify = $(".notify div");
+        		notify.innerHTML = "<b>RANDOM FACTS ABOUT CHECKERS!</b><br><br>Did you know?<br><br>" + fact;
+        		notify.nextElementSibling.textContent = "NOW I KNOW";
+        		notify.parentNode.style.display = "block";
+        		notify.nextElementSibling.onclick = function () {this.parentNode.style.display = 'none';} 
             } 
             class LoadedExternalFiles {
             	static n = 0;
-            	static total = 7;
-            	static run = async function (type) {
+            	static total = 6;
+            	static err = false;
+            	static run = async function (e) {
+            		if(this.err) return;
             		this.n++;
             		let loadingInfo = $("#load-window .loader p");
             			loadingInfo.innerHTML = "Loading files...";
@@ -954,8 +1018,16 @@
 						} 
             		}
             	} 
+            	static error = async function (e) {
+            		this.err = true;
+            		let notify = $(".notify div");
+            		notify.innerHTML = "<b>LOADING ERROR!</b><br><br>Failed to load AppShellFiles. Check your internet connection and hit reload.<br>" + event.target.src;
+            		notify.nextElementSibling.textContent = "RELOAD";
+            		notify.parentNode.style.display = "block";
+            		notify.nextElementSibling.onclick = function () {location.reload();} 
+            	} 
             } 
-			//window.onload = pageComplete();
+			
             const InvokeSWUpdateFlow = async () => {
 				Notify({action: "confirm", 
 						header: "APP UPDATE", 
@@ -964,7 +1036,9 @@
 						onResponse: UpdateResponse});
 				async function UpdateResponse (refresh) {
 					if(refresh == "UPDATE") {
-						Notify("Updating app...");
+						Notify({action: "alert_special",
+								header: "Updating Checkers...",
+								message: "Please Wait as we update the app. This may take a few seconds depending n the speed of your bandwidth."});
 						await newSW.waiting.postMessage({type: "skip-waiting"});
 					} 
 					else {
@@ -980,16 +1054,14 @@
 			
 			const FinishInstalling = async (reg) => {
 				if(reg.waiting) {
-					if(navigator.serviceWorker.controller) {
-						newSW = reg;
-					} 
-					else {
-						alert("Thank you for downloading Checkers.\nDid you know?\nPlaying board games stimulates brain areas that are responsible for memory formation and complex thought processes for all ages. Engaging in play assists in practicing essential cognitive skills, such as decision making, higher level strategic thinking, and problem solving.");
-						pageComplete();
-					} 
+					newSW = reg;
 				} 
-				else if(reg.active && !navigator.serviceWorker.controller) {
-					location.reload();
+				else if(reg.active) {
+					newSW = null;
+					if(!finishedInstalling) 
+						pageComplete();
+						
+					finishedInstalling = true;
 				} 
 			} 
 			
@@ -997,24 +1069,32 @@
                 e.preventDefault();
                 deferredEvent = e;
             });
+            
+            window.addEventListener("error", (error) => {
+            	event.preventDefault();
+            	console.log(error.message + " \n\tat " + error.filename + ": " + error.lineno + ":" + error.colno);
+            	let option = confirm("ERROR MESSAGE\n\nThere was an unexpected error. We recommend you refresh the page. If this error persists even after refreshing, please contact via:\n\nTel: +254 798 916984\nWhatsApp: +254 798 916984\nEmail: markcodes789@gmail.com\n\nconfirm to refresh or cancel.");
+            	if(option) 
+            		location.reload();
+            });
 			
 			window.addEventListener("load", async () => {
 				if("serviceWorker" in navigator) {
 					const reg = await navigator.serviceWorker.register("./Service Worker.js");
-					/*try {
-						reg.update();
-					} catch (error) {console.warn("Offline mode")}*/
+					
 					if(reg.waiting) {
 						newSW = reg;
 					} 
 						
 					reg.addEventListener("updatefound", () => {
+						
 						if(reg.installing) {
 							reg.installing.addEventListener("statechange", () => {
 								FinishInstalling(reg);
 							});
 						} 
 					});
+					
 					let refreshing = false;
 					navigator.serviceWorker.addEventListener("controllerchange", (e) => {
 						if(!refreshing) {
