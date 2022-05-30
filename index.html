@@ -922,7 +922,7 @@
             let deferredEvent;
             let newSW;
             let workers = [];
-            let finishedInstalling = false;
+            let initiatedPageComplete = false;
             let randomFacts = [
             	"Early version of checkers believed to be dated 1400 B.C, was played on a 5 x 5 board with each player having 10 pieces each. The game was called Quirkat or Alquerque.", 
             	"During 13th century, checkers name was renamed to Fierges from Quirkat in southern France and was now played on 8 x 8 board. Later in 15th century it was renamed to Jeu De Dames popularly referred to as Dames.",
@@ -931,12 +931,13 @@
             	"Chinese Checkers has nothing to do with checkers or draughts. In fact it was not invented in China. It was named that way as a marketing strategy.",
             	"Checkers is played on the same board as chess — 8 x 8 board with 64 squares of black and white.",
             	"The rule of crowing was introduced in the 13th century in France. Crowning meant the crowned piece becomes superior than other pieces.", 
-            	"The rule of mandatory jump or capture was introduced in 1535 by the English men when checkers arrived in America. Initially players were not forced to take opponents pieces when the opportunity was r8ght.",
+            	"The rule of mandatory jump or capture was introduced in 1535 by the English men when checkers arrived in America. Initially players were not forced to take opponents pieces when the opportunity came.",
             	"In 1994 for the first time, a computer program became the 'Checkers World Champion. The program was called 'Chinook' and was developed in the University of Alberta.", 
             	"Marion Tinsley was considered the greatest checkers player of all time. The late played checkers for 45 years and he only lost less 10 games. He died in 1995.", 
             ]; 
             
-            async  function pageComplete () {
+            async function pageComplete () {
+            	initiatedPageComplete = true;
                 let head = document.head;
                 let SheetLink = $$$("link");
                 let JsLink0 = $$$("script");
@@ -979,11 +980,6 @@
                 head.appendChild(SheetLink);
                 
                 JsLink5.id = "pubnub-file";
-                let totalThreads = navigator.hardwareConcurrency || 1;
-                for(let n = 0; n < totalThreads; n++) {
-                	let worker = new Worker("./Worker.js");
-                	workers.push(worker);
-                } 
                 
                 let fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
                 let notify = $(".notify div");
@@ -1005,10 +1001,13 @@
             			progress.style.width = `calc(100% / 3 * ${this.n / this.total})`;
             		if(this.n == this.total) {
             			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
-            				ZobristHash.initTable();
-            				for(let worker of workers) {
-                				await worker.postMessage({type: "init-worker", table: ZobristHash.table});
-            				} 
+            				await ZobristHash.initTable();
+            				let totalThreads = navigator.hardwareConcurrency || 1;
+			                for(let n = 0; n < totalThreads; n++) {
+			                	let worker = new Worker("./Worker.js");
+								await worker.postMessage({type: "init-worker", table: ZobristHash.table});
+			                	workers.push(worker);
+			                } 
 							Publish.sleep = new Sleep();
             				LoadResources();
             				Permissions.check(undefined, "clipboard-write");
@@ -1058,10 +1057,8 @@
 				} 
 				else if(reg.active) {
 					newSW = null;
-					if(!finishedInstalling) 
+					if(!initiatedPageComplete) 
 						pageComplete();
-						
-					finishedInstalling = true;
 				} 
 			} 
 			
@@ -1069,11 +1066,11 @@
                 e.preventDefault();
                 deferredEvent = e;
             });
-            
-            window.addEventListener("error", (error) => {
+			
+			window.addEventListener("error", (error) => {
             	event.preventDefault();
             	console.log(error.message + " \n\tat " + error.filename + ": " + error.lineno + ":" + error.colno);
-            	let option = confirm("ERROR MESSAGE\n\nThere was an unexpected error. We recommend you refresh the page. If this error persists even after refreshing, please contact via:\n\nTel: +254 798 916984\nWhatsApp: +254 798 916984\nEmail: markcodes789@gmail.com\n\nconfirm to refresh or cancel.");
+            	let option = confirm("ERROR MESSAGE\n\nThere was an unexpected error. We recommend you refresh the page. If this error persists even after refreshing, please contact via:\n\nTel: +254 798 916984\nWhatsApp: +254 798 916984\nEmail: markcodes789@gmail.com\n\Press OK to refresh.");
             	if(option) 
             		location.reload();
             });
@@ -1087,7 +1084,6 @@
 					} 
 						
 					reg.addEventListener("updatefound", () => {
-						
 						if(reg.installing) {
 							reg.installing.addEventListener("statechange", () => {
 								FinishInstalling(reg);
@@ -1103,7 +1099,7 @@
 						} 
 					});
 					
-					if(reg.active) {
+					if(reg.active && !initiatedPageComplete) {
 						pageComplete();
 					} 
 				} 
