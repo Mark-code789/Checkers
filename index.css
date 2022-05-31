@@ -2552,6 +2552,17 @@ article {
     grid-column: 2 / span 2;
 } 
 
+#settings-window #main-section .inner_item div.only_item {
+	grid-column: 2 / span 2;
+	margin: 0;
+	padding: 10px;
+	height: fit-content;
+	width: 100%;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+} 
+
 #settings-window #main-section .inner_item label.only_item {
     grid-area: 1 / 2 / 2 / span 2;
 } 
