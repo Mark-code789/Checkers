@@ -39,9 +39,9 @@
             
             .install {
                 position: absolute;
-                bottom: -1000%;
+                bottom: 0%;
                 left: 50%;
-                transform: translate(-50%, 0%);
+                transform: translate(-50%, 110%);
                 height: fit-content;
                 width: fit-content;
                 max-width: 600px;
@@ -134,18 +134,20 @@
             } 
             
             .show_install_prompt {
-                animation: slide_in 1s ease-out 0s 1 normal forwards;
+                animation: slide_in 0.7s ease-out 0s 1 normal forwards;
             } 
             
             .hide_install_prompt {
-                animation: slide_out 1s ease-out 0s 1 normal forwards;
+                animation: slide_out 0.7s ease-out 0s 1 normal forwards;
             } 
             
             @keyframes slide_in {
-                100% {transform: translate3d(-50%, -110vh, 0);}
+            	0% {transform: translate3d(-50%, 110%, 0);}
+                100% {transform: translate3d(-50%, -20%, 0);}
             } 
             @keyframes slide_out {
-                100% {transform: translate3d(-50%, 0, 0);}
+            	0% {transform: translate3d(-50%, -20%, 0);} 
+                100% {transform: translate3d(-50%, 110%, 0);}
             } 
                         
             #load-window {
@@ -1057,14 +1059,16 @@
 				} 
 				else if(reg.active) {
 					newSW = null;
-					if(!initiatedPageComplete) 
+					if(!initiatedPageComplete) {
 						pageComplete();
+					} 
 				} 
 			} 
 			
 			window.addEventListener("beforeinstallprompt", (e) => {
                 e.preventDefault();
                 deferredEvent = e;
+                alert("Install event");
             });
 			
 			window.addEventListener("error", (error) => {
