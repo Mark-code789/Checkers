@@ -11,7 +11,6 @@
         <link rel="icon" href="./src/images/favicon32.png" type="image/png" sizes="32x32">
         <link rel="icon" href="./src/images/favicon96.png" type="image/png" sizes="96x96">
         <title>CHECKERS | DRAUGHTS - Play online, offline or against the computer</title>
-        <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
         <style>
             html {
                 font-size: 0.8em;
@@ -657,10 +656,6 @@
         <article id="settings-window" hidden>
             <h2>SETTINGS</h2>
             <section id="main-section">
-            	<section class="inner_item" id="item-1">
-            		<p>Support:<br><span>Support my work by donating something. Your support is highly appreciate.</span></p>
-					<div id="donate-button-container" class="only_item black_ui"></div>
-				</section>
             	<section class="inner_item" id="item0">
             		<p>Fullscreen:<br><span>Choose whether to enter fullscreen</span></p>
                     <button id="fs-on" onclick="Fullscreen(true)">ON</button>
@@ -704,7 +699,7 @@
                     <button onclick="Clicked(), RestartLevels()" class="only_item red_ui">RESTART</button>
                 </section>
                 <section class="inner_item" id="item8">
-                    <p>Contact:<br><span>Help me build this game. Share your thoughts</span></p>
+                    <p>Support:<br><span>Help me build this game. Share your thoughts</span></p>
                     <button onclick="Clicked(), Contact()" class="only_item blue_ui">CONTACT ME</button>
                 </section>
                 <section class="inner_item" id="item9">
@@ -812,18 +807,7 @@
                 <button class="left_btn" onclick="back()">BACK</button>
             </section>
         </article>
-		<script>
-			PayPal.Donation.Button({
-				env:'production',
-				hosted_button_id:'EA7LL3P5LZUVN',
-				image: {
-				src:'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
-				alt:'Donate with PayPal button',
-				title:'PayPal - The safer, easier way to pay online!',
-				}
-			}).render('#donate-button-container');
-		</script>
-
+        
         <script>
         	'use strict' 
             const HideInstallPrompt = (event) => {

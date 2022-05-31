@@ -1,6 +1,6 @@
 'use strict'
 
-/* Version: 35 */
+/* Version: 34 */
 const Icons = {
     alertIcon: "", 
     confirmIcon: "", 
@@ -2507,7 +2507,7 @@ const Mute = (mute) => {
     } 
 } 
 
-const Edit = (elem, extreme) => {
+const Edit = (elem) => {
     if(extreme) {
         elem.value = elem.value.replace(/\s+/g, '');
     } 
@@ -2968,7 +2968,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "23.15.168.502";
+const currentAppVersion = "22.15.167.500";
 const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
 const AppVersion = () => {
 	Notify({action: "alert", 
