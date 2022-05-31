@@ -1054,8 +1054,10 @@
 			const FinishInstalling = async (reg) => {
 				if(reg.waiting) {
 					newSW = reg;
+					alert("new service worker.");
 				} 
 				else if(reg.active) {
+					alert("activate");
 					newSW = null;
 					if(!initiatedPageComplete) 
 						pageComplete();
