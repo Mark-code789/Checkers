@@ -1,1 +1,4351 @@
-'use strict';const _0x1fe42c=_0x197c;(function(_0x5eb753,_0x81f495){const _0x5e2351=_0x197c,_0x283ac1=_0x5eb753();while(!![]){try{const _0x492ec0=parseInt(_0x5e2351(0x1c5))/0x1+parseInt(_0x5e2351(0x352))/0x2*(parseInt(_0x5e2351(0x3b5))/0x3)+parseInt(_0x5e2351(0x2ee))/0x4+parseInt(_0x5e2351(0x2dc))/0x5+-parseInt(_0x5e2351(0xf9))/0x6*(-parseInt(_0x5e2351(0x152))/0x7)+parseInt(_0x5e2351(0x288))/0x8+-parseInt(_0x5e2351(0x102))/0x9;if(_0x492ec0===_0x81f495)break;else _0x283ac1['push'](_0x283ac1['shift']());}catch(_0x2657ab){_0x283ac1['push'](_0x283ac1['shift']());}}}(_0x3fa3,0xb6f59));const Icons={'alertIcon':'','confirmIcon':'','winnerIcon':'','loserIcon':'','drawIcon':'','loadIcon':'','diceIcon':'','contactIcon':''},Sound={'click':'','capture':'','king':'','collect':'','gameWin':'','gameLose':'','notification':'','startRecording':'','deleteRecording':'','stopRecording':'','throwRecording':'','muted':![]};let storage=null;if(localStorage)storage=localStorage;function _0x197c(_0x475dbe,_0x51274c){const _0x3fa358=_0x3fa3();return _0x197c=function(_0x197c97,_0x1aae29){_0x197c97=_0x197c97-0xd4;let _0x114de4=_0x3fa358[_0x197c97];return _0x114de4;},_0x197c(_0x475dbe,_0x51274c);}let appShells=['alert.png',_0x1fe42c(0x19f),_0x1fe42c(0xea),'loser.png',_0x1fe42c(0x17f),_0x1fe42c(0x393),_0x1fe42c(0x2a6),_0x1fe42c(0x306),'american\x20flag.jpeg',_0x1fe42c(0x32f),_0x1fe42c(0x248),_0x1fe42c(0xf5),_0x1fe42c(0x2c9),_0x1fe42c(0x1f5),'nigerian\x20flag.jpeg',_0x1fe42c(0x346),_0x1fe42c(0x3c5),_0x1fe42c(0x2fd),'lock.png',_0x1fe42c(0x267),_0x1fe42c(0xf8),'click.mp3','capture.mp3','king.mp3',_0x1fe42c(0x297),_0x1fe42c(0x357),_0x1fe42c(0x39a),_0x1fe42c(0x3a6),_0x1fe42c(0x30f),'delete\x20recording.mp3','stop\x20recording.mp3',_0x1fe42c(0x234),_0x1fe42c(0x17a),_0x1fe42c(0x40b),_0x1fe42c(0x2f1),_0x1fe42c(0xe9),_0x1fe42c(0x411),_0x1fe42c(0xfd),'restart.png',_0x1fe42c(0x1ff),_0x1fe42c(0xf1),_0x1fe42c(0x1bf),_0x1fe42c(0x381),_0x1fe42c(0x29c),'sound\x20off.png','send.png','recorder.png',_0x1fe42c(0x397),'bin\x20lid.png',_0x1fe42c(0x3af),'warning.png'],srcs=[],soundProps=Object[_0x1fe42c(0x189)](Sound),imageProps=[...Object[_0x1fe42c(0x189)](Icons),'--english-flag',_0x1fe42c(0x1c9),_0x1fe42c(0x1eb),_0x1fe42c(0x3dd),'--pool-flag',_0x1fe42c(0x1dc),_0x1fe42c(0x3ee),_0x1fe42c(0x2e5),_0x1fe42c(0x2e3),_0x1fe42c(0x18b),'--lock',_0x1fe42c(0x3e5),_0x1fe42c(0x3e4),_0x1fe42c(0x2fc),_0x1fe42c(0x284),_0x1fe42c(0x230),_0x1fe42c(0x3a4),'--hint',_0x1fe42c(0x3ef),'--restart',_0x1fe42c(0x20c),_0x1fe42c(0x22b),_0x1fe42c(0x241),_0x1fe42c(0xe3),'--sound-on',_0x1fe42c(0x178),'--send-btn','--recorder-btn','--delete-bin',_0x1fe42c(0x218),_0x1fe42c(0x32d),'--warning'],loadingInfo=$(_0x1fe42c(0x12d)),progress=$(_0x1fe42c(0x2f2));function _0x3fa3(){const _0x3d9431=['#play-window\x20.score_cont\x20.score\x20label','#stats-window','currentY','#main-window\x20#levels\x20h2','.totals_footer\x20button','reset','possibleWin','https://wa.me/+254798916984?','th[value=\x27','landscape-primary','pool\x20flag.jpeg','getComputedStyle','getDate','empty','buttonAction','#playerB\x20.','--mt','currentTime','6ch','opponent','pop','--hint-pointer-y','Your\x20browser\x20doesn\x27t\x20support\x20Fullscreen\x20functionality.\x0a','nav','Russian\x20Checkers\x20is\x20played\x20on\x208x8\x20board\x20with\x20each\x20player\x20having\x2012\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20one\x20square\x20forward.\x20However,\x20they\x20can\x20capture\x20both\x20forwards\x20and\x20backwards.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20is\x20crowned\x20and\x20continues\x20as\x20a\x20king.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20multiple\x20steps\x20both\x20forwards\x20and\x20backwards.\x20They\x20are\x20also\x20called\x20flying\x20kings.\x20Incase\x20of\x20multiple\x20captures,\x20you\x20can\x20only\x20choose\x20one\x20that\x20favors\x20your\x20game.\x20However\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20should\x20be\x20made\x20exclusively.','international','\x20PM','confirm','setHint','1640835wFEkNd','style','clientY','Checkers\x20-\x20helper','sorted','EXIT','padStart','--white-piece','color','--black-piece','-10px','pressed','Notify.cancel()','An\x20error\x20occurred\x20while\x20locking\x20orientation\x20view','touches','MENU/REPLAY','#table\x20.hint','includes','1075196KLVcyV','Fullscreen\x20Error','left','white\x20cell.jpeg','#load-window\x20.loader\x20.progress','Total\x20of\x20','Wonderful!\x20Good\x20start.\x20✨','#online\x20.field.playerA_name','split','setProperty','Please\x20fill\x20out\x20player\x202\x20name.','#settings-window','.mp3','height','--bg2','cancel.png','piece','prop','baseState','display','floor','lastScrollTop','--ept','.center_bubble','contact.png','#6C6C6C','contains','two-player-online','gameLose','stats_item','#chat-section','trim','not_achieved','start\x20recording.mp3','moves','type','firstMove','from','preventDefault','Your\x20browser\x20doesn\x27t\x20support\x20Fullscreen\x20functionality.','MENU/REMATCH','setAttribute','calc(calc(.2\x20*\x20var(--W)\x20)\x20-\x205px)','#main-window\x20#levels\x20#nav','location','offsetWidth','gridTemplateColumns','en-US','.install','Casino\x20Checkers\x20is\x20a\x20Kenyan\x20checkers\x20game\x20played\x20on\x208x8\x20board\x20with\x20each\x20player\x20having\x2012\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20forward\x20one\x20square.\x20They\x20can\x20however\x20capture\x20two\x20squares\x20both\x20forwards\x20and\x20backwards.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20will\x20continue\x20uncrowned.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20both\x20forwards\x20and\x20backwards.\x20However\x20in\x20the\x20event\x20of\x20a\x20capture,\x20a\x20king\x20can\x20jump\x20multiple\x20steps\x20and\x20land\x20only\x20to\x20the\x20immediate\x20square\x20after\x20the\x20captured\x20piece.\x20Incase\x20of\x20multiple\x20captures,\x20one\x20should\x20make\x20sure\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20are\x20made.','offsetTop','\x20CHECKERS<br>','clientX','#online','#levels\x20#nav\x20div','validForHint','#note\x20.close_btn','disabled_levels','captures','abs','concat','boardSize','thead','--copy','king','kenyan\x20flag.jpeg','crown','select','#vert','red_ui','-90deg','initialLoading','aiPath','Checkers\x20-\x20stats','colspan',')</span>','\x20CHECKERS','./src/images/','alternatePlayAs','#B4B4B4','href','100px','helperPath','#item4','pop-out','hinted','Today','WHATSAPP','black\x20piece.png','px/*calc(100%\x20*\x20','\x20+\x20calc(100%\x20/\x203))','</span>','status','Mandatory\x20Capture!','getBoundingClientRect','#playerB\x20button','Checkers\x20-\x20version','.playerA_name','single-player','fade_note','2RPJgre','>\x20<span>','4.75vmax\x205.5vmax','removeChild','lastChild','game\x20win.mp3','crown_black','.elem_hint','iconType','header','.transmitter.cargo_ready\x20.cargo.move','createObjectURL','.horiz_controls','section[date=\x27sometime\x20back\x27]:last-of-type','3vmax\x203vmax','#item4\x20button[value=\x27','60px\x20auto\x2025px','.chat_header\x20h2','makeMove','ExitedGame','firstChild','firstTime','.note_body','\x20<br><span>','#play-window','Player','start','transitionDuration','main','#table\x20.valid,\x20#table\x20.pre_valid,\x20#table\x20.hint,\x20.helper_empty,\x20.helper_filled','whiteTurn','getPropertyValue','#two-players-window\x20h2','event','toggle','#main-window','toTimeString','WON','.note_footer','<br>','indexOf','collect','Moved','bottom','Undone','pool','&nbsp&nbsp','white\x20crown.png','mode','transform','hide','mozFullscreenElement','It\x20was\x20an\x20entertaining\x20match.\x20','#chat-window','setItem','translate','sleep','\x27s\x20mistakes.\x20Congratulations,\x20those\x20were\x20great\x20moves.','rowspan','auto','No\x20games\x20played\x20yet.','moving','Argument\x20Error:\x20elem\x20must\x20be\x20of\x20type\x20Element','#chat-icon','.stats_section','load.png','3.75vmax\x204.5vmax','#play-window\x20.header_section\x20h3','msRequestFullscreen','bin.png','You\x20can\x27t\x20undo\x20more\x20than\x20five\x20(5)\x20times\x20in\x20a\x20game.','0\x20-4vmin\x202vmin\x204vmin\x20#000,\x200\x204vmin\x202vmin\x200\x20#0006','game\x20lose.mp3','note_footer','auto\x2070vmax','Brilliant!\x20You\x20are\x20really\x20intelligent.\x20🤔','icon','--angleZ','movePiece','DRAW!','requestDelete','over','--frame','selectMode','notification.mp3','.recorder_container','parentNode','russian','.badge',')*/','kings','4.5vmax\x203.75vmax','smooth','copy.png','#table\x20.cell','diceIcon','0\x207vmin\x201vmin\x204vmin\x20#0008,\x200\x200\x201vmin\x204vmin\x20#000a','backgroundImage','rowNo','2467521iGCtbz','0px','CONTACT\x20DEVELOPER','contain','name','ABCDEFGHIJKLMNOPQRST','\x20Checkers','Loading\x20textures...','scrollIntoView','div','score','click','#online\x20.player_name','move','locked','You\x20are\x20really\x20hard\x20to\x20crack.\x20This\x20is\x20a\x20draw.<br>Do\x20you\x20think\x20by\x20continuing\x20you\x20can\x20change\x20this\x20around?','white\x20piece.png','Hint','sendCargo','won','.totals_div','translate(0%,\x200%)','pieceSelected','toUpperCase','max','boxShadow','#two-players-window','#footer\x20.left_btn','mouseup','var(--','#item6\x20button','hintCount','#games-window','date','log','documentElement','grayscale(0)\x20invert(0)\x20brightness(1)','white','.transmitter','slide_float_date','--international-flags','#item3\x20button','var(--lock)','touchend','invalid','you','other','--bg1','--star','CANCEL/CLEAR','.header_div:last-of-type\x20h2','var(--hint)','selected','note_head','#fs-off','Bravo!\x20You\x20are\x20becoming\x20a\x20pro.\x20😎','src','--nigerian-flag','--menu','#play-window\x20.penalties\x20div:first-of-type','unreadMessages','RESTART','80px','join','many-','#follow-up-window','initialX','Well!\x20Well!\x20those\x20were\x20clever\x20moves.<br>But\x20there\x20are\x20no\x20moves\x20to\x20play,<br>what\x20about\x20a\x20rematch?','track','.text','sqrt','pointerEvents','piece_white','fullscreenElement','note_window','You\x20people\x20really\x20don\x27t\x20wanna\x20give\x20in\x20to\x20each\x20other.<br>Do\x20you\x20still\x20want\x20to\x20continue?','versions','.games_totals','two-player-offline','Locking\x20error:\x20','Very\x20good\x20play.\x20👌','Do\x20you\x20really\x20want\x20to\x20restart\x20this\x20game?<br>Restarting\x20will\x20mean\x20you\x20accept\x20defeat.','justifyContent','nigerian','some','find','black\x20cell.jpeg','initialHeight','White','levels','<span>Audio</span><ul><li>Special\x20thanks\x20goes\x20to\x20zapslat.com\x20for\x20powering\x20audio\x20in\x20this\x20game.\x20Checkout\x20the\x20link\x20below\x20for\x20more\x20info.<br/><a\x20href=\x27https://www.zapsplat.com/sound-effect-categories/\x27>www.zapslat.com</a></li></ul><span>Online\x20Gaming</span><ul><li>This\x20one\x20goes\x20to\x20PubNub\x20for\x20enabling\x20instant\x20communication\x20between\x20internet\x20connected\x20devices.</li></ul>','default','hint.png','.text\x20>\x20div','#offline\x20#playerA\x20.playerA_name','<br/>','onclick','className','initializeAudios','replace','black_icon','\x27]:last-of-type','online','You\x20must\x20capture','opacity','message','gridTemplateRows','#transmitter\x20.outer','top','hint','Please\x20Wait!','lost','disabled','--white-crown','4vmax\x204vmax','mailto:markcodes789@gmail.com?\x20&subject=Checkers%20Support%20Feedback','helper','select_mode','game_item','frame.jpeg','winner.png','\x20will\x20make\x20the\x20first\x20move.\x20Please\x20wait.','startMoving','.player_A_time','games_totals','stats','.chat_copy','about.png','</label><span>Updates\x20of\x20this\x20version</span>','longestCapture','#play-window\x20.middle_section\x20.face_back','international\x20flags.jpeg','Games\x20cleared\x20successfully','Please\x20wait\x20for\x20your\x20turn.','background1.jpeg','3967908ScRNWV','0.5','cell_white','#play-window\x20.penalties\x20div','menu.png','innerHeight','NEXT\x20LEVEL','.horiz_controls:nth-of-type(2)','PUBNUB','21728259ppDNgq','playerA','.recorder_button','Long\x20press\x20for\x20more\x20options.','total','captureMove','capturesHelper','toString','\x20played\x20so\x20far...','initialY','Amending\x20those\x20mistakes\x20you\x20made,\x20you\x20can\x20win.\x20:-)','The\x20current\x20game\x20progress\x20will\x20be\x20lost!','true','px,\x20','auto\x20100vmax','To\x20change\x20your\x20name,\x20enter\x20the\x20name\x20here\x20and\x20hit\x20submit\x20or\x20enter.','portrait','toLowerCase','rgb(','--unrotated-shadow','getAttribute','show_float_date','Loading\x20audio...','\x20-\x20','px,\x200)','popstate','mandatoryCapture','winnerIcon','.float_date','Restart\x20Game!','MENU/CONTINUE/REPLAY','cloneNode','cell_black','.face_bottom\x20#level','xOffset','white_icon','fontWeight','scroll','You\x20capitalized\x20on\x20','CANCEL/RESTART','#two-players-window\x20#playerB\x20.white','.selected_bubble','prob','#load-window\x20.loader\x20p','root','translate3d(','toFixed','loadIcon','gridRowGap','addEventListener','0deg','nearest','.controls','padding','--hint-pointer-x','filter','lock','draw','CHANNEL','alert','active','#offline\x20#playerB\x20.playerB_name','<br><span>','url(\x27','#pop-up-note','flag','\x20game','#item0\x20button','catch','Losses','500','NOT\x20NOW/EMAIL/WHATSAPP','Invalid\x20Date','show','tbody','td[name=\x27','random','orientation','grid','class','7kXSnoz','recorderContainer','captured','size','#main\x20div','slice','push','This\x20game\x20is\x20a\x20draw.\x20What\x20do\x20you\x20think?','dragItem','block','innerHTML','popUpAlert','drawIcon','pieces','casino','.games_date[date=\x27','delay','crown_white','fill','LOADING\x20ERROR!\x0aFailed\x20to\x20load\x20AppShellFiles.\x20Either\x20you\x20have\x20bad\x20network\x20or\x20you\x20have\x20lost\x20internet\x20connection.','center','removeAttribute','backgroundSize','#play-window\x20.header_section\x20h2','Unknown','stopRecording','chat-window','YOU\x20LOSE!','cancel','charAt','mozFullscreenchange','mozRequestFullscreen','Checkers\x20-\x20versions','Move.receiveCargo(','receiveCargo','version','\x20level','landscape','--sound-off','MENU/CONTINUE/REMATCH','background2.jpeg','#play-window\x20.penalties\x20div:last-of-type\x20span','drawStateCount','piece_black','focus','draw.png','offline','.selected_bubble\x20.audio_panel','100px\x20auto','play','baseStateCount','body','pre_valid','End(event)','nextElementSibling','keys','short','--cancel','direction','previousElementSibling','#games','#nav','#table\x20.valid,\x20#table\x20.pre_valid,\x20#table\x20.hint,\x20#table\x20.helper_empty,\x20#table\x20.helper_filled','insertBefore','test','YOU\x20WIN!<br>PLAY\x20FIRST.','remove','#main-window\x20.version[value=\x27','#play-window\x20.middle_section\x20.penalties','0.5s','.chat_field','#table','mozExitFullscreen','addMessageAction','Do\x20you\x20really\x20want\x20to\x20exit?','disabled_container','You\x20are\x20the\x20one\x20to\x20start.\x20Make\x20a\x20move.','confirm.png','#play-window\x20.penalties\x20div:first-of-type\x20span','width','check','moved','wait','msExitFullscreen','.bubbles_container','flex','.chat_header\x20p','Press\x20again\x20to\x20exit.','#levels\x20h2','gameStatus','currentX','#fs-on','TWO\x20PLAYERS\x20ONLINE','lockers\x20','.chat_field_container','helper_filled','startsWith','Sometime\x20Back','children','.controls:nth-of-type(2)','alertSpecial','button','cell','.totals_footer\x20p','disabled_button','count','Feel\x20free\x20to\x20reach\x20out\x20to\x20me\x20via\x20either\x20of\x20the\x20following\x20options.\x20Let\x27s\x20build\x20checkers\x20together.','parse','RequestRestart','black\x20crown.png','thinking...','Checkers\x20-\x20first_move','action','pieceColor','.frame','840424RfXsop','removeItem','sometime\x20back','60px\x20auto','--kenyan-flag','webkitRequestFullscreen','requestFullscreen','.player_B_time','#play-window\x20.middle_section\x20.horiz_controls:nth-of-type(3)','level','selected_bubble','td[value=\x27','note_buttons','\x20VS\x20','mousemove','loser','0.3s','./src/audio/','.face_bottom\x20pre','Checkers\x20-\x20play_as','dice','makePath','stringify','--russian-flag','setDate','_icon','MENU/REPLAY/NEXT\x20LEVEL','read','recorder_button','window','webkitFullscreenElement','note_image','confirmIcon','122px','Are\x20you\x20sure\x20restart\x20all\x20levels!','American\x20Checkers\x20also\x20known\x20as\x20English/Standard\x20Checkers\x20is\x20played\x20on\x208x8\x20board\x20with\x20each\x20player\x20having\x2012\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20are\x20only\x20allowed\x20to\x20move\x20forwards.\x20When\x20there\x20is\x20multiple\x20capturing\x20sequence,\x20one\x20is\x20expected\x20to\x20choose\x20only\x20one\x20and\x20not\x20necessarily\x20the\x20one\x20that\x20will\x20result\x20in\x20multiple\x20captures.\x20All\x20the\x20captures\x20in\x20the\x20chosen\x20sequence\x20should\x20be\x20made.\x20Kings\x20(crowned\x20pieces)\x20can\x20capture\x20and\x20move\x20both\x20forwards\x20and\x20backwards.\x20However,\x20they\x20can\x20move\x20only\x20one\x20square.','innerWidth','#playerB\x20button:not(.','--casino-flag','long','inactive','#mute','auto\x20auto','var(--sound-off)','background-size','Amending\x20mistakes\x20you\x20made,\x20can\x20guarantee\x20you\x20a\x20win.<br>Practice\x20make\x20perfect!','section[date=\x27','pushState','russian\x20flag.jpeg','classList','What\x20a\x20good\x20learner!\x20👏','#play-window\x20.controls_section\x20.controls:nth-of-type(3)','first-move-white','onanimationend','play-as-alternately','?window1','note_main','splice','undo.png','calc(100%\x20/\x20var(--board-size)\x20*\x20','#unmute','#item1','YOU\x20LOSE!<br>OPPONENT\x20FIRST.','popUpNote','hintPath','msFullscreenElement','12:','getTime','touchstart','first-move-roll-dice','BLACK','--undo','back','.chat_menu','<label\x20style=\x27display:\x20block;\x20text-align:\x20left;\x27>Your\x20current\x20app\x20version\x20is:\x20','playerName','Rematch\x20request\x20has\x20been\x20sent\x20to\x20','stats_name','appendChild','done','.uncategorized_totals','.game_item[date=\x27','blur','--delete-lid','resize','\x20do\x20you\x20want\x20a\x20rematch?','alternate','Checkers-Test-State5','stop','\x20h2','calc(calc(100%\x20/\x203)\x20*\x20','target','--shadow-width','shift','note_close_button','Pool\x20Checkers\x20is\x20played\x20on\x208x8\x20board\x20with\x20each\x20player\x20having\x2012\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20one\x20square\x20forward.\x20However,\x20they\x20can\x20capture\x20both\x20forwards\x20and\x20backwards.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20stops\x20and\x20becomes\x20crowned.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20multiple\x20steps\x20both\x20forwards\x20and\x20backwards.\x20They\x20are\x20also\x20called\x20flying\x20kings.\x20Incase\x20of\x20multiple\x20captures,\x20you\x20can\x20only\x20choose\x20one\x20that\x20favors\x20your\x20game.\x20However,\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20should\x20be\x20made\x20exhaustively','YOU\x20WIN!','#item4\x20button','To\x20successfully\x20play\x20the\x20online\x20match,\x20you\x20are\x20required\x20to\x20be\x20in\x20a\x20channel\x20so\x20that\x20you\x20and\x20your\x20opponent\x20can\x20communicate\x20exclusively.\x20Now,\x20to\x20do\x20that,\x20there\x20is\x20a\x20field\x20named\x20\x22CHANNEL\x20DETAILS\x22\x20on\x20TWO\x20PLAYERS\x20window.\x20In\x20that\x20field,\x20enter\x20your\x20preferred\x20channel\x20name.\x20It\x20can\x20be\x20anything\x20as\x20long\x20as\x20is\x20an\x20name\x20as\x20shown\x20below.<img\x20src=\x27./src/images/channel\x20image.png\x27>In\x20the\x20next\x20field\x20named\x20\x22PLAYER\x20DETAILS\x22,\x20enter\x20your\x20preferred\x20name.\x20This\x20name\x20will\x20help\x20identify\x20you.\x20Your\x20opponent\x20will\x20refer\x20to\x20you\x20using\x20this\x20name\x20as\x20well.<img\x20src=\x27./src/images/player\x20image.png\x27>Once\x20done\x20filling\x20the\x20details,\x20tap\x20<kbd>SUBMIT</kbd>\x20button\x20at\x20the\x20bottom\x20of\x20the\x20screen\x20or\x20just\x20press\x20<kbd>ENTER</kbd>\x20on\x20the\x20keyboard.\x20If\x20you\x20are\x20successfully\x20connected,\x20under\x20\x22CHANNEL\x20STATUS\x20DETAILS\x22\x20at\x20the\x20top\x20of\x20the\x20sreen,\x20your\x20status\x20will\x20change\x20color\x20to\x20green\x20and\x20indicate\x20your\x20connection\x20status<img\x20src=\x27./src/images/status\x20image.png\x27>.\x20Likewise,\x20the\x20channel\x20you\x20have\x20joined\x20will\x20be\x20shown\x20under\x20\x22CHANEL\x20DETAILS\x22\x20and\x20indicate\x20whether\x20you\x20are\x20the\x20host\x20or\x20guest.<img\x20src=\x27./src/images/channel\x20joined\x20image.png\x27>If\x20you\x20are\x20the\x20host\x20of\x20that\x20channel,\x20that\x20means\x20you\x20will\x20have\x20to\x20invite\x20your\x20opponent\x20to\x20your\x20channel.\x20You\x20can\x20do\x20this\x20by\x20telling\x20him/her\x20the\x20channel\x20you\x20have\x20joined,\x20or\x20create\x20and\x20share\x20the\x20link\x20to\x20that\x20channel\x20by\x20clicking\x20the\x20<kbd>SHARE</kbd>\x20button\x20under\x20the\x20\x22CHANNEL\x20DETAILS\x22.<br>Once\x20you\x20are\x20all\x20connected\x20to\x20the\x20same\x20channel,\x20a\x20chat\x20button\x20will\x20pop\x20at\x20top\x20right\x20corner\x20of\x20the\x20screen.\x20You\x20can\x20share\x20instant\x20messages\x20live\x20on\x20the\x20app\x20without\x20leaving\x20the\x20app.\x20To\x20initiate\x20a\x20match,\x20just\x20hit\x20the\x20<kbd>PLAY</kbd>\x20button\x20on\x20the\x20screen.','):\x20','--z-plane-distance','CONTINUE','--about','interval','removeEventListener','toDateString','.single_player_totals','--white-cell','calc(100%\x20-\x2070px)','false','#notification-window','throw\x20recording.mp3','capture','var(--sound-on)','undoCount','#horiz','10px','#fff','RequestReplay','getItem','Black','#offline','add','helper_empty','--black-crown','send','tagName','cell_disabled','background','.offline_totals','unrotated','casino\x20flag.jpeg','Those\x20were\x20really\x20clever\x20moves!\x20you\x20forced\x20out\x20a\x20draw.','inline-block','background-image','.online_totals','.stats_header\x20img','Checkers\x20-\x20mandatory_capture','both','DRAW','Restart\x20request\x20has\x20been\x20sent\x20to\x20','fade-out','\x20+\x20calc(100%\x20/\x201.5))','achieved','isComputer','then','Can\x27t\x20play,\x20you\x20haven\x27t\x20filled\x20out\x20players\x20details.\x20Fill\x20them\x20out\x20and\x20try\x20again.','\x20AM','#play-window\x20.middle_section\x20.score','RequestPlay','isConnected','timeout','replaceAll','#7C7C7C','.anchor','Please\x20wait\x20for\x20opponent\x27s\x20move','state','textContent','auto\x20auto\x20auto','visible','.note_header','value','star.png','activeElement','thinking','#main\x20div:nth-of-type(3)','american','--perspective-y','Checkers\x20-\x20muted','none','\x20WON!<br>PLAY\x20FIRST.','end','#play-window\x20.controls_section\x20.score_cont','Wins','nonCaptures','#play-window\x20.penalties\x20div:last-of-type','lastElementChild','show_install_prompt','rollDice','.chat_delete','fullscreen','right','call','Draws','--board-size','.note_img','5px','muted','scrollTop','\x20\x20\x20\x20','50%','--black-cell','#000','floatTimeout','Checkers-Test-State','1939496xBmlpK','objectFit','#item1\x20button','80px\x20auto\x2025px','stats_value','60px','visibilitychange','Wait\x20for\x20opponent\x27s\x20feedback.','touchmove','3.75vmax\x203.75vmax','International\x20Checkers\x20is\x20played\x20on\x2010x10\x20board\x20with\x20each\x20player\x20having\x2020\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20one\x20square\x20forward.\x20However\x20they\x20can\x20capture\x20both\x20forwards\x20and\x20backwards.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20will\x20continue\x20uncrowned.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20multiple\x20steps\x20both\x20forwards\x20and\x20backwards.\x20They\x20are\x20also\x20called\x20flying\x20kings.\x20Incase\x20of\x20multiple\x20captures,\x20you\x20can\x20only\x20choose\x20one\x20that\x20favors\x20your\x20game.\x20However,\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20should\x20be\x20made\x20exhaustively.','-piece)','CANCEL/EXIT','Nigerian\x20Checkers\x20is\x20similar\x20to\x20international\x20checkers\x20with\x20the\x20difference\x20being,\x20the\x20longest\x20diagonal\x20is\x20align\x20to\x20the\x20right\x20of\x20the\x20players.\x20The\x20game\x20is\x20played\x20on\x2010x10\x20board\x20with\x20each\x20player\x20having\x2020\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20one\x20square\x20forward.\x20However\x20they\x20can\x20capture\x20both\x20forwards\x20and\x20backwards.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20will\x20continue\x20uncrowned.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20multiple\x20steps\x20both\x20forwards\x20and\x20backwards.\x20They\x20are\x20also\x20called\x20flying\x20kings.\x20Incase\x20of\x20multiple\x20captures,\x20you\x20can\x20only\x20choose\x20one\x20that\x20favors\x20your\x20game.\x20However,\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20should\x20be\x20made\x20exhaustively.','\x20You\x20can\x20now\x20proceed\x20to\x20','collect.mp3','<ul><li>Added\x20voice\x20notes\x20in\x20the\x20chat\x20engine.</li><li>Added\x20delete\x20and\x20copy\x20option\x20for\x20chat\x20engine.</li><li>Improved\x20internal\x20operations.</li><li>Improved\x20the\x20AI\x20thinking\x20time.</li><li>Fixed\x20channel\x20subscription\x20error.</li><li>Fixed\x20more\x20other\x20errors.</li><li>Discover\x20by\x20yourself</li></ul>','Yesterday','90deg','#item5\x20button','sound\x20on.png','mousedown','audio_panel','#table\x20.helper_empty,\x20#table\x20.pre_valid,\x20#table\x20.valid','#play-window\x20.middle_section\x20.timer_front_a','animationName','final','yOffset','loserIcon','NotSupportedError','dice\x20roll.png','Checkers\x20-\x20currentLevel','gameWin','chatFieldHadFocus','#play-window\x20.middle_section\x20.timer_front_b','Once\x20done\x20this\x20action\x20can\x20not\x20be\x20undone.','LOCKED','valid','section','substring','Play\x20request\x20has\x20been\x20sent\x20to\x20','all','note_body','MAX_SAFE_INTEGER','length','kenyan','BUFFERING\x20ERROR!\x0aFailed\x20to\x20buffer\x20fetched\x20data\x20to\x20an\x20array\x20data.','You\x20are\x20simply\x20a\x20masterclass\x20player.\x20Congratulations\x20🥇👏','.games_date','isOver','notification','fade-note','visibilityState','games_date','winner'];_0x3fa3=function(){return _0x3d9431;};return _0x3fa3();}async function LoadResources(_0x566772=appShells[0x0],_0x1a5dae=0x0){const _0x38fc2a=_0x1fe42c;_0x566772[_0x38fc2a(0x2ed)](_0x38fc2a(0x2fa))?_0x566772=_0x38fc2a(0x1d6)+_0x566772:_0x566772=_0x38fc2a(0x33b)+_0x566772;let _0x6c5630=await fetch(_0x566772);if(_0x6c5630[_0x38fc2a(0x34a)]===0xc8){let _0x3817d4=await _0x6c5630['blob']();if(_0x3817d4[_0x38fc2a(0x155)]>0x0){if(!_0x566772['includes'](_0x38fc2a(0x2fa)))loadingInfo[_0x38fc2a(0x262)]=_0x38fc2a(0x3bc),progress[_0x38fc2a(0x2dd)][_0x38fc2a(0x1a1)]=_0x38fc2a(0x21f)+(_0x1a5dae+0x1)/0x15+_0x38fc2a(0x348),_0x566772=await URL['createObjectURL'](_0x3817d4),appShells[_0x38fc2a(0x1fe)](_0x1a5dae,0x1,_0x566772),_0x1a5dae<Object[_0x38fc2a(0x189)](Icons)[_0x38fc2a(0x2b4)]?Icons[imageProps[_0x1a5dae]]=_0x566772:document['documentElement'][_0x38fc2a(0x2dd)][_0x38fc2a(0x2f7)](imageProps[_0x1a5dae<Object['keys'](Icons)[_0x38fc2a(0x2b4)]+0xd?_0x1a5dae:_0x1a5dae-0xb],'url('+_0x566772+')');else{loadingInfo[_0x38fc2a(0x15c)]=_0x38fc2a(0x118),progress['style'][_0x38fc2a(0x1a1)]=_0x38fc2a(0x21f)+(_0x1a5dae-0x14)/0xb+_0x38fc2a(0x253),_0x566772=await URL[_0x38fc2a(0x35d)](_0x3817d4);let _0x461fd3=new Audio(_0x566772);Sound[soundProps[_0x1a5dae-0x15]]=_0x461fd3;}_0x1a5dae==0x20&&(loadingInfo['innerHTML']='Finishing...',await LoadingDone());_0x1a5dae++;if(_0x1a5dae<appShells[_0x38fc2a(0x2b4)])LoadResources(appShells[_0x1a5dae],_0x1a5dae);else{appShells=null,imageProps=null,soundProps=null,await new Sleep()[_0x38fc2a(0x1a4)](0.5);if(deferredEvent&&!newSW)$(_0x38fc2a(0x31e))[_0x38fc2a(0x1f6)][_0x38fc2a(0x23f)](_0x38fc2a(0x276));else newSW?InvokeSWUpdateFlow(newSW):Permissions['check']();}}else alert(_0x38fc2a(0x2b6));}else console[_0x38fc2a(0x3d7)](_0x6c5630),alert(_0x38fc2a(0x165));}async function LoadingDone(){const _0x1629b7=_0x1fe42c;srcs=appShells[_0x1629b7(0x157)](0x0,0x11);screen[_0x1629b7(0x14f)][_0x1629b7(0x311)][_0x1629b7(0x2ed)](_0x1629b7(0x177))&&(document[_0x1629b7(0x185)]['style']['backgroundSize']=_0x1629b7(0x39c));$(_0x1629b7(0x202))['style'][_0x1629b7(0x301)]=_0x1629b7(0x26e),document[_0x1629b7(0x133)]('fullscreenchange',_0x1bf210=>Fullscreen(!![],!![]),![]),document[_0x1629b7(0x133)]('msFullscreenchange',_0x59003c=>Fullscreen(!![],!![]),![]),document[_0x1629b7(0x133)](_0x1629b7(0x170),_0x1f6209=>Fullscreen(!![],!![]),![]),document[_0x1629b7(0x133)]('webkitFullscreenchange',_0x45b5c5=>Fullscreen(!![],!![]),![]);let _0x2b9f90=new Drag($('.recorder_button'),'x',_0x1629b7(0x1d5));$(_0x1629b7(0x104))[_0x1629b7(0x133)](_0x1629b7(0x209),_0x2b9f90[_0x1629b7(0x36c)],![]),$('.recorder_button')[_0x1629b7(0x133)](_0x1629b7(0x3e0),_0x2b9f90['end'],![]),$('.recorder_button')[_0x1629b7(0x133)](_0x1629b7(0x290),_0x2b9f90['move'],![]),$('.recorder_button')[_0x1629b7(0x133)]('mousedown',_0x2b9f90[_0x1629b7(0x36c)],![]),$(_0x1629b7(0x104))[_0x1629b7(0x133)]('mouseup',_0x2b9f90[_0x1629b7(0x270)],![]),$(_0x1629b7(0x104))['addEventListener']('mousemove',_0x2b9f90['move'],![]),_0x2b9f90=new Drag($(_0x1629b7(0x391)),_0x1629b7(0x24f),'0.5s'),$(_0x1629b7(0x391))[_0x1629b7(0x133)](_0x1629b7(0x209),_0x2b9f90[_0x1629b7(0x36c)],![]),$('#chat-icon')[_0x1629b7(0x133)](_0x1629b7(0x3e0),_0x2b9f90[_0x1629b7(0x270)],![]),$(_0x1629b7(0x391))['addEventListener'](_0x1629b7(0x290),_0x2b9f90['move'],![]),$(_0x1629b7(0x391))['addEventListener']('mousedown',_0x2b9f90['start'],![]),$(_0x1629b7(0x391))['addEventListener'](_0x1629b7(0x3d1),_0x2b9f90[_0x1629b7(0x270)],![]),$(_0x1629b7(0x391))['addEventListener'](_0x1629b7(0x1d3),_0x2b9f90[_0x1629b7(0x3c2)],![]),_0x2b9f90=new Drag($(_0x1629b7(0x402)),'y',_0x1629b7(0x197)),$(_0x1629b7(0x402))[_0x1629b7(0x133)]('touchstart',_0x2b9f90[_0x1629b7(0x36c)],![]),$(_0x1629b7(0x402))[_0x1629b7(0x133)](_0x1629b7(0x3e0),_0x2b9f90[_0x1629b7(0x270)],![]),$(_0x1629b7(0x402))[_0x1629b7(0x133)](_0x1629b7(0x290),_0x2b9f90['move'],![]),$(_0x1629b7(0x402))['addEventListener'](_0x1629b7(0x29d),_0x2b9f90['start'],![]),$(_0x1629b7(0x402))['addEventListener'](_0x1629b7(0x3d1),_0x2b9f90[_0x1629b7(0x270)],![]),$(_0x1629b7(0x402))['addEventListener'](_0x1629b7(0x1d3),_0x2b9f90[_0x1629b7(0x3c2)],![]),$(_0x1629b7(0x278))[_0x1629b7(0x133)](_0x1629b7(0x3c0),Bubble[_0x1629b7(0x3a2)],![]),$(_0x1629b7(0xf0))[_0x1629b7(0x133)](_0x1629b7(0x3c0),Bubble['copyBubbleText'],![]),$(_0x1629b7(0x1a6))[_0x1629b7(0x133)]('scroll',_0x1600e8=>LongPress[_0x1629b7(0x270)](_0x1600e8,$('.bubbles_container')),![]),$('#games')[_0x1629b7(0x133)](_0x1629b7(0x127),GamesScroll[_0x1629b7(0x1a2)],![]),$(_0x1629b7(0x2c3))['addEventListener'](_0x1629b7(0x3c0),ShowTotalStats,![]),Disable($(_0x1629b7(0x12a)),general[_0x1629b7(0xe2)],'#B4B4B4'),general[_0x1629b7(0x3e9)]=$('#main\x20.default'),general[_0x1629b7(0x1ce)]=$('#nav\x20.default'),$('#load-window')[_0x1629b7(0x2dd)][_0x1629b7(0x301)]=_0x1629b7(0x26e),$(_0x1629b7(0x375))[_0x1629b7(0x2dd)][_0x1629b7(0x301)]=_0x1629b7(0x150);let _0x11cd11=$$('#main-window\x20#levels\x20#nav\x20div'),_0x178dc6=null,_0x483a35=null;if(storage===null||storage['getItem'](_0x1629b7(0x172))===null){for(_0x178dc6 of _0x11cd11){_0x483a35=_0x178dc6[_0x1629b7(0x1b4)][0x1],_0x178dc6[_0x1629b7(0x116)](_0x1629b7(0x266))!=_0x1629b7(0x1af)?(_0x483a35[_0x1629b7(0x1b4)][0x0][_0x1629b7(0x1f6)][_0x1629b7(0x23f)]('not_achieved'),_0x483a35[_0x1629b7(0x1b4)][0x1]['classList']['add'](_0x1629b7(0x30e)),_0x483a35[_0x1629b7(0x1b4)][0x2][_0x1629b7(0x1f6)][_0x1629b7(0x23f)](_0x1629b7(0x30e))):(_0x483a35[_0x1629b7(0x2dd)][_0x1629b7(0x139)]='grayscale(0%)\x20invert(0%)\x20brightness(100%)',_0x483a35[_0x1629b7(0x2dd)][_0x1629b7(0x3b3)]=_0x1629b7(0x3df));}storage&&(storage['setItem']('Checkers\x20-\x20versions',JSON[_0x1629b7(0x1db)](Game[_0x1629b7(0x401)])),storage[_0x1629b7(0x388)](_0x1629b7(0x34e),Game[_0x1629b7(0x175)]));}else{Game[_0x1629b7(0x401)]=JSON[_0x1629b7(0x1bd)](storage[_0x1629b7(0x23c)](_0x1629b7(0x172)));let _0x141549=storage[_0x1629b7(0x23c)]('Checkers\x20-\x20version');_0x141549=/^\d+/gi[_0x1629b7(0x192)](_0x141549)?_0x1629b7(0x26b):_0x141549,Game[_0x1629b7(0x175)]=_0x141549,_0x141549=$(_0x1629b7(0x195)+_0x141549+'\x27]'),await Version(_0x141549,undefined,![]),Game[_0x1629b7(0xef)]=JSON[_0x1629b7(0x1bd)](storage['getItem'](_0x1629b7(0x337)))||[];let _0x173ff1=Game[_0x1629b7(0xef)][_0x1629b7(0x2b4)],_0x254432=$('#games-window\x20#games');$(_0x1629b7(0x1b9))[_0x1629b7(0x262)]='Total\x20of\x20'+_0x173ff1+_0x1629b7(0x144)+(_0x173ff1>0x1?'s':'')+_0x1629b7(0x10a);for(let _0x105fbe=0x0;_0x105fbe<_0x173ff1;_0x105fbe++){let _0x2b491a=_0x105fbe;const _0x55dc89=Game[_0x1629b7(0xef)][_0x2b491a];let _0x84f50d=$$$(_0x1629b7(0x2ae),['class',_0x1629b7(0xe8)]),_0x135a0c;if(_0x55dc89['ms']){let _0x28cc88=new Date(),_0x12eb17=new Date();_0x12eb17[_0x1629b7(0x1dd)](_0x28cc88[_0x1629b7(0x2cb)]()-0x1);let _0xc592a8=new Date(_0x55dc89['ms']),_0x29816b=_0xc592a8['toLocaleDateString'](_0x1629b7(0x31d),{'weekday':_0x1629b7(0x1ec),'month':_0x1629b7(0x18a),'year':'numeric'})['split']('\x20');_0x29816b=_0xc592a8[_0x1629b7(0x22e)]()==_0x28cc88[_0x1629b7(0x22e)]()?_0x1629b7(0x344):_0xc592a8[_0x1629b7(0x22e)]()==_0x12eb17[_0x1629b7(0x22e)]()?_0x1629b7(0x299):_0x29816b[0x2]+',\x20'+_0x29816b[0x0]+'\x20'+_0xc592a8[_0x1629b7(0x2cb)]()+'\x20'+_0x29816b[0x1],_0x135a0c=_0x254432['$'](_0x1629b7(0x1f3)+_0xc592a8[_0x1629b7(0x22e)]()+'\x27]:last-of-type');if(!_0x135a0c){let _0x344c14=$$$(_0x1629b7(0x2ae),[_0x1629b7(0x151),_0x1629b7(0x2bd),_0x1629b7(0x3d6),_0xc592a8[_0x1629b7(0x22e)](),_0x1629b7(0x262),_0x29816b]),_0x3068d1=Number[_0x1629b7(0x2b3)];for(let _0x3098a3 of _0x254432['$$'](_0x1629b7(0x2b8))){if(_0x3098a3['getAttribute'](_0x1629b7(0x3d6))==_0x1629b7(0x1c7))continue;let _0x2aae24=new Date(_0x3098a3[_0x1629b7(0x116)](_0x1629b7(0x3d6)))[_0x1629b7(0x208)]()-_0xc592a8['getTime']();Math[_0x1629b7(0x329)](_0x2aae24)<_0x3068d1&&_0x2aae24<0x0&&(_0x3068d1=Math[_0x1629b7(0x329)](_0x2aae24),_0x135a0c=_0x3098a3);}_0x135a0c?(_0x135a0c=_0x254432['$'](_0x1629b7(0x1f3)+_0x135a0c['getAttribute'](_0x1629b7(0x3d6))+_0x1629b7(0xd7)),_0x254432[_0x1629b7(0x191)](_0x344c14,_0x135a0c['nextElementSibling'])):_0x254432[_0x1629b7(0x213)](_0x344c14),_0x135a0c=_0x344c14;}_0x84f50d[_0x1629b7(0x317)](_0x1629b7(0x3d6),_0xc592a8[_0x1629b7(0x22e)]());}else{_0x135a0c=_0x254432['$'](_0x1629b7(0x35f));if(!_0x135a0c){let _0x323928=$$$(_0x1629b7(0x2ae),['class',_0x1629b7(0x2bd),_0x1629b7(0x3d6),'sometime\x20back','textContent',_0x1629b7(0x1b3)]);_0x254432[_0x1629b7(0x213)](_0x323928),_0x135a0c=_0x323928;}_0x84f50d[_0x1629b7(0x317)](_0x1629b7(0x3d6),'sometime\x20back');}if(_0x55dc89[_0x1629b7(0x175)]){if(_0x55dc89[_0x1629b7(0x175)][_0x1629b7(0x2b4)]==0x3){let _0x4fd911=Object[_0x1629b7(0x189)](Game[_0x1629b7(0x401)]);_0x55dc89[_0x1629b7(0x175)]=_0x4fd911[_0x1629b7(0x40a)](_0x19ace2=>{const _0x418262=_0x1629b7;return _0x19ace2['startsWith'](_0x55dc89[_0x418262(0x175)][_0x418262(0x113)]());})[_0x1629b7(0x113)]()[_0x1629b7(0x25d)](/^\w|\s\w/g,_0x291e14=>_0x291e14['toUpperCase']()),_0x55dc89[_0x1629b7(0x175)]+=!/checkers$/gi[_0x1629b7(0x192)](_0x55dc89[_0x1629b7(0x175)])?_0x1629b7(0x3bb):'';}if(_0x55dc89[_0x1629b7(0x1ce)])_0x55dc89['level']=_0x55dc89['level']['toLowerCase']()[_0x1629b7(0x25d)](/^\w|\s\w/g,_0x274985=>_0x274985[_0x1629b7(0x3cc)]());}_0x483a35=$$$('p',[_0x1629b7(0x15c),_0x55dc89[_0x1629b7(0x210)][0x0]+_0x1629b7(0x1d2)+_0x55dc89[_0x1629b7(0x210)][0x1]+'\x20'+(_0x55dc89[_0x1629b7(0x175)]?_0x1629b7(0x140)+_0x55dc89[_0x1629b7(0x175)]+(!_0x55dc89[_0x1629b7(0x382)]||_0x55dc89['mode']==_0x1629b7(0x350)?_0x55dc89[_0x1629b7(0x1ce)]?_0x1629b7(0x379)+_0x55dc89[_0x1629b7(0x1ce)]:'':_0x1629b7(0x379)+_0x55dc89['mode'][_0x1629b7(0x25d)]('-','\x20')[_0x1629b7(0x25d)](/^\w|\s\w/g,_0x4866a5=>_0x4866a5[_0x1629b7(0x3cc)]()))+_0x1629b7(0x380)+ConvertTo(new Date(_0x55dc89['ms'])[_0x1629b7(0x376)](),0xc)+_0x1629b7(0x349):'')]);let _0x5be4e0=$$$(_0x1629b7(0x1b7),['class','default',_0x1629b7(0x262),'SEE\x20STATS']);_0x5be4e0['addEventListener'](_0x1629b7(0x3c0),()=>GetStats(_0x2b491a),![]),_0x84f50d[_0x1629b7(0x213)](_0x483a35),_0x84f50d['appendChild'](_0x5be4e0),_0x254432[_0x1629b7(0x191)](_0x84f50d,_0x135a0c[_0x1629b7(0x188)]);}GetTotals();let _0x21688a=storage[_0x1629b7(0x23c)](_0x1629b7(0x26d));if(_0x21688a==_0x1629b7(0x232))Mute(JSON[_0x1629b7(0x1bd)](_0x21688a)),$('#unmute')[_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x410)],$(_0x1629b7(0x1ee))[_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)];else _0x21688a==_0x1629b7(0x10e)?(Mute(JSON['parse'](_0x21688a)),$('#mute')[_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x410)],$('#unmute')[_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)]):storage[_0x1629b7(0x388)](_0x1629b7(0x26d),JSON[_0x1629b7(0x1db)](Sound[_0x1629b7(0x280)]));let _0x428558=JSON['parse'](storage[_0x1629b7(0x23c)](_0x1629b7(0x1c1)));if(_0x428558){Game[_0x1629b7(0x370)]=_0x428558['whiteTurn'],Game[_0x1629b7(0x277)]=_0x428558[_0x1629b7(0x277)],_0x11cd11=$$(_0x1629b7(0x3de));if(_0x428558[_0x1629b7(0x277)]==!![])_0x11cd11[0x0][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)],_0x11cd11[0x1][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)],_0x11cd11[0x2]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x410)];else _0x428558[_0x1629b7(0x277)]==![]&&(_0x428558[_0x1629b7(0x370)]?(_0x11cd11[0x0]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x410)],_0x11cd11[0x1][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)]):(_0x11cd11[0x0][_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x245)],_0x11cd11[0x1][_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x410)]),_0x11cd11[0x2][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)]);}else storage['setItem'](_0x1629b7(0x1c1),JSON[_0x1629b7(0x1db)]({'whiteTurn':Game[_0x1629b7(0x370)],'rollDice':Game['rollDice']}));let _0x3f31f6=JSON[_0x1629b7(0x1bd)](storage[_0x1629b7(0x23c)](_0x1629b7(0x1d8)));_0x3f31f6?_0x3f31f6[_0x1629b7(0x21b)]==!![]?(_0x178dc6=$$('#item4\x20button')[0x2],await Clicked(_0x178dc6,_0x178dc6[_0x1629b7(0x3a8)],![]),await PlayAs(_0x178dc6)):(_0x178dc6=_0x3f31f6[_0x1629b7(0x103)]==_0x1629b7(0x40d)?$$('#item4\x20button')[0x0]:$$(_0x1629b7(0x226))[0x1],await Clicked(_0x178dc6,_0x178dc6['parentNode'],![]),await PlayAs(_0x178dc6)):storage[_0x1629b7(0x388)](_0x1629b7(0x1d8),JSON['stringify']({'playerA':playerA[_0x1629b7(0x1c3)],'playerB':playerB[_0x1629b7(0x1c3)],'alternate':Game['alternatePlayAs']}));let _0x281d17=storage[_0x1629b7(0x23c)]('Checkers\x20-\x20mandatory_capture');if(_0x281d17){_0x281d17=JSON[_0x1629b7(0x1bd)](_0x281d17),Game[_0x1629b7(0x11c)]=_0x281d17,_0x11cd11=$$(_0x1629b7(0x29b));if(_0x281d17==!![])_0x11cd11[0x0]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x410)],_0x11cd11[0x1][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)];else _0x428558['rollDice']==![]&&(_0x11cd11[0x0]['style']['background']=general[_0x1629b7(0x245)],_0x11cd11[0x1][_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x410)]);}else storage[_0x1629b7(0x388)](_0x1629b7(0x24e),JSON[_0x1629b7(0x1db)](Game['mandatoryCapture']));let _0x2596b0=JSON[_0x1629b7(0x1bd)](storage['getItem']('Checkers\x20-\x20helper'));if(_0x2596b0){Game[_0x1629b7(0xe6)]=_0x2596b0[_0x1629b7(0xe6)],Game[_0x1629b7(0x108)]=_0x2596b0['capturesHelper'],_0x11cd11=$$(_0x1629b7(0x3d3));if(_0x2596b0[_0x1629b7(0x108)]==!![]&&_0x2596b0[_0x1629b7(0xe6)]==!![])_0x11cd11[0x0]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x410)],_0x11cd11[0x1][_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x245)],_0x11cd11[0x2]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x245)];else{if(_0x2596b0[_0x1629b7(0x108)]==![]&&_0x2596b0['helper']==![])_0x11cd11[0x0]['style']['background']=general[_0x1629b7(0x245)],_0x11cd11[0x1]['style'][_0x1629b7(0x245)]=general['default'],_0x11cd11[0x2][_0x1629b7(0x2dd)]['background']=general[_0x1629b7(0x245)];else _0x2596b0[_0x1629b7(0x108)]==!![]&&_0x2596b0[_0x1629b7(0xe6)]==![]&&(_0x11cd11[0x0]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x245)],_0x11cd11[0x1][_0x1629b7(0x2dd)][_0x1629b7(0x245)]=general[_0x1629b7(0x245)],_0x11cd11[0x2]['style'][_0x1629b7(0x245)]=general[_0x1629b7(0x410)]);}}else storage[_0x1629b7(0x388)](_0x1629b7(0x2df),JSON['stringify']({'helper':Game[_0x1629b7(0xe6)],'capturesHelper':Game[_0x1629b7(0x108)]}));}document[_0x1629b7(0x133)](_0x1629b7(0x28e),_0x50610f=>{const _0x1c4b58=_0x1629b7;document[_0x1c4b58(0x2bc)]==_0x1c4b58(0x264)&&AdjustBoard();}),window['addEventListener']('orientationchange',AdjustBoard),UpdateOnlineStatus(),window['addEventListener'](_0x1629b7(0x219),()=>{const _0x12a386=_0x1629b7;if(document[_0x12a386(0x268)]==$(_0x12a386(0x198))){let _0x5d5a3b=parseFloat(GetValue($(_0x12a386(0x30c)),'height'));general[_0x12a386(0x40c)]&&general['initialHeight']<_0x5d5a3b&&(document[_0x12a386(0x268)][_0x12a386(0x217)](),general[_0x12a386(0x2a9)]=![]),general[_0x12a386(0x40c)]=_0x5d5a3b;}}),window[_0x1629b7(0x133)](_0x1629b7(0xd8),UpdateOnlineStatus,![]),window[_0x1629b7(0x133)](_0x1629b7(0x180),UpdateOnlineStatus,![]),window[_0x1629b7(0x133)](_0x1629b7(0x11b),()=>setTimeout(PopState,0x0),![]),CheckHref();}class ElemHint{static [_0x1fe42c(0x25c)];static [_0x1fe42c(0x2db)]=(_0x4bd835,_0x37cc05)=>{const _0x477867=_0x1fe42c;clearTimeout(this[_0x477867(0x25c)]);let _0x1cd89b=$(_0x477867(0x359)),_0x59446d=document['documentElement'];_0x1cd89b[_0x477867(0x262)]=_0x37cc05,_0x1cd89b[_0x477867(0x2dd)]['display']=_0x477867(0x15b),_0x1cd89b[_0x477867(0x2dd)][_0x477867(0xda)]=0x1;let _0xe4ce4b=_0x1cd89b[_0x477867(0x34c)](),_0x1b108a=_0x4bd835['getBoundingClientRect']();if(_0x1b108a[_0x477867(0x1a1)]/0x2>=_0xe4ce4b['width']/0x2)_0x59446d[_0x477867(0x2dd)][_0x477867(0x2f7)](_0x477867(0x138),_0xe4ce4b[_0x477867(0x1a1)]/0x2-0xa+'px'),_0x1cd89b['style'][_0x477867(0x2f0)]=_0x1b108a[_0x477867(0x1a1)]/0x2+_0x1b108a[_0x477867(0x2f0)]-_0xe4ce4b[_0x477867(0x1a1)]/0x2+'px';else{if(_0x1b108a[_0x477867(0x1a1)]/0x2<_0xe4ce4b[_0x477867(0x1a1)]/0x2){if(_0x1b108a['width']/0x2+_0x1b108a['left']-_0xe4ce4b[_0x477867(0x1a1)]/0x2>0x5&&_0x1b108a[_0x477867(0x27a)]-_0x1b108a[_0x477867(0x1a1)]/0x2+_0xe4ce4b[_0x477867(0x1a1)]/0x2<window[_0x477867(0x1e9)]-0x5)_0x59446d[_0x477867(0x2dd)][_0x477867(0x2f7)]('--hint-pointer-x',_0xe4ce4b[_0x477867(0x1a1)]/0x2-0xa+'px'),_0x1cd89b[_0x477867(0x2dd)][_0x477867(0x2f0)]=_0x1b108a[_0x477867(0x1a1)]/0x2+_0x1b108a[_0x477867(0x2f0)]-_0xe4ce4b[_0x477867(0x1a1)]/0x2+'px';else{if(_0x1b108a[_0x477867(0x2f0)]>0x5&&_0x1b108a['right']<window[_0x477867(0x1e9)]/0x2)_0x59446d['style'][_0x477867(0x2f7)](_0x477867(0x138),_0x1b108a[_0x477867(0x1a1)]/0x2+_0x1b108a['left']-0xf+'px'),_0x1cd89b[_0x477867(0x2dd)][_0x477867(0x2f0)]='5px';else _0x1b108a[_0x477867(0x27a)]<window[_0x477867(0x1e9)]-0x5&&(_0x59446d[_0x477867(0x2dd)]['setProperty']('--hint-pointer-x',_0x1b108a[_0x477867(0x1a1)]/0x2+_0x1b108a[_0x477867(0x2f0)]-0xa-(window[_0x477867(0x1e9)]-_0xe4ce4b[_0x477867(0x1a1)]-0x5)+'px'),_0x1cd89b[_0x477867(0x2dd)][_0x477867(0x2f0)]=window[_0x477867(0x1e9)]-_0xe4ce4b[_0x477867(0x1a1)]-0x5+'px');}}}if(_0x1b108a[_0x477867(0xde)]-_0xe4ce4b[_0x477867(0x2fb)]-0xd>0x0)_0x1cd89b['classList'][_0x477867(0x194)](_0x477867(0xde)),_0x59446d['style'][_0x477867(0x2f7)](_0x477867(0x2d4),_0x477867(0x2e6)),_0x1cd89b[_0x477867(0x2dd)]['top']=_0x1b108a[_0x477867(0xde)]-_0xe4ce4b[_0x477867(0x2fb)]-0xd+'px';else _0x1b108a['bottom']+_0xe4ce4b[_0x477867(0x2fb)]+0xd<window['innerHeight']&&(_0x1cd89b[_0x477867(0x1f6)][_0x477867(0x23f)](_0x477867(0xde)),_0x59446d[_0x477867(0x2dd)][_0x477867(0x2f7)]('--hint-pointer-y',_0x477867(0x2e6)),_0x1cd89b[_0x477867(0x2dd)][_0x477867(0xde)]=_0x1b108a['bottom']+0xd+'px');_0x1cd89b['style'][_0x477867(0xda)]=0x1,this['timeout']=setTimeout(()=>{const _0x3a15a6=_0x477867;_0x1cd89b[_0x3a15a6(0x2dd)][_0x3a15a6(0x301)]=_0x3a15a6(0x26e);},0xdac);};}class Drag{[_0x1fe42c(0x3f7)]=0x0;[_0x1fe42c(0x10b)]=0x0;[_0x1fe42c(0x1ac)]=0x0;[_0x1fe42c(0x2c1)]=0x0;['xOffset']=0x0;['yOffset']=0x0;[_0x1fe42c(0x13e)]=![];[_0x1fe42c(0x1a3)]=![];[_0x1fe42c(0x18c)]=_0x1fe42c(0x24f);['dragItem']=null;[_0x1fe42c(0x38a)];['transitionDuration'];constructor(_0x5c8bfe,_0x383c5b=_0x1fe42c(0x24f),_0x14b43a=_0x1fe42c(0x197)){const _0x58d528=_0x1fe42c;this[_0x58d528(0x18c)]=_0x383c5b,this['dragItem']=_0x5c8bfe,this[_0x58d528(0x36d)]=_0x14b43a,this[_0x58d528(0x38a)]=new Sleep();}['start']=async _0x21209e=>{const _0x49fb1f=_0x1fe42c;this[_0x49fb1f(0x15a)]==_0x21209e['target']&&(_0x21209e[_0x49fb1f(0x314)](),this[_0x49fb1f(0x15a)][_0x49fb1f(0x1f6)][_0x49fb1f(0x308)](_0x49fb1f(0x1e1))?(general['chatFieldHadFocus']=document['activeElement']==$(_0x49fb1f(0x198)),this[_0x49fb1f(0x124)]=0x0,this['yOffset']=0x0,this['recorderContainer']=$(_0x49fb1f(0x3a7)),this[_0x49fb1f(0x153)][_0x49fb1f(0x2dd)]['transitionDuration']='0s',this[_0x49fb1f(0x13e)]=await VoiceNoteRecorder['record'](this[_0x49fb1f(0x15a)])):this[_0x49fb1f(0x13e)]=!![],this['dragItem'][_0x49fb1f(0x2dd)][_0x49fb1f(0x36d)]='0s',_0x21209e[_0x49fb1f(0x311)]===_0x49fb1f(0x209)?(this[_0x49fb1f(0x3f7)]=_0x21209e[_0x49fb1f(0x2ea)][0x0]['clientX']-this[_0x49fb1f(0x124)],this[_0x49fb1f(0x10b)]=_0x21209e[_0x49fb1f(0x2ea)][0x0][_0x49fb1f(0x2de)]-this['yOffset']):(this[_0x49fb1f(0x3f7)]=_0x21209e[_0x49fb1f(0x322)]-this[_0x49fb1f(0x124)],this[_0x49fb1f(0x10b)]=_0x21209e[_0x49fb1f(0x2de)]-this[_0x49fb1f(0x2a3)]));};[_0x1fe42c(0x270)]=async _0x243bfa=>{const _0x3fcdd1=_0x1fe42c;if(this[_0x3fcdd1(0x13e)]&&this['moved']&&(_0x243bfa[_0x3fcdd1(0x311)]===_0x3fcdd1(0x3e0)||_0x243bfa[_0x3fcdd1(0x311)]==_0x3fcdd1(0x3d1))){_0x243bfa[_0x3fcdd1(0x314)](),this[_0x3fcdd1(0x13e)]=![],this['dragItem'][_0x3fcdd1(0x2dd)]['transitionDuration']=this[_0x3fcdd1(0x36d)];if(this['dragItem']===$('#chat-icon')){let _0x46a023=this[_0x3fcdd1(0x15a)][_0x3fcdd1(0x34c)]();if(_0x46a023[_0x3fcdd1(0x2f0)]<0xa)this['currentX']+=0xa-_0x46a023[_0x3fcdd1(0x2f0)];else{if(_0x46a023[_0x3fcdd1(0x27a)]>window[_0x3fcdd1(0x1e9)]-0xa)this[_0x3fcdd1(0x1ac)]+=window[_0x3fcdd1(0x1e9)]-0xa-_0x46a023['right'];else{if(_0x46a023[_0x3fcdd1(0x1a1)]/0x2+_0x46a023[_0x3fcdd1(0x2f0)]>window[_0x3fcdd1(0x1e9)]/0x2)this[_0x3fcdd1(0x1ac)]+=window[_0x3fcdd1(0x1e9)]-0xa-_0x46a023[_0x3fcdd1(0x27a)];else _0x46a023[_0x3fcdd1(0x1a1)]/0x2+_0x46a023[_0x3fcdd1(0x2f0)]<window['innerWidth']/0x2&&(this['currentX']+=0xa-_0x46a023[_0x3fcdd1(0x2f0)]);}}if(_0x46a023[_0x3fcdd1(0xde)]<0xa)this['currentY']+=0xa-_0x46a023[_0x3fcdd1(0xde)];else _0x46a023['bottom']>window[_0x3fcdd1(0xfe)]-0xa&&(this[_0x3fcdd1(0x2c1)]+=window['innerHeight']-0xa-_0x46a023[_0x3fcdd1(0x37d)]);this['translate'](this[_0x3fcdd1(0x1ac)],this[_0x3fcdd1(0x2c1)],this[_0x3fcdd1(0x15a)]);}else{if(this['dragItem']===$(_0x3fcdd1(0x402))){let _0x5f2a41=this[_0x3fcdd1(0x15a)][_0x3fcdd1(0x34c)](),_0x583009=this[_0x3fcdd1(0x15a)]['parentNode'][_0x3fcdd1(0x34c)](),_0x104740=_0x5f2a41[_0x3fcdd1(0x37d)]-_0x583009['bottom'];if(_0x5f2a41['top']>=_0x5f2a41[_0x3fcdd1(0x2fb)]*0.25+_0x5f2a41[_0x3fcdd1(0xde)]-_0x104740){let _0x361295=_0x583009[_0x3fcdd1(0x37d)]-_0x5f2a41[_0x3fcdd1(0xde)];this[_0x3fcdd1(0x389)](0x0,this[_0x3fcdd1(0x2c1)]+_0x361295,this[_0x3fcdd1(0x15a)]),this[_0x3fcdd1(0x2c1)]=0x0,BackState[_0x3fcdd1(0x261)][_0x3fcdd1(0x2d3)]();}else{let _0x75f2ac=_0x5f2a41[_0x3fcdd1(0x37d)]-_0x583009['bottom'];this[_0x3fcdd1(0x2c1)]-=_0x75f2ac,this[_0x3fcdd1(0x389)](0x0,this[_0x3fcdd1(0x2c1)],this['dragItem']);}}else this[_0x3fcdd1(0x15a)]===$(_0x3fcdd1(0x104))&&(this[_0x3fcdd1(0x1ac)]=0x0,this[_0x3fcdd1(0x2c1)]=0x0,this[_0x3fcdd1(0x153)][_0x3fcdd1(0x2dd)][_0x3fcdd1(0x36d)]=this[_0x3fcdd1(0x36d)],this[_0x3fcdd1(0x153)][_0x3fcdd1(0x2dd)][_0x3fcdd1(0x1a1)]=_0x3fcdd1(0x231),VoiceNoteRecorder['stopRecording'](this['dragItem']));}await this[_0x3fcdd1(0x38a)]['wait'](parseFloat(this[_0x3fcdd1(0x36d)])),this[_0x3fcdd1(0x124)]=this[_0x3fcdd1(0x1ac)],this['yOffset']=this['currentY'];}else{if(this[_0x3fcdd1(0x15a)]===$(_0x3fcdd1(0x104)))VoiceNoteRecorder[_0x3fcdd1(0x16b)](this[_0x3fcdd1(0x15a)]);else this['active']&&!this[_0x3fcdd1(0x1a3)]&&this[_0x3fcdd1(0x15a)]===$(_0x3fcdd1(0x391))&&ShowChat();}this['moved']=![];};[_0x1fe42c(0x3c2)]=async _0x58778f=>{const _0x3379c6=_0x1fe42c;if(this[_0x3379c6(0x13e)]){_0x58778f[_0x3379c6(0x314)]();_0x58778f[_0x3379c6(0x311)]===_0x3379c6(0x290)?(this[_0x3379c6(0x1ac)]=_0x58778f[_0x3379c6(0x2ea)][0x0][_0x3379c6(0x322)]-this[_0x3379c6(0x3f7)],this[_0x3379c6(0x2c1)]=_0x58778f[_0x3379c6(0x2ea)][0x0][_0x3379c6(0x2de)]-this[_0x3379c6(0x10b)]):(this[_0x3379c6(0x1ac)]=_0x58778f[_0x3379c6(0x322)]-this[_0x3379c6(0x3f7)],this['currentY']=_0x58778f[_0x3379c6(0x2de)]-this[_0x3379c6(0x10b)]);if(this[_0x3379c6(0x18c)]==_0x3379c6(0x24f))this[_0x3379c6(0x389)](this[_0x3379c6(0x1ac)],this[_0x3379c6(0x2c1)],_0x58778f[_0x3379c6(0x220)]);else{if(this[_0x3379c6(0x18c)]=='x'){if(this[_0x3379c6(0x15a)]['classList'][_0x3379c6(0x308)](_0x3379c6(0x1e1))){let _0x1960d4=this[_0x3379c6(0x153)][_0x3379c6(0x34c)](),_0x4519e9=$(_0x3379c6(0x1b0))['getBoundingClientRect'](),_0x2a16a2=this[_0x3379c6(0x15a)][_0x3379c6(0x34c)](),_0x3ed99d=this[_0x3379c6(0x1ac)]-this['xOffset'],_0x56c0f9=_0x4519e9[_0x3379c6(0x1a1)]*0.5,_0x3a3334=_0x4519e9[_0x3379c6(0x27a)]-_0x2a16a2[_0x3379c6(0x1a1)]-0xa,_0x24ba87=_0x3ed99d+_0x2a16a2[_0x3379c6(0x2f0)];if(_0x24ba87<_0x56c0f9){this[_0x3379c6(0x1ac)]-=_0x24ba87-_0x56c0f9,_0x3ed99d=this[_0x3379c6(0x1ac)]-this['xOffset'],this[_0x3379c6(0x153)]['style'][_0x3379c6(0x1a1)]=_0x1960d4[_0x3379c6(0x1a1)]+_0x3ed99d+'px',this[_0x3379c6(0x389)](this[_0x3379c6(0x1ac)],0x0,_0x58778f[_0x3379c6(0x220)]),this['active']=![],this['dragItem']['style']['transitionDuration']=this['transitionDuration'],this[_0x3379c6(0x153)][_0x3379c6(0x2dd)][_0x3379c6(0x36d)]=this[_0x3379c6(0x36d)],this[_0x3379c6(0x153)][_0x3379c6(0x2dd)][_0x3379c6(0x1a1)]='calc(100%\x20-\x2070px)',VoiceNoteRecorder[_0x3379c6(0x16b)](this[_0x3379c6(0x15a)],!![]);return;}_0x24ba87>_0x3a3334&&(this['currentX']-=_0x24ba87-_0x3a3334,_0x3ed99d=this[_0x3379c6(0x1ac)]-this[_0x3379c6(0x124)]),this[_0x3379c6(0x153)][_0x3379c6(0x2dd)][_0x3379c6(0x1a1)]=_0x1960d4['width']+_0x3ed99d+'px';}this[_0x3379c6(0x389)](this[_0x3379c6(0x1ac)],0x0,_0x58778f['target']);}else{if(this['dragItem'][_0x3379c6(0x1f6)]['contains'](_0x3379c6(0xee))){let _0x15855e=this[_0x3379c6(0x15a)]['getBoundingClientRect'](),_0x412136=this[_0x3379c6(0x15a)][_0x3379c6(0x3a8)][_0x3379c6(0x34c)](),_0x3ae38e=this['currentY']-this[_0x3379c6(0x2a3)],_0x819b5e=_0x412136[_0x3379c6(0x37d)]-_0x15855e[_0x3379c6(0x2fb)],_0x25f94d=_0x3ae38e+_0x15855e[_0x3379c6(0xde)];_0x25f94d<_0x819b5e&&(this[_0x3379c6(0x2c1)]-=_0x25f94d-_0x819b5e);}this[_0x3379c6(0x389)](0x0,this[_0x3379c6(0x2c1)],this[_0x3379c6(0x15a)]);}}this['moved']=Math[_0x3379c6(0x329)](this[_0x3379c6(0x1ac)]-this[_0x3379c6(0x124)])>0x0||Math[_0x3379c6(0x329)](this[_0x3379c6(0x2c1)]-this[_0x3379c6(0x2a3)])>0x0,this[_0x3379c6(0x124)]=this[_0x3379c6(0x1ac)],this[_0x3379c6(0x2a3)]=this[_0x3379c6(0x2c1)];}};[_0x1fe42c(0x389)]=(_0x8c902,_0xb29e3d,_0x1d88b0)=>{const _0x8ef7fb=_0x1fe42c;_0x1d88b0[_0x8ef7fb(0x2dd)][_0x8ef7fb(0x383)]=_0x8ef7fb(0x12f)+_0x8c902+_0x8ef7fb(0x10f)+_0xb29e3d+_0x8ef7fb(0x11a);};}class LongPress{static [_0x1fe42c(0x3a5)]=![];static ['delay']=null;static [_0x1fe42c(0x343)]=![];static [_0x1fe42c(0x127)]=![];static [_0x1fe42c(0x367)]=![];static [_0x1fe42c(0x36c)]=(_0xba70ff,_0x549946)=>{const _0x10d13f=_0x1fe42c;_0xba70ff[_0x10d13f(0x220)]==_0x549946&&(this[_0x10d13f(0x127)]=![],this[_0x10d13f(0x367)]=![],!this[_0x10d13f(0x3a5)]&&(this[_0x10d13f(0x162)]=setTimeout(()=>{const _0xb1ab28=_0x10d13f;$$(_0xb1ab28(0x363))[0x1][_0xb1ab28(0x2dd)][_0xb1ab28(0x301)]='none',$$(_0xb1ab28(0x1a8))[0x1]['style']['display']=_0xb1ab28(0x26e),$(_0xb1ab28(0x20e))['style'][_0xb1ab28(0x301)]=_0xb1ab28(0x1a7),_0x549946['classList']['toggle'](_0xb1ab28(0x1cf)),$(_0xb1ab28(0xf0))['classList'][_0xb1ab28(0x194)](_0xb1ab28(0x1ba)),_0x549946['$'](_0xb1ab28(0x412))[_0xb1ab28(0x1f6)]['contains'](_0xb1ab28(0x29e))&&$('.chat_copy')[_0xb1ab28(0x1f6)][_0xb1ab28(0x23f)](_0xb1ab28(0x1ba)),this['selectMode']=!![],$(_0xb1ab28(0x1a6))[_0xb1ab28(0x1f6)][_0xb1ab28(0x23f)](_0xb1ab28(0xe7));},0x1f4),this[_0x10d13f(0x367)]=!![]));};static [_0x1fe42c(0x270)]=(_0x2cbdbb,_0x2b5ce0)=>{const _0x1b25d5=_0x1fe42c;if(_0x2cbdbb[_0x1b25d5(0x220)]==_0x2b5ce0){clearTimeout(this[_0x1b25d5(0x162)]);if(!this[_0x1b25d5(0x127)]&&(_0x2cbdbb[_0x1b25d5(0x311)]==_0x1b25d5(0x3e0)||_0x2cbdbb['type']==_0x1b25d5(0x3d1))){_0x2cbdbb[_0x1b25d5(0x314)]();if(!this[_0x1b25d5(0x3a5)]&&!this['hinted'])ElemHint[_0x1b25d5(0x2db)](_0x2b5ce0['$'](_0x1b25d5(0x3fa)),_0x1b25d5(0x105)),this[_0x1b25d5(0x343)]=!![];else{if(this['selectMode']&&!this[_0x1b25d5(0x367)]){_0x2b5ce0[_0x1b25d5(0x1f6)][_0x1b25d5(0x374)](_0x1b25d5(0x1cf));let _0x14aaea=$$(_0x1b25d5(0x12b));if(_0x14aaea['length']==0x0)clearTimeout(this['delay']),$$(_0x1b25d5(0x363))[0x1][_0x1b25d5(0x2dd)][_0x1b25d5(0x301)]=_0x1b25d5(0x15b),$$(_0x1b25d5(0x1a8))[0x1][_0x1b25d5(0x2dd)][_0x1b25d5(0x301)]=_0x1b25d5(0x15b),$(_0x1b25d5(0x20e))[_0x1b25d5(0x2dd)][_0x1b25d5(0x301)]=_0x1b25d5(0x26e),this[_0x1b25d5(0x3a5)]=![],$(_0x1b25d5(0x1a6))['classList'][_0x1b25d5(0x194)](_0x1b25d5(0xe7));else{if(_0x14aaea[_0x1b25d5(0x2b4)]>0x1)$(_0x1b25d5(0xf0))['classList'][_0x1b25d5(0x23f)]('disabled_button');else _0x14aaea[_0x1b25d5(0x2b4)]==0x1&&$('.chat_copy')[_0x1b25d5(0x1f6)]['remove'](_0x1b25d5(0x1ba));}$(_0x1b25d5(0x181))&&$('.chat_copy')[_0x1b25d5(0x1f6)][_0x1b25d5(0x23f)](_0x1b25d5(0x1ba));}}}else _0x2cbdbb[_0x1b25d5(0x311)]=='scroll'&&(this['scroll']=!![]);}};}const HideChat=(_0xa48b8a='event')=>{const _0x13baee=_0x1fe42c;$(_0x13baee(0x387))[_0x13baee(0x2dd)]['display']=_0x13baee(0x26e),$('#chat-icon')[_0x13baee(0x2dd)][_0x13baee(0x301)]=_0x13baee(0x15b);let _0x34953d=$(_0x13baee(0x305));_0x34953d!=null&&_0x34953d[_0x13baee(0x3a8)][_0x13baee(0x355)](_0x34953d);if(_0xa48b8a==_0x13baee(0x373))BackState['state'][_0x13baee(0x2d3)]();},ShowChat=()=>{const _0x4f3e36=_0x1fe42c;$(_0x4f3e36(0x391))[_0x4f3e36(0x2dd)][_0x4f3e36(0x301)]='none',$(_0x4f3e36(0x387))[_0x4f3e36(0x2dd)][_0x4f3e36(0x301)]=_0x4f3e36(0x1a7),general['chatFieldHadFocus']=![];let _0x4b959f=$(_0x4f3e36(0x3aa));parseInt(_0x4b959f[_0x4f3e36(0x15c)])>0x0&&setTimeout(()=>{const _0x169e3d=_0x4f3e36;$(_0x169e3d(0x1a6))[_0x169e3d(0x281)]=$(_0x169e3d(0x25f))[_0x169e3d(0x320)];},0xc8);general[_0x4f3e36(0x2a9)]=!![],_0x4b959f[_0x4f3e36(0x15c)]=0x0,_0x4b959f['style'][_0x4f3e36(0x301)]=_0x4f3e36(0x26e);if(Lobby[_0x4f3e36(0x3f1)][_0x4f3e36(0x2b4)]>0x0){let _0x197099=Lobby[_0x4f3e36(0x3f1)]['slice'](-0x1)[0x0],_0x1ec469=_0x4f3e36(0x3f5)+Lobby['unreadMessages']['length'],_0x465aeb=_0x197099['timetoken'];Lobby[_0x4f3e36(0x101)][_0x4f3e36(0x19b)]({'channel':Lobby[_0x4f3e36(0x13c)],'messageTimetoken':_0x465aeb,'action':{'type':_0x4f3e36(0x1e0),'value':_0x1ec469}}),Lobby[_0x4f3e36(0x3f1)]=[];}BackState[_0x4f3e36(0x261)][_0x4f3e36(0x158)]([_0x4f3e36(0x387)]);},BoardClick=async _0x33830e=>{const _0x4c8275=_0x1fe42c;if(_0x33830e[_0x4c8275(0x220)]['classList'][_0x4c8275(0x308)]('cell')){let _0x2e2f64=Array[_0x4c8275(0x313)]($(_0x4c8275(0x199))['children'])[_0x4c8275(0x37a)](_0x33830e[_0x4c8275(0x220)]),_0x6fe79b=Math[_0x4c8275(0x302)](_0x2e2f64/Game[_0x4c8275(0x32b)]),_0x425d58=_0x2e2f64%Game['boardSize'];ValidateMove({'cell':_0x33830e[_0x4c8275(0x220)],'i':_0x6fe79b,'j':_0x425d58});}},LoadBoard=async(_0xa76856,_0x504824)=>{const _0x32fab1=_0x1fe42c;let _0x150a85=$(_0x32fab1(0x199)),_0x3609e8=$$(_0x32fab1(0x1c4)),_0x2126ed,_0x1615c4,_0x2f9382,_0x468269,_0x228976=_0x150a85[_0x32fab1(0x1b4)],_0x174f38=Game['state'][_0x32fab1(0x2b4)]===0x0?!![]:![],_0x295385=_0x32fab1(0x3ba),_0x2545ed=0x0;for(let _0x546b1c=0x0;_0x546b1c<Game[_0x32fab1(0x32b)];_0x546b1c++){if(_0x174f38)Game['state'][_0x32fab1(0x158)]([]);for(let _0x493b8d=0x0;_0x493b8d<Game[_0x32fab1(0x32b)];_0x493b8d++){if(Game[_0x32fab1(0x175)]==_0x32fab1(0x26b)||Game['version']=='kenyan'||Game[_0x32fab1(0x175)]==_0x32fab1(0x160)||Game['version']=='russian'||Game[_0x32fab1(0x175)]=='pool')_0x493b8d==0x0&&(_0x2126ed=_0x3609e8[0x0][_0x32fab1(0x1b4)][Game[_0x32fab1(0x32b)]-0x1-_0x546b1c],_0x2f9382=_0x3609e8[0x2]['children'][_0x546b1c],_0x2126ed[_0x32fab1(0x15c)]=_0x295385['charAt'](_0x546b1c),_0x2f9382[_0x32fab1(0x15c)]=_0x295385[_0x32fab1(0x16f)](_0x546b1c)),(_0x493b8d==0x0||_0x493b8d==Game['boardSize']-0x1)&&(_0x1615c4=_0x3609e8[0x1][_0x32fab1(0x1b4)][_0x546b1c],_0x468269=_0x3609e8[0x3]['children'][Game[_0x32fab1(0x32b)]-0x1-_0x546b1c],_0x1615c4['innerHTML']=_0x546b1c+0x1,_0x468269['innerHTML']=_0x546b1c+0x1);else{if(Game[_0x32fab1(0x175)]=='nigerian')(_0x546b1c%0x2==0x0&&_0x493b8d%0x2==0x0||_0x546b1c%0x2==0x1&&_0x493b8d%0x2==0x1)&&(++_0x2545ed,_0x546b1c==0x0&&(_0x2126ed=_0x3609e8[0x0][_0x32fab1(0x1b4)][Game[_0x32fab1(0x32b)]-0x1-_0x493b8d],_0x2126ed[_0x32fab1(0x15c)]=_0x2545ed),_0x493b8d==0x0&&(_0x468269=_0x3609e8[0x3]['children'][_0x546b1c],_0x468269['innerHTML']=_0x2545ed),_0x493b8d==Game[_0x32fab1(0x32b)]-0x1&&(_0x1615c4=_0x3609e8[0x1][_0x32fab1(0x1b4)][Game['boardSize']-0x1-_0x546b1c],_0x1615c4[_0x32fab1(0x15c)]=_0x2545ed),_0x546b1c==Game['boardSize']-0x1&&(_0x2f9382=_0x3609e8[0x2][_0x32fab1(0x1b4)][_0x493b8d],_0x2f9382[_0x32fab1(0x15c)]=_0x2545ed));else Game[_0x32fab1(0x175)]=='international'&&((_0x546b1c%0x2==0x0&&_0x493b8d%0x2==0x1||_0x546b1c%0x2==0x1&&_0x493b8d%0x2==0x0)&&(++_0x2545ed,_0x546b1c==0x0&&(_0x2126ed=_0x3609e8[0x0][_0x32fab1(0x1b4)][Game[_0x32fab1(0x32b)]-0x1-_0x493b8d],_0x2126ed[_0x32fab1(0x15c)]=_0x2545ed),_0x493b8d==0x0&&(_0x468269=_0x3609e8[0x3][_0x32fab1(0x1b4)][_0x546b1c],_0x468269['innerHTML']=_0x2545ed),_0x493b8d==Game[_0x32fab1(0x32b)]-0x1&&(_0x1615c4=_0x3609e8[0x1][_0x32fab1(0x1b4)][Game[_0x32fab1(0x32b)]-0x1-_0x546b1c],_0x1615c4[_0x32fab1(0x15c)]=_0x2545ed),_0x546b1c==Game['boardSize']-0x1&&(_0x2f9382=_0x3609e8[0x2][_0x32fab1(0x1b4)][_0x493b8d],_0x2f9382[_0x32fab1(0x15c)]=_0x2545ed)));}let _0x4849b9=_0x228976[_0x546b1c*Game['boardSize']+_0x493b8d]||await $$$(_0x32fab1(0x3be));if(!_0x4849b9[_0x32fab1(0x1f6)][_0x32fab1(0x308)]('cell'))_0x4849b9['classList'][_0x32fab1(0x23f)](_0x32fab1(0x1b8));_0x4849b9[_0x32fab1(0x2dd)][_0x32fab1(0xde)]='calc(100%\x20/\x20var(--board-size)\x20*\x20'+_0x546b1c+')',_0x4849b9['style'][_0x32fab1(0x2f0)]=_0x32fab1(0x200)+_0x493b8d+')',_0x4849b9['id']=_0x546b1c+''+_0x493b8d;let _0xd350ca=_0x228976[_0x546b1c*Game[_0x32fab1(0x32b)]+_0x493b8d+0x1];if(!_0x4849b9[_0x32fab1(0x3a8)])table[_0x32fab1(0x191)](_0x4849b9,_0xd350ca);if(Game['version']!=_0x32fab1(0x408)&&(_0x493b8d%0x2==0x1&&_0x546b1c%0x2==0x0||_0x493b8d%0x2==0x0&&_0x546b1c%0x2==0x1)||Game[_0x32fab1(0x175)]===_0x32fab1(0x408)&&(_0x493b8d%0x2==0x0&&_0x546b1c%0x2==0x0||_0x493b8d%0x2==0x1&&_0x546b1c%0x2==0x1)){!_0x4849b9[_0x32fab1(0x1f6)][_0x32fab1(0x308)](_0x32fab1(0x122))&&(_0x4849b9['classList'][_0x32fab1(0x23f)](_0x32fab1(0x122)),_0x4849b9[_0x32fab1(0x133)](_0x32fab1(0x3c0),BoardClick,![]));if(_0x174f38){if(_0x546b1c<Game['rowNo']){let _0x38e74e=$$$(_0x32fab1(0x3be));if(_0x504824===_0x32fab1(0x23d))_0x38e74e[_0x32fab1(0x1f6)]['add'](_0x32fab1(0x17d)),Game[_0x32fab1(0x261)][_0x546b1c][_0x32fab1(0x158)]('MB');else _0x504824===_0x32fab1(0x40d)&&(_0x38e74e[_0x32fab1(0x1f6)][_0x32fab1(0x23f)]('piece_white'),Game['state'][_0x546b1c]['push']('MW'));_0x4849b9['appendChild'](_0x38e74e);}else{if(_0x546b1c>Game['boardSize']-Game[_0x32fab1(0x3b4)]-0x1){let _0x4b7fef=$$$('div');if(_0xa76856===_0x32fab1(0x40d))_0x4b7fef[_0x32fab1(0x1f6)][_0x32fab1(0x23f)](_0x32fab1(0x3fd)),Game['state'][_0x546b1c]['push']('MW');else _0xa76856===_0x32fab1(0x23d)&&(_0x4b7fef[_0x32fab1(0x1f6)][_0x32fab1(0x23f)](_0x32fab1(0x17d)),Game[_0x32fab1(0x261)][_0x546b1c][_0x32fab1(0x158)]('MB'));_0x4849b9[_0x32fab1(0x213)](_0x4b7fef);}else Game[_0x32fab1(0x261)][_0x546b1c][_0x32fab1(0x158)]('EC');}}else{if(Game['state'][_0x546b1c][_0x493b8d][_0x32fab1(0x2ed)]('B')){let _0x411aa2=$$$(_0x32fab1(0x3be));_0x411aa2['classList'][_0x32fab1(0x23f)]('piece_black');if(Game['state'][_0x546b1c][_0x493b8d]=='KB')_0x411aa2[_0x32fab1(0x1f6)][_0x32fab1(0x23f)]('crown_black');_0x4849b9[_0x32fab1(0x213)](_0x411aa2);}else{if(Game[_0x32fab1(0x261)][_0x546b1c][_0x493b8d][_0x32fab1(0x2ed)]('W')){let _0x3ae217=$$$('div');_0x3ae217[_0x32fab1(0x1f6)]['add'](_0x32fab1(0x3fd));if(Game[_0x32fab1(0x261)][_0x546b1c][_0x493b8d]=='KW')_0x3ae217[_0x32fab1(0x1f6)][_0x32fab1(0x23f)](_0x32fab1(0x163));_0x4849b9[_0x32fab1(0x213)](_0x3ae217);}}}}else{!_0x4849b9[_0x32fab1(0x1f6)]['contains'](_0x32fab1(0xfb))&&_0x4849b9[_0x32fab1(0x1f6)]['add']('cell_white');if(_0x174f38)Game['state'][_0x546b1c][_0x32fab1(0x158)]('NA');}await Prms(_0x32fab1(0x214));}await Prms(_0x32fab1(0x214));}for(let _0x2bd3f1=Game['boardSize'];_0x2bd3f1<_0x3609e8[0x0][_0x32fab1(0x1b4)]['length'];_0x2bd3f1++){_0x3609e8[0x0][_0x32fab1(0x1b4)][_0x2bd3f1][_0x32fab1(0x2dd)][_0x32fab1(0x301)]=_0x32fab1(0x26e),_0x3609e8[0x1][_0x32fab1(0x1b4)][_0x2bd3f1][_0x32fab1(0x2dd)][_0x32fab1(0x301)]=_0x32fab1(0x26e),_0x3609e8[0x2][_0x32fab1(0x1b4)][_0x2bd3f1][_0x32fab1(0x2dd)]['display']=_0x32fab1(0x26e),_0x3609e8[0x3][_0x32fab1(0x1b4)][_0x2bd3f1][_0x32fab1(0x2dd)][_0x32fab1(0x301)]=_0x32fab1(0x26e);}return Prms(_0x32fab1(0x214));},Refresh=async(_0x34a21e=![],_0x8d8e98=playerA['pieceColor'],_0x11ef9e=[])=>{const _0x266d85=_0x1fe42c;let _0x27eb0c=$$(_0x266d85(0x3b0));for(let _0x460799 of _0x27eb0c){_0x460799['className']='',_0x460799[_0x266d85(0x15c)]='',_0x460799[_0x266d85(0x22d)](_0x266d85(0x3c0),BoardClick,![]);}for(let _0x234b1b of $$('.frame\x20p')){_0x234b1b[_0x266d85(0x15c)]='',_0x234b1b['style'][_0x266d85(0x301)]=_0x266d85(0x1a7);}let _0xfbd440=$(_0x266d85(0x199));if(_0xfbd440['children']['length']>Math['pow'](Game[_0x266d85(0x32b)]))for(let _0x791d85=0x0;_0x791d85<Math[_0x266d85(0x3fb)](_0xfbd440[_0x266d85(0x1b4)][_0x266d85(0x2b4)]);_0x791d85++){for(let _0x2127c7=0x0;_0x2127c7<Math[_0x266d85(0x3fb)](_0xfbd440[_0x266d85(0x1b4)][_0x266d85(0x2b4)]);_0x2127c7++){if(_0x791d85<Game[_0x266d85(0x32b)]&&_0x2127c7>=Game[_0x266d85(0x32b)])_0xfbd440['removeChild'](_0xfbd440['$']('#'+_0x791d85+''+_0x2127c7));else _0x791d85>=Game[_0x266d85(0x32b)]&&_0xfbd440[_0x266d85(0x355)](_0xfbd440['$']('#'+_0x791d85+''+_0x2127c7));}}storage['getItem'](_0x266d85(0x21c))?Game[_0x266d85(0x261)]=JSON[_0x266d85(0x1bd)](storage['getItem'](_0x266d85(0x287))):Game[_0x266d85(0x261)]=_0x11ef9e;BackState[_0x266d85(0x310)]=[],Game['track']=[],Game[_0x266d85(0x310)]={},Game['date']=new Date(),Game[_0x266d85(0x3a3)]=![],Game['possibleWin']=![],Game['isComputer']=![],Game['pieceSelected']=![],Game[_0x266d85(0x325)]=!![],Game[_0x266d85(0x2ff)]=null,Game['baseStateCount']=0x1,Game['drawStateCount']=0x0,Game[_0x266d85(0x3d4)]=0x0,Game[_0x266d85(0x237)]=0x0,general[_0x266d85(0x336)]=[],general['sorted']=[],playerA[_0x266d85(0x3ac)]=0x0,playerA[_0x266d85(0x310)]=0x0,playerA['captures']=0x0,playerA[_0x266d85(0xf3)]=0x0,playerB['kings']=0x0,playerB[_0x266d85(0x310)]=0x0,playerB[_0x266d85(0x328)]=0x0,playerB['longestCapture']=0x0,Timer[_0x266d85(0x2c4)](),$(_0x266d85(0x169))['innerHTML']=Game[_0x266d85(0x175)][_0x266d85(0x3cc)]()+_0x266d85(0x33a);if(_0x34a21e&&Game[_0x266d85(0x382)]!=_0x266d85(0x309))return _0x26ee21(),Prms(!![]);else{if(_0x34a21e){await LoadBoard(playerA[_0x266d85(0x1c3)],playerB['pieceColor']),await UpdatePiecesStatus();if(Game['firstMove']){let _0x69868d=playerA[_0x266d85(0x1c3)][_0x266d85(0x157)](0x0,0x1);Game[_0x266d85(0x310)]=await AssessAll({'id':_0x69868d,'state':Game[_0x266d85(0x261)]}),await Helper(Game['moves'],Copy(Game[_0x266d85(0x261)])),Notify['popUpNote'](_0x266d85(0x19e));}else{let _0x57acea=playerB[_0x266d85(0x1c3)][_0x266d85(0x157)](0x0,0x1);Game[_0x266d85(0x310)]=await AssessAll({'id':_0x57acea,'state':Game[_0x266d85(0x261)]}),await Helper(Game[_0x266d85(0x310)],Copy(Game[_0x266d85(0x261)])),Notify[_0x266d85(0x204)](playerB[_0x266d85(0x3b9)]+_0x266d85(0xeb));}return AdjustBoard(),Prms(!![]);}}async function _0x26ee21(){const _0x307ed2=_0x266d85;let _0x586b9e=null,_0x2b8cfb=$$(_0x307ed2(0x3de));Game[_0x307ed2(0x277)]?(_0x586b9e=await RollDice(),Game[_0x307ed2(0x370)]=playerA[_0x307ed2(0x1c3)][_0x307ed2(0x2ed)]('White')?_0x586b9e:!_0x586b9e):Game[_0x307ed2(0x370)]=GetValue(_0x2b8cfb[0x0],_0x307ed2(0x24b))==general[_0x307ed2(0x410)];await LoadBoard(playerA[_0x307ed2(0x1c3)],playerB[_0x307ed2(0x1c3)]),await UpdatePiecesStatus(),Game[_0x307ed2(0x300)]=Copy(Game[_0x307ed2(0x261)]);if(Game[_0x307ed2(0x382)]==='single-player'){$$(_0x307ed2(0xfc))[0x0][_0x307ed2(0x2dd)]['display']=_0x307ed2(0x26e),$$(_0x307ed2(0xfc))[0x1][_0x307ed2(0x2dd)][_0x307ed2(0x301)]=_0x307ed2(0x26e),$$(_0x307ed2(0xfc))[0x2]['style'][_0x307ed2(0x301)]=_0x307ed2(0x26e),$$('#play-window\x20.penalties\x20div')[0x3][_0x307ed2(0x2dd)][_0x307ed2(0x301)]='none';if(general[_0x307ed2(0x14f)]['toLowerCase']()[_0x307ed2(0x2ed)](_0x307ed2(0x177))){let _0x23686b=['american','kenyan','casino','international',_0x307ed2(0x37f),'russian',_0x307ed2(0x408)];setTimeout(_0x45c8cf=>Notify[_0x307ed2(0x15d)]({'header':Game[_0x307ed2(0x175)][_0x307ed2(0x3cc)]()+_0x307ed2(0x321)+Game[_0x307ed2(0x40e)][Game[_0x307ed2(0x1ce)]][_0x307ed2(0x1ce)][_0x307ed2(0x3cc)](),'icon':srcs[_0x23686b[_0x307ed2(0x37a)](Game[_0x307ed2(0x175)])],'iconType':'flag','delay':0x5dc}),0x1f4);}if(Game['whiteTurn']&&playerB[_0x307ed2(0x1c3)]===_0x307ed2(0x40d)||!Game[_0x307ed2(0x370)]&&playerB[_0x307ed2(0x1c3)]===_0x307ed2(0x23d))setTimeout(_0x5b4fce=>_0x93a016(),0x64),Timer[_0x307ed2(0x36c)]('B');else{if(Game[_0x307ed2(0xe6)]){let _0x30d491=playerA[_0x307ed2(0x1c3)]['slice'](0x0,0x1);Game['moves']=await AssessAll({'id':_0x30d491,'state':Game[_0x307ed2(0x261)]}),await Helper(Game[_0x307ed2(0x310)],Copy(Game[_0x307ed2(0x261)])),Timer[_0x307ed2(0x36c)]('A');}else{let _0x8e527d=playerA[_0x307ed2(0x1c3)][_0x307ed2(0x157)](0x0,0x1);Game['moves']=await AssessAll({'id':_0x8e527d,'state':Game['state']}),Timer[_0x307ed2(0x36c)]('A');}}}else{if(Game[_0x307ed2(0x382)]==='two-player-offline'){let _0x2f9d7f=Game[_0x307ed2(0x370)]&&playerA[_0x307ed2(0x1c3)]===_0x307ed2(0x40d)||!Game[_0x307ed2(0x370)]&&playerA[_0x307ed2(0x1c3)]===_0x307ed2(0x23d)?playerA[_0x307ed2(0x1c3)]['slice'](0x0,0x1):playerB['pieceColor'][_0x307ed2(0x157)](0x0,0x1);Game['moves']=await AssessAll({'id':_0x2f9d7f,'state':Game[_0x307ed2(0x261)]});if(Game[_0x307ed2(0xe6)])await Helper(Game[_0x307ed2(0x310)],Copy(Game[_0x307ed2(0x261)]));let _0x8e0d5c=Game[_0x307ed2(0x370)]&&playerA[_0x307ed2(0x1c3)]==_0x307ed2(0x40d)||!Game[_0x307ed2(0x370)]&&playerA['pieceColor']==_0x307ed2(0x23d)?'A':'B';Timer[_0x307ed2(0x36c)](_0x8e0d5c);}else{if(Game[_0x307ed2(0x370)]&&playerA['pieceColor']===_0x307ed2(0x40d)||!Game['whiteTurn']&&playerA[_0x307ed2(0x1c3)]===_0x307ed2(0x23d)){let _0x24f7bf=playerA['pieceColor'][_0x307ed2(0x157)](0x0,0x1);Game[_0x307ed2(0x310)]=await AssessAll({'id':_0x24f7bf,'state':Game[_0x307ed2(0x261)]});if(Game[_0x307ed2(0xe6)])await Helper(Game['moves'],Copy(Game[_0x307ed2(0x261)]));Timer['start']('A');}else Timer[_0x307ed2(0x36c)]('B');}}if(Game[_0x307ed2(0x277)]){if(Game['mode']!='two-player-offline'){let _0x2824a5=0x1f4;general[_0x307ed2(0x14f)]['toLowerCase']()[_0x307ed2(0x2ed)](_0x307ed2(0x177))&&(_0x2824a5=0x9c4);if(_0x586b9e)setTimeout(_0x3afe52=>Notify[_0x307ed2(0x15d)]({'header':_0x307ed2(0x193),'icon':Icons[_0x307ed2(0x3b1)],'iconType':'dice','delay':0x5dc}),_0x2824a5);else{if(!_0x586b9e)setTimeout(_0x849c7f=>Notify['popUpAlert']({'header':_0x307ed2(0x203),'icon':Icons[_0x307ed2(0x3b1)],'iconType':'dice','delay':0x5dc}),_0x2824a5);}}else{let _0x3f63ed;if(_0x586b9e)_0x3f63ed=playerA['name'];else _0x3f63ed=playerB[_0x307ed2(0x3b9)];setTimeout(_0x9fa98d=>Notify[_0x307ed2(0x15d)]({'header':_0x3f63ed[_0x307ed2(0x3cc)]()+_0x307ed2(0x26f),'icon':Icons[_0x307ed2(0x3b1)],'iconType':'dice','delay':0x5dc}),0x1f4);}}AdjustBoard();}async function _0x93a016(){const _0x1f8d65=_0x266d85;for(let _0x2022d0 of $$(_0x1f8d65(0x36f))){_0x2022d0[_0x1f8d65(0x1f6)][_0x1f8d65(0x194)](_0x1f8d65(0x2ad),_0x1f8d65(0x186),'hint','helper_empty',_0x1f8d65(0x1b1));}let _0x488011=Game[_0x1f8d65(0x261)],_0x37d393=playerB[_0x1f8d65(0x1c3)][_0x1f8d65(0x2af)](0x0,0x1);Game['moves']=await AssessAll({'id':_0x37d393,'state':_0x488011});let _0x2cf19f;if(Game['mandatoryCapture']&&Game[_0x1f8d65(0x310)][_0x1f8d65(0x328)][_0x1f8d65(0x2b4)]>0x0)_0x2cf19f=Game[_0x1f8d65(0x310)][_0x1f8d65(0x328)];else{if(Game['mandatoryCapture']&&Game[_0x1f8d65(0x310)]['captures'][_0x1f8d65(0x2b4)]==0x0)_0x2cf19f=Game[_0x1f8d65(0x310)][_0x1f8d65(0x273)];else!Game['mandatoryCapture']&&(_0x2cf19f=Game[_0x1f8d65(0x310)]['nonCaptures'],_0x2cf19f=_0x2cf19f['concat'](Game['moves'][_0x1f8d65(0x328)]));}let _0x5653e6=(Math[_0x1f8d65(0x14e)]()*(_0x2cf19f[_0x1f8d65(0x2b4)]-0x1))[_0x1f8d65(0x130)](0x0),_0x108087=_0x2cf19f[_0x5653e6],_0x405863=parseInt(_0x108087[_0x1f8d65(0x1b8)][_0x1f8d65(0x157)](0x0,0x1)),_0x4a12f4=parseInt(_0x108087[_0x1f8d65(0x1b8)][_0x1f8d65(0x157)](0x1,0x2)),_0x5ce001=parseInt(_0x108087[_0x1f8d65(0x2cc)]['slice'](0x0,0x1)),_0x2fb621=parseInt(_0x108087[_0x1f8d65(0x2cc)][_0x1f8d65(0x157)](0x1,0x2));return setTimeout(async()=>{const _0x1a35f4=_0x1f8d65;await ValidateMove({'cell':$(_0x1a35f4(0x199))[_0x1a35f4(0x1b4)][_0x405863*Game['boardSize']+_0x4a12f4],'i':_0x405863,'j':_0x4a12f4,'isComputer':!![]}),await ValidateMove({'cell':$('#table')['children'][_0x5ce001*Game[_0x1a35f4(0x32b)]+_0x2fb621],'i':_0x5ce001,'j':_0x2fb621,'isComputer':!![]});},0xfa),Prms('');}},Alternate=async()=>{const _0x5b9b6a=_0x1fe42c;if(playerA[_0x5b9b6a(0x1c3)]==_0x5b9b6a(0x40d))playerA[_0x5b9b6a(0x1c3)]=_0x5b9b6a(0x23d),playerB[_0x5b9b6a(0x1c3)]='White';else playerA[_0x5b9b6a(0x1c3)]==_0x5b9b6a(0x23d)&&(playerA[_0x5b9b6a(0x1c3)]=_0x5b9b6a(0x40d),playerB[_0x5b9b6a(0x1c3)]=_0x5b9b6a(0x23d));return Prms(_0x5b9b6a(0x214));},RollDice=()=>{const _0x2103b7=_0x1fe42c;while(!![]){let _0x15851d=Math['round'](Math[_0x2103b7(0x14e)]()*0x7)+Math['round'](Math[_0x2103b7(0x14e)]()*0x7);if(_0x15851d==0x7||_0x15851d==0xb)return!![];else{if(_0x15851d==0x2||_0x15851d==0x3||_0x15851d==0xc)return![];}}},BackState={'state':[],'moves':[]},GetValue=function(_0x6faaea,_0x16204e,_0x5461f6=null){const _0x7efe4c=_0x1fe42c;return window[_0x7efe4c(0x2ca)](_0x6faaea,_0x5461f6)[_0x7efe4c(0x371)](_0x16204e);},RGBValueOf=_0x3f8c2a=>{const _0x20e923=_0x1fe42c;_0x3f8c2a=_0x3f8c2a[_0x20e923(0xd5)]('#','');if(_0x3f8c2a[_0x20e923(0x2b4)]===0x3){let _0x4f18ac='';for(let _0x4b1d54 of _0x3f8c2a){_0x4f18ac+=_0x4b1d54+_0x4b1d54;}_0x3f8c2a=_0x4f18ac;}return rgb=_0x20e923(0x114),rgb+=parseInt(_0x3f8c2a[_0x20e923(0x157)](0x0,0x2),0x10)+',\x20',rgb+=parseInt(_0x3f8c2a[_0x20e923(0x157)](0x2,0x4),0x10)+',\x20',rgb+=parseInt(_0x3f8c2a[_0x20e923(0x157)](0x4,0x6),0x10)+')',rgb;},GetPosition=function(_0x4e0785,_0x37412d){const _0x27662f=_0x1fe42c;let _0x5ca454={};return _0x5ca454['cellSize']=parseFloat(GetValue($(_0x27662f(0x199)),_0x27662f(0x1a1)))/Game[_0x27662f(0x32b)],_0x5ca454[_0x27662f(0xde)]=parseFloat(GetValue($(_0x27662f(0x199))[_0x27662f(0x1b4)][_0x4e0785*Game['boardSize']+_0x37412d],_0x27662f(0xde))),_0x5ca454[_0x27662f(0x2f0)]=parseFloat(GetValue($('#table')[_0x27662f(0x1b4)][_0x4e0785*Game[_0x27662f(0x32b)]+_0x37412d],_0x27662f(0x2f0))),_0x5ca454;};class Move{['root']=document[_0x1fe42c(0x3d8)];[_0x1fe42c(0x38f)]=$$(_0x1fe42c(0x35c));constructor(_0x374a62){const _0x32f7d2=_0x1fe42c;if(this[_0x32f7d2(0x38f)][_0x32f7d2(0x2b4)]===0x0&&_0x374a62[_0x32f7d2(0x331)])return this[_0x32f7d2(0x331)](_0x374a62);else{if(this['moving']['length']===0x0&&_0x374a62[_0x32f7d2(0x3a0)])return this[_0x32f7d2(0x1da)](_0x374a62);else{if(this[_0x32f7d2(0x38f)]['length']===0x0&&_0x374a62[_0x32f7d2(0x235)])return this['select'](_0x374a62);else{if(this['moving'][_0x32f7d2(0x2b4)]===0x0&&_0x374a62[_0x32f7d2(0x107)])return this[_0x32f7d2(0x328)](_0x374a62);}}}}[_0x1fe42c(0x328)]=async function(_0x2c63c3){const _0x4eec16=_0x1fe42c;let _0x5638ca=![],_0x4c145e=![];for(let _0x270de8 of $$(_0x4eec16(0x29f))){_0x270de8['classList'][_0x4eec16(0x194)](_0x4eec16(0x240),_0x4eec16(0x186),'valid');}for(let _0x5e987d of general[_0x4eec16(0x2e0)]){for(let _0x1c66ff of _0x5e987d){let _0x239eae=''+_0x2c63c3['i']+_0x2c63c3['j'];if(_0x1c66ff[_0x4eec16(0x2cc)]==_0x239eae&&_0x5e987d[0x0]['i']==Game[_0x4eec16(0x2ff)]['i']&&_0x5e987d[0x0]['j']==Game[_0x4eec16(0x2ff)]['j']){_0x4c145e=!![];for(let _0x33dc3e of _0x5e987d[_0x4eec16(0x157)](0x0,_0x5e987d[_0x4eec16(0x37a)](_0x1c66ff)+0x1)){let _0x1e9c2f=$('#table')[_0x4eec16(0x1b4)][_0x33dc3e['m']*Game[_0x4eec16(0x32b)]+_0x33dc3e['n']];_0x1e9c2f['classList'][_0x4eec16(0x23f)](_0x4eec16(0x2ad),'cell_disabled');if(_0x1e9c2f[_0x4eec16(0x356)])_0x1e9c2f[_0x4eec16(0x355)](_0x1e9c2f['lastChild']);}$$('.controls')[0x1][_0x4eec16(0x1f6)][_0x4eec16(0x23f)](_0x4eec16(0x244)),$$(_0x4eec16(0x136))[0x2][_0x4eec16(0x1f6)]['add'](_0x4eec16(0x244)),$$('.horiz_controls')[0x1][_0x4eec16(0x1f6)][_0x4eec16(0x23f)]('cell_disabled'),$$(_0x4eec16(0x35e))[0x2][_0x4eec16(0x1f6)][_0x4eec16(0x23f)](_0x4eec16(0x244));if(_0x5e987d[_0x4eec16(0x37a)](_0x1c66ff)!=_0x5e987d[_0x4eec16(0x2b4)]-0x1){let _0x533816=Game[_0x4eec16(0x2ff)][_0x4eec16(0x1b8)][_0x4eec16(0x356)]['cloneNode'](!![]);_0x533816[_0x4eec16(0x2dd)]['opacity']=_0x4eec16(0xfa),_0x2c63c3[_0x4eec16(0x1b8)][_0x4eec16(0x213)](_0x533816),Game['prop'][_0x4eec16(0x1b8)][_0x4eec16(0x1f6)]['add']('valid',_0x4eec16(0x244));}else _0x5638ca=!![];if((Game[_0x4eec16(0xe6)]||Game[_0x4eec16(0x108)])&&(Game[_0x4eec16(0x382)]==_0x4eec16(0x309)||Game[_0x4eec16(0x382)]==_0x4eec16(0x403)||Game[_0x4eec16(0x382)]==_0x4eec16(0x350)&&(Game[_0x4eec16(0x370)]&&playerA[_0x4eec16(0x1c3)]==_0x4eec16(0x40d)||!Game[_0x4eec16(0x370)]&&playerA[_0x4eec16(0x1c3)]==_0x4eec16(0x23d)))){let _0x545198=[];for(let _0x4a969c of general[_0x4eec16(0x2e0)]){for(let _0x533656 of _0x4a969c){if(_0x533656[_0x4eec16(0x1b8)]==_0x239eae){_0x545198[_0x4eec16(0x158)](..._0x4a969c[_0x4eec16(0x157)](_0x4a969c[_0x4eec16(0x37a)](_0x533656)));break;}}}for(let _0x1061ff of _0x545198){let _0x4d6820=$(_0x4eec16(0x199))[_0x4eec16(0x1b4)][_0x1061ff['m']*Game[_0x4eec16(0x32b)]+_0x1061ff['n']];if(!_0x4d6820['classList']['contains']('pre_valid'))_0x4d6820[_0x4eec16(0x1f6)]['add']('helper_empty');}}break;}}if(_0x5638ca){for(let _0x4bf550 of _0x5e987d){let _0x12a320=$('#table')[_0x4eec16(0x1b4)][_0x4bf550['i']*Game[_0x4eec16(0x32b)]+_0x4bf550['j']],_0x618c14=$('#table')['children'][_0x4bf550['m']*Game[_0x4eec16(0x32b)]+_0x4bf550['n']];await this[_0x4eec16(0x331)]({'cell':_0x12a320,'i':_0x4bf550['i'],'j':_0x4bf550['j']},!![]);let _0x98c0db=await this['makePath']({'cell':_0x618c14,'i':_0x4bf550['m'],'j':_0x4bf550['n']},!![]);_0x98c0db['a']=parseInt(_0x4bf550[_0x4eec16(0x235)]['slice'](0x0,0x1)),_0x98c0db['b']=parseInt(_0x4bf550['capture'][_0x4eec16(0x157)](0x1,0x2)),Game[_0x4eec16(0x3f9)]['push']([Game['prop'],_0x98c0db]);}for(let _0x5decfd of _0x5e987d){let _0x308bcc=parseInt(_0x5decfd[_0x4eec16(0x2cc)][_0x4eec16(0x157)](0x0,0x1)),_0x46ea77=parseInt(_0x5decfd[_0x4eec16(0x2cc)]['slice'](0x1,0x2)),_0x55edaf=$('#table')[_0x4eec16(0x1b4)][_0x308bcc*Game[_0x4eec16(0x32b)]+_0x46ea77];_0x55edaf['classList'][_0x4eec16(0x194)](_0x4eec16(0x2ad));}Move[_0x4eec16(0xec)]();break;}}return _0x4c145e&&Game[_0x4eec16(0x382)]==='two-player-online'&&(Game[_0x4eec16(0x370)]&&playerA[_0x4eec16(0x1c3)]===_0x4eec16(0x40d)||!Game[_0x4eec16(0x370)]&&playerA[_0x4eec16(0x1c3)]===_0x4eec16(0x23d))&&await Publish[_0x4eec16(0x242)]({'channel':Lobby[_0x4eec16(0x13c)],'message':{'title':'Moved','content':{'i':_0x2c63c3['i'],'j':_0x2c63c3['j']}}}),_0x4c145e;};static [_0x1fe42c(0xec)]=async function(_0x24b63d=0x0){const _0x30b0fe=_0x1fe42c;Game['prop']=Game['track'][_0x24b63d][0x0];let _0x56e7f5=Game['track'][_0x24b63d][0x1];_0x56e7f5['n']=_0x24b63d,_0x24b63d==Game[_0x30b0fe(0x3f9)]['length']-0x1&&(_0x56e7f5[_0x30b0fe(0x2a2)]=!![]),new Move({})[_0x30b0fe(0x3c7)](_0x56e7f5,!![]);};[_0x1fe42c(0x331)]=async function(_0x389b40,_0x4146f4=![]){const _0x37b709=_0x1fe42c;!_0x4146f4&&Game[_0x37b709(0x382)]===_0x37b709(0x309)&&(Game[_0x37b709(0x370)]&&playerA[_0x37b709(0x1c3)]==='White'||!Game[_0x37b709(0x370)]&&playerA[_0x37b709(0x1c3)]==='Black')&&await Publish[_0x37b709(0x242)]({'channel':Lobby[_0x37b709(0x13c)],'message':{'title':_0x37b709(0x37c),'content':{'i':_0x389b40['i'],'j':_0x389b40['j']}}});this[_0x37b709(0x38f)][_0x37b709(0x2b4)]>0x0&&await Move['receiveCargo']();if(!_0x4146f4)for(let _0x1297db of $$(_0x37b709(0x36f))){_0x1297db[_0x37b709(0x1f6)][_0x37b709(0x194)](_0x37b709(0x2ad),_0x37b709(0x186),_0x37b709(0xdf),_0x37b709(0x240),_0x37b709(0x1b1));}return Game[_0x37b709(0x3cb)]=!![],Game[_0x37b709(0x255)]=_0x389b40[_0x37b709(0x255)],Game[_0x37b709(0x2ff)]={'cell':_0x389b40[_0x37b709(0x1b8)],'i':_0x389b40['i'],'j':_0x389b40['j']},_0x389b40['cell']['classList'][_0x37b709(0x23f)](_0x37b709(0x2ad)),Prms(!![]);};[_0x1fe42c(0x1da)]=async function(_0x5110ad,_0x4f5acf=![]){const _0x2db10f=_0x1fe42c;!_0x4f5acf&&Game[_0x2db10f(0x382)]===_0x2db10f(0x309)&&(Game[_0x2db10f(0x370)]&&playerA[_0x2db10f(0x1c3)]==='White'||!Game['whiteTurn']&&playerA[_0x2db10f(0x1c3)]==='Black')&&await Publish[_0x2db10f(0x242)]({'channel':Lobby[_0x2db10f(0x13c)],'message':{'title':_0x2db10f(0x37c),'content':{'i':_0x5110ad['i'],'j':_0x5110ad['j']}}});if(!_0x4f5acf){for(let _0x205abd of $$(_0x2db10f(0x2ec)))_0x205abd[_0x2db10f(0x1f6)][_0x2db10f(0x194)]('hint');Game[_0x2db10f(0x2ff)][_0x2db10f(0x1b8)]['classList'][_0x2db10f(0x194)](_0x2db10f(0x2ad));}if(!_0x4f5acf)this[_0x2db10f(0x3c7)]({'cell':_0x5110ad['cell'],'i':_0x5110ad['i'],'j':_0x5110ad['j']});else return{'cell':_0x5110ad[_0x2db10f(0x1b8)],'i':_0x5110ad['i'],'j':_0x5110ad['j']};};[_0x1fe42c(0x3c7)]=async function(_0x4c80da,_0x3eb31a=![]){const _0x455cc4=_0x1fe42c;let _0x13918=Game[_0x455cc4(0x2ff)]['cell'][_0x455cc4(0x356)],_0x56dfe4=$(_0x455cc4(0x3db)),_0x6c56d3=_0x56dfe4[_0x455cc4(0x275)];_0x6c56d3['lastElementChild']['classList'][_0x455cc4(0x23f)](...Array[_0x455cc4(0x313)](_0x13918['classList'])),Game[_0x455cc4(0x2ff)][_0x455cc4(0x1b8)][_0x455cc4(0x355)](_0x13918);let _0x53c026=await GetPosition(_0x4c80da['i'],_0x4c80da['j']),_0x30406e=await GetPosition(Game[_0x455cc4(0x2ff)]['i'],Game[_0x455cc4(0x2ff)]['j']);_0x6c56d3[_0x455cc4(0x2dd)][_0x455cc4(0xde)]=_0x30406e['top']+'px',_0x6c56d3[_0x455cc4(0x2dd)][_0x455cc4(0x2f0)]=_0x30406e[_0x455cc4(0x2f0)]+'px',this['root'][_0x455cc4(0x2dd)][_0x455cc4(0x2f7)](_0x455cc4(0x304),_0x53c026[_0x455cc4(0xde)]-_0x30406e['top']+_0x455cc4(0x347)+(_0x4c80da['i']-Game[_0x455cc4(0x2ff)]['i'])+_0x455cc4(0x3ab)),this[_0x455cc4(0x12e)]['style']['setProperty']('--epl',_0x53c026['left']-_0x30406e[_0x455cc4(0x2f0)]+'px/*calc(100%\x20*\x20'+(_0x4c80da['j']-Game['prop']['j'])+_0x455cc4(0x3ab));let _0x5abf56=0.35,_0x49a0bb=_0x5abf56*0.25,_0x54f669=Math['abs'](Game[_0x455cc4(0x2ff)]['i']-_0x4c80da['i']);for(let _0xd6d91e=0x1;_0xd6d91e<_0x54f669;_0xd6d91e++){_0x5abf56+=_0x49a0bb;}this[_0x455cc4(0x12e)][_0x455cc4(0x2dd)][_0x455cc4(0x2f7)](_0x455cc4(0x2cf),_0x5abf56+'s'),general['prop']=_0x4c80da,_0x6c56d3[_0x455cc4(0x317)](_0x455cc4(0x1fa),_0x455cc4(0x173)+_0x3eb31a+')'),_0x56dfe4['classList'][_0x455cc4(0x23f)]('cargo_ready'),_0x6c56d3[_0x455cc4(0x1f6)]['add']('move');};static [_0x1fe42c(0x174)]=async function(_0x10a0be){const _0x434dd8=_0x1fe42c;let _0x358eab=general['prop'],_0x35ac19=document['documentElement'];Game[_0x434dd8(0x3cb)]=![];if(Game[_0x434dd8(0x2ff)]!=null&&_0x358eab!=null){for(let _0x29f431 of $$('#table\x20.valid,\x20#table\x20.pre_valid,\x20#table\x20.hint,\x20.helper_empty,\x20.helper_filled')){_0x29f431[_0x434dd8(0x1f6)][_0x434dd8(0x194)](_0x434dd8(0x2ad),'pre_valid','hint','helper_empty',_0x434dd8(0x1b1));}general['sorted']=[];let _0x3a6026=$(_0x434dd8(0x3db)),_0x3d5c10=_0x3a6026['lastElementChild'],_0x33711d=_0x3d5c10[_0x434dd8(0x275)][_0x434dd8(0x121)](!![]);_0x3a6026[_0x434dd8(0x1f6)][_0x434dd8(0x194)]('cargo_ready'),_0x3d5c10[_0x434dd8(0x1f6)][_0x434dd8(0x194)](_0x434dd8(0x3c2)),_0x3d5c10[_0x434dd8(0x275)][_0x434dd8(0x1f6)][_0x434dd8(0x194)](_0x434dd8(0x17d),_0x434dd8(0x358),_0x434dd8(0x3fd),'crown_white'),_0x358eab[_0x434dd8(0x1b8)][_0x434dd8(0x1f6)][_0x434dd8(0x194)]('cell_disabled'),_0x358eab['cell'][_0x434dd8(0x213)](_0x33711d),_0x358eab[_0x434dd8(0x2fe)]=_0x33711d;if(!_0x10a0be||_0x358eab[_0x434dd8(0x2a2)]){if(_0x33711d[_0x434dd8(0x416)][_0x434dd8(0x2ed)](playerA[_0x434dd8(0x1c3)]['toLowerCase']()))playerA['moves']++;else playerB[_0x434dd8(0x310)]++;}if((Game[_0x434dd8(0x175)]!==_0x434dd8(0x3a9)&&_0x358eab[_0x434dd8(0x2a2)]||Game[_0x434dd8(0x175)]===_0x434dd8(0x3a9)&&_0x10a0be||!_0x10a0be)&&!_0x33711d[_0x434dd8(0x416)][_0x434dd8(0x2ed)](_0x434dd8(0x330))&&(_0x358eab['i']===0x0&&_0x33711d['className']['includes'](playerA['pieceColor']['toLowerCase']())||_0x358eab['i']===Game[_0x434dd8(0x32b)]-0x1&&_0x33711d[_0x434dd8(0x416)][_0x434dd8(0x2ed)](playerB[_0x434dd8(0x1c3)][_0x434dd8(0x113)]()))){_0x33711d[_0x434dd8(0x1f6)][_0x434dd8(0x308)](_0x434dd8(0x3fd))?_0x33711d['classList'][_0x434dd8(0x23f)](_0x434dd8(0x163)):_0x33711d[_0x434dd8(0x1f6)]['add'](_0x434dd8(0x358));_0x358eab[_0x434dd8(0x2fe)]=_0x33711d,_0x358eab['king']=!![];if(_0x10a0be)Game['track'][_0x358eab['n']][0x1]=_0x358eab;}_0x33711d=Game['state'][Game[_0x434dd8(0x2ff)]['i']][Game[_0x434dd8(0x2ff)]['j']];if(!_0x33711d[_0x434dd8(0x2ed)]('K')&&(Game[_0x434dd8(0x175)]!==_0x434dd8(0x3a9)&&_0x358eab['final']||Game['version']==='russian'&&_0x10a0be||!_0x10a0be))_0x33711d=await(_0x358eab['i']===0x0&&_0x33711d[_0x434dd8(0x2ed)](playerA['pieceColor'][_0x434dd8(0x157)](0x0,0x1))||_0x358eab['i']===Game[_0x434dd8(0x32b)]-0x1&&_0x33711d[_0x434dd8(0x2ed)](playerB['pieceColor']['slice'](0x0,0x1)))?_0x33711d['replace']('M','K'):_0x33711d;Game[_0x434dd8(0x261)][Game[_0x434dd8(0x2ff)]['i']][Game[_0x434dd8(0x2ff)]['j']]='EC',Game[_0x434dd8(0x261)][_0x358eab['i']][_0x358eab['j']]=_0x33711d;if(!_0x10a0be){Game[_0x434dd8(0x370)]=!Game[_0x434dd8(0x370)];let _0x694420;_0x694420=_0x33711d[_0x434dd8(0x2ed)]('W')?'B':'W';let _0x4bd9dc=Game['prop'];_0x694420=_0x694420[_0x434dd8(0xd5)](/[MK]/g,'');let _0xea5a01=await this[_0x434dd8(0x2b9)](_0x694420);if(_0xea5a01)return;else BackState[_0x434dd8(0x310)][_0x434dd8(0x158)]([_0x4bd9dc,_0x358eab]),Game['helper']&&(Game[_0x434dd8(0x2ff)][_0x434dd8(0x1b8)][_0x434dd8(0x1f6)][_0x434dd8(0x23f)]('valid'),_0x358eab[_0x434dd8(0x1b8)][_0x434dd8(0x1f6)]['add']('valid')),_0x358eab[_0x434dd8(0x32e)]?AudioPlayer[_0x434dd8(0x183)]('king',0x1):AudioPlayer[_0x434dd8(0x183)](_0x434dd8(0x3c0),0.8),Helper(Game[_0x434dd8(0x310)],Copy(Game[_0x434dd8(0x261)])),Game[_0x434dd8(0x382)]==='single-player'&&(Game[_0x434dd8(0x370)]&&playerB[_0x434dd8(0x1c3)]===_0x434dd8(0x40d)||!Game[_0x434dd8(0x370)]&&playerB[_0x434dd8(0x1c3)]===_0x434dd8(0x23d))&&(UpdatePiecesStatus(_0x434dd8(0x1c0)),setTimeout(async()=>{const _0x236e72=_0x434dd8;let _0x461e94=playerB[_0x236e72(0x1c3)]['substring'](0x0,0x1),_0x187519=Copy(Game[_0x236e72(0x261)]),_0x509147=Game[_0x236e72(0x310)][_0x236e72(0x328)];if(Game[_0x236e72(0x11c)]&&_0x509147['length']==0x0)_0x509147=Game[_0x236e72(0x310)][_0x236e72(0x273)];else!Game['mandatoryCapture']&&(_0x509147=Game[_0x236e72(0x310)]['nonCaptures'],_0x509147=_0x509147[_0x236e72(0x32a)](Game[_0x236e72(0x310)][_0x236e72(0x328)]));let _0x18dc25=new AI({'state':_0x187519,'moves':_0x509147,'depth':Game[_0x236e72(0x1ce)]});await _0x18dc25[_0x236e72(0x364)](),_0x18dc25=null;},0x1));}else{if(!_0x358eab['final']){let _0x4812eb=_0x358eab['a'],_0x1243ef=_0x358eab['b'],_0x5d2707=Game[_0x434dd8(0x261)][_0x4812eb][_0x1243ef];Game['state'][_0x4812eb][_0x1243ef]='EC',!_0x358eab['king']&&AudioPlayer[_0x434dd8(0x183)](_0x434dd8(0x235),0x1),this['startMoving'](_0x358eab['n']+0x1);}else{if(_0x358eab[_0x434dd8(0x2a2)]){$$('.controls')[0x1]['classList']['remove'](_0x434dd8(0x244)),$$(_0x434dd8(0x136))[0x2]['classList'][_0x434dd8(0x194)](_0x434dd8(0x244)),$$(_0x434dd8(0x35e))[0x1][_0x434dd8(0x1f6)][_0x434dd8(0x194)](_0x434dd8(0x244)),$$('.horiz_controls')[0x2][_0x434dd8(0x1f6)][_0x434dd8(0x194)]('cell_disabled');let _0x516688=_0x358eab['a'],_0x1a96af=_0x358eab['b'],_0x17f684=Game['state'][_0x516688][_0x1a96af];Game[_0x434dd8(0x261)][_0x516688][_0x1a96af]='EC';if(_0x33711d[_0x434dd8(0x2ed)](playerA['pieceColor'][_0x434dd8(0x157)](0x0,0x1)))playerA[_0x434dd8(0xf3)]=Math[_0x434dd8(0x3cd)](Game['track'][_0x434dd8(0x2b4)],playerA[_0x434dd8(0xf3)]);else playerB['longestCapture']=Math['max'](Game[_0x434dd8(0x3f9)][_0x434dd8(0x2b4)],playerB[_0x434dd8(0xf3)]);Game[_0x434dd8(0x370)]=!Game[_0x434dd8(0x370)],_0x17f684=_0x33711d[_0x434dd8(0x2ed)]('W')?'B':'W';let _0xd0f76c=await this[_0x434dd8(0x2b9)](_0x17f684);if(_0xd0f76c)return;else{let _0x5e796f=[],_0x5e8624=[];for(let _0x1f552a of Game[_0x434dd8(0x3f9)]){_0x5e8624['push'](_0x1f552a[0x1]);(Game[_0x434dd8(0xe6)]||Game['capturesHelper'])&&(_0x1f552a[0x0][_0x434dd8(0x1b8)]['classList']['add']('valid'),_0x1f552a[0x1][_0x434dd8(0x1b8)][_0x434dd8(0x1f6)]['add'](_0x434dd8(0x2ad)));_0x1f552a[0x0][_0x434dd8(0x1b8)]['classList'][_0x434dd8(0x194)]('cell_disabled'),_0x1f552a[0x1][_0x434dd8(0x1b8)][_0x434dd8(0x1f6)]['remove'](_0x434dd8(0x244)),_0x516688=_0x1f552a[0x1]['a'],_0x1a96af=_0x1f552a[0x1]['b'];let _0xbe6afb=$('#table')['children'][_0x516688*Game[_0x434dd8(0x32b)]+_0x1a96af]['firstChild'];_0x17f684=_0xbe6afb[_0x434dd8(0x416)][_0x434dd8(0x2ed)](_0x434dd8(0x3da))?'W':'B',_0x17f684=(_0xbe6afb[_0x434dd8(0x416)]['includes']('crown')?'K':'M')+_0x17f684,_0x5e796f['push']([_0xbe6afb,_0x516688,_0x1a96af,_0x17f684]),_0xbe6afb[_0x434dd8(0x317)]('onanimationend',_0x434dd8(0x187)),_0xbe6afb['classList']['add'](_0x434dd8(0x154));}_0x5e8624['unshift'](Game[_0x434dd8(0x3f9)][0x0][0x0]),BackState['moves']['push']([..._0x5e8624,_0x5e796f]);if(!_0x358eab[_0x434dd8(0x32e)]&&Game[_0x434dd8(0x3f9)]['length']>0x1)AudioPlayer[_0x434dd8(0x183)](_0x434dd8(0x37b),0.5);else!_0x358eab[_0x434dd8(0x32e)]?AudioPlayer[_0x434dd8(0x183)](_0x434dd8(0x235),0x1):AudioPlayer[_0x434dd8(0x183)]('king',0x1);Game['track']=[],Helper(Game[_0x434dd8(0x310)],Copy(Game['state'])),Game['mode']===_0x434dd8(0x350)&&(Game[_0x434dd8(0x370)]&&playerB[_0x434dd8(0x1c3)]===_0x434dd8(0x40d)||!Game[_0x434dd8(0x370)]&&playerB['pieceColor']==='Black')&&(UpdatePiecesStatus(_0x434dd8(0x1c0)),setTimeout(async()=>{const _0x1379f0=_0x434dd8;let _0x5e79cb=playerB[_0x1379f0(0x1c3)][_0x1379f0(0x2af)](0x0,0x1),_0x2de357=Copy(Game[_0x1379f0(0x261)]),_0x1f951f=Game['moves'][_0x1379f0(0x328)];if(Game[_0x1379f0(0x11c)]&&_0x1f951f[_0x1379f0(0x2b4)]==0x0)_0x1f951f=Game[_0x1379f0(0x310)][_0x1379f0(0x273)];else!Game[_0x1379f0(0x11c)]&&(_0x1f951f=Game[_0x1379f0(0x310)]['nonCaptures'],_0x1f951f=_0x1f951f[_0x1379f0(0x32a)](Game[_0x1379f0(0x310)][_0x1379f0(0x328)]));let _0x235599=new AI({'state':_0x2de357,'moves':_0x1f951f,'depth':Game[_0x1379f0(0x1ce)]});await _0x235599[_0x1379f0(0x364)](),_0x235599=null;},0x1));}}}}}Game[_0x434dd8(0x370)]&&playerA[_0x434dd8(0x1c3)]==_0x434dd8(0x40d)||!Game[_0x434dd8(0x370)]&&playerA[_0x434dd8(0x1c3)]==_0x434dd8(0x23d)?Timer['start']('A'):Timer[_0x434dd8(0x36c)]('B');return;};static [_0x1fe42c(0x2b9)]=async function(_0x2eb40e){const _0x44d8f1=_0x1fe42c;Game[_0x44d8f1(0x310)]=await AssessAll({'id':_0x2eb40e,'state':Game['state']});if(Game[_0x44d8f1(0x310)][_0x44d8f1(0x328)][_0x44d8f1(0x2b4)]>0x0){if(Game[_0x44d8f1(0x11c)])await UpdatePiecesStatus(_0x44d8f1(0x34b));else await UpdatePiecesStatus('Captures\x20Available!');}else{if(Game['moves'][_0x44d8f1(0x273)][_0x44d8f1(0x2b4)]==0x0)return GameOver(),Prms(!![]);else{await UpdatePiecesStatus();if(Game[_0x44d8f1(0x2c5)])return Game[_0x44d8f1(0x17c)]=0x0,Game[_0x44d8f1(0x184)]=0x1,Prms(![]);if(Game['level']>0x0&&playerA[_0x44d8f1(0x15f)]==playerB[_0x44d8f1(0x15f)]&&playerA['pieces']<=0x2){if(Game[_0x44d8f1(0x17c)]==0xc){GameOver(!![]);return;}else Game[_0x44d8f1(0x17c)]++;}else{if(Game[_0x44d8f1(0x1ce)]>0x0&&playerA[_0x44d8f1(0x3ac)]==playerA[_0x44d8f1(0x15f)]&&playerB[_0x44d8f1(0x3ac)]==playerB[_0x44d8f1(0x15f)]&&playerA[_0x44d8f1(0x15f)]+playerB[_0x44d8f1(0x15f)]<=0x6){if(Game[_0x44d8f1(0x17c)]==0xc){GameOver(!![]);return;}else Game[_0x44d8f1(0x17c)]++;}}if((playerB['pieceColor']==_0x44d8f1(0x40d)&&Game[_0x44d8f1(0x370)]||playerB[_0x44d8f1(0x1c3)]==_0x44d8f1(0x23d)&&!Game['whiteTurn'])&&playerA[_0x44d8f1(0x310)]%0x2==0x0){if(JSON[_0x44d8f1(0x1db)](Game[_0x44d8f1(0x300)])==JSON[_0x44d8f1(0x1db)](Game[_0x44d8f1(0x261)])){if(Game[_0x44d8f1(0x184)]===0x2){GameOver(!![]);return;}else Game[_0x44d8f1(0x184)]++;}else Game[_0x44d8f1(0x184)]=0x1,Game[_0x44d8f1(0x300)]=Copy(Game['state']);}}}return Prms(![]);};}const ValidateMove=async _0x29c439=>{const _0x8a7624=_0x1fe42c;if(!_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x1f6)][_0x8a7624(0x308)](_0x8a7624(0x1b8)))return;if(!Game['over']){let _0x2c02f0=_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)]&&_0x29c439[_0x8a7624(0x1b8)]['lastChild'][_0x8a7624(0x416)][_0x8a7624(0x2ed)](_0x8a7624(0x154))||_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x1b4)][_0x8a7624(0x2b4)]==0x0,_0xc69be6=_0x2c02f0&&Game['pieceSelected']||!_0x2c02f0&&(Game[_0x8a7624(0x382)]===_0x8a7624(0x403)&&(Game[_0x8a7624(0x370)]&&_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)][_0x8a7624(0x416)][_0x8a7624(0x2ed)]('piece_white')||!Game[_0x8a7624(0x370)]&&_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)]['className'][_0x8a7624(0x2ed)](_0x8a7624(0x17d)))||_0x29c439['isComputer']&&_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)]['className'][_0x8a7624(0x2ed)](playerB[_0x8a7624(0x1c3)][_0x8a7624(0x113)]())||Game[_0x8a7624(0x370)]&&_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)][_0x8a7624(0x416)][_0x8a7624(0x2ed)](_0x8a7624(0x3fd))&&playerA['pieceColor']=='White'||!Game[_0x8a7624(0x370)]&&_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x356)][_0x8a7624(0x416)]['includes'](_0x8a7624(0x17d))&&playerA[_0x8a7624(0x1c3)]==_0x8a7624(0x23d));if(_0xc69be6){let _0x116600=Game[_0x8a7624(0x261)][_0x29c439['i']][_0x29c439['j']],_0x584ab2=''+_0x29c439['i']+_0x29c439['j'];if(Game[_0x8a7624(0x310)][_0x8a7624(0x328)][_0x8a7624(0x2b4)]>0x0&&!_0x2c02f0){for(let _0x4e1650 of Game[_0x8a7624(0x310)]['captures']){if(_0x4e1650['cell']==_0x584ab2){_0x29c439[_0x8a7624(0x235)]=!![],await new Move(_0x29c439);if(general['sorted'][_0x8a7624(0x2b4)]>0x0){let _0x3c8231=[];for(let _0x51186c of general[_0x8a7624(0x2e0)]){if(_0x51186c[0x0][_0x8a7624(0x1b8)]==_0x584ab2)for(let _0x51a0c5 of _0x51186c){!JSON[_0x8a7624(0x1db)](_0x3c8231)['includes'](JSON[_0x8a7624(0x1db)](_0x51a0c5))&&_0x3c8231['push'](_0x51a0c5);}}if(Game['helper']||Game[_0x8a7624(0x108)]){if(Game[_0x8a7624(0x382)]==_0x8a7624(0x403)||Game[_0x8a7624(0x382)]==_0x8a7624(0x309)||Game[_0x8a7624(0x382)]==_0x8a7624(0x350)&&(Game[_0x8a7624(0x370)]&&playerA[_0x8a7624(0x1c3)]===_0x8a7624(0x40d)||!Game[_0x8a7624(0x370)]&&playerA[_0x8a7624(0x1c3)]===_0x8a7624(0x23d)))for(let _0x370fd1 of _0x3c8231){$(_0x8a7624(0x199))['children'][_0x370fd1['m']*Game[_0x8a7624(0x32b)]+_0x370fd1['n']][_0x8a7624(0x1f6)]['add'](_0x8a7624(0x240));}}return;}}}if(Game['mandatoryCapture']){!_0x2c02f0&&(_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x1f6)][_0x8a7624(0x194)](_0x8a7624(0x3e1)),void _0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x31b)],_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x1f6)][_0x8a7624(0x23f)]('invalid'),Notify[_0x8a7624(0x204)](_0x8a7624(0xd9)),setTimeout(()=>{const _0x4c4355=_0x8a7624;_0x29c439['cell'][_0x4c4355(0x1f6)]['remove'](_0x4c4355(0x3e1));},0x2ee));return;}}else{if(Game['moves']['captures'][_0x8a7624(0x2b4)]>0x0&&_0x2c02f0&&Game[_0x8a7624(0x255)]==_0x29c439[_0x8a7624(0x255)]){_0x29c439[_0x8a7624(0x107)]=!![];let _0x2d31bd=await new Move(_0x29c439);if(!_0x2d31bd){Game['pieceSelected']=![];for(let _0x2cef07 of general[_0x8a7624(0x2e0)]){let _0x2df2c5=_0x2cef07[0x0];if(!$(_0x8a7624(0x199))['children'][_0x2df2c5['i']*Game[_0x8a7624(0x32b)]+_0x2df2c5['j']][_0x8a7624(0x1f6)][_0x8a7624(0x308)](_0x8a7624(0x1b1)))$('#table')['children'][_0x2df2c5['i']*Game['boardSize']+_0x2df2c5['j']]['classList']['add'](_0x8a7624(0x1b1));}}return;}}if(!_0x2c02f0){Game[_0x8a7624(0x310)]=await AssesMoves({'id':_0x116600,'i':_0x29c439['i'],'j':_0x29c439['j'],'state':Game[_0x8a7624(0x261)]});if(Game['moves']['nonCaptures'][_0x8a7624(0x2b4)]>0x0){_0x29c439[_0x8a7624(0x331)]=!![],await new Move(_0x29c439);if(Game[_0x8a7624(0xe6)]&&!_0x29c439[_0x8a7624(0x255)])for(let _0x31adfd of Game['moves']['nonCaptures']){let _0x49e344=parseInt(_0x31adfd['empty'][_0x8a7624(0x157)](0x0,0x1)),_0x1c814d=parseInt(_0x31adfd['empty'][_0x8a7624(0x157)](0x1,0x2));$('#table')[_0x8a7624(0x1b4)][_0x49e344*Game['boardSize']+_0x1c814d][_0x8a7624(0x1f6)][_0x8a7624(0x23f)](_0x8a7624(0xdf));}return;}}else{if(Game[_0x8a7624(0x255)]==_0x29c439[_0x8a7624(0x255)])for(let _0x2ce00c of Game[_0x8a7624(0x310)][_0x8a7624(0x273)]){if(_0x2ce00c[_0x8a7624(0x2cc)]==_0x584ab2&&_0x2ce00c[_0x8a7624(0x1b8)]==''+Game['prop']['i']+Game[_0x8a7624(0x2ff)]['j']){_0x29c439[_0x8a7624(0x3a0)]=!![],await new Move(_0x29c439);return;}}}!_0x2c02f0&&(_0x29c439[_0x8a7624(0x1b8)][_0x8a7624(0x1f6)][_0x8a7624(0x194)](_0x8a7624(0x3e1)),void _0x29c439['cell'][_0x8a7624(0x31b)],_0x29c439['cell']['classList'][_0x8a7624(0x23f)](_0x8a7624(0x3e1)),setTimeout(()=>{const _0x154055=_0x8a7624;_0x29c439[_0x154055(0x1b8)][_0x154055(0x1f6)][_0x154055(0x194)]('invalid');},0x1f4));}}else GameOver();};class Timer{static ['AH']=0x0;static ['BH']=0x0;static ['AM']=0x0;static ['BM']=0x0;static [_0x1fe42c(0x22c)];static [_0x1fe42c(0x36c)]=_0xb54832=>{const _0x2f93c4=_0x1fe42c;clearInterval(this[_0x2f93c4(0x22c)]),this[_0x2f93c4(0x22c)]=setInterval(()=>{_0xb54832=='A'?(this['AM']++,this['AH']=this['AM']>=0x3c?this['AH']+0x1:this['AH'],this['AM']=this['AM']>=0x3c?0x0:this['AM']):(this['BM']++,this['BH']=this['BM']>=0x3c?this['BH']+0x1:this['BH'],this['BM']=this['BM']>=0x3c?0x0:this['BM']),this['show'](_0xb54832);},0x3e8);};static [_0x1fe42c(0x21d)]=()=>{const _0x27319=_0x1fe42c;clearInterval(this[_0x27319(0x22c)]);};static [_0x1fe42c(0x2c4)]=()=>{const _0x3956d0=_0x1fe42c;this['AH']=this['AM']=this['BH']=this['BM']=0x0;let _0x401cc7=$$('#play-window\x20.player_A_icon,\x20#play-window\x20.player_B_icon');_0x401cc7[0x0]['style']['backgroundImage']=_0x3956d0(0x3d2)+playerA[_0x3956d0(0x1c3)][_0x3956d0(0x113)]()+_0x3956d0(0x293),_0x401cc7[0x2]['style'][_0x3956d0(0x3b3)]=_0x3956d0(0x3d2)+playerA[_0x3956d0(0x1c3)][_0x3956d0(0x113)]()+_0x3956d0(0x293),_0x401cc7[0x1][_0x3956d0(0x2dd)][_0x3956d0(0x3b3)]='var(--'+playerB[_0x3956d0(0x1c3)]['toLowerCase']()+_0x3956d0(0x293),_0x401cc7[0x3]['style'][_0x3956d0(0x3b3)]=_0x3956d0(0x3d2)+playerB[_0x3956d0(0x1c3)][_0x3956d0(0x113)]()+_0x3956d0(0x293),_0x401cc7[0x0][_0x3956d0(0x1f6)]['remove']('black_icon',_0x3956d0(0x125)),_0x401cc7[0x0][_0x3956d0(0x1f6)][_0x3956d0(0x23f)](playerA[_0x3956d0(0x1c3)]['toLowerCase']()+'_icon'),_0x401cc7[0x2][_0x3956d0(0x1f6)]['remove']('black_icon',_0x3956d0(0x125)),_0x401cc7[0x2][_0x3956d0(0x1f6)][_0x3956d0(0x23f)](playerA[_0x3956d0(0x1c3)]['toLowerCase']()+'_icon'),_0x401cc7[0x1]['classList'][_0x3956d0(0x194)]('black_icon',_0x3956d0(0x125)),_0x401cc7[0x1]['classList'][_0x3956d0(0x23f)](playerB[_0x3956d0(0x1c3)]['toLowerCase']()+_0x3956d0(0x1de)),_0x401cc7[0x3]['classList'][_0x3956d0(0x194)](_0x3956d0(0xd6),_0x3956d0(0x125)),_0x401cc7[0x3][_0x3956d0(0x1f6)][_0x3956d0(0x23f)](playerB['pieceColor'][_0x3956d0(0x113)]()+_0x3956d0(0x1de)),this[_0x3956d0(0x14b)]('all');};static ['show']=_0x1b427b=>{const _0x5bdb44=_0x1fe42c;if(_0x1b427b=='A')$$(_0x5bdb44(0xed))[0x0][_0x5bdb44(0x262)]=(this['AH']+'')[_0x5bdb44(0x2e2)](0x2,'0')+':'+(this['AM']+'')[_0x5bdb44(0x2e2)](0x2,'0'),$$('.player_A_time')[0x1]['textContent']=(this['AH']+'')['padStart'](0x2,'0')+':'+(this['AM']+'')[_0x5bdb44(0x2e2)](0x2,'0');else{if(_0x1b427b=='B')$$(_0x5bdb44(0x1cc))[0x0][_0x5bdb44(0x262)]=(this['BH']+'')['padStart'](0x2,'0')+':'+(this['BM']+'')[_0x5bdb44(0x2e2)](0x2,'0'),$$(_0x5bdb44(0x1cc))[0x1][_0x5bdb44(0x262)]=(this['BH']+'')['padStart'](0x2,'0')+':'+(this['BM']+'')[_0x5bdb44(0x2e2)](0x2,'0');else _0x1b427b==_0x5bdb44(0x2b1)&&($$(_0x5bdb44(0xed))[0x0]['textContent']=(this['AH']+'')[_0x5bdb44(0x2e2)](0x2,'0')+':'+(this['AM']+'')[_0x5bdb44(0x2e2)](0x2,'0'),$$(_0x5bdb44(0xed))[0x1][_0x5bdb44(0x262)]=(this['AH']+'')[_0x5bdb44(0x2e2)](0x2,'0')+':'+(this['AM']+'')[_0x5bdb44(0x2e2)](0x2,'0'),$$(_0x5bdb44(0x1cc))[0x0][_0x5bdb44(0x262)]=(this['BH']+'')[_0x5bdb44(0x2e2)](0x2,'0')+':'+(this['BM']+'')['padStart'](0x2,'0'),$$(_0x5bdb44(0x1cc))[0x1][_0x5bdb44(0x262)]=(this['BH']+'')[_0x5bdb44(0x2e2)](0x2,'0')+':'+(this['BM']+'')[_0x5bdb44(0x2e2)](0x2,'0'));}};}const UpdatePiecesStatus=(_0x3cf187=null)=>{const _0x4139e0=_0x1fe42c;let _0x685753=$('#play-window\x20.footer_section\x20pre'),_0x184b14=$(_0x4139e0(0x1d7));if(_0x3cf187!=null)_0x685753[_0x4139e0(0x15c)]=_0x3cf187,_0x184b14[_0x4139e0(0x15c)]=_0x3cf187;else{_0x1e5787();if(Game[_0x4139e0(0x382)]===_0x4139e0(0x350)){let _0x5b5255=[$$(_0x4139e0(0x2bf)),$$('#play-window\x20.middle_section\x20.score\x20label')];if(Game[_0x4139e0(0x325)]){let _0x24bf2f=Math[_0x4139e0(0x302)](Game[_0x4139e0(0x32b)]/0x2*Game[_0x4139e0(0x3b4)]/0x4);if(playerA[_0x4139e0(0x15f)]<_0x24bf2f)for(let _0x3d6de1 of _0x5b5255){_0x3d6de1[0x0][_0x4139e0(0x1f6)]['remove']('not_achieved',_0x4139e0(0x254)),_0x3d6de1[0x1][_0x4139e0(0x1f6)]['remove'](_0x4139e0(0x30e),'achieved'),_0x3d6de1[0x2]['classList']['remove'](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x3d6de1[0x0]['classList'][_0x4139e0(0x23f)](_0x4139e0(0x30e)),_0x3d6de1[0x1][_0x4139e0(0x1f6)][_0x4139e0(0x23f)]('not_achieved'),_0x3d6de1[0x2]['classList'][_0x4139e0(0x23f)](_0x4139e0(0x30e));}else{if(playerA[_0x4139e0(0x15f)]>=_0x24bf2f&&playerA['pieces']<_0x24bf2f*0x2)for(let _0x1f40ec of _0x5b5255){_0x1f40ec[0x0][_0x4139e0(0x1f6)][_0x4139e0(0x194)](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x1f40ec[0x1][_0x4139e0(0x1f6)][_0x4139e0(0x194)](_0x4139e0(0x30e),'achieved'),_0x1f40ec[0x2][_0x4139e0(0x1f6)]['remove']('not_achieved',_0x4139e0(0x254)),_0x1f40ec[0x0][_0x4139e0(0x1f6)][_0x4139e0(0x23f)](_0x4139e0(0x254)),_0x1f40ec[0x1]['classList'][_0x4139e0(0x23f)]('not_achieved'),_0x1f40ec[0x2][_0x4139e0(0x1f6)][_0x4139e0(0x23f)](_0x4139e0(0x30e));}else{if(playerA[_0x4139e0(0x15f)]>=_0x24bf2f*0x2&&playerA[_0x4139e0(0x15f)]<_0x24bf2f*0x3)for(let _0x2c109d of _0x5b5255){_0x2c109d[0x0][_0x4139e0(0x1f6)]['remove'](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x2c109d[0x1][_0x4139e0(0x1f6)][_0x4139e0(0x194)](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x2c109d[0x2][_0x4139e0(0x1f6)]['remove'](_0x4139e0(0x30e),'achieved'),_0x2c109d[0x0]['classList'][_0x4139e0(0x23f)]('achieved'),_0x2c109d[0x1]['classList'][_0x4139e0(0x23f)](_0x4139e0(0x254)),_0x2c109d[0x2]['classList'][_0x4139e0(0x23f)](_0x4139e0(0x30e));}else{if(playerA[_0x4139e0(0x15f)]>=_0x24bf2f*0x3)for(let _0x20e166 of _0x5b5255){_0x20e166[0x0]['classList'][_0x4139e0(0x194)](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x20e166[0x1][_0x4139e0(0x1f6)][_0x4139e0(0x194)](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x20e166[0x2][_0x4139e0(0x1f6)]['remove'](_0x4139e0(0x30e),'achieved'),_0x20e166[0x0]['classList'][_0x4139e0(0x23f)](_0x4139e0(0x254)),_0x20e166[0x1][_0x4139e0(0x1f6)][_0x4139e0(0x23f)](_0x4139e0(0x254)),_0x20e166[0x2][_0x4139e0(0x1f6)][_0x4139e0(0x23f)](_0x4139e0(0x254));}}}}}else for(let _0x25b0e6 of _0x5b5255){_0x25b0e6[0x0]['classList'][_0x4139e0(0x194)](_0x4139e0(0x30e),'achieved'),_0x25b0e6[0x1][_0x4139e0(0x1f6)]['remove']('not_achieved','achieved'),_0x25b0e6[0x2][_0x4139e0(0x1f6)][_0x4139e0(0x194)](_0x4139e0(0x30e),_0x4139e0(0x254)),_0x25b0e6[0x0][_0x4139e0(0x1f6)]['add'](_0x4139e0(0x30e)),_0x25b0e6[0x1][_0x4139e0(0x1f6)]['add'](_0x4139e0(0x30e)),_0x25b0e6[0x2]['classList'][_0x4139e0(0x23f)]('not_achieved');}_0x685753[_0x4139e0(0x15c)]=playerA[_0x4139e0(0x1c3)]+':\x20'+playerA['pieces']+_0x4139e0(0x282)+playerB['pieceColor']+':\x20'+playerB['pieces'],_0x184b14['innerHTML']=playerA['pieceColor']+':\x20'+playerA[_0x4139e0(0x15f)]+'\x20\x20\x20\x20'+playerB[_0x4139e0(0x1c3)]+':\x20'+playerB[_0x4139e0(0x15f)];}else _0x685753[_0x4139e0(0x15c)]=playerA[_0x4139e0(0x3b9)]+'\x20('+playerA[_0x4139e0(0x1c3)]+_0x4139e0(0x228)+playerA['pieces']+_0x4139e0(0x282)+playerB[_0x4139e0(0x3b9)]+'\x20('+playerB[_0x4139e0(0x1c3)]+_0x4139e0(0x228)+playerB[_0x4139e0(0x15f)],_0x184b14[_0x4139e0(0x15c)]=playerA['name']+'\x20('+playerA[_0x4139e0(0x1c3)]+_0x4139e0(0x228)+playerA['pieces']+'\x20\x20\x20\x20'+playerB[_0x4139e0(0x3b9)]+'\x20('+playerB[_0x4139e0(0x1c3)]+_0x4139e0(0x228)+playerB[_0x4139e0(0x15f)];}function _0x1e5787(){const _0x18a2a4=_0x4139e0;let _0x3b9d6a=playerA[_0x18a2a4(0x1c3)][_0x18a2a4(0x157)](0x0,0x1),_0x216007=playerB[_0x18a2a4(0x1c3)][_0x18a2a4(0x157)](0x0,0x1);playerA[_0x18a2a4(0x15f)]=playerB[_0x18a2a4(0x15f)]=0x0,playerA[_0x18a2a4(0x3ac)]=playerB['kings']=0x0;for(let _0x4d9b54 of Game[_0x18a2a4(0x261)]){for(let _0x1e1249 of _0x4d9b54){if(_0x1e1249[_0x18a2a4(0x2ed)](_0x3b9d6a)){playerA[_0x18a2a4(0x15f)]++;if(_0x1e1249['includes']('K'))playerA['kings']++;}else{if(_0x1e1249[_0x18a2a4(0x2ed)](_0x216007)){playerB[_0x18a2a4(0x15f)]++;if(_0x1e1249[_0x18a2a4(0x2ed)]('K'))playerB[_0x18a2a4(0x3ac)]++;}}}}}},GameOver=async(_0x286bb9=![])=>{const _0x54caa1=_0x1fe42c;let _0x2c2be7,_0xde7295=Game[_0x54caa1(0x370)]&&playerA[_0x54caa1(0x1c3)][_0x54caa1(0x2ed)](_0x54caa1(0x40d))||!Game[_0x54caa1(0x370)]&&playerA[_0x54caa1(0x1c3)][_0x54caa1(0x2ed)](_0x54caa1(0x23d))?playerA[_0x54caa1(0x3b9)]:playerB['name'],_0x314e50=![];!_0x286bb9&&(_0x314e50=playerA[_0x54caa1(0x15f)]===playerB[_0x54caa1(0x15f)]&&playerA[_0x54caa1(0x15f)]===Game['boardSize']/0x2*Game[_0x54caa1(0x3b4)],_0x286bb9=_0x314e50);general[_0x54caa1(0x2e7)]=![],Timer[_0x54caa1(0x21d)]();if(Game[_0x54caa1(0x382)]===_0x54caa1(0x350)){!Game['over']&&!_0x286bb9&&(_0xde7295===playerA[_0x54caa1(0x3b9)]?AudioPlayer[_0x54caa1(0x183)](_0x54caa1(0x30a),0x1):AudioPlayer['play'](_0x54caa1(0x2a8),0x1));if(_0xde7295===playerA['name']&&!_0x286bb9)_0x2c2be7=await Notify['confirm']({'header':'YOU\x20LOSE!','message':_0x54caa1(0x1f2),'type':_0x54caa1(0x2eb),'icon':Icons[_0x54caa1(0x2a4)],'iconType':_0x54caa1(0x1d4)});else{if(_0x286bb9)_0x314e50?_0x2c2be7=await Notify[_0x54caa1(0x2da)]({'header':_0x54caa1(0x3a1),'message':_0x54caa1(0x249),'type':_0x54caa1(0x2eb),'icon':Icons[_0x54caa1(0x15e)],'iconType':_0x54caa1(0x13b)}):_0x2c2be7=await Notify[_0x54caa1(0x3e3)]({'header':_0x54caa1(0x3a1),'message':_0x54caa1(0x3c4),'type':'MENU/CONTINUE/REPLAY','icon':Icons['drawIcon'],'iconType':_0x54caa1(0x13b)});else{if(Game['validForHint']){let _0x31d1b5=$$(_0x54caa1(0x324))[Game[_0x54caa1(0x1ce)]][_0x54caa1(0x1b4)][0x1]['children'],_0x1d1f5e=Game[_0x54caa1(0x40e)][Game[_0x54caa1(0x1ce)]][_0x54caa1(0x3bf)];if(_0x1d1f5e<playerA[_0x54caa1(0x15f)]){let _0x5f2e12=Math['floor'](Game[_0x54caa1(0x32b)]/0x2*Game[_0x54caa1(0x3b4)]/0x4);if(playerA[_0x54caa1(0x15f)]>=_0x5f2e12&&playerA[_0x54caa1(0x15f)]<_0x5f2e12*0x2)_0x31d1b5[0x2]['classList'][_0x54caa1(0x194)]('not_achieved',_0x54caa1(0x254)),_0x31d1b5[0x2][_0x54caa1(0x1f6)][_0x54caa1(0x23f)]('achieved');else{if(playerA['pieces']>=_0x5f2e12*0x2&&playerA['pieces']<_0x5f2e12*0x3)_0x31d1b5[0x2][_0x54caa1(0x1f6)][_0x54caa1(0x194)](_0x54caa1(0x30e),_0x54caa1(0x254)),_0x31d1b5[0x1][_0x54caa1(0x1f6)][_0x54caa1(0x194)]('not_achieved',_0x54caa1(0x254)),_0x31d1b5[0x2][_0x54caa1(0x1f6)][_0x54caa1(0x23f)](_0x54caa1(0x254)),_0x31d1b5[0x1]['classList'][_0x54caa1(0x23f)]('achieved');else playerA[_0x54caa1(0x15f)]>=_0x5f2e12*0x3&&(_0x31d1b5[0x2][_0x54caa1(0x1f6)][_0x54caa1(0x194)](_0x54caa1(0x30e),'achieved'),_0x31d1b5[0x1][_0x54caa1(0x1f6)][_0x54caa1(0x194)](_0x54caa1(0x30e),_0x54caa1(0x254)),_0x31d1b5[0x0]['classList'][_0x54caa1(0x194)](_0x54caa1(0x30e),_0x54caa1(0x254)),_0x31d1b5[0x2][_0x54caa1(0x1f6)][_0x54caa1(0x23f)]('achieved'),_0x31d1b5[0x1]['classList'][_0x54caa1(0x23f)](_0x54caa1(0x254)),_0x31d1b5[0x0][_0x54caa1(0x1f6)]['add'](_0x54caa1(0x254)));}}_0x1d1f5e=Math[_0x54caa1(0x3cd)](playerA[_0x54caa1(0x15f)],_0x1d1f5e),Game[_0x54caa1(0x40e)][Game[_0x54caa1(0x1ce)]][_0x54caa1(0x3bf)]=_0x1d1f5e;}let _0x2ff083=Game[_0x54caa1(0x1ce)];if(_0x2ff083<Game[_0x54caa1(0x40e)][_0x54caa1(0x2b4)]-0x1)await Level(![]);let _0x52e80c=[_0x54caa1(0x2f4),'Kudos!\x20You\x20are\x20doing\x20great.\x20👍',_0x54caa1(0x1f7),_0x54caa1(0x405),_0x54caa1(0x3ec),'Amazing!\x20You\x20are\x20a\x20pro\x20indeed.\x20😱',_0x54caa1(0x39d),'What\x20can\x20I\x20say\x20Master\x20🤷‍♂️!\x20Wonderful!',_0x54caa1(0x2b7)];_0x2c2be7=await Notify[_0x2ff083<Game['levels']['length']-0x1?_0x54caa1(0x3e3):'confirm']({'header':_0x54caa1(0x225),'message':_0x52e80c[_0x2ff083]+_0x54caa1(0x379)+(_0x2ff083<Game[_0x54caa1(0x40e)]['length']-0x1?_0x54caa1(0x296)+Game[_0x54caa1(0x40e)][Game[_0x54caa1(0x1ce)]+0x1][_0x54caa1(0x1ce)][_0x54caa1(0x113)]()[_0x54caa1(0xd5)](/^\w/,_0x459142=>_0x459142[_0x54caa1(0x3cc)]())+'.':''),'type':_0x2ff083<Game[_0x54caa1(0x40e)][_0x54caa1(0x2b4)]-0x1?_0x54caa1(0x1df):_0x54caa1(0x2eb),'icon':Icons[_0x54caa1(0x11d)],'iconType':'winner'});}}}else{if(Game[_0x54caa1(0x382)]===_0x54caa1(0x403)){if(!Game['over']&&!_0x286bb9)AudioPlayer[_0x54caa1(0x183)]('gameWin',0x1);if(!_0x286bb9)_0x2c2be7=await Notify[_0x54caa1(0x2da)]({'header':'CONGRATULATIONS\x20'+(_0xde7295===playerA[_0x54caa1(0x3b9)])?playerB[_0x54caa1(0x3b9)][_0x54caa1(0x3cc)]():playerA[_0x54caa1(0x3b9)][_0x54caa1(0x3cc)]()+'!','message':_0x54caa1(0x386)+_0xde7295+_0x54caa1(0x21a),'type':'MENU/REMATCH','icon':Icons['winnerIcon'],'iconType':_0x54caa1(0x2be)});else _0x286bb9&&(_0x314e50?_0x2c2be7=await Notify[_0x54caa1(0x2da)]({'header':'DRAW!','message':_0x54caa1(0x3f8),'type':'MENU/REMATCH','icon':Icons['drawIcon'],'iconType':_0x54caa1(0x13b)}):_0x2c2be7=await Notify[_0x54caa1(0x3e3)]({'header':_0x54caa1(0x3a1),'message':_0x54caa1(0x400),'type':_0x54caa1(0x179),'icon':Icons['drawIcon'],'iconType':_0x54caa1(0x13b)}));}else{if(Game[_0x54caa1(0x382)]===_0x54caa1(0x309)){!Game[_0x54caa1(0x3a3)]&&!_0x286bb9&&(_0xde7295===playerA['name']?AudioPlayer[_0x54caa1(0x183)](_0x54caa1(0x30a),0x1):AudioPlayer[_0x54caa1(0x183)](_0x54caa1(0x2a8),0x1));if(_0xde7295===playerA['name']&&!_0x286bb9)_0x2c2be7=await Notify['confirm']({'header':_0x54caa1(0x16d),'message':_0x54caa1(0x10c),'type':_0x54caa1(0x316),'icon':Icons[_0x54caa1(0x2a4)],'iconType':_0x54caa1(0x1d4)});else{if(_0x286bb9)_0x314e50?_0x2c2be7=await Notify[_0x54caa1(0x2da)]({'header':_0x54caa1(0x3a1),'message':_0x54caa1(0x3f8),'type':_0x54caa1(0x316),'icon':Icons[_0x54caa1(0x15e)],'iconType':'draw'}):_0x2c2be7=await Notify[_0x54caa1(0x3e3)]({'header':'DRAW!','message':_0x54caa1(0x159),'type':_0x54caa1(0x120),'icon':Icons['drawIcon'],'iconType':'draw'});else _0x2c2be7=await Notify[_0x54caa1(0x2da)]({'header':'YOU\x20WIN!','message':_0x54caa1(0x128)+playerB[_0x54caa1(0x3b9)]+_0x54caa1(0x38b),'type':'MENU/REMATCH','icon':Icons['winnerIcon'],'iconType':_0x54caa1(0x2be)});}}}}(!_0x286bb9||_0x314e50)&&(Game['over']=!![]);if(Game[_0x54caa1(0x3a3)])await UpdatePiecesStatus('Game\x20Over!');Game[_0x54caa1(0x13b)]=_0x286bb9,Game[_0x54caa1(0x3b9)]=_0xde7295;if(!general[_0x54caa1(0x2e7)]){if(_0x2c2be7==='MENU'){await AddItem(),back();return;}else{if(_0x2c2be7==='REPLAY'||_0x2c2be7=='REMATCH'){if(Game[_0x54caa1(0x382)]==='two-player-online'){if(Game[_0x54caa1(0x33c)]){let _0x45a0c5=playerA[_0x54caa1(0x1c3)];await Alternate(_0x45a0c5);}if(Game[_0x54caa1(0x277)])Game[_0x54caa1(0x312)]=await RollDice(),Game[_0x54caa1(0x370)]=Game[_0x54caa1(0x312)]&&playerA[_0x54caa1(0x1c3)]===_0x54caa1(0x40d)||!Game[_0x54caa1(0x312)]&&playerA[_0x54caa1(0x1c3)]===_0x54caa1(0x23d)?!![]:![];else{let _0x5dc322=$$('#item3\x20button');Game[_0x54caa1(0x370)]=GetValue(_0x5dc322[0x0],_0x54caa1(0x24b))==general[_0x54caa1(0x410)],Game[_0x54caa1(0x312)]=Game[_0x54caa1(0x370)];}Notify[_0x54caa1(0x204)](_0x54caa1(0x211)+playerB['name']),Notify['alertSpecial']({'header':_0x54caa1(0xe0),'message':_0x54caa1(0x28f)});let _0x1808bc={'firstMove':!Game[_0x54caa1(0x312)],'mandatoryCapture':Game['mandatoryCapture'],'version':Game['version']};Publish[_0x54caa1(0x242)]({'channel':Lobby[_0x54caa1(0x13c)],'message':{'title':_0x54caa1(0x23b),'content':_0x1808bc}});return;}await AddItem(),await setTimeout(_0x1c528b=>{Refresh(!![]);},0xc8);return;}else{if(_0x2c2be7===_0x54caa1(0xff))await AddItem(),await Level(!![]);else{if(_0x2c2be7===_0x54caa1(0x22a)){Timer[_0x54caa1(0x36c)](),Game['baseStateCount']=0x1,Game['drawStateCount']=0x0,Game[_0x54caa1(0x300)]=Copy(Game[_0x54caa1(0x261)]);if(Game[_0x54caa1(0x382)]===_0x54caa1(0x350)&&(Game['whiteTurn']&&playerB[_0x54caa1(0x1c3)][_0x54caa1(0x2ed)]('W')||!Game['whiteTurn']&&playerB[_0x54caa1(0x1c3)][_0x54caa1(0x2ed)]('B'))){let _0x5a1a26=playerB['pieceColor'][_0x54caa1(0x2af)](0x0,0x1),_0x150340=Copy(Game['state']),_0x5d6ab5=await AssessAll({'id':_0x5a1a26,'state':_0x150340,'func':AssesMoves}),_0x5286bc=new AI({'state':_0x150340,'moves':_0x5d6ab5,'depth':Game[_0x54caa1(0x1ce)]});await _0x5286bc['makeMove'](![]);}}}}}general[_0x54caa1(0x2e7)]=!![];}else return;},AddItem=async function(){const _0x52e81c=_0x1fe42c;let _0x399cfd=Game['name'],_0x31f169=Game['draw'],_0x3166c2=Game[_0x52e81c(0x3d6)];Game[_0x52e81c(0x40e)][Game[_0x52e81c(0x1ce)]][_0x52e81c(0x325)]=Game[_0x52e81c(0x325)],playerA['captures']=Game[_0x52e81c(0x32b)]/0x2*Game['rowNo']-playerB[_0x52e81c(0x15f)],playerB[_0x52e81c(0x328)]=Game[_0x52e81c(0x32b)]/0x2*Game[_0x52e81c(0x3b4)]-playerA[_0x52e81c(0x15f)],Game['stats'][_0x52e81c(0x158)]({'playerName':[playerA[_0x52e81c(0x3b9)],playerB[_0x52e81c(0x3b9)]],'pieceColor':[playerA[_0x52e81c(0x1c3)][_0x52e81c(0x3cc)](),playerB[_0x52e81c(0x1c3)][_0x52e81c(0x3cc)]()],'gameStatus':[_0x31f169?_0x52e81c(0x250):_0x399cfd===playerA[_0x52e81c(0x3b9)]?'LOST':'WON',_0x31f169?_0x52e81c(0x250):_0x399cfd===playerB['name']?'LOST':_0x52e81c(0x377)],'piecesRemaining':[playerA[_0x52e81c(0x15f)],playerB[_0x52e81c(0x15f)]],'kingsMade':[playerA[_0x52e81c(0x3ac)],playerB[_0x52e81c(0x3ac)]],'movesMade':[playerA['moves'],playerB['moves']],'capturesMade':[playerA[_0x52e81c(0x328)],playerB[_0x52e81c(0x328)]],'longestCapture':[playerA[_0x52e81c(0xf3)],playerB[_0x52e81c(0xf3)]],'time':[(Timer['AH']+'')[_0x52e81c(0x2e2)](0x2,'0')+':'+(Timer['AM']+'')[_0x52e81c(0x2e2)](0x2,'0'),(Timer['BH']+'')[_0x52e81c(0x2e2)](0x2,'0')+':'+(Timer['BM']+'')[_0x52e81c(0x2e2)](0x2,'0')],'ms':_0x3166c2[_0x52e81c(0x208)](),'mode':Game['mode']});let _0x575167=Game[_0x52e81c(0xef)][_0x52e81c(0x2b4)],_0x3b6fc3=$('#games-window\x20#games'),_0x36b869=$$$('section',[_0x52e81c(0x151),_0x52e81c(0xe8),'date',_0x3166c2[_0x52e81c(0x22e)]()]),_0x2a6c46=_0x3b6fc3['$'](_0x52e81c(0x1f3)+_0x3166c2[_0x52e81c(0x22e)]()+_0x52e81c(0xd7));if(!_0x2a6c46){let _0x1e6239=_0x52e81c(0x344);if(!_0x2a6c46){let _0x9d460a=$$$(_0x52e81c(0x2ae),[_0x52e81c(0x151),_0x52e81c(0x2bd),'date',_0x3166c2[_0x52e81c(0x22e)](),_0x52e81c(0x262),_0x1e6239]);_0x3b6fc3['appendChild'](_0x9d460a),_0x2a6c46=_0x9d460a;}}let _0x354725=$$$('p',[_0x52e81c(0x15c),playerA[_0x52e81c(0x3b9)]+_0x52e81c(0x1d2)+playerB[_0x52e81c(0x3b9)]+_0x52e81c(0x369)+Game['version'][_0x52e81c(0x25d)](/^\w|\s\w/g,_0x47773d=>_0x47773d[_0x52e81c(0x3cc)]())+_0x52e81c(0x3bb)+(Game[_0x52e81c(0x382)]==_0x52e81c(0x350)?'<br>'+Game['levels'][Game[_0x52e81c(0x1ce)]]['level'][_0x52e81c(0x113)]()['replaceAll'](/^\w|\s\w/g,_0x53ac87=>_0x53ac87[_0x52e81c(0x3cc)]()):Game[_0x52e81c(0x382)]['replaceAll'](/^\w|\s\w/gi,_0x21e3f8=>_0x21e3f8[_0x52e81c(0x3cc)]()))+'\x20&nbsp&nbsp('+ConvertTo(_0x3166c2[_0x52e81c(0x376)](),0xc)+_0x52e81c(0x339)]),_0x1243d7=$$$(_0x52e81c(0x1b7),[_0x52e81c(0x151),_0x52e81c(0x410),_0x52e81c(0x262),'SEE\x20STATS']);_0x1243d7['addEventListener'](_0x52e81c(0x3c0),()=>GetStats(_0x575167-0x1),![]),_0x36b869[_0x52e81c(0x213)](_0x354725),_0x36b869[_0x52e81c(0x213)](_0x1243d7),_0x3b6fc3[_0x52e81c(0x191)](_0x36b869,_0x2a6c46[_0x52e81c(0x188)]),$('.totals_footer\x20p')[_0x52e81c(0x262)]=_0x52e81c(0x2f3)+_0x575167+_0x52e81c(0x144)+(_0x575167>0x1?'s':'')+_0x52e81c(0x10a),Game['mode']===_0x52e81c(0x350)&&(Game[_0x52e81c(0xef)][_0x575167-0x1]['level']=Game['levels'][Game[_0x52e81c(0x1ce)]]['level']),Game[_0x52e81c(0xef)][_0x575167-0x1]['version']=Game['version']['substring'](0x0,0x3)[_0x52e81c(0x3cc)](),GetTotals(),storage&&storage[_0x52e81c(0x388)](_0x52e81c(0x337),JSON[_0x52e81c(0x1db)](Game['stats']));};class AudioPlayer{static ['play']=async(_0x19d2cb,_0x131eb3)=>{const _0x1203e9=_0x1fe42c;if(!Sound[_0x1203e9(0x280)])try{Sound[_0x19d2cb][_0x1203e9(0x280)]=![],Sound[_0x19d2cb]['volume']=_0x131eb3,Sound[_0x19d2cb]['pause'](),Sound[_0x19d2cb][_0x1203e9(0x2d0)]=0x0,setTimeout(_0x46c701=>Sound[_0x19d2cb][_0x1203e9(0x183)](),0.1);}catch(_0x51139b){}};static [_0x1fe42c(0xd4)]=()=>{const _0xdd88e7=_0x1fe42c;Sound[_0xdd88e7(0x3c0)][_0xdd88e7(0x280)]=!![],Sound[_0xdd88e7(0x235)][_0xdd88e7(0x280)]=!![],Sound['king'][_0xdd88e7(0x280)]=!![],Sound[_0xdd88e7(0x37b)]['muted']=!![],Sound[_0xdd88e7(0x2a8)]['muted']=!![],Sound[_0xdd88e7(0x30a)][_0xdd88e7(0x280)]=!![],Sound[_0xdd88e7(0x2ba)][_0xdd88e7(0x280)]=!![],Sound[_0xdd88e7(0x3c0)][_0xdd88e7(0x183)](),Sound[_0xdd88e7(0x235)]['play'](),Sound[_0xdd88e7(0x32e)][_0xdd88e7(0x183)](),Sound[_0xdd88e7(0x37b)][_0xdd88e7(0x183)](),Sound['gameWin'][_0xdd88e7(0x183)](),Sound[_0xdd88e7(0x30a)][_0xdd88e7(0x183)](),Sound['notification'][_0xdd88e7(0x183)]();};}const Clicked=async(_0x5c01b9,_0x17eba1,_0x36997b=!![])=>{const _0x4efc3a=_0x1fe42c;if(_0x36997b)AudioPlayer[_0x4efc3a(0x183)](_0x4efc3a(0x3c0),0x1);if(_0x5c01b9!=undefined&&_0x5c01b9[_0x4efc3a(0x116)](_0x4efc3a(0x266))!='locked'||_0x5c01b9!=undefined&&!_0x36997b){let _0x721d8a=_0x17eba1[_0x4efc3a(0x1b4)];for(let _0x1392ed of _0x721d8a){if(_0x17eba1['id']!=='vc'&&_0x1392ed[_0x4efc3a(0x243)][_0x4efc3a(0x113)]()==_0x4efc3a(0x3be)||_0x17eba1['id']!=='vc'&&_0x1392ed[_0x4efc3a(0x243)][_0x4efc3a(0x113)]()==_0x4efc3a(0x1b7))_0x1392ed[_0x4efc3a(0x2dd)]['background']=general[_0x4efc3a(0x245)];else _0x17eba1['id']==='vc'&&_0x1392ed[_0x4efc3a(0x1f6)][_0x4efc3a(0x194)]('default');}if(_0x17eba1['id']===_0x4efc3a(0x2d6))$('#'+_0x17eba1['parentNode']['id']+'\x20h2')[_0x4efc3a(0x15c)]=_0x5c01b9[_0x4efc3a(0x1b4)][0x0][_0x4efc3a(0x15c)][_0x4efc3a(0xd5)](_0x4efc3a(0x379),'\x20');else{if(_0x17eba1['id']===_0x4efc3a(0x36e)){$('#'+_0x17eba1['id']+_0x4efc3a(0x21e))['innerHTML']=_0x5c01b9['innerHTML'][_0x4efc3a(0x2f6)]('<br>')[_0x4efc3a(0x3f4)]('\x20');if(_0x5c01b9[_0x4efc3a(0x116)](_0x4efc3a(0x266))==_0x4efc3a(0x350))$('#main-window\x20#levels\x20h2')['style'][_0x4efc3a(0x2e4)]=_0x4efc3a(0x285);else $(_0x4efc3a(0x2c2))[_0x4efc3a(0x2dd)][_0x4efc3a(0x2e4)]=_0x4efc3a(0x307);}}if(_0x17eba1['id']!=='vc')_0x5c01b9['style']['background']=general[_0x4efc3a(0x410)];else _0x5c01b9[_0x4efc3a(0x1f6)][_0x4efc3a(0x23f)](_0x4efc3a(0x410)),await Scroll(_0x5c01b9,{'block':_0x4efc3a(0x135),'inline':_0x4efc3a(0x166),'behavior':_0x4efc3a(0x3ae)},_0x5c01b9['parentNode'][_0x4efc3a(0x3a8)]);if(_0x17eba1['id']==_0x4efc3a(0x36e)||_0x17eba1['id']==_0x4efc3a(0x2d6)){for(let _0x1a3c87 of _0x721d8a){!_0x1a3c87['tagName']['includes']('H')&&(_0x1a3c87[_0x4efc3a(0x2dd)][_0x4efc3a(0x2e4)]=_0x4efc3a(0x23a));}if(_0x5c01b9[_0x4efc3a(0x116)](_0x4efc3a(0x266))==='single-player'||_0x17eba1['id']===_0x4efc3a(0x2d6)){if(_0x17eba1['id']===_0x4efc3a(0x2d6))general['level']=_0x5c01b9;await Enable($(_0x4efc3a(0x319)),general[_0x4efc3a(0x245)],'#fff');}else await Disable($(_0x4efc3a(0x319)),general[_0x4efc3a(0xe2)],_0x4efc3a(0x33d));}}else{if(_0x5c01b9!=undefined&&_0x5c01b9[_0x4efc3a(0x116)](_0x4efc3a(0x266))==_0x4efc3a(0x3c3)){clearTimeout(general[_0x4efc3a(0x25c)]),_0x5c01b9[_0x4efc3a(0x1b4)][0x1][_0x4efc3a(0x2dd)][_0x4efc3a(0x168)]=_0x4efc3a(0x318);let _0x56849b=GetValue(_0x5c01b9[_0x4efc3a(0x1b4)][0x1],_0x4efc3a(0x1f1));_0x5c01b9[_0x4efc3a(0x1b4)][0x1][_0x4efc3a(0x2dd)][_0x4efc3a(0x168)]=parseInt(_0x56849b)+0x8+'px',general[_0x4efc3a(0x25c)]=setTimeout(()=>{const _0x24131d=_0x4efc3a;_0x5c01b9[_0x24131d(0x1b4)][0x1]['style'][_0x24131d(0x168)]=_0x24131d(0x318),Notify['popUpNote']('To\x20unlock\x20this\x20level,\x20you\x20must\x20win\x20the\x20previous\x20level.');},0x12c);return;}}general['initialLoading']&&_0x36997b&&(AudioPlayer[_0x4efc3a(0xd4)](),general[_0x4efc3a(0x335)]=![]);},Scroll=async(_0x31012c,_0x486bce,_0x5be142)=>{const _0x3a742f=new Promise((_0x1d99cf,_0x235b54)=>{const _0x3841fd=_0x197c;let _0x1a0ccc=null,_0x558d4b=_0x31012c['scrollLeft'];_0x31012c instanceof Element?(clearTimeout(_0x1a0ccc),_0x5be142[_0x3841fd(0x22d)](_0x3841fd(0x127),_0x1e7374,![]),_0x31012c[_0x3841fd(0x3bd)](_0x486bce),_0x5be142['addEventListener'](_0x3841fd(0x127),_0x1e7374,![]),_0x1e7374()):_0x235b54(_0x3841fd(0x390));function _0x1e7374(){clearTimeout(_0x1a0ccc),_0x1a0ccc=setTimeout(()=>{const _0x36673e=_0x197c;_0x5be142[_0x36673e(0x22d)](_0x36673e(0x127),_0x1e7374,![]),_0x1d99cf(!![]);},0x12c);}});return _0x3a742f;},Disable=async(_0x59f629,_0x1b6efe,_0x5e55eb=_0x1fe42c(0x25e))=>{const _0x4d9f85=_0x1fe42c;let _0x19ef60=_0x59f629[_0x4d9f85(0x1b4)];_0x19ef60=!_0x19ef60[_0x4d9f85(0x2b4)]?[_0x59f629]:_0x19ef60;for(let _0x2a0c0a of _0x19ef60){_0x59f629['id']!=_0x4d9f85(0x36e)?(GetValue(_0x2a0c0a,_0x4d9f85(0x24b))===general[_0x4d9f85(0x410)]&&(general[_0x4d9f85(0x3e9)]=_0x2a0c0a),_0x2a0c0a['tagName'][_0x4d9f85(0x113)]()!='p'&&_0x2a0c0a[_0x4d9f85(0x243)][_0x4d9f85(0x113)]()!='h2'&&(_0x2a0c0a[_0x4d9f85(0x2dd)][_0x4d9f85(0x245)]=_0x1b6efe,_0x2a0c0a[_0x4d9f85(0x2dd)][_0x4d9f85(0x2e4)]=_0x5e55eb),_0x2a0c0a[_0x4d9f85(0x1b4)][_0x4d9f85(0x2b4)]>0x0&&(_0x2a0c0a['children'][0x0]['style'][_0x4d9f85(0x2e4)]=_0x5e55eb,!_0x2a0c0a['children'][0x1]['className'][_0x4d9f85(0x2ed)]('disabled')&&(_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x1f6)][_0x4d9f85(0x194)](_0x4d9f85(0xe2)),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1]['children'][0x0]['classList'][_0x4d9f85(0x194)]('disabled'),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1]['children'][0x1][_0x4d9f85(0x1f6)][_0x4d9f85(0x194)](_0x4d9f85(0xe2)),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x1b4)][0x2][_0x4d9f85(0x1f6)]['remove'](_0x4d9f85(0xe2)),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x1f6)][_0x4d9f85(0x23f)]('disabled'),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x1b4)][0x0][_0x4d9f85(0x1f6)]['add'](_0x4d9f85(0xe2)),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1]['children'][0x1][_0x4d9f85(0x1f6)][_0x4d9f85(0x23f)](_0x4d9f85(0xe2)),_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x1b4)][0x2][_0x4d9f85(0x1f6)][_0x4d9f85(0x23f)]('disabled'))),_0x2a0c0a[_0x4d9f85(0x2dd)][_0x4d9f85(0x3fc)]=_0x4d9f85(0x26e)):(_0x2a0c0a[_0x4d9f85(0x1b4)][_0x4d9f85(0x2b4)]>0x0&&(_0x2a0c0a['children'][0x0][_0x4d9f85(0x2dd)][_0x4d9f85(0x2e4)]=_0x5e55eb,_0x2a0c0a[_0x4d9f85(0x1b4)][0x1][_0x4d9f85(0x2dd)][_0x4d9f85(0x139)]='grayscale(100%)\x20brightness(50%)'),_0x2a0c0a['style']['pointerEvents']=_0x4d9f85(0x26e));}},Enable=async(_0xbd3588,_0x26a3f1,_0x5df3bc)=>{const _0x29c2ac=_0x1fe42c;let _0x176fd0=_0xbd3588[_0x29c2ac(0x1b4)];_0x176fd0=!_0x176fd0[_0x29c2ac(0x2b4)]?[_0xbd3588]:_0x176fd0;for(let _0x5964ee of _0x176fd0){if(_0xbd3588['id']!=_0x29c2ac(0x2d6)&&_0x5964ee===general[_0x29c2ac(0x3e9)]||_0x5964ee===general['level'])_0x5964ee[_0x29c2ac(0x2dd)][_0x29c2ac(0x245)]=general[_0x29c2ac(0x410)];else _0x5964ee[_0x29c2ac(0x243)][_0x29c2ac(0x113)]()!='p'&&_0x5964ee['tagName'][_0x29c2ac(0x113)]()!='h2'&&(_0x5964ee[_0x29c2ac(0x2dd)]['background']=_0x26a3f1,_0x5964ee[_0x29c2ac(0x2dd)][_0x29c2ac(0x2e4)]=_0x5df3bc);_0x5964ee[_0x29c2ac(0x1b4)][_0x29c2ac(0x2b4)]>0x0&&(_0x5964ee[_0x29c2ac(0x116)](_0x29c2ac(0x266))===_0x29c2ac(0x3c3)&&(_0x5964ee['style']['background']=general['disabled']),_0x5964ee['children'][0x0][_0x29c2ac(0x2dd)][_0x29c2ac(0x2e4)]=_0x5df3bc,_0x5964ee[_0x29c2ac(0x1b4)][0x1]['classList']['remove'](_0x29c2ac(0xe2)),_0x5964ee[_0x29c2ac(0x1b4)][0x1]['children'][0x0][_0x29c2ac(0x1f6)][_0x29c2ac(0x194)](_0x29c2ac(0xe2)),_0x5964ee[_0x29c2ac(0x1b4)][0x1][_0x29c2ac(0x1b4)][0x1][_0x29c2ac(0x1f6)][_0x29c2ac(0x194)](_0x29c2ac(0xe2)),_0x5964ee[_0x29c2ac(0x1b4)][0x1][_0x29c2ac(0x1b4)][0x2][_0x29c2ac(0x1f6)][_0x29c2ac(0x194)](_0x29c2ac(0xe2))),_0x5964ee[_0x29c2ac(0x2dd)][_0x29c2ac(0x3fc)]='auto';}_0xbd3588['id']==_0x29c2ac(0x2d6)&&await Scroll(general['level'],{'block':_0x29c2ac(0x135),'inline':_0x29c2ac(0x166),'behavior':'smooth'},general[_0x29c2ac(0x1ce)][_0x29c2ac(0x3a8)]);},Mute=_0x59b5f0=>{const _0x509cba=_0x1fe42c;_0x59b5f0==undefined&&(Sound[_0x509cba(0x280)]=!Sound['muted'],_0x59b5f0=Sound[_0x509cba(0x280)],_0x59b5f0?($('#unmute')['style']['background']=general[_0x509cba(0x245)],$(_0x509cba(0x1ee))[_0x509cba(0x2dd)][_0x509cba(0x245)]=general[_0x509cba(0x410)],Clicked()):($(_0x509cba(0x201))['style']['background']=general[_0x509cba(0x410)],$('#mute')[_0x509cba(0x2dd)][_0x509cba(0x245)]=general['background']));let _0xdcb4ce=$$('.middle_section\x20.horiz_controls:nth-of-type(6),\x20.controls_section\x20.controls:nth-of-type(6)');_0x59b5f0?(_0xdcb4ce[0x0][_0x509cba(0x2dd)][_0x509cba(0x3b3)]=_0x509cba(0x236),_0xdcb4ce[0x1]['style']['backgroundImage']=_0x509cba(0x236)):(_0xdcb4ce[0x0][_0x509cba(0x2dd)][_0x509cba(0x3b3)]=_0x509cba(0x1f0),_0xdcb4ce[0x1][_0x509cba(0x2dd)][_0x509cba(0x3b3)]='var(--sound-off)'),Sound[_0x509cba(0x280)]=_0x59b5f0,storage&&storage['setItem']('Checkers\x20-\x20muted',JSON[_0x509cba(0x1db)](Sound[_0x509cba(0x280)]));},Edit=(_0xbec2c8,_0x1f62c6)=>{const _0x46c1e2=_0x1fe42c;_0x1f62c6?_0xbec2c8['value']=_0xbec2c8['value'][_0x46c1e2(0xd5)](/\s+/g,''):_0xbec2c8[_0x46c1e2(0x266)]=_0xbec2c8[_0x46c1e2(0x266)][_0x46c1e2(0xd5)](/\s+/g,'\x20');},Submit=_0x373f55=>{const _0x3b659e=_0x1fe42c;_0x373f55[_0x3b659e(0x314)](),document['activeElement'][_0x3b659e(0x217)]();let _0x5915bf=GetValue($('#online'),_0x3b659e(0x301))==_0x3b659e(0x150);if(_0x5915bf){if(navigator['onLine'])ChannelFunction();else Notify['popUpNote']('You\x20are\x20offline,\x20please\x20turn\x20on\x20your\x20device\x20internet\x20connection\x20and\x20try\x20again.');}else{let _0xfa8a4a=$(_0x3b659e(0x413))[_0x3b659e(0x266)][_0x3b659e(0x30d)](),_0x23538c=$('#offline\x20#playerB\x20.playerB_name')['value'][_0x3b659e(0x30d)]();if(_0xfa8a4a!=''&&_0x23538c!='')playerA['name']=_0xfa8a4a[_0x3b659e(0xd5)](/^\w|\s\w/g,_0xfa62c4=>_0xfa62c4[_0x3b659e(0x3cc)]()),playerB[_0x3b659e(0x3b9)]=_0x23538c[_0x3b659e(0xd5)](/^\w|\s\w/g,_0x2c620a=>_0x2c620a[_0x3b659e(0x3cc)]()),Notify[_0x3b659e(0x204)]('Names\x20submitted\x20successfully!');else{if(_0xfa8a4a=='')$(_0x3b659e(0x413))['focus'](),Notify[_0x3b659e(0x204)]('Please\x20fill\x20out\x20player\x201\x20name.');else _0x23538c==''&&($(_0x3b659e(0x13f))[_0x3b659e(0x17e)](),Notify[_0x3b659e(0x204)](_0x3b659e(0x2f8)));}}},AboutOnline=()=>{const _0x5819a9=_0x1fe42c;Notify[_0x5819a9(0x13d)]({'header':'HOW\x20TO\x20CONNECT\x20ONLINE\x20CHANNEL','message':_0x5819a9(0x227)});},Restart=async _0x5124fe=>{const _0x4d7116=_0x1fe42c;if(Game[_0x4d7116(0x269)]){Notify[_0x4d7116(0x204)](_0x4d7116(0x260));return;}if(!Game[_0x4d7116(0x3a3)]){let _0x3aa14f=await Notify[_0x4d7116(0x2da)]({'header':_0x4d7116(0x11f),'message':_0x4d7116(0x406),'type':_0x4d7116(0x129)});Timer[_0x4d7116(0x21d)]();if(_0x3aa14f===_0x4d7116(0x3f2)){if(Game['mode']===_0x4d7116(0x309)){if(Game[_0x4d7116(0x33c)]){let _0x1ebd45=playerA['pieceColor'];await Alternate(_0x1ebd45);}if(Game[_0x4d7116(0x277)])Game[_0x4d7116(0x312)]=await RollDice(),Game[_0x4d7116(0x370)]=Game[_0x4d7116(0x312)]&&playerA['pieceColor']===_0x4d7116(0x40d)||!Game[_0x4d7116(0x312)]&&playerA[_0x4d7116(0x1c3)]===_0x4d7116(0x23d)?!![]:![];else{let _0x44b3fa=$$('#item3\x20button');Game[_0x4d7116(0x370)]=GetValue(_0x44b3fa[0x0],_0x4d7116(0x24b))==general[_0x4d7116(0x410)],Game[_0x4d7116(0x312)]=Game[_0x4d7116(0x370)];}Notify[_0x4d7116(0x204)](_0x4d7116(0x251)+playerB['name']),Notify[_0x4d7116(0x1b6)]({'header':_0x4d7116(0xe0),'message':_0x4d7116(0x28f)});let _0x4837={'firstMove':!Game[_0x4d7116(0x312)],'mandatoryCapture':Game[_0x4d7116(0x11c)],'version':Game['version']};Publish[_0x4d7116(0x242)]({'channel':Lobby['CHANNEL'],'message':{'title':_0x4d7116(0x1be),'content':_0x4837}});return;}Game[_0x4d7116(0x3b9)]=playerA[_0x4d7116(0x3b9)],await AddItem();if(Game[_0x4d7116(0x33c)]){let _0x275d65=playerA[_0x4d7116(0x1c3)];await Alternate(_0x275d65);}await setTimeout(_0x54c352=>{Refresh(!![]);},0xc8);}}else GameOver();},Hint=async(_0x3995e6,_0x25afbc=Copy(Game[_0x1fe42c(0x261)]))=>{const _0x45f18f=_0x1fe42c;if(Game[_0x45f18f(0x269)]){Notify[_0x45f18f(0x204)]('Please\x20wait\x20for\x20opponent\x27s\x20move');return;}if(!Game[_0x45f18f(0x3a3)]){if(Game['mode']===_0x45f18f(0x403)||Game[_0x45f18f(0x382)]==='two-player-online'&&(Game[_0x45f18f(0x370)]&&playerA[_0x45f18f(0x1c3)]===_0x45f18f(0x40d)||!Game[_0x45f18f(0x370)]&&playerA[_0x45f18f(0x1c3)]===_0x45f18f(0x23d))||Game[_0x45f18f(0x382)]===_0x45f18f(0x350)&&Game['hintCount']<0x3&&(Game['level']===0x0||Game[_0x45f18f(0x40e)][Game[_0x45f18f(0x1ce)]-0x1][_0x45f18f(0x325)])){if(Game[_0x45f18f(0x382)]==='single-player')Game[_0x45f18f(0x325)]=![],Game[_0x45f18f(0x3d4)]++,$$(_0x45f18f(0x17b))[0x0][_0x45f18f(0x262)]=Game[_0x45f18f(0x3d4)],$$(_0x45f18f(0x17b))[0x1]['textContent']=Game[_0x45f18f(0x3d4)],$$(_0x45f18f(0x274))[0x0][_0x45f18f(0x2dd)]['display']='block',$$(_0x45f18f(0x274))[0x1]['style']['display']=_0x45f18f(0x15b),UpdatePiecesStatus();else Game[_0x45f18f(0x382)]===_0x45f18f(0x309)&&Publish['send']({'channel':Lobby[_0x45f18f(0x13c)],'message':{'title':_0x45f18f(0x3c6)}});_0x3995e6['style'][_0x45f18f(0x168)]=_0x45f18f(0x291),_0x3995e6[_0x45f18f(0x2dd)][_0x45f18f(0x3b3)]=_0x45f18f(0x141)+Icons[_0x45f18f(0x131)]+'\x27)',_0x3995e6['style'][_0x45f18f(0x3fc)]=_0x45f18f(0x26e),general[_0x45f18f(0x205)]=[],await setTimeout(()=>_0x10da15(_0x3995e6,_0x25afbc),0x64);}else{if(Game['mode']===_0x45f18f(0x350)){clearTimeout(general[_0x45f18f(0x25c)]);let _0x25eedd=Game[_0x45f18f(0x1ce)]>0x0?Game[_0x45f18f(0x40e)][Game[_0x45f18f(0x1ce)]-0x1][_0x45f18f(0x325)]:!![];_0x3995e6[_0x45f18f(0x2dd)][_0x45f18f(0x168)]=_0x25eedd?_0x45f18f(0x3ad):_0x45f18f(0x394),_0x3995e6[_0x45f18f(0x2dd)]['backgroundSize']=_0x25eedd?'5.5vmax\x204.75vmax':_0x45f18f(0x354),general['timeout']=setTimeout(()=>{const _0x3ad61c=_0x45f18f;_0x3995e6['style'][_0x3ad61c(0x168)]=_0x25eedd?_0x3ad61c(0x3ad):_0x3ad61c(0x394);if(Game[_0x3ad61c(0x3d4)]==0x0)Notify[_0x3ad61c(0x204)]('Please\x20win\x20the\x20previous\x20level\x20without\x20using\x20the\x20hint\x20and\x20undo\x20buttons');else Notify[_0x3ad61c(0x204)]('You\x20can\x27t\x20hint\x20more\x20than\x20three\x20(3)\x20times\x20in\x20a\x20game.');},0x12c);}else Notify[_0x45f18f(0x204)](_0x45f18f(0xf7));}}else GameOver();async function _0x10da15(_0x10482a,_0x40d8de){const _0x3888e5=_0x45f18f;let _0x5de0af=Game[_0x3888e5(0x382)]!==_0x3888e5(0x403)?playerA[_0x3888e5(0x1c3)][_0x3888e5(0x2af)](0x0,0x1):Game[_0x3888e5(0x370)]&&playerA[_0x3888e5(0x1c3)]===_0x3888e5(0x40d)||!Game['whiteTurn']&&playerA['pieceColor']===_0x3888e5(0x23d)?playerA[_0x3888e5(0x1c3)][_0x3888e5(0x157)](0x0,0x1):playerB[_0x3888e5(0x1c3)][_0x3888e5(0x157)](0x0,0x1),_0x367652=await AssessAll({'id':_0x5de0af,'state':_0x40d8de});if(Game['mandatoryCapture']&&_0x367652[_0x3888e5(0x328)]['length']>0x0)_0x367652=_0x367652['captures'];else Game[_0x3888e5(0x11c)]&&_0x367652['captures'][_0x3888e5(0x2b4)]==0x0?_0x367652=_0x367652['nonCaptures']:_0x367652=_0x367652['nonCaptures'][_0x3888e5(0x32a)](_0x367652[_0x3888e5(0x328)]);let _0x1e6a38=Game[_0x3888e5(0x382)]!='single-player'?0x5:Game[_0x3888e5(0x1ce)],_0x2e507a=new AI({'state':_0x40d8de,'moves':_0x367652,'depth':_0x1e6a38<0x4?0x4:_0x1e6a38});await _0x2e507a[_0x3888e5(0x364)](!![]);let _0x5550c6=general['aiPath'][0x0];await ValidateMove({'cell':$('#table')[_0x3888e5(0x1b4)][_0x5550c6['i']*Game[_0x3888e5(0x32b)]+_0x5550c6['j']],'i':_0x5550c6['i'],'j':_0x5550c6['j']});for(_0x5550c6 of general[_0x3888e5(0x336)]){$(_0x3888e5(0x199))[_0x3888e5(0x1b4)][_0x5550c6['m']*Game['boardSize']+_0x5550c6['n']][_0x3888e5(0x1f6)][_0x3888e5(0x194)](_0x3888e5(0x240)),$(_0x3888e5(0x199))[_0x3888e5(0x1b4)][_0x5550c6['m']*Game[_0x3888e5(0x32b)]+_0x5550c6['n']]['classList'][_0x3888e5(0x23f)]('hint');}AudioPlayer[_0x3888e5(0x183)](_0x3888e5(0x2ba),0.1),general['aiPath']=[],_0x10482a[_0x3888e5(0x2dd)]['backgroundSize']=_0x3888e5(0x3ad),_0x10482a['style'][_0x3888e5(0x3b3)]=_0x3888e5(0x3e8),_0x10482a[_0x3888e5(0x2dd)][_0x3888e5(0x3fc)]=_0x3888e5(0x38d);return;}},Exit=async()=>{const _0x185efb=_0x1fe42c;if(BackState[_0x185efb(0x310)][_0x185efb(0x2b4)]>0x0&&!Game[_0x185efb(0x3a3)]){let _0x4217b3=await Notify['confirm']({'header':_0x185efb(0x19c),'message':_0x185efb(0x10d),'type':_0x185efb(0x294)});if(_0x4217b3==_0x185efb(0x2e1)){Game[_0x185efb(0x382)]==='two-player-online'&&Publish[_0x185efb(0x242)]({'channel':Lobby[_0x185efb(0x13c)],'message':{'title':'ExitedGame','content':playerA['name']}});TerminateWorkers(),Timer[_0x185efb(0x21d)](),back();return;}}else!Game[_0x185efb(0x3a3)]?(Game[_0x185efb(0x382)]===_0x185efb(0x309)&&Publish[_0x185efb(0x242)]({'channel':Lobby['CHANNEL'],'message':{'title':_0x185efb(0x365),'content':playerA['name']}}),back()):GameOver();},AboutCheckers=()=>{const _0x3e3282=_0x1fe42c;if(!Game[_0x3e3282(0x3a3)]){let _0x3cf0e4=null,_0x272909='',_0xaf660=Game[_0x3e3282(0x175)][_0x3e3282(0x3cc)]()+_0x3e3282(0x33a),_0x26eca0=document[_0x3e3282(0x3d8)];switch(Game['version']){case'american':_0x272909=_0x3e3282(0x1e8),_0x3cf0e4=srcs[Object[_0x3e3282(0x189)](Icons)[_0x3e3282(0x2b4)]];break;case _0x3e3282(0x2b5):_0x272909='Kenyan\x20Checkers\x20is\x20played\x20on\x208x8\x20board\x20with\x20each\x20player\x20having\x2012\x20pieces\x20at\x20the\x20start\x20of\x20the\x20game.\x20Men\x20(uncrowned\x20pieces)\x20can\x20only\x20move\x20and\x20capture\x20forward.\x20In\x20the\x20event\x20of\x20capture,\x20a\x20piece\x20reaches\x20the\x20far\x20end\x20of\x20the\x20board\x20and\x20there\x20are\x20more\x20captures\x20to\x20be\x20made,\x20the\x20piece\x20will\x20continue\x20uncrowned.\x20Kings\x20(crowned\x20pieces)\x20can\x20move\x20and\x20capture\x20both\x20forwards\x20and\x20backwards.\x20However\x20in\x20the\x20event\x20of\x20a\x20capture,\x20a\x20king\x20can\x20jump\x20multiple\x20steps\x20and\x20land\x20only\x20to\x20the\x20immediate\x20square\x20after\x20the\x20captured\x20piece.\x20Incase\x20of\x20multiple\x20captures,\x20one\x20should\x20make\x20sure\x20all\x20the\x20captures\x20in\x20the\x20chosen\x20path\x20are\x20made.',_0x3cf0e4=srcs[Object['keys'](Icons)[_0x3e3282(0x2b4)]+0x1];break;case _0x3e3282(0x160):_0x272909=_0x3e3282(0x31f),_0x3cf0e4=srcs[Object[_0x3e3282(0x189)](Icons)['length']+0x2];break;case _0x3e3282(0x2d8):_0x272909=_0x3e3282(0x292),_0x3cf0e4=srcs[Object[_0x3e3282(0x189)](Icons)['length']+0x3];break;case'pool':_0x272909=_0x3e3282(0x224),_0x3cf0e4=srcs[Object['keys'](Icons)['length']+0x4];break;case _0x3e3282(0x3a9):_0x272909=_0x3e3282(0x2d7),_0x3cf0e4=srcs[Object[_0x3e3282(0x189)](Icons)[_0x3e3282(0x2b4)]+0x5];break;case _0x3e3282(0x408):_0x272909=_0x3e3282(0x295),_0x3cf0e4=srcs[Object['keys'](Icons)[_0x3e3282(0x2b4)]+0x6];break;}Notify[_0x3e3282(0x13d)]({'header':'<img\x20src='+_0x3cf0e4+_0x3e3282(0x353)+_0xaf660+_0x3e3282(0x349),'message':_0x272909});}else GameOver();},Helper=async(_0x9b993c,_0x2f27a3,_0x4458e9=![])=>{const _0x75c327=_0x1fe42c;for(let _0x2f991a of $$(_0x75c327(0x190))){_0x2f991a[_0x75c327(0x1f6)][_0x75c327(0x194)](_0x75c327(0xdf),_0x75c327(0x240),_0x75c327(0x1b1));}let _0x334190=Game[_0x75c327(0x11c)]&&Game[_0x75c327(0x310)]['captures']['length']==0x0||!Game[_0x75c327(0x11c)];if(_0x334190&&!_0x4458e9){if(!((Game[_0x75c327(0x382)]=='single-player'||Game[_0x75c327(0x382)]==_0x75c327(0x309))&&(Game[_0x75c327(0x370)]&&playerB[_0x75c327(0x1c3)]==_0x75c327(0x40d)||!Game['whiteTurn']&&playerB[_0x75c327(0x1c3)]==_0x75c327(0x23d)))&&Game[_0x75c327(0xe6)])for(let _0x2d080e of _0x9b993c[_0x75c327(0x273)]){let _0x354ac2=parseInt(_0x2d080e[_0x75c327(0x1b8)]['slice'](0x0,0x1)),_0x2db034=parseInt(_0x2d080e[_0x75c327(0x1b8)][_0x75c327(0x157)](0x1,0x2)),_0x2601b2=parseInt(_0x2d080e['empty'][_0x75c327(0x157)](0x0,0x1)),_0x2c59b7=parseInt(_0x2d080e[_0x75c327(0x2cc)][_0x75c327(0x157)](0x1,0x2));$('#table')[_0x75c327(0x1b4)][_0x354ac2*Game['boardSize']+_0x2db034]['classList'][_0x75c327(0x23f)]('pre_valid');}if(Game['mandatoryCapture'])return;}_0x9b993c=_0x9b993c[_0x75c327(0x328)];for(let _0x3c35f7=0x0;_0x3c35f7<_0x9b993c[_0x75c327(0x2b4)];_0x3c35f7++){let _0x2ed033=_0x9b993c[_0x3c35f7],_0x36bf0c=parseInt(_0x2ed033[_0x75c327(0x1b8)][_0x75c327(0x157)](0x0,0x1)),_0x5aafd0=parseInt(_0x2ed033['cell'][_0x75c327(0x157)](0x1,0x2)),_0x486d45=parseInt(_0x2ed033[_0x75c327(0x2cc)][_0x75c327(0x157)](0x0,0x1)),_0x417dab=parseInt(_0x2ed033['empty']['slice'](0x1,0x2)),_0x6b96c9=![];if(!_0x4458e9)general[_0x75c327(0x340)]['push']({'i':_0x36bf0c,'j':_0x5aafd0,'m':_0x486d45,'n':_0x417dab,'cell':_0x2ed033[_0x75c327(0x1b8)],'capture':_0x2ed033[_0x75c327(0x235)],'empty':_0x2ed033['empty'],'source':!![]});else general[_0x75c327(0x340)][_0x75c327(0x158)]({'i':_0x36bf0c,'j':_0x5aafd0,'m':_0x486d45,'n':_0x417dab,'cell':_0x2ed033[_0x75c327(0x1b8)],'capture':_0x2ed033[_0x75c327(0x235)],'empty':_0x2ed033[_0x75c327(0x2cc)],'source':![]});if(_0x2ed033['capture']!=undefined){let _0xf0d55a=Copy(_0x2f27a3),_0x331dba=_0xf0d55a[_0x36bf0c][_0x5aafd0],_0x226caa=parseInt(_0x2ed033[_0x75c327(0x235)][_0x75c327(0x157)](0x0,0x1)),_0x180440=parseInt(_0x2ed033[_0x75c327(0x235)][_0x75c327(0x157)](0x1,0x2));_0xf0d55a[_0x226caa][_0x180440]='EC',_0xf0d55a[_0x36bf0c][_0x5aafd0]='IP';_0x331dba[_0x75c327(0x2ed)]('M')&&(_0x331dba[_0x75c327(0x2ed)](playerA[_0x75c327(0x1c3)][_0x75c327(0x157)](0x0,0x1))&&_0x486d45===0x0||_0x331dba[_0x75c327(0x2ed)](playerB[_0x75c327(0x1c3)][_0x75c327(0x157)](0x0,0x1))&&_0x486d45===Game[_0x75c327(0x32b)]-0x1)&&(_0x331dba=_0x331dba[_0x75c327(0xd5)]('M','K'),_0x6b96c9=!![]);let _0x498bef=[];_0x331dba=_0x6b96c9&&/^casino|international|nigerian$/gi[_0x75c327(0x192)](Game[_0x75c327(0x175)])?_0x331dba[_0x75c327(0xd5)]('K','M'):_0x331dba,_0xf0d55a[_0x486d45][_0x417dab]=_0x331dba;if(!_0x6b96c9||_0x6b96c9&&/^casino|international|nigerian|russian$/gi[_0x75c327(0x192)](Game[_0x75c327(0x175)])){_0x498bef=await AssesMoves({'id':_0x331dba,'i':_0x486d45,'j':_0x417dab,'state':_0xf0d55a});if(_0x498bef[_0x75c327(0x328)]['length']>0x0)await Helper(_0x498bef,_0xf0d55a,!![]);else _0x6b96c9&&(_0x331dba=_0x331dba['replace']('M','K'));}_0xf0d55a[_0x486d45][_0x417dab]=_0x331dba;}}if(_0x4458e9)return Prms(!![]);general[_0x75c327(0x2e0)]=await SortCaptures(general['helperPath']),general[_0x75c327(0x340)]=[];if((Game[_0x75c327(0xe6)]||Game['capturesHelper'])&&Game[_0x75c327(0x11c)]&&(Game[_0x75c327(0x382)]==_0x75c327(0x350)&&(Game[_0x75c327(0x370)]&&playerA['pieceColor']===_0x75c327(0x40d)||!Game[_0x75c327(0x370)]&&playerA[_0x75c327(0x1c3)]===_0x75c327(0x23d))||Game[_0x75c327(0x382)]!=_0x75c327(0x350))){let _0x559efc=general['sorted'][0x0][0x0]['i'],_0x56b7d0=general['sorted'][0x0][0x0]['j'],_0x3fd1c8=general[_0x75c327(0x2e0)][0x0][0x0][_0x75c327(0x1b8)];for(let _0x477a13 of general[_0x75c327(0x2e0)]){let _0x15f13e=_0x477a13[0x0];if(_0x15f13e[_0x75c327(0x1b8)]!=_0x3fd1c8){_0x3fd1c8=![];break;}}if(_0x3fd1c8){if(Game[_0x75c327(0x382)]!=_0x75c327(0x309))await ValidateMove({'cell':$(_0x75c327(0x199))[_0x75c327(0x1b4)][_0x559efc*Game[_0x75c327(0x32b)]+_0x56b7d0],'i':_0x559efc,'j':_0x56b7d0});else $('#table')[_0x75c327(0x1b4)][_0x559efc*Game['boardSize']+_0x56b7d0][_0x75c327(0x1f6)][_0x75c327(0x23f)](_0x75c327(0x1b1));return;}else{if(Game[_0x75c327(0xe6)]||Game[_0x75c327(0x108)]){for(let _0x4f63c1 of general[_0x75c327(0x2e0)]){let _0x23d641=_0x4f63c1[0x0];$('#table')[_0x75c327(0x1b4)][_0x23d641['i']*Game['boardSize']+_0x23d641['j']][_0x75c327(0x1f6)][_0x75c327(0x23f)]('helper_filled');}return;}}}else{if((Game[_0x75c327(0xe6)]||Game[_0x75c327(0x108)])&&!Game[_0x75c327(0x11c)]&&(Game[_0x75c327(0x382)]==_0x75c327(0x350)&&(Game[_0x75c327(0x370)]&&playerA[_0x75c327(0x1c3)]===_0x75c327(0x40d)||!Game[_0x75c327(0x370)]&&playerA[_0x75c327(0x1c3)]===_0x75c327(0x23d))||Game['mode']!='single-player')){for(let _0x3743d0 of general['sorted']){let _0x3ce9bf=_0x3743d0[0x0];$(_0x75c327(0x199))['children'][_0x3ce9bf['i']*Game['boardSize']+_0x3ce9bf['j']][_0x75c327(0x1f6)][_0x75c327(0x194)](_0x75c327(0x186)),$(_0x75c327(0x199))[_0x75c327(0x1b4)][_0x3ce9bf['i']*Game[_0x75c327(0x32b)]+_0x3ce9bf['j']]['classList'][_0x75c327(0x23f)](_0x75c327(0x1b1));}return;}}},PlayAs=_0x3759f2=>{const _0x17082e=_0x1fe42c;if(_0x3759f2[_0x17082e(0x3a8)]['id']==_0x17082e(0x103)){if(_0x3759f2[_0x17082e(0x116)](_0x17082e(0x266))!=_0x17082e(0x1fb)){let _0x118251=_0x3759f2[_0x17082e(0x1f6)]['length']-0x1;Enable($$(_0x17082e(0x34d))[0x0],general[_0x17082e(0x410)],_0x17082e(0x23a)),Enable($$('#playerB\x20button')[0x1],general['default'],'#fff'),Disable($(_0x17082e(0x2ce)+_0x3759f2[_0x17082e(0x1f6)][_0x118251]),general[_0x17082e(0xe2)],_0x17082e(0x33d)),Enable($(_0x17082e(0x1ea)+_0x3759f2['classList'][_0x118251]+')'),general[_0x17082e(0x410)],'#fff');let _0x4f0d8e=$(_0x17082e(0x361)+_0x3759f2['getAttribute'](_0x17082e(0x266))+'\x27]');Clicked(_0x4f0d8e,_0x4f0d8e[_0x17082e(0x3a8)],![]);}else{Game[_0x17082e(0x33c)]=!![];let _0x57a68a=$$(_0x17082e(0x226))[0x2];Clicked(_0x57a68a,_0x57a68a['parentNode'],![]),_0x57a68a=$$(_0x17082e(0x34d));for(let _0x3f4a9a of _0x57a68a){if(GetValue(_0x3f4a9a,_0x17082e(0x24b))===general[_0x17082e(0x410)]){Disable(_0x3f4a9a,general[_0x17082e(0xe2)],_0x17082e(0x33d));break;}}}}if(_0x3759f2[_0x17082e(0x116)](_0x17082e(0x266))!='play-as-alternately'){Game[_0x17082e(0x33c)]=![];let _0x9c7d89=_0x3759f2[_0x17082e(0x116)](_0x17082e(0x266))=='play-as-white';playerA[_0x17082e(0x1c3)]=_0x9c7d89?'White':_0x17082e(0x23d),playerB['pieceColor']=_0x9c7d89?'Black':_0x17082e(0x40d);if(_0x3759f2['parentNode']['id']!==_0x17082e(0x103)){let _0x3628ab=$$('#playerA\x20button');for(let _0x535896 of _0x3628ab){if(_0x535896[_0x17082e(0x116)]('value')===_0x3759f2[_0x17082e(0x116)](_0x17082e(0x266))){Clicked(_0x535896,_0x535896[_0x17082e(0x3a8)],![]);let _0x1bd7ac=_0x535896[_0x17082e(0x1f6)]['length']-0x1;Disable($(_0x17082e(0x2ce)+_0x535896[_0x17082e(0x1f6)][_0x1bd7ac]),general[_0x17082e(0xe2)],_0x17082e(0x33d)),Enable($(_0x17082e(0x1ea)+_0x535896[_0x17082e(0x1f6)][_0x1bd7ac]+')'),general[_0x17082e(0x410)],_0x17082e(0x23a));break;}}}}else{Game[_0x17082e(0x33c)]=!![];let _0x2a9068=$$('#playerA\x20button')[0x2];Clicked(_0x2a9068,_0x2a9068[_0x17082e(0x3a8)],![]),_0x2a9068=$$(_0x17082e(0x34d));for(let _0x4f2ac9 of _0x2a9068){if(GetValue(_0x4f2ac9,_0x17082e(0x24b))===general['default']){Disable(_0x4f2ac9,general['disabled'],'#B4B4B4');break;}}}if(storage)storage[_0x17082e(0x388)](_0x17082e(0x1d8),JSON[_0x17082e(0x1db)]({'playerA':playerA[_0x17082e(0x1c3)],'playerB':playerB['pieceColor'],'alternate':Game[_0x17082e(0x33c)]}));},Contact=async()=>{const _0x116172=_0x1fe42c;let _0x4e4f8c=await Notify[_0x116172(0x3e3)]({'header':_0x116172(0x3b7),'message':_0x116172(0x1bc),'type':_0x116172(0x149),'icon':Icons['contactIcon']});if(_0x4e4f8c=='EMAIL')window['location']['href']=_0x116172(0xe5);else{if(_0x4e4f8c==_0x116172(0x345))window[_0x116172(0x31a)][_0x116172(0x33e)]=_0x116172(0x2c6);}},Attribute=()=>{const _0x504b77=_0x1fe42c;Notify[_0x504b77(0x13d)]({'header':'ATTRIBUTES','message':_0x504b77(0x40f)});},currentAppVersion='22.15.168.514',currentVersionDescription=_0x1fe42c(0x298),AppVersion=()=>{const _0x1ca6a0=_0x1fe42c;Notify[_0x1ca6a0(0x13d)]({'header':'CHECKERS\x20VERSION','message':_0x1ca6a0(0x20f)+currentAppVersion+_0x1ca6a0(0xf2)+currentVersionDescription+'<label\x20style=\x27display:\x20block;\x20text-align:\x20left;\x27>Thank\x20you\x20for\x20playing\x20checkers.\x20If\x20you\x20experience\x20any\x20difficulty\x20or\x20an\x20error\x20please\x20contact\x20me\x20via\x20the\x20contact\x20button\x20in\x20the\x20settings.\x20Let\x27s\x20build\x20checkers\x20together.\x20Happy\x20gaming\x20🎉</label>'});},FollowUp=()=>{const _0x393eed=_0x1fe42c;BackState[_0x393eed(0x261)][_0x393eed(0x158)](['#settings-window','#follow-up-window']),$(_0x393eed(0x2f9))[_0x393eed(0x2dd)][_0x393eed(0x301)]=_0x393eed(0x26e),$(_0x393eed(0x3f6))[_0x393eed(0x2dd)]['display']=_0x393eed(0x150);},GetGames=()=>{const _0x4f6198=_0x1fe42c;BackState['state'][_0x4f6198(0x158)]([_0x4f6198(0x375),_0x4f6198(0x3d5)]),$('#main-window')[_0x4f6198(0x2dd)][_0x4f6198(0x301)]=_0x4f6198(0x26e),$('#games-window')[_0x4f6198(0x2dd)][_0x4f6198(0x301)]=_0x4f6198(0x150);if(Game['stats']['length']==0x0)Notify[_0x4f6198(0x204)]('Your\x20Games\x20will\x20be\x20displayed\x20here.');},ShowTotalStats=async()=>{const _0x3c9ac8=_0x1fe42c;let _0xb49c26=$(_0x3c9ac8(0x402));_0xb49c26[_0x3c9ac8(0x2dd)][_0x3c9ac8(0x383)]=_0x3c9ac8(0x3ca),BackState[_0x3c9ac8(0x261)][_0x3c9ac8(0x158)](['.games_totals']);},GetTotals=()=>{const _0x5d8d2c=_0x1fe42c;for(let _0x22e13b of $$(_0x5d8d2c(0x3c9))){let _0x4ed132=_0x22e13b['$']('p');_0x4ed132[_0x5d8d2c(0x15c)]=_0x4ed132['innerHTML'][_0x5d8d2c(0xd5)](/\d+/gi,0x0),_0x4ed132['setAttribute']('total',0x0);let _0x10eea3=_0x22e13b['$$'](_0x5d8d2c(0x3be));for(let _0x294aef of _0x10eea3)_0x22e13b[_0x5d8d2c(0x355)](_0x294aef);}for(const _0x3d27f8 of Game[_0x5d8d2c(0xef)]){let _0x2ecd8c=_0x3d27f8[_0x5d8d2c(0x382)],_0x66710b=JSON[_0x5d8d2c(0x1bd)](JSON[_0x5d8d2c(0x1db)](_0x3d27f8['playerName'])),_0x4da289=_0x3d27f8[_0x5d8d2c(0x210)][0x0],_0x1776d4=_0x3d27f8[_0x5d8d2c(0x210)][0x1],_0xaae796=_0x3d27f8[_0x5d8d2c(0x1ab)][0x0][_0x5d8d2c(0x113)](),_0x478f41=_0x3d27f8[_0x5d8d2c(0x1ab)][0x1][_0x5d8d2c(0x113)](),_0x3f9d71=_0x3d27f8[_0x5d8d2c(0x175)]['toUpperCase']();_0x3f9d71=_0x3f9d71?_0x3f9d71[_0x5d8d2c(0x2b4)]==0x3?Object['keys'](Game[_0x5d8d2c(0x401)])[_0x5d8d2c(0x40a)](_0x1464df=>{const _0x1835be=_0x5d8d2c;return _0x1464df['toUpperCase']()[_0x1835be(0x1b2)](_0x3f9d71);})[_0x5d8d2c(0x3cc)]()+_0x5d8d2c(0x33a):_0x3f9d71:_0x5d8d2c(0x16a);let _0x2bfc3e=$('#'+_0x66710b[_0x5d8d2c(0x3f4)]('-'))||$('#'+_0x66710b['reverse']()[_0x5d8d2c(0x3f4)]('-'))||$$$('table',['id',_0x66710b[_0x5d8d2c(0x3f4)]('-')]),_0x572375=_0x2bfc3e['$'](_0x5d8d2c(0x32c))||$$$(_0x5d8d2c(0x32c)),_0x4dd0ab=_0x2bfc3e['$'](_0x5d8d2c(0x14c))||$$$(_0x5d8d2c(0x14c)),_0x30ef94=_0x572375['$$']('tr')[0x0]||$$$('tr'),_0x5cd590=_0x572375['$$']('tr')[0x1]||$$$('tr'),_0x98e171=_0x4dd0ab['$$']('tr')[0x0]||$$$('tr',[_0x5d8d2c(0x3b9),_0x4da289]),_0x4c9d44=_0x4dd0ab['$$']('tr')[0x1]||$$$('tr',[_0x5d8d2c(0x3b9),_0x1776d4]);if(!_0x30ef94['parentNode']||!_0x30ef94['$']('th[value=\x27'+_0x3f9d71+'\x27]')){let _0xb0f6b6;!_0x30ef94[_0x5d8d2c(0x3a8)]&&(_0xb0f6b6=$$$('th',['textContent',_0x5d8d2c(0x36b),_0x5d8d2c(0x38c),'2']),_0x30ef94[_0x5d8d2c(0x213)](_0xb0f6b6));_0xb0f6b6=$$$('th',[_0x5d8d2c(0x262),_0x3f9d71,_0x5d8d2c(0x266),_0x3f9d71,_0x5d8d2c(0x338),'4']),_0x30ef94[_0x5d8d2c(0x213)](_0xb0f6b6),_0xb0f6b6=$$$('th',[_0x5d8d2c(0x262),_0x5d8d2c(0x272),'value',_0x3f9d71]),_0x5cd590['appendChild'](_0xb0f6b6),_0xb0f6b6=$$$('th',[_0x5d8d2c(0x262),_0x5d8d2c(0x147),_0x5d8d2c(0x266),_0x3f9d71]),_0x5cd590[_0x5d8d2c(0x213)](_0xb0f6b6),_0xb0f6b6=$$$('th',[_0x5d8d2c(0x262),_0x5d8d2c(0x27c),_0x5d8d2c(0x266),_0x3f9d71]),_0x5cd590[_0x5d8d2c(0x213)](_0xb0f6b6),_0xb0f6b6=$$$('th',['textContent','Win\x20Probability','value',_0x3f9d71]),_0x5cd590[_0x5d8d2c(0x213)](_0xb0f6b6);!_0x30ef94[_0x5d8d2c(0x3a8)]&&(_0x572375[_0x5d8d2c(0x213)](_0x30ef94),_0x572375[_0x5d8d2c(0x213)](_0x5cd590));let _0x1d63e0;!_0x98e171[_0x5d8d2c(0x3a8)]&&(_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x4da289,_0x5d8d2c(0x3b9),_0x4da289]),_0x98e171[_0x5d8d2c(0x213)](_0x1d63e0));let _0x1fc019=_0xaae796==_0x5d8d2c(0x3c8)?0x1:0x0;_0x1d63e0=$$$('td',['textContent',_0x1fc019,_0x5d8d2c(0x1bb),_0x1fc019,'value',_0x3f9d71]),_0x98e171[_0x5d8d2c(0x213)](_0x1d63e0),_0x1fc019=_0xaae796==_0x5d8d2c(0xe1)?0x1:0x0,_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x1fc019,_0x5d8d2c(0x1bb),_0x1fc019,'value',_0x3f9d71]),_0x98e171[_0x5d8d2c(0x213)](_0x1d63e0),_0x1fc019=_0xaae796==_0x5d8d2c(0x13b)?0x1:0x0,_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x1fc019,_0x5d8d2c(0x1bb),_0x1fc019,_0x5d8d2c(0x266),_0x3f9d71]),_0x98e171['appendChild'](_0x1d63e0);let _0x1a9319=_0x98e171['$$'](_0x5d8d2c(0x1d0)+_0x3f9d71+'\x27]'),_0x257a2e=(parseInt(_0x1a9319[0x0]['getAttribute']('count'))/(parseInt(_0x1a9319[0x0]['getAttribute'](_0x5d8d2c(0x1bb)))+parseInt(_0x1a9319[0x1]['getAttribute']('count'))+parseInt(_0x1a9319[0x2]['getAttribute'](_0x5d8d2c(0x1bb))))*0x64)[_0x5d8d2c(0x130)](0x0);_0x1d63e0=$$$('td',['textContent',_0x257a2e+'%',_0x5d8d2c(0x266),_0x3f9d71,'prob',_0x257a2e]),_0x98e171[_0x5d8d2c(0x213)](_0x1d63e0),!_0x4c9d44[_0x5d8d2c(0x3a8)]&&(_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x1776d4,_0x5d8d2c(0x3b9),_0x1776d4]),_0x4c9d44['appendChild'](_0x1d63e0)),_0x1fc019=_0x478f41=='won'?0x1:0x0,_0x1d63e0=$$$('td',['textContent',_0x1fc019,'count',_0x1fc019,_0x5d8d2c(0x266),_0x3f9d71]),_0x4c9d44['appendChild'](_0x1d63e0),_0x1fc019=_0x478f41==_0x5d8d2c(0xe1)?0x1:0x0,_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x1fc019,_0x5d8d2c(0x1bb),_0x1fc019,_0x5d8d2c(0x266),_0x3f9d71]),_0x4c9d44[_0x5d8d2c(0x213)](_0x1d63e0),_0x1fc019=_0x478f41=='draw'?0x1:0x0,_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x1fc019,_0x5d8d2c(0x1bb),_0x1fc019,_0x5d8d2c(0x266),_0x3f9d71]),_0x4c9d44[_0x5d8d2c(0x213)](_0x1d63e0),_0x1a9319=_0x4c9d44['$$'](_0x5d8d2c(0x1d0)+_0x3f9d71+'\x27]'),_0x257a2e=(parseInt(_0x1a9319[0x0][_0x5d8d2c(0x116)]('count'))/(parseInt(_0x1a9319[0x0][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+parseInt(_0x1a9319[0x1][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+parseInt(_0x1a9319[0x2][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb))))*0x64)[_0x5d8d2c(0x130)](0x0),_0x1d63e0=$$$('td',[_0x5d8d2c(0x262),_0x257a2e+'%',_0x5d8d2c(0x266),_0x3f9d71,'prob',_0x257a2e]),_0x4c9d44[_0x5d8d2c(0x213)](_0x1d63e0),!_0x98e171[_0x5d8d2c(0x3a8)]&&(_0x4dd0ab[_0x5d8d2c(0x213)](_0x98e171),_0x4dd0ab[_0x5d8d2c(0x213)](_0x4c9d44),_0x2bfc3e[_0x5d8d2c(0x213)](_0x572375),_0x2bfc3e['appendChild'](_0x4dd0ab));}else{if(_0x30ef94['$'](_0x5d8d2c(0x2c7)+_0x3f9d71+'\x27]')){_0x98e171=_0x4dd0ab['$'](_0x5d8d2c(0x14d)+_0x4da289+'\x27]')['parentNode'];let _0xb4fb6b=_0x98e171['$$']('td[value=\x27'+_0x3f9d71+'\x27]'),_0x218fde=_0xaae796=='won'?_0xb4fb6b[0x0]:_0xaae796==_0x5d8d2c(0xe1)?_0xb4fb6b[0x1]:_0xb4fb6b[0x2],_0x3a7fe8=parseInt(_0x218fde[_0x5d8d2c(0x116)]('count'))+0x1;_0x218fde[_0x5d8d2c(0x262)]=_0x3a7fe8,_0x218fde[_0x5d8d2c(0x317)](_0x5d8d2c(0x1bb),_0x3a7fe8);let _0x53ede5=(parseInt(_0xb4fb6b[0x0]['getAttribute']('count'))/(parseInt(_0xb4fb6b[0x0][_0x5d8d2c(0x116)]('count'))+parseInt(_0xb4fb6b[0x1][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+parseInt(_0xb4fb6b[0x2][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb))))*0x64)[_0x5d8d2c(0x130)](0x0);_0xb4fb6b[0x3][_0x5d8d2c(0x262)]=_0x53ede5+'%',_0xb4fb6b[0x3]['setAttribute'](_0x5d8d2c(0x12c),_0x53ede5),_0x4c9d44=_0x4dd0ab['$'](_0x5d8d2c(0x14d)+_0x1776d4+'\x27]')[_0x5d8d2c(0x3a8)],_0xb4fb6b=_0x4c9d44['$$'](_0x5d8d2c(0x1d0)+_0x3f9d71+'\x27]'),_0x218fde=_0x478f41==_0x5d8d2c(0x3c8)?_0xb4fb6b[0x0]:_0x478f41==_0x5d8d2c(0xe1)?_0xb4fb6b[0x1]:_0xb4fb6b[0x2],_0x3a7fe8=parseInt(_0x218fde[_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+0x1,_0x218fde[_0x5d8d2c(0x262)]=_0x3a7fe8,_0x218fde['setAttribute'](_0x5d8d2c(0x1bb),_0x3a7fe8),_0x53ede5=(parseInt(_0xb4fb6b[0x0][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))/(parseInt(_0xb4fb6b[0x0][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+parseInt(_0xb4fb6b[0x1][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb)))+parseInt(_0xb4fb6b[0x2][_0x5d8d2c(0x116)](_0x5d8d2c(0x1bb))))*0x64)[_0x5d8d2c(0x130)](0x0),_0xb4fb6b[0x3][_0x5d8d2c(0x262)]=_0x53ede5+'%',_0xb4fb6b[0x3][_0x5d8d2c(0x317)](_0x5d8d2c(0x12c),_0x53ede5);}}let _0x31a5f9=_0x98e171['$$'](_0x5d8d2c(0x1d0)+_0x3f9d71+'\x27]'),_0x526b16=_0x4c9d44['$$'](_0x5d8d2c(0x1d0)+_0x3f9d71+'\x27]');_0x31a5f9=_0x31a5f9[_0x31a5f9[_0x5d8d2c(0x2b4)]-0x1],_0x526b16=_0x526b16[_0x526b16['length']-0x1],_0x31a5f9['classList'][_0x5d8d2c(0x194)]('default',_0x5d8d2c(0x333)),_0x526b16['classList'][_0x5d8d2c(0x194)]('default','red_ui');if(_0x31a5f9[_0x5d8d2c(0x116)](_0x5d8d2c(0x12c))>_0x526b16[_0x5d8d2c(0x116)]('prob'))_0x31a5f9[_0x5d8d2c(0x1f6)][_0x5d8d2c(0x23f)](_0x5d8d2c(0x410)),_0x526b16[_0x5d8d2c(0x1f6)][_0x5d8d2c(0x23f)](_0x5d8d2c(0x333));else _0x31a5f9[_0x5d8d2c(0x116)](_0x5d8d2c(0x12c))<_0x526b16['getAttribute'](_0x5d8d2c(0x12c))&&(_0x31a5f9['classList']['add'](_0x5d8d2c(0x333)),_0x526b16['classList']['add'](_0x5d8d2c(0x410)));let _0x50499f;if(_0x2ecd8c==_0x5d8d2c(0x350)||_0x4da289[_0x5d8d2c(0x113)]()==_0x5d8d2c(0x3e2)&&_0x1776d4[_0x5d8d2c(0x113)]('ai'))_0x50499f=$(_0x5d8d2c(0x22f));else{if(_0x2ecd8c=='two-player-online')_0x50499f=$(_0x5d8d2c(0x24c));else _0x2ecd8c==_0x5d8d2c(0x403)?_0x50499f=$(_0x5d8d2c(0x246)):_0x50499f=$(_0x5d8d2c(0x215));}if(!_0x2bfc3e['parentNode']){let _0x2602d6=$$$(_0x5d8d2c(0x3be));_0x2602d6[_0x5d8d2c(0x213)](_0x2bfc3e),_0x50499f['appendChild'](_0x2602d6);}let _0x53a857=_0x50499f['$']('p'),_0x4b5bf0=parseInt(_0x53a857['getAttribute'](_0x5d8d2c(0x106)))+0x1;_0x53a857['innerHTML']=_0x53a857[_0x5d8d2c(0x15c)][_0x5d8d2c(0xd5)](/\d+/gi,_0x4b5bf0),_0x53a857[_0x5d8d2c(0x317)](_0x5d8d2c(0x106),_0x4b5bf0);}};class GamesScroll{static [_0x1fe42c(0x303)]=0x0;static [_0x1fe42c(0x1a2)]=_0x598c66=>{const _0x1c790a=_0x1fe42c;if(Game[_0x1c790a(0xef)]['length']==0x0)return;let _0x39901d=_0x598c66['target'][_0x1c790a(0x281)]-this[_0x1c790a(0x303)],_0x198b11=$(_0x1c790a(0x11e)),_0x428dc4=_0x198b11[_0x1c790a(0x116)](_0x1c790a(0x266))||$(_0x1c790a(0x2b8))[_0x1c790a(0x116)](_0x1c790a(0x3d6)),_0x2f6840=$$(_0x1c790a(0x216)+_0x428dc4+'\x27]');_0x2f6840=_0x2f6840[_0x39901d>0x0?_0x2f6840[_0x1c790a(0x2b4)]-0x1:0x0];let _0x232e40;if(_0x39901d>0x0){let _0x57778a=_0x598c66[_0x1c790a(0x220)]['getBoundingClientRect']()[_0x1c790a(0xde)],_0x1df941=_0x2f6840[_0x1c790a(0x34c)]()[_0x1c790a(0xde)];_0x232e40=_0x1df941-_0x57778a;}else{if(_0x39901d<0x0){let _0x22cc1f=_0x598c66[_0x1c790a(0x220)][_0x1c790a(0x34c)]()[_0x1c790a(0x37d)],_0x4e654e=_0x2f6840['getBoundingClientRect']()[_0x1c790a(0x37d)];_0x232e40=_0x22cc1f-_0x4e654e;}}if(_0x232e40<=-0x14&&_0x2f6840[_0x1c790a(0x188)])_0x428dc4=_0x39901d>0x0?_0x2f6840[_0x1c790a(0x188)]:_0x2f6840['previousElementSibling'][_0x1c790a(0x18d)],_0x198b11['textContent']=$(_0x1c790a(0x161)+_0x428dc4['getAttribute'](_0x1c790a(0x3d6))+'\x27]')[_0x1c790a(0x262)],_0x198b11['setAttribute'](_0x1c790a(0x266),_0x428dc4[_0x1c790a(0x116)](_0x1c790a(0x3d6)));else!_0x198b11[_0x1c790a(0x116)](_0x1c790a(0x266))&&(_0x428dc4=$(_0x1c790a(0x2b8)),_0x198b11[_0x1c790a(0x262)]=_0x428dc4[_0x1c790a(0x262)],_0x198b11[_0x1c790a(0x317)]('value',_0x428dc4['getAttribute'](_0x1c790a(0x3d6))));_0x198b11[_0x1c790a(0x1f6)][_0x1c790a(0x23f)]('show_float_date'),clearTimeout(general[_0x1c790a(0x286)]),general[_0x1c790a(0x286)]=setTimeout(()=>{const _0x271b5f=_0x1c790a;_0x198b11[_0x271b5f(0x1f6)][_0x271b5f(0x194)](_0x271b5f(0x117));},0x7d0),this[_0x1c790a(0x303)]=_0x598c66[_0x1c790a(0x220)][_0x1c790a(0x281)];};}const ConvertTo=(_0x46e125,_0xc2ad20,_0x3f7a1d=![])=>{const _0x1f8049=_0x1fe42c;if(_0x46e125==_0x1f8049(0x14a))return'';_0x46e125=_0x46e125[_0x1f8049(0x2f6)]('\x20')[0x0];let _0x54d767=parseInt(_0x46e125[_0x1f8049(0x2f6)](':')[0x0]),_0x4f4825=_0x46e125[_0x1f8049(0x2f6)]('\x20')[0x0][_0x1f8049(0x2f6)](':')[0x1],_0x5adf5d=_0x46e125['split']('\x20')[0x0][_0x1f8049(0x2f6)](':')[0x2]||'00',_0x88a274='';if(_0xc2ad20==0x18){let _0x551211=_0x46e125['split']('\x20')[0x1];if(_0x551211=='PM'&&_0x54d767<0xc)_0x88a274=String(_0x54d767+0xc)['padStart'](0x2,'0')+':'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'');else _0x551211=='AM'&&_0x54d767==0xc?_0x88a274='00:'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:''):_0x88a274=String(_0x54d767)[_0x1f8049(0x2e2)](0x2,'0')+':'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'');}else{if(_0xc2ad20==0xc){if(_0x54d767==0x0)_0x88a274=_0x1f8049(0x207)+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'')+_0x1f8049(0x258);else{if(_0x54d767>0xc)_0x88a274=String(_0x54d767-0xc)['padStart'](0x2,'0')+':'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'')+_0x1f8049(0x2d9);else _0x54d767==0xc?_0x88a274=String(_0x54d767)['padStart'](0x2,'0')+':'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'')+_0x1f8049(0x2d9):_0x88a274=String(_0x54d767)['padStart'](0x2,'0')+':'+_0x4f4825+(_0x3f7a1d?':'+_0x5adf5d:'')+'\x20AM';}}}return _0x88a274;},ClearGames=async()=>{const _0x123233=_0x1fe42c;Clicked();let _0x3115ca;if(Game[_0x123233(0xef)]['length']>0x0)_0x3115ca=await Notify[_0x123233(0x2da)]({'header':'Are\x20you\x20sure\x20you\x20want\x20clear?','message':_0x123233(0x2ab),'type':_0x123233(0x3e6)});else{Notify[_0x123233(0x204)](_0x123233(0x38e));return;}if(_0x3115ca=='CLEAR'){$(_0x123233(0x18e))[_0x123233(0x15c)]='';let _0x42b61d=$('.totals_footer\x20p');_0x42b61d[_0x123233(0x15c)]=_0x42b61d[_0x123233(0x15c)]['replace'](/\d+/gi,0x0),Game[_0x123233(0xef)]=[],GetTotals(),$(_0x123233(0x11e))[_0x123233(0x262)]='',$(_0x123233(0x11e))['removeAttribute'](_0x123233(0x266)),Notify[_0x123233(0x204)](_0x123233(0xf6)),storage&&storage[_0x123233(0x1c6)]('Checkers\x20-\x20stats');}},GetStats=_0x4d16a2=>{const _0x25ce01=_0x1fe42c;let _0x15126c=$(_0x25ce01(0x392));_0x15126c[_0x25ce01(0x15c)]='';let _0xf78e97=Game[_0x25ce01(0xef)][_0x4d16a2],_0x19fdd9=$$(_0x25ce01(0x24d));_0x19fdd9[0x0][_0x25ce01(0x3ed)]=_0xf78e97['pieceColor'][0x0]==_0x25ce01(0x20b)?srcs[srcs['length']-0x2]:srcs[srcs[_0x25ce01(0x2b4)]-0x1],_0x19fdd9[0x1][_0x25ce01(0x3ed)]=_0xf78e97['pieceColor'][0x1]==_0x25ce01(0x20b)?srcs[srcs['length']-0x2]:srcs[srcs[_0x25ce01(0x2b4)]-0x1];for(let _0x38e0fc of Object['keys'](_0xf78e97)){if(/version|level|ms|mode/gi['test'](_0x38e0fc))continue;let _0x23e3e7=_0xf78e97[_0x38e0fc],_0x27606d=$$$(_0x25ce01(0x3be));_0x27606d[_0x25ce01(0x1f6)][_0x25ce01(0x23f)](_0x25ce01(0x30b));let _0x275f5a=$$$(_0x25ce01(0x3be));_0x275f5a[_0x25ce01(0x1f6)][_0x25ce01(0x23f)](_0x25ce01(0x28c));let _0x32360e=$$$(_0x25ce01(0x3be));_0x275f5a[_0x25ce01(0x1f6)][_0x25ce01(0x23f)](_0x25ce01(0x212));let _0x24e496=$$$(_0x25ce01(0x3be));_0x24e496['classList'][_0x25ce01(0x23f)]('stats_value');for(let _0x17c22f of _0x38e0fc){if(_0x17c22f==_0x17c22f['toUpperCase']()){let _0x4f1e48=_0x38e0fc[_0x25ce01(0x37a)](_0x17c22f);_0x38e0fc=_0x38e0fc['slice'](0x0,_0x4f1e48)+'\x20'+_0x38e0fc['slice'](_0x4f1e48);break;}}_0x275f5a[_0x25ce01(0x15c)]=String(_0x23e3e7[0x0])['toLowerCase']()[_0x25ce01(0xd5)](/^\w/,_0xeca353=>_0xeca353[_0x25ce01(0x3cc)]()),_0x24e496[_0x25ce01(0x15c)]=String(_0x23e3e7[0x1])[_0x25ce01(0x113)]()[_0x25ce01(0xd5)](/^\w/,_0x4960d3=>_0x4960d3[_0x25ce01(0x3cc)]()),_0x32360e[_0x25ce01(0x15c)]=_0x38e0fc[_0x25ce01(0xd5)](/^\w/,_0x3a5e7a=>_0x3a5e7a[_0x25ce01(0x3cc)]());;_0x27606d['appendChild'](_0x275f5a),_0x27606d[_0x25ce01(0x213)](_0x32360e),_0x27606d[_0x25ce01(0x213)](_0x24e496),_0x15126c[_0x25ce01(0x213)](_0x27606d);}Clicked(),BackState[_0x25ce01(0x261)][_0x25ce01(0x158)]([_0x25ce01(0x3d5),_0x25ce01(0x2c0)]),$(_0x25ce01(0x3d5))[_0x25ce01(0x2dd)][_0x25ce01(0x301)]='none',$(_0x25ce01(0x2c0))[_0x25ce01(0x2dd)][_0x25ce01(0x301)]=_0x25ce01(0x150);},Mode=async(_0x53b86b,_0x5b066b=!![])=>{const _0x6e02d2=_0x1fe42c;if(_0x53b86b==0x2){Game[_0x6e02d2(0x382)]=_0x6e02d2(0x403),playerA[_0x6e02d2(0x3b9)]=$(_0x6e02d2(0x34f))[_0x6e02d2(0x266)],playerB['name']=$('.playerB_name')[_0x6e02d2(0x266)],$(_0x6e02d2(0x372))[_0x6e02d2(0x15c)]='TWO\x20PLAYERS\x20OFFLINE',$(_0x6e02d2(0x341))[_0x6e02d2(0x2dd)]['display']=_0x6e02d2(0x26e),$(_0x6e02d2(0x323))[_0x6e02d2(0x2dd)][_0x6e02d2(0x301)]=_0x6e02d2(0x26e),$(_0x6e02d2(0x23e))[_0x6e02d2(0x2dd)][_0x6e02d2(0x301)]=_0x6e02d2(0x150);let _0x3115bd=$('#main\x20div:nth-of-type(2)');await Clicked(_0x3115bd,_0x3115bd[_0x6e02d2(0x3a8)],_0x5b066b);}else{if(_0x53b86b==0x3){Game[_0x6e02d2(0x382)]=_0x6e02d2(0x309),playerA[_0x6e02d2(0x3b9)]=$$('#online\x20.player_name')[0x0][_0x6e02d2(0x15c)],playerB[_0x6e02d2(0x3b9)]=$$(_0x6e02d2(0x3c1))[0x1][_0x6e02d2(0x15c)],$(_0x6e02d2(0x372))[_0x6e02d2(0x15c)]=_0x6e02d2(0x1ae),$(_0x6e02d2(0x341))[_0x6e02d2(0x2dd)][_0x6e02d2(0x301)]=_0x6e02d2(0x150),$(_0x6e02d2(0x323))['style'][_0x6e02d2(0x301)]=_0x6e02d2(0x150),$(_0x6e02d2(0x23e))['style'][_0x6e02d2(0x301)]=_0x6e02d2(0x26e);let _0x3e84eb=$(_0x6e02d2(0x26a));await Clicked(_0x3e84eb,_0x3e84eb['parentNode'],_0x5b066b),Lobby[_0x6e02d2(0x25b)]&&setTimeout(()=>{const _0x4118e2=_0x6e02d2;if(GetValue($(_0x4118e2(0x3cf)),_0x4118e2(0x301))==_0x4118e2(0x150))ElemHint[_0x4118e2(0x2db)]($(_0x4118e2(0x2f5)),_0x4118e2(0x111));},0xc8);}else{if(_0x53b86b==0x1){Game['mode']=_0x6e02d2(0x350),playerA[_0x6e02d2(0x3b9)]='You',playerB['name']='AI',$('#item4')['style'][_0x6e02d2(0x301)]=_0x6e02d2(0x150);let _0x2b364c=$$(_0x6e02d2(0x156))[0x0];await Clicked(_0x2b364c,_0x2b364c[_0x6e02d2(0x3a8)],_0x5b066b);}}}_0x5b066b&&_0x53b86b!=0x1&&(BackState[_0x6e02d2(0x261)]['push'](['#main-window',_0x6e02d2(0x3cf)]),$(_0x6e02d2(0x375))[_0x6e02d2(0x2dd)]['display']=_0x6e02d2(0x26e),$(_0x6e02d2(0x3cf))['style'][_0x6e02d2(0x301)]='grid');},Settings=_0x4e1d7f=>{const _0x4196f8=_0x1fe42c;let _0x24eb1f=$$('#main-window\x20#main\x20div'),_0x456a0a;for(let _0x332a68 of _0x24eb1f){if(GetValue(_0x332a68,_0x4196f8(0x24b))===general[_0x4196f8(0x410)]){_0x456a0a=_0x332a68;break;}}Clicked(_0x4e1d7f,_0x4e1d7f[_0x4196f8(0x3a8)]),BackState[_0x4196f8(0x261)][_0x4196f8(0x158)]([_0x4196f8(0x375),_0x4196f8(0x2f9),_0x456a0a]),$(_0x4196f8(0x375))[_0x4196f8(0x2dd)]['display']=_0x4196f8(0x26e),$(_0x4196f8(0x2f9))[_0x4196f8(0x2dd)][_0x4196f8(0x301)]=_0x4196f8(0x150);},NotificationClick=_0x49c0f7=>{Notify['buttonAction'](_0x49c0f7);};class Notify{static [_0x1fe42c(0x204)]=_0x4a7152=>{const _0x321c90=_0x1fe42c;let _0x24a080=$(_0x321c90(0x142));_0x24a080[_0x321c90(0x15c)]=_0x4a7152,_0x24a080[_0x321c90(0x2dd)][_0x321c90(0x301)]=_0x321c90(0x15b),_0x24a080[_0x321c90(0x1f6)]['remove']('pop'),void _0x24a080[_0x321c90(0x31b)],_0x24a080[_0x321c90(0x1f6)][_0x321c90(0x23f)](_0x321c90(0x2d3));};static [_0x1fe42c(0x2c4)]=()=>{const _0x3b1420=_0x1fe42c;this[_0x3b1420(0x3ff)]=$(_0x3b1420(0x233)),this[_0x3b1420(0x1fd)]=$('#note'),this['note_image']=$(_0x3b1420(0x27e)),this[_0x3b1420(0x3ea)]=$(_0x3b1420(0x265)),this[_0x3b1420(0x2b2)]=$(_0x3b1420(0x368)),this[_0x3b1420(0x39b)]=$(_0x3b1420(0x378)),this['note_buttons']=this['note_footer'][_0x3b1420(0x1b4)],this[_0x3b1420(0x223)]=$(_0x3b1420(0x326)),this['note_window'][_0x3b1420(0x1f6)][_0x3b1420(0x194)](_0x3b1420(0x351)),this[_0x3b1420(0x3ff)][_0x3b1420(0x2dd)][_0x3b1420(0x407)]=_0x3b1420(0x166),this['note_main'][_0x3b1420(0x2dd)][_0x3b1420(0xdc)]=_0x3b1420(0x263),this['note_main'][_0x3b1420(0x2dd)][_0x3b1420(0x31c)]=_0x3b1420(0x362),this[_0x3b1420(0x1fd)][_0x3b1420(0x2dd)][_0x3b1420(0x132)]='5px',this[_0x3b1420(0x1fd)][_0x3b1420(0x2dd)][_0x3b1420(0x137)]=_0x3b1420(0x239),this[_0x3b1420(0x1e4)][_0x3b1420(0x2dd)][_0x3b1420(0x137)]=_0x3b1420(0x27f),this[_0x3b1420(0x1e4)][_0x3b1420(0x2dd)][_0x3b1420(0x289)]=_0x3b1420(0x3b8),this['note_head'][_0x3b1420(0x2dd)]['fontWeight']='900',this['note_body'][_0x3b1420(0x2dd)]['display']=_0x3b1420(0x15b),this[_0x3b1420(0x3ff)][_0x3b1420(0x167)]('onclick'),this['note_close_button'][_0x3b1420(0x2dd)][_0x3b1420(0x301)]='block';if(this[_0x3b1420(0x38a)])this['sleep']['end']();else this[_0x3b1420(0x38a)]=new Sleep();};static ['alert']=async _0x4d25aa=>{const _0x4aed8c=_0x1fe42c;return await this[_0x4aed8c(0x2c4)](),this[_0x4aed8c(0x3ea)][_0x4aed8c(0x15c)]=_0x4d25aa[_0x4aed8c(0x35b)]||'',this[_0x4aed8c(0x2b2)][_0x4aed8c(0x15c)]=_0x4d25aa[_0x4aed8c(0xdb)]||'',this[_0x4aed8c(0x1e4)][_0x4aed8c(0x3ed)]=Icons['alertIcon'],this[_0x4aed8c(0x1e4)][_0x4aed8c(0x2dd)][_0x4aed8c(0x1a1)]=_0x4aed8c(0x28d),this['note_image'][_0x4aed8c(0x2dd)][_0x4aed8c(0x2fb)]='60px',this[_0x4aed8c(0x1d1)][0x0]['style']['display']=_0x4aed8c(0x26e),this[_0x4aed8c(0x1d1)][0x1][_0x4aed8c(0x2dd)][_0x4aed8c(0x301)]=_0x4aed8c(0x26e),this[_0x4aed8c(0x1d1)][0x2][_0x4aed8c(0x2dd)][_0x4aed8c(0x301)]=_0x4aed8c(0x24a),this['note_buttons'][0x2][_0x4aed8c(0x262)]='OK',this['note_buttons'][0x2][_0x4aed8c(0x317)](_0x4aed8c(0x266),'OK'),this[_0x4aed8c(0x3ff)]['setAttribute'](_0x4aed8c(0x415),_0x4aed8c(0x2e8)),this[_0x4aed8c(0x223)][_0x4aed8c(0x317)](_0x4aed8c(0x266),'OK'),this['note_close_button'][_0x4aed8c(0x2dd)][_0x4aed8c(0x3fc)]='auto',this[_0x4aed8c(0x3ff)][_0x4aed8c(0x2dd)]['display']=_0x4aed8c(0x1a7),await this['sleep'][_0x4aed8c(0x36c)](),this[_0x4aed8c(0x1c2)];};static [_0x1fe42c(0x15d)]=async _0x3cdaca=>{const _0x5742ae=_0x1fe42c;await this[_0x5742ae(0x2c4)](),this['note_head'][_0x5742ae(0x15c)]=_0x3cdaca[_0x5742ae(0x35b)]||'',this[_0x5742ae(0x2b2)][_0x5742ae(0x15c)]=_0x3cdaca[_0x5742ae(0xdb)]||'',this[_0x5742ae(0x3ff)][_0x5742ae(0x2dd)][_0x5742ae(0x407)]='flex-start',this[_0x5742ae(0x1fd)][_0x5742ae(0x2dd)][_0x5742ae(0x31c)]=_0x3cdaca['iconType']=='dice'?_0x5742ae(0x1c8):_0x5742ae(0x182),this[_0x5742ae(0x1fd)]['style'][_0x5742ae(0xdc)]=_0x5742ae(0x38d),this[_0x5742ae(0x1fd)]['style'][_0x5742ae(0x137)]=_0x5742ae(0x27f),this['note_main'][_0x5742ae(0x2dd)][_0x5742ae(0x132)]=_0x5742ae(0x3b6),this['note_image'][_0x5742ae(0x2dd)]['padding']='0px\x2010px\x200px\x200px';_0x3cdaca[_0x5742ae(0x35a)]==_0x5742ae(0x143)&&(this[_0x5742ae(0x1e4)]['style']['height']=_0x5742ae(0x2d1),this['note_image'][_0x5742ae(0x2dd)][_0x5742ae(0x289)]=_0x5742ae(0x164),this[_0x5742ae(0x1fd)][_0x5742ae(0x2dd)][_0x5742ae(0x31c)]=_0x5742ae(0x1ef));this[_0x5742ae(0x223)]['style']['display']=_0x5742ae(0x26e),this[_0x5742ae(0x3ea)][_0x5742ae(0x2dd)][_0x5742ae(0x126)]=_0x5742ae(0x148),this[_0x5742ae(0x2b2)][_0x5742ae(0x2dd)]['display']=_0x5742ae(0x26e),this[_0x5742ae(0x1e4)][_0x5742ae(0x3ed)]=_0x3cdaca[_0x5742ae(0x39e)],this[_0x5742ae(0x1e4)][_0x5742ae(0x2dd)][_0x5742ae(0x1a1)]=_0x3cdaca[_0x5742ae(0x35a)]==_0x5742ae(0x1d9)?_0x5742ae(0x28d):_0x3cdaca[_0x5742ae(0x35a)]==_0x5742ae(0x143)?_0x5742ae(0x38d):_0x5742ae(0x33f),this['note_buttons'][0x0]['style'][_0x5742ae(0x301)]='none',this[_0x5742ae(0x1d1)][0x1]['style']['display']=_0x5742ae(0x26e),this[_0x5742ae(0x1d1)][0x2][_0x5742ae(0x2dd)][_0x5742ae(0x301)]=_0x5742ae(0x26e);let _0x24ec8c=_0x3cdaca[_0x5742ae(0x162)]||0x3e8;setTimeout(this[_0x5742ae(0x16e)],_0x24ec8c),this[_0x5742ae(0x3ff)]['style'][_0x5742ae(0x301)]=_0x5742ae(0x1a7);};static [_0x1fe42c(0x1b6)]=async _0x42605f=>{const _0x3582c8=_0x1fe42c;await this[_0x3582c8(0x2c4)](),this['note_head'][_0x3582c8(0x15c)]=_0x42605f['header']||'',this['note_body']['innerHTML']=_0x42605f['message']||'',this[_0x3582c8(0x1e4)]['src']=Icons[_0x3582c8(0x131)],this[_0x3582c8(0x1e4)]['style'][_0x3582c8(0x1a1)]=_0x3582c8(0x28d),this[_0x3582c8(0x1d1)][0x0][_0x3582c8(0x2dd)][_0x3582c8(0x301)]=_0x3582c8(0x26e),this[_0x3582c8(0x1d1)][0x1][_0x3582c8(0x2dd)][_0x3582c8(0x301)]=_0x3582c8(0x26e),this[_0x3582c8(0x1d1)][0x2][_0x3582c8(0x2dd)]['display']=_0x3582c8(0x26e),this['note_close_button'][_0x3582c8(0x2dd)][_0x3582c8(0x3fc)]=_0x3582c8(0x26e),this[_0x3582c8(0x3ff)][_0x3582c8(0x2dd)][_0x3582c8(0x301)]=_0x3582c8(0x1a7);};static [_0x1fe42c(0x2da)]=async _0x4b0edb=>{const _0x286b37=_0x1fe42c;await this[_0x286b37(0x2c4)](),this[_0x286b37(0x3ea)]['innerHTML']=_0x4b0edb[_0x286b37(0x35b)]||'',this[_0x286b37(0x2b2)][_0x286b37(0x15c)]=_0x4b0edb[_0x286b37(0xdb)]||'',this['note_image']['style'][_0x286b37(0x1a1)]='60px',this[_0x286b37(0x1e4)]['style'][_0x286b37(0x2fb)]=_0x286b37(0x28d);if(_0x4b0edb['icon']===undefined)this['note_image']['src']=Icons[_0x286b37(0x1e5)];else{if(_0x4b0edb[_0x286b37(0x35a)]=='winner')this[_0x286b37(0x1e4)][_0x286b37(0x2dd)][_0x286b37(0x2fb)]=_0x286b37(0x3f3);else _0x4b0edb['iconType']==_0x286b37(0x13b)&&(this[_0x286b37(0x1fd)][_0x286b37(0x2dd)][_0x286b37(0x31c)]=_0x286b37(0x28b),this[_0x286b37(0x1e4)][_0x286b37(0x2dd)][_0x286b37(0x1a1)]=_0x286b37(0x3f3));this[_0x286b37(0x1e4)][_0x286b37(0x3ed)]=_0x4b0edb['icon'];}return this['note_buttons'][0x0]['style'][_0x286b37(0x301)]=_0x286b37(0x26e),this[_0x286b37(0x1d1)][0x1][_0x286b37(0x2dd)][_0x286b37(0x301)]=_0x286b37(0x24a),this[_0x286b37(0x1d1)][0x2][_0x286b37(0x2dd)][_0x286b37(0x301)]=_0x286b37(0x24a),this[_0x286b37(0x1d1)][0x1][_0x286b37(0x262)]=_0x4b0edb[_0x286b37(0x311)][_0x286b37(0x2f6)]('/')[0x0],this['note_buttons'][0x2][_0x286b37(0x262)]=_0x4b0edb[_0x286b37(0x311)]['split']('/')[0x1],this['note_buttons'][0x1]['setAttribute'](_0x286b37(0x266),_0x4b0edb[_0x286b37(0x311)][_0x286b37(0x2f6)]('/')[0x0]),this[_0x286b37(0x1d1)][0x2][_0x286b37(0x317)](_0x286b37(0x266),_0x4b0edb['type']['split']('/')[0x1]),this[_0x286b37(0x223)][_0x286b37(0x317)]('value',_0x4b0edb[_0x286b37(0x311)][_0x286b37(0x2f6)]('/')[0x0]),this['note_close_button'][_0x286b37(0x2dd)][_0x286b37(0x3fc)]=_0x286b37(0x38d),this[_0x286b37(0x3ff)][_0x286b37(0x2dd)]['display']=_0x286b37(0x1a7),await this[_0x286b37(0x38a)][_0x286b37(0x36c)](),this['action'];};static ['other']=async _0x3dd12e=>{const _0x426135=_0x1fe42c;await this[_0x426135(0x2c4)](),this[_0x426135(0x3ea)][_0x426135(0x15c)]=_0x3dd12e['header']||'',this[_0x426135(0x2b2)][_0x426135(0x15c)]=_0x3dd12e[_0x426135(0xdb)]||'';if(_0x3dd12e[_0x426135(0x39e)]===undefined)this[_0x426135(0x1e4)][_0x426135(0x3ed)]=Icons[_0x426135(0x1e5)];else this[_0x426135(0x1e4)][_0x426135(0x3ed)]=_0x3dd12e[_0x426135(0x39e)];this['note_image'][_0x426135(0x2dd)][_0x426135(0x2fb)]=_0x426135(0x28d);if(_0x3dd12e['iconType']==_0x426135(0x2be))this[_0x426135(0x1e4)][_0x426135(0x2dd)][_0x426135(0x1a1)]='60px',this[_0x426135(0x1e4)][_0x426135(0x2dd)][_0x426135(0x2fb)]=_0x426135(0x3f3);else _0x3dd12e[_0x426135(0x35a)]==_0x426135(0x13b)&&(this['note_main'][_0x426135(0x2dd)][_0x426135(0x31c)]=_0x426135(0x28b),this[_0x426135(0x1e4)][_0x426135(0x2dd)][_0x426135(0x1a1)]=_0x426135(0x3f3));return this[_0x426135(0x1d1)][0x0][_0x426135(0x2dd)][_0x426135(0x301)]=_0x426135(0x24a),this[_0x426135(0x1d1)][0x1][_0x426135(0x2dd)][_0x426135(0x301)]=_0x426135(0x24a),this['note_buttons'][0x2][_0x426135(0x2dd)][_0x426135(0x301)]=_0x426135(0x24a),this[_0x426135(0x1d1)][0x0][_0x426135(0x15c)]=_0x3dd12e[_0x426135(0x311)][_0x426135(0x2f6)]('/')[0x0],this[_0x426135(0x1d1)][0x1][_0x426135(0x15c)]=_0x3dd12e['type'][_0x426135(0x2f6)]('/')[0x1],this[_0x426135(0x1d1)][0x2][_0x426135(0x15c)]=_0x3dd12e[_0x426135(0x311)][_0x426135(0x2f6)]('/')[0x2],this[_0x426135(0x1d1)][0x0][_0x426135(0x317)](_0x426135(0x266),_0x3dd12e[_0x426135(0x311)][_0x426135(0x2f6)]('/')[0x0]),this['note_buttons'][0x1]['setAttribute'](_0x426135(0x266),_0x3dd12e[_0x426135(0x311)][_0x426135(0x2f6)]('/')[0x1]),this[_0x426135(0x1d1)][0x2][_0x426135(0x317)](_0x426135(0x266),_0x3dd12e[_0x426135(0x311)]['split']('/')[0x2]),this[_0x426135(0x223)][_0x426135(0x317)](_0x426135(0x266),_0x3dd12e[_0x426135(0x311)][_0x426135(0x2f6)]('/')[0x0]),this[_0x426135(0x223)][_0x426135(0x2dd)]['pointerEvents']=_0x426135(0x38d),this[_0x426135(0x3ff)][_0x426135(0x2dd)][_0x426135(0x301)]=_0x426135(0x1a7),await this['sleep']['start'](),this[_0x426135(0x1c2)];};static [_0x1fe42c(0x2cd)]=async _0x2fb4dd=>{const _0x5e2930=_0x1fe42c;this[_0x5e2930(0x1c2)]=_0x2fb4dd['getAttribute'](_0x5e2930(0x266)),this[_0x5e2930(0x38a)][_0x5e2930(0x270)](),this[_0x5e2930(0x16e)]();};static [_0x1fe42c(0x16e)]=async()=>{const _0x262ba9=_0x1fe42c;this[_0x262ba9(0x3ff)]=$(_0x262ba9(0x233)),this[_0x262ba9(0x3ff)][_0x262ba9(0x1f6)][_0x262ba9(0x194)]('fade_note'),void this[_0x262ba9(0x3ff)][_0x262ba9(0x31b)],this[_0x262ba9(0x3ff)]['setAttribute'](_0x262ba9(0x1fa),_0x262ba9(0x187)),this[_0x262ba9(0x3ff)][_0x262ba9(0x1f6)][_0x262ba9(0x23f)](_0x262ba9(0x351));};}const Version=async(_0x1eef0b,_0x644df,_0x363e06=!![])=>{const _0x26a9ab=_0x1fe42c;_0x1eef0b[_0x26a9ab(0x3a8)][_0x26a9ab(0x1f6)][_0x26a9ab(0x23f)](_0x26a9ab(0x19d)),$('#footer\x20.left_btn')[_0x26a9ab(0x2dd)][_0x26a9ab(0x3fc)]='none',$(_0x26a9ab(0x18f))[_0x26a9ab(0x1f6)][_0x26a9ab(0x23f)]('disabled_levels');let _0xa5485b=$$('#nav\x20div');if(_0x363e06){let _0x2c741f=[],_0x75d871;_0xa5485b['forEach']((_0x5dfb86,_0x22989c)=>{const _0x2a931d=_0x26a9ab;if(_0x5dfb86[_0x2a931d(0x116)](_0x2a931d(0x266))!==_0x2a931d(0x3c3)){let _0xc71850=0x3;for(let _0x3aedd7=0x0;_0x3aedd7<_0x5dfb86[_0x2a931d(0x1b4)][0x1][_0x2a931d(0x1b4)][_0x2a931d(0x2b4)];_0x3aedd7++){let _0x1dbc6a=_0x5dfb86['children'][0x1]['children'][_0x3aedd7];if(!_0x1dbc6a['className'][_0x2a931d(0x2ed)]('not_achieved')){_0xc71850=_0x3aedd7;break;}}let _0x4d27ea=Game[_0x2a931d(0x40e)][_0x22989c][_0x2a931d(0x325)];_0x2c741f[_0x2a931d(0x158)]({'score':_0xc71850,'validForHint':_0x4d27ea}),_0x75d871=_0x22989c;}}),Game[_0x26a9ab(0x401)][Game[_0x26a9ab(0x175)]]=_0x2c741f,Game[_0x26a9ab(0x175)]=_0x1eef0b[_0x26a9ab(0x116)]('value'),$(_0x26a9ab(0x3e7))[_0x26a9ab(0x15c)]=Game[_0x26a9ab(0x175)]['toUpperCase']()+_0x26a9ab(0x33a),await Clicked(_0x1eef0b,_0x1eef0b[_0x26a9ab(0x3a8)],_0x363e06),storage&&(storage['setItem']('Checkers\x20-\x20versions',JSON[_0x26a9ab(0x1db)](Game['versions'])),storage[_0x26a9ab(0x388)]('Checkers\x20-\x20version',Game[_0x26a9ab(0x175)]),storage[_0x26a9ab(0x388)](_0x26a9ab(0x2a7),_0x75d871)),await _0x506b9d();}else $(_0x26a9ab(0x3e7))['innerHTML']=Game[_0x26a9ab(0x175)][_0x26a9ab(0x3cc)]()+'\x20CHECKERS',await Clicked(_0x1eef0b,_0x1eef0b[_0x26a9ab(0x3a8)],_0x363e06),await _0x506b9d();async function _0x506b9d(_0x2750d7=0x0){const _0x181613=_0x26a9ab;if(_0x2750d7===_0xa5485b['length']){if(Game[_0x181613(0x382)]===_0x181613(0x350)){let _0x5625d2=_0xa5485b[Game[_0x181613(0x401)][Game['version']]['length']-0x1];if(storage&&!_0x363e06){let _0x523b63=storage[_0x181613(0x23c)]('Checkers\x20-\x20currentLevel');_0x523b63&&(_0x523b63=_0xa5485b[_0x523b63],_0x523b63&&_0x523b63[_0x181613(0x116)](_0x181613(0x266))!='locked'&&(_0x5625d2=_0x523b63));}await Clicked(_0x5625d2,_0x5625d2[_0x181613(0x3a8)],![]);}else general[_0x181613(0x1ce)]=_0xa5485b[Game['versions'][Game[_0x181613(0x175)]][_0x181613(0x2b4)]-0x1];await _0x2240fe(),_0x1eef0b['parentNode'][_0x181613(0x1f6)][_0x181613(0x194)]('disabled_container'),$(_0x181613(0x18f))['classList'][_0x181613(0x194)](_0x181613(0x327)),$(_0x181613(0x3d0))[_0x181613(0x2dd)][_0x181613(0x3fc)]=_0x181613(0x38d);return;}let _0x56d30c=_0xa5485b[_0x2750d7];if(_0x2750d7<Game['versions'][Game[_0x181613(0x175)]]['length']){Game[_0x181613(0x1ce)]=_0x2750d7-0x1,await Level(![],_0x181613(0x175)),Game['level']=_0x2750d7,Game[_0x181613(0x40e)][Game[_0x181613(0x1ce)]]['validForHint']=Game[_0x181613(0x401)][Game[_0x181613(0x175)]][_0x2750d7]['validForHint'];if(Game[_0x181613(0x40e)][Game[_0x181613(0x1ce)]]['validForHint']===undefined)Game[_0x181613(0x40e)][Game[_0x181613(0x1ce)]][_0x181613(0x325)]=!![];let _0x2a9c6b=Game['versions'][Game[_0x181613(0x175)]][_0x2750d7][_0x181613(0x3bf)];if(_0x2a9c6b===undefined)Game['versions'][Game[_0x181613(0x175)]][_0x2750d7];for(let _0x4dc435=0x0;_0x4dc435<0x3;_0x4dc435++){_0x56d30c[_0x181613(0x1b4)][0x1][_0x181613(0x1b4)][_0x4dc435]['classList'][_0x181613(0x194)](_0x181613(0x254),_0x181613(0x30e)),_0x4dc435>=_0x2a9c6b?_0x56d30c[_0x181613(0x1b4)][0x1][_0x181613(0x1b4)][_0x4dc435][_0x181613(0x1f6)][_0x181613(0x23f)](_0x181613(0x254)):_0x56d30c['children'][0x1][_0x181613(0x1b4)][_0x4dc435][_0x181613(0x1f6)][_0x181613(0x23f)](_0x181613(0x30e));}}else{_0x56d30c[_0x181613(0x317)]('value',_0x181613(0x3c3)),_0x56d30c['children'][0x0]['innerHTML']=_0x181613(0x2ac),_0x56d30c['children'][0x1]['style'][_0x181613(0x139)]=_0x181613(0x3d9),_0x56d30c[_0x181613(0x2dd)][_0x181613(0x3b3)]=general[_0x181613(0xe2)],_0x56d30c[_0x181613(0x1b4)][0x1][_0x181613(0x2dd)]['backgroundImage']=_0x181613(0x3df);for(let _0x304125 of _0x56d30c['children'][0x1][_0x181613(0x1b4)]){_0x304125['classList'][_0x181613(0x194)](_0x181613(0x254),_0x181613(0x30e));}}Game[_0x181613(0x382)]!=='single-player'&&await Disable(_0x56d30c[_0x181613(0x3a8)],general[_0x181613(0xe2)],_0x181613(0x33d)),await _0x506b9d(_0x2750d7+0x1);}function _0x2240fe(){const _0x176e83=_0x26a9ab;Game[_0x176e83(0x175)]!=_0x176e83(0x2d8)&&Game[_0x176e83(0x175)]!=_0x176e83(0x408)?(Game[_0x176e83(0x32b)]=0x8,Game[_0x176e83(0x3b4)]=0x3):(Game[_0x176e83(0x32b)]=0xa,Game[_0x176e83(0x3b4)]=0x4),document[_0x176e83(0x3d8)]['style']['setProperty'](_0x176e83(0x27d),Game[_0x176e83(0x32b)]);}},RestartLevels=async()=>{const _0xe3a512=_0x1fe42c;let _0x13cccb=Notify['confirm']({'header':_0xe3a512(0x1e7),'message':'Once\x20done\x20this\x20action\x20can\x20not\x20be\x20reversed.','type':_0xe3a512(0x129)});if(_0x13cccb==_0xe3a512(0x3f2)){await Notify['alertSpecial']({'header':_0xe3a512(0xe0),'message':'Resetting\x20levels...'}),Object[_0xe3a512(0x189)](Game[_0xe3a512(0x401)])['map'](_0x4ed56e=>{Game['versions'][_0x4ed56e]=[{'score':0x3,'validForHint':!![]}];});storage&&(storage[_0xe3a512(0x388)](_0xe3a512(0x172),JSON['stringify'](Game[_0xe3a512(0x401)])),storage[_0xe3a512(0x388)](_0xe3a512(0x34e),Game[_0xe3a512(0x175)]),storage[_0xe3a512(0x388)](_0xe3a512(0x2a7),0x0));let _0x52f7d0=$(_0xe3a512(0x195)+Game[_0xe3a512(0x175)]+'\x27]');await Version(_0x52f7d0,undefined,![]),Notify[_0xe3a512(0x16e)]();}},Level=async(_0x471a00,_0x229e33,_0x5ed7d=!![])=>{const _0x2e6f18=_0x1fe42c;if(typeof _0x471a00==='object'){await Clicked(_0x471a00,_0x471a00[_0x2e6f18(0x3a8)],_0x5ed7d);if(_0x471a00[_0x2e6f18(0x116)](_0x2e6f18(0x266))!=_0x2e6f18(0x3c3)){if(storage){let _0x1059d7=_0x229e33;storage[_0x2e6f18(0x388)](_0x2e6f18(0x2a7),_0x1059d7[_0x2e6f18(0x109)]());}Game[_0x2e6f18(0x1ce)]=_0x229e33;}}else{if(_0x471a00){let _0x1628f6=$$(_0x2e6f18(0x324))[Game[_0x2e6f18(0x1ce)]+0x1];await Clicked(_0x1628f6,_0x1628f6[_0x2e6f18(0x3a8)],![]),$(_0x2e6f18(0x395))[_0x2e6f18(0x15c)]=''+$(_0x2e6f18(0x1aa))[_0x2e6f18(0x15c)],$(_0x2e6f18(0x123))[_0x2e6f18(0x15c)]=Game[_0x2e6f18(0x175)][_0x2e6f18(0x3cc)]()[_0x2e6f18(0x157)](0x0,0x3)+_0x2e6f18(0x119)+$(_0x2e6f18(0x1aa))[_0x2e6f18(0x15c)];for(_0x1628f6 of Game[_0x2e6f18(0x40e)]){if(_0x1628f6[_0x2e6f18(0x1ce)]===$('#levels\x20h2')['innerHTML']){Game[_0x2e6f18(0x1ce)]=Game[_0x2e6f18(0x40e)][_0x2e6f18(0x37a)](_0x1628f6);break;}}if(Game[_0x2e6f18(0x40e)][Game[_0x2e6f18(0x1ce)]-0x1][_0x2e6f18(0x325)])$('#play-window\x20.middle_section\x20.horiz_controls:nth-of-type(3)')[_0x2e6f18(0x2dd)][_0x2e6f18(0x3b3)]=_0x2e6f18(0x3e8),$(_0x2e6f18(0x1f8))['style'][_0x2e6f18(0x3b3)]=_0x2e6f18(0x3e8),$('#play-window\x20.controls_section\x20.controls:nth-of-type(3)')[_0x2e6f18(0x2dd)][_0x2e6f18(0x168)]=_0x2e6f18(0x3ad),$(_0x2e6f18(0x1cd))[_0x2e6f18(0x2dd)]['backgroundSize']=_0x2e6f18(0x3ad);else!Game['levels'][Game[_0x2e6f18(0x1ce)]-0x1][_0x2e6f18(0x325)]&&($(_0x2e6f18(0x1cd))[_0x2e6f18(0x2dd)][_0x2e6f18(0x3b3)]=_0x2e6f18(0x3df),$(_0x2e6f18(0x1f8))[_0x2e6f18(0x2dd)][_0x2e6f18(0x3b3)]=_0x2e6f18(0x3df),$(_0x2e6f18(0x1f8))[_0x2e6f18(0x2dd)][_0x2e6f18(0x168)]='3.75vmax\x204.5vmax',$(_0x2e6f18(0x1cd))[_0x2e6f18(0x2dd)][_0x2e6f18(0x168)]=_0x2e6f18(0x394));if(Game['alternatePlayAs']){let _0x1bf678=playerA['pieceColor'];await Alternate(_0x1bf678);}await setTimeout(_0x37715f=>{Refresh(!![]);},0xc8),_0x229e33=0x0;}else{let _0x10a97d=$$(_0x2e6f18(0x324))[Game[_0x2e6f18(0x1ce)]+0x1];_0x10a97d['getAttribute'](_0x2e6f18(0x266))==_0x2e6f18(0x3c3)&&(_0x10a97d[_0x2e6f18(0x317)](_0x2e6f18(0x266),Game[_0x2e6f18(0x40e)][Game[_0x2e6f18(0x1ce)]+0x1]['level'][_0x2e6f18(0x113)]()[_0x2e6f18(0xd5)](_0x2e6f18(0x176),'')),_0x10a97d[_0x2e6f18(0x2dd)][_0x2e6f18(0x3b3)]=general[_0x2e6f18(0x245)],_0x10a97d[_0x2e6f18(0x1b4)][0x0]['innerHTML']=Game[_0x2e6f18(0x40e)][Game[_0x2e6f18(0x1ce)]+0x1][_0x2e6f18(0x1ce)][_0x2e6f18(0xd5)]('\x20',_0x2e6f18(0x414)),_0x10a97d['children'][0x1][_0x2e6f18(0x2dd)][_0x2e6f18(0x139)]='grayscale(0)\x20invert(0)\x20brightness(1)',_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x2dd)][_0x2e6f18(0x3b3)]=_0x2e6f18(0x26e),(_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1b4)][0x0][_0x2e6f18(0x416)]===''||!_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1b4)][0x0][_0x2e6f18(0x416)][_0x2e6f18(0x2ed)](_0x2e6f18(0x254)))&&(_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1b4)][0x0][_0x2e6f18(0x1f6)][_0x2e6f18(0x23f)]('not_achieved'),_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1f6)][_0x2e6f18(0x23f)](_0x2e6f18(0x30e)),_0x10a97d[_0x2e6f18(0x1b4)][0x1][_0x2e6f18(0x1b4)][0x2][_0x2e6f18(0x1f6)][_0x2e6f18(0x23f)](_0x2e6f18(0x30e))));}}if(storage&&_0x229e33!='version'){let _0x278c86=$$('#nav\x20div'),_0x58a3ea=[];_0x278c86['forEach']((_0x4b3a72,_0x10473b)=>{const _0x424401=_0x2e6f18;if(_0x4b3a72[_0x424401(0x116)](_0x424401(0x266))!==_0x424401(0x3c3)){let _0xa60df9=0x3;for(let _0x5c87de=0x0;_0x5c87de<_0x4b3a72[_0x424401(0x1b4)][0x1]['children'][_0x424401(0x2b4)];_0x5c87de++){let _0x4cbeb3=_0x4b3a72['children'][0x1]['children'][_0x5c87de];if(!_0x4cbeb3[_0x424401(0x416)]['includes'](_0x424401(0x30e))){_0xa60df9=_0x5c87de;break;}}let _0x6de9a3=Game[_0x424401(0x40e)][_0x10473b][_0x424401(0x325)];_0x58a3ea[_0x424401(0x158)]({'score':_0xa60df9,'validForHint':_0x6de9a3});}}),Game[_0x2e6f18(0x401)][Game[_0x2e6f18(0x175)]]=_0x58a3ea,storage[_0x2e6f18(0x388)]('Checkers\x20-\x20versions',JSON[_0x2e6f18(0x1db)](Game[_0x2e6f18(0x401)])),storage[_0x2e6f18(0x388)](_0x2e6f18(0x34e),Game['version']);}return Prms('done');},End=_0x2d0489=>{const _0x571846=_0x1fe42c;if(_0x2d0489[_0x571846(0x2a1)]===_0x571846(0x342)){let _0x29cd1d=$(_0x571846(0x142));_0x29cd1d[_0x571846(0x2dd)]['display']=_0x571846(0x26e);}else{if(_0x2d0489[_0x571846(0x2a1)]===_0x571846(0x252))_0x2d0489[_0x571846(0x220)][_0x571846(0x167)](_0x571846(0x1fa)),_0x2d0489[_0x571846(0x220)][_0x571846(0x1f6)]['remove'](_0x571846(0x154)),_0x2d0489[_0x571846(0x220)]['parentNode'][_0x571846(0x355)](_0x2d0489[_0x571846(0x220)]);else{if(_0x2d0489[_0x571846(0x2a1)]===_0x571846(0x2bb))_0x2d0489[_0x571846(0x220)][_0x571846(0x167)]('onanimationend'),_0x2d0489[_0x571846(0x220)][_0x571846(0x2dd)][_0x571846(0x301)]='none',_0x2d0489['target']['classList'][_0x571846(0x194)](_0x571846(0x351));else _0x2d0489[_0x571846(0x2a1)]===_0x571846(0x3dc)&&_0x2d0489[_0x571846(0x220)][_0x571846(0x1f6)][_0x571846(0x194)]('show_float_date');}}},Home=async()=>{const _0x45b057=_0x1fe42c;if(GetValue($(_0x45b057(0x375)),_0x45b057(0x301))===_0x45b057(0x26e)){let _0x3afcc8=BackState[_0x45b057(0x261)]['length'];if(_0x3afcc8>0x0){let _0x537faa=BackState[_0x45b057(0x261)][_0x3afcc8-0x1];await BackState[_0x45b057(0x261)]['pop'](),_0x537faa[_0x45b057(0x2b4)]>0x2&&await Clicked(_0x537faa[0x2],_0x537faa[0x2]['parentNode'],![]),$(_0x537faa[0x1])['style']['display']=_0x45b057(0x26e),$(_0x537faa[0x0])[_0x45b057(0x2dd)]['display']=_0x45b057(0x150);}await Home();}return!![];};async function play(_0x499e20=![]){const _0x1fbd1c=_0x1fe42c;if(Lobby!=undefined&&Lobby[_0x1fbd1c(0x25b)]&&Lobby[_0x1fbd1c(0x2d2)]&&Game[_0x1fbd1c(0x382)]===_0x1fbd1c(0x309)||Game['mode']==='single-player'){if(GetValue($(_0x1fbd1c(0x36a)),_0x1fbd1c(0x301))=='none'||_0x499e20){if(Game[_0x1fbd1c(0x382)]===_0x1fbd1c(0x309)&&!_0x499e20){if(Game['alternatePlayAs']){let _0x293b51=playerA[_0x1fbd1c(0x1c3)];await Alternate(_0x293b51);}setTimeout(async()=>{const _0x1980f3=_0x1fbd1c;if(Game[_0x1980f3(0x277)])Game[_0x1980f3(0x312)]=await RollDice(),Game[_0x1980f3(0x370)]=Game[_0x1980f3(0x312)]?playerA[_0x1980f3(0x1c3)]==='White':playerB[_0x1980f3(0x1c3)]===_0x1980f3(0x40d);else{let _0x606bb8=$$(_0x1980f3(0x3de));Game[_0x1980f3(0x370)]=GetValue(_0x606bb8[0x0],_0x1980f3(0x24b))==general[_0x1980f3(0x410)],Game[_0x1980f3(0x312)]=Game[_0x1980f3(0x370)]&&playerA[_0x1980f3(0x1c3)]===_0x1980f3(0x40d)||!Game[_0x1980f3(0x370)]&&playerA[_0x1980f3(0x1c3)]===_0x1980f3(0x23d)?!![]:![];}Notify[_0x1980f3(0x204)](_0x1980f3(0x2b0)+playerB[_0x1980f3(0x3b9)]);let _0x2dee7d={'firstMove':!Game[_0x1980f3(0x312)],'mandatoryCapture':Game[_0x1980f3(0x11c)],'version':Game[_0x1980f3(0x175)]};Publish['send']({'channel':Lobby[_0x1980f3(0x13c)],'message':{'title':_0x1980f3(0x25a),'content':_0x2dee7d}});},0xc8);return;}else Game[_0x1fbd1c(0x382)]===_0x1fbd1c(0x309)&&_0x499e20&&await setTimeout(async()=>await Refresh(!![]),0xc8);if(Game['mode']!==_0x1fbd1c(0x309)){if(Game['alternatePlayAs']){let _0x3317f4=playerA[_0x1fbd1c(0x1c3)];await Alternate(_0x3317f4);}await Refresh(!![]);}if(Game[_0x1fbd1c(0x382)]==='two-player-online'||Game[_0x1fbd1c(0x1ce)]===0x0||Game['levels'][Game[_0x1fbd1c(0x1ce)]-0x1][_0x1fbd1c(0x325)])$('#play-window\x20.middle_section\x20.horiz_controls:nth-of-type(3)')[_0x1fbd1c(0x2dd)]['backgroundImage']=_0x1fbd1c(0x3e8),$('#play-window\x20.controls_section\x20.controls:nth-of-type(3)')[_0x1fbd1c(0x2dd)]['backgroundImage']='var(--hint)',$(_0x1fbd1c(0x1f8))['style'][_0x1fbd1c(0x168)]=_0x1fbd1c(0x3ad),$(_0x1fbd1c(0x1cd))['style']['backgroundSize']=_0x1fbd1c(0x3ad);else!Game[_0x1fbd1c(0x40e)][Game['level']-0x1][_0x1fbd1c(0x325)]&&($('#play-window\x20.middle_section\x20.horiz_controls:nth-of-type(3)')[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x3b3)]=_0x1fbd1c(0x3df),$('#play-window\x20.controls_section\x20.controls:nth-of-type(3)')[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x3b3)]=_0x1fbd1c(0x3df),$('#play-window\x20.controls_section\x20.controls:nth-of-type(3)')[_0x1fbd1c(0x2dd)]['backgroundSize']='3.75vmax\x204.5vmax',$(_0x1fbd1c(0x1cd))[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x168)]=_0x1fbd1c(0x394));await Home(),BackState[_0x1fbd1c(0x261)][_0x1fbd1c(0x158)]([_0x1fbd1c(0x375),_0x1fbd1c(0x36a)]),$(_0x1fbd1c(0x375))[_0x1fbd1c(0x2dd)]['display']=_0x1fbd1c(0x26e),$('#play-window')[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x301)]=_0x1fbd1c(0x150);}if(GetValue($(_0x1fbd1c(0x36a)),_0x1fbd1c(0x301))==_0x1fbd1c(0x150)){AdjustBoard();if(Game['mode']==='single-player'){$(_0x1fbd1c(0x395))[_0x1fbd1c(0x15c)]=''+$(_0x1fbd1c(0x1aa))[_0x1fbd1c(0x15c)],$(_0x1fbd1c(0x123))[_0x1fbd1c(0x15c)]=Game[_0x1fbd1c(0x175)][_0x1fbd1c(0x3cc)]()[_0x1fbd1c(0x157)](0x0,0x3)+_0x1fbd1c(0x119)+$(_0x1fbd1c(0x1aa))[_0x1fbd1c(0x15c)];for(let _0x5d1388 of Game[_0x1fbd1c(0x40e)]){_0x5d1388[_0x1fbd1c(0x1ce)]===$(_0x1fbd1c(0x1aa))[_0x1fbd1c(0x15c)]&&(Game['level']=Game[_0x1fbd1c(0x40e)][_0x1fbd1c(0x37a)](_0x5d1388));}}else $(_0x1fbd1c(0x395))[_0x1fbd1c(0x15c)]=playerA[_0x1fbd1c(0x3b9)]+_0x1fbd1c(0x1d2)+playerB['name'],$(_0x1fbd1c(0x123))[_0x1fbd1c(0x15c)]=Game['version'][_0x1fbd1c(0x3cc)]()['slice'](0x0,0x3)+_0x1fbd1c(0x119)+playerA[_0x1fbd1c(0x3b9)]+_0x1fbd1c(0x1d2)+playerB[_0x1fbd1c(0x3b9)];}}else{if(Game[_0x1fbd1c(0x382)]===_0x1fbd1c(0x403)&&playerA[_0x1fbd1c(0x3b9)]!='You'&&playerA[_0x1fbd1c(0x3b9)]!==''&&playerB[_0x1fbd1c(0x3b9)]!='AI'&&playerB[_0x1fbd1c(0x3b9)]!==''){$('#play-window\x20.header_section\x20h3')[_0x1fbd1c(0x15c)]=playerA[_0x1fbd1c(0x3b9)]+_0x1fbd1c(0x1d2)+playerB[_0x1fbd1c(0x3b9)];if(Game['alternatePlayAs']){let _0x165b2f=playerA['pieceColor'];await Alternate(_0x165b2f);}await Refresh(!![]),$(_0x1fbd1c(0x1cd))[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x3b3)]='var(--hint)',$('#play-window\x20.controls_section\x20.controls:nth-of-type(3)')['style'][_0x1fbd1c(0x3b3)]='var(--hint)',$(_0x1fbd1c(0x1f8))[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x168)]='4.5vmax\x203.75vmax',$(_0x1fbd1c(0x1cd))[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x168)]=_0x1fbd1c(0x3ad),BackState[_0x1fbd1c(0x261)][_0x1fbd1c(0x158)]([_0x1fbd1c(0x375),'#play-window']),$(_0x1fbd1c(0x375))['style'][_0x1fbd1c(0x301)]=_0x1fbd1c(0x26e),$(_0x1fbd1c(0x36a))[_0x1fbd1c(0x2dd)][_0x1fbd1c(0x301)]=_0x1fbd1c(0x150);}else{if(Game['mode']===_0x1fbd1c(0x309))Notify[_0x1fbd1c(0x204)]('Can\x27t\x20play,\x20you\x20have\x20no\x20opponent.\x20Please\x20wait\x20or\x20invite\x20one\x20or\x20join\x20another\x20channel.');else{if(Game[_0x1fbd1c(0x382)]===_0x1fbd1c(0x403))Notify[_0x1fbd1c(0x204)](_0x1fbd1c(0x257));}}}}const AdjustBoard=()=>{const _0x45ce6e=_0x1fe42c;general[_0x45ce6e(0x14f)]=screen[_0x45ce6e(0x14f)][_0x45ce6e(0x311)];let _0x886070=Game[_0x45ce6e(0x382)]==_0x45ce6e(0x403),_0x188137=document[_0x45ce6e(0x3d8)];BackState[_0x45ce6e(0x261)]['length']&&BackState[_0x45ce6e(0x261)][BackState[_0x45ce6e(0x261)][_0x45ce6e(0x2b4)]-0x1][0x0]==_0x45ce6e(0x402)&&($(_0x45ce6e(0x402))['style'][_0x45ce6e(0x383)]='translate(0,\x20100%)',BackState[_0x45ce6e(0x261)][_0x45ce6e(0x2d3)]());let _0x581129=parseInt(GetValue($('#table'),_0x45ce6e(0x1a1)))/Game[_0x45ce6e(0x32b)]*0.1;if(screen['orientation'][_0x45ce6e(0x311)][_0x45ce6e(0x113)]()['includes'](_0x45ce6e(0x177)))$('#horiz')[_0x45ce6e(0x2dd)]['backgroundImage']=general[_0x45ce6e(0x410)],$(_0x45ce6e(0x332))[_0x45ce6e(0x2dd)][_0x45ce6e(0x3b3)]=general['background'],document['body'][_0x45ce6e(0x2dd)]['backgroundSize']=_0x45ce6e(0x39c),_0x886070?(_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x229),_0x45ce6e(0x3b6)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x26c),_0x45ce6e(0x283)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x221),_0x45ce6e(0x3b6)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--unrotated-shadow',_0x581129*1.3+'px'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--angleX',_0x45ce6e(0x134)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--angleZ','0deg'),_0x188137['style'][_0x45ce6e(0x2f7)](_0x45ce6e(0x39f)+playerB[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),'0deg'),_0x188137[_0x45ce6e(0x2dd)]['setProperty'](_0x45ce6e(0x39f)+playerA[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x134)),$(_0x45ce6e(0xf4))['style'][_0x45ce6e(0x3ce)]='0\x207vmin\x201vmin\x204vmin\x20#0008,\x200\x200\x201vmin\x204vmin\x20#000a',$(_0x45ce6e(0x259))['style'][_0x45ce6e(0x301)]=_0x45ce6e(0x26e),$(_0x45ce6e(0x196))[_0x45ce6e(0x2dd)]['display']=_0x45ce6e(0x26e),$(_0x45ce6e(0x2a0))[_0x45ce6e(0x1f6)][_0x45ce6e(0x23f)](_0x45ce6e(0x247)),$(_0x45ce6e(0x2aa))[_0x45ce6e(0x1f6)][_0x45ce6e(0x23f)](_0x45ce6e(0x247))):(_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--z-plane-distance',_0x45ce6e(0x1e6)),_0x188137[_0x45ce6e(0x2dd)]['setProperty']('--perspective-y','80%'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--shadow-width',_0x581129+'px'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x115),_0x45ce6e(0x3b6)),_0x188137['style'][_0x45ce6e(0x2f7)]('--angleX','30deg'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x39f),_0x45ce6e(0x134)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--angleZ'+playerB['pieceColor'][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x134)),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x39f)+playerA['pieceColor'][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x134)),$(_0x45ce6e(0xf4))[_0x45ce6e(0x2dd)][_0x45ce6e(0x3ce)]=_0x45ce6e(0x399),$(_0x45ce6e(0x2a0))[_0x45ce6e(0x1f6)]['remove'](_0x45ce6e(0x247)),$(_0x45ce6e(0x2aa))['classList'][_0x45ce6e(0x194)]('unrotated'),Game[_0x45ce6e(0x382)]==_0x45ce6e(0x350)?($(_0x45ce6e(0x259))['style'][_0x45ce6e(0x301)]=_0x45ce6e(0x1a7),$(_0x45ce6e(0x196))[_0x45ce6e(0x2dd)]['display']=_0x45ce6e(0x1a7)):($(_0x45ce6e(0x259))[_0x45ce6e(0x2dd)][_0x45ce6e(0x301)]=_0x45ce6e(0x26e),$(_0x45ce6e(0x196))[_0x45ce6e(0x2dd)]['display']=_0x45ce6e(0x26e)));else screen['orientation'][_0x45ce6e(0x311)][_0x45ce6e(0x113)]()[_0x45ce6e(0x2ed)](_0x45ce6e(0x112))&&($(_0x45ce6e(0x238))['style']['backgroundImage']=general[_0x45ce6e(0x245)],$('#vert')[_0x45ce6e(0x2dd)][_0x45ce6e(0x3b3)]=general['default'],document[_0x45ce6e(0x185)][_0x45ce6e(0x2dd)]['backgroundSize']=_0x45ce6e(0x110),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x221),_0x45ce6e(0x3b6)),_0x188137[_0x45ce6e(0x2dd)]['setProperty'](_0x45ce6e(0x115),_0x581129*1.3+'px'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--angleX','0deg'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--z-plane-distance',_0x45ce6e(0x3b6)),_0x188137[_0x45ce6e(0x2dd)]['setProperty'](_0x45ce6e(0x26c),'50%'),$(_0x45ce6e(0x259))[_0x45ce6e(0x2dd)][_0x45ce6e(0x301)]='none',$(_0x45ce6e(0x196))[_0x45ce6e(0x2dd)][_0x45ce6e(0x301)]='none',$(_0x45ce6e(0x2a0))[_0x45ce6e(0x1f6)][_0x45ce6e(0x194)]('unrotated'),$(_0x45ce6e(0x2aa))[_0x45ce6e(0x1f6)]['remove'](_0x45ce6e(0x247)),_0x886070?(_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)](_0x45ce6e(0x39f),_0x45ce6e(0x29a)),_0x188137['style'][_0x45ce6e(0x2f7)]('--angleZ'+playerB[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x334)),_0x188137['style'][_0x45ce6e(0x2f7)](_0x45ce6e(0x39f)+playerA[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x334)),$(_0x45ce6e(0x271))[_0x45ce6e(0x2dd)][_0x45ce6e(0x301)]='none',$(_0x45ce6e(0xf4))[_0x45ce6e(0x2dd)][_0x45ce6e(0x3ce)]=_0x45ce6e(0x3b2)):(_0x188137[_0x45ce6e(0x2dd)]['setProperty'](_0x45ce6e(0x39f),_0x45ce6e(0x134)),_0x188137['style']['setProperty'](_0x45ce6e(0x39f)+playerB[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),'0deg'),_0x188137[_0x45ce6e(0x2dd)][_0x45ce6e(0x2f7)]('--angleZ'+playerA[_0x45ce6e(0x1c3)][_0x45ce6e(0x157)](0x0,0x1),_0x45ce6e(0x134)),$(_0x45ce6e(0xf4))[_0x45ce6e(0x2dd)]['boxShadow']=_0x45ce6e(0x3b2),Game[_0x45ce6e(0x382)]==_0x45ce6e(0x350)?$(_0x45ce6e(0x271))[_0x45ce6e(0x2dd)]['display']=_0x45ce6e(0x1a7):$('#play-window\x20.controls_section\x20.score_cont')[_0x45ce6e(0x2dd)][_0x45ce6e(0x301)]='none'));},Fullscreen=async(_0x5e901a,_0x122fc2=![])=>{const _0x147794=_0x1fe42c;try{let _0x12e9f4=()=>{const _0x2bc7d9=_0x197c;if(document[_0x2bc7d9(0x3fe)]!==undefined)return document[_0x2bc7d9(0x3fe)];if(document[_0x2bc7d9(0x1e3)]!==undefined)return document[_0x2bc7d9(0x1e3)];if(document[_0x2bc7d9(0x385)]!==undefined)return document[_0x2bc7d9(0x385)];if(document['msFullscreenElement']!==undefined)return document[_0x2bc7d9(0x206)];},_0x4f104f=document[_0x147794(0x3d8)],_0x3ef6c6=_0x4f104f[_0x147794(0x1cb)]||_0x4f104f[_0x147794(0x1ca)]||_0x4f104f[_0x147794(0x171)]||_0x4f104f[_0x147794(0x396)],_0x20e52e=document['exitFullscreen']||document['webkitExitFullscreen']||document[_0x147794(0x19a)]||document[_0x147794(0x1a5)];if(_0x5e901a&&!_0x122fc2){if(_0x3ef6c6&&!_0x12e9f4()){$(_0x147794(0x202))['style']['display']='grid',await _0x3ef6c6[_0x147794(0x27b)](_0x4f104f,{'navigationUI':_0x147794(0x384)}),Clicked($(_0x147794(0x1ad)),$(_0x147794(0x1ad))['parentNode']),general['fullscreen']=_0x5e901a;let _0x4e6b61=await orientationLocking(document['documentElement'],general[_0x147794(0x14f)]);!_0x4e6b61&&($(_0x147794(0x202))[_0x147794(0x2dd)][_0x147794(0x301)]=_0x147794(0x26e));}else Notify['alert']({'header':_0x147794(0x2ef),'message':_0x147794(0x315)});}else{if(!_0x122fc2)_0x20e52e&&_0x12e9f4()&&(general[_0x147794(0x279)]=_0x5e901a,$(_0x147794(0x202))['style'][_0x147794(0x301)]=_0x147794(0x26e),await _0x20e52e[_0x147794(0x27b)](document),Clicked($(_0x147794(0x3eb)),$(_0x147794(0x3eb))['parentNode']));else{if(_0x122fc2&&!_0x12e9f4()){$(_0x147794(0x202))['style'][_0x147794(0x301)]=_0x147794(0x26e);let _0x46cc0d=$$(_0x147794(0x145));_0x46cc0d[0x0][_0x147794(0x2dd)][_0x147794(0x245)]=general['background'],_0x46cc0d[0x1][_0x147794(0x2dd)][_0x147794(0x245)]=general[_0x147794(0x410)],general[_0x147794(0x279)]=![];}}}}catch(_0x3d4500){if(!general[_0x147794(0x279)])$('#item1')['style'][_0x147794(0x301)]='none';Notify[_0x147794(0x13d)]({'header':_0x147794(0x2ef),'message':_0x147794(0x2d5)});}};async function orientationLocking(_0x3803de,_0x11aa18){const _0x426551=_0x1fe42c;let _0x1edd67=![];try{await screen[_0x426551(0x14f)][_0x426551(0x13a)](_0x11aa18)[_0x426551(0x256)](_0x3c7cfb=>{_0x1edd67=!![];})[_0x426551(0x146)](_0x4df298=>{const _0x326579=_0x426551;if(_0x4df298['name']!=_0x326579(0x2a5))Notify['popUpNote'](_0x326579(0x2e9));_0x1edd67=![];});}catch(_0x3fa18d){Notify[_0x426551(0x204)](_0x426551(0x404)+_0x3fa18d);}return Prms(_0x1edd67);}async function back(_0x46eacf=![],_0x48a67e=![]){const _0x3e56f0=_0x1fe42c;if(Game['thinking']&&_0x46eacf){Notify['popUpNote'](_0x3e56f0(0x260));return;}if(!_0x46eacf){if(GetValue($(_0x3e56f0(0x2f9)),_0x3e56f0(0x301))=='grid'){let _0x4ee322;if(general[_0x3e56f0(0x279)]&&GetValue($(_0x3e56f0(0x202)),_0x3e56f0(0x301))==_0x3e56f0(0x150)){_0x4ee322=$$(_0x3e56f0(0x28a));for(let _0x3535e1 of _0x4ee322){if(GetValue(_0x3535e1,_0x3e56f0(0x24b))==general['default']){if(_0x3535e1['id']=='horiz'&&general[_0x3e56f0(0x14f)][_0x3e56f0(0x113)]()['includes']('portrait'))orientationLocking(document[_0x3e56f0(0x3d8)],_0x3e56f0(0x2c8));else _0x3535e1['id']=='vert'&&general[_0x3e56f0(0x14f)][_0x3e56f0(0x113)]()['includes']('landscape')&&orientationLocking(document[_0x3e56f0(0x3d8)],'portrait-primary');}}}_0x4ee322=$$(_0x3e56f0(0x3de));for(let _0x445fc7 of _0x4ee322){if(GetValue(_0x445fc7,_0x3e56f0(0x24b))==general['default']){if(_0x445fc7['id']!=_0x3e56f0(0x20a))Game[_0x3e56f0(0x370)]=_0x445fc7['id']==_0x3e56f0(0x1f9),Game['rollDice']=![];else Game[_0x3e56f0(0x277)]=!![];break;}}if(storage)storage[_0x3e56f0(0x388)](_0x3e56f0(0x1c1),JSON[_0x3e56f0(0x1db)]({'rollDice':Game['rollDice'],'whiteTurn':Game[_0x3e56f0(0x370)]}));_0x4ee322=$$(_0x3e56f0(0x29b));for(let _0x223070 of _0x4ee322){if(GetValue(_0x223070,_0x3e56f0(0x24b))==general['default']){Game['mandatoryCapture']=_0x223070['id']==='must-jump';break;}}if(storage)storage[_0x3e56f0(0x388)]('Checkers\x20-\x20mandatory_capture',JSON[_0x3e56f0(0x1db)](Game['mandatoryCapture']));_0x4ee322=$$(_0x3e56f0(0x3d3));for(let _0x310f15 of _0x4ee322){if(GetValue(_0x310f15,'background-image')===general[_0x3e56f0(0x410)]){if(_0x310f15['id']===_0x3e56f0(0x13e)){Game[_0x3e56f0(0xe6)]=!![],Game[_0x3e56f0(0x108)]=!![];break;}else{if(_0x310f15['id']===_0x3e56f0(0x1ed)){Game[_0x3e56f0(0xe6)]=![],Game[_0x3e56f0(0x108)]=![];break;}else{Game['capturesHelper']=!![],Game['helper']=![];break;}}}}if(storage)storage['setItem'](_0x3e56f0(0x2df),JSON[_0x3e56f0(0x1db)]({'helper':Game[_0x3e56f0(0xe6)],'capturesHelper':Game[_0x3e56f0(0x108)]}));}let _0x413fd4=BackState[_0x3e56f0(0x261)][_0x3e56f0(0x2b4)];if(_0x413fd4>0x0){let _0x296333=BackState['state'][_0x413fd4-0x1];await BackState['state'][_0x3e56f0(0x2d3)]();if(_0x296333['length']>0x2)await Clicked(_0x296333[0x2],_0x296333[0x2][_0x3e56f0(0x3a8)]);else await Clicked();if($(_0x296333[0x0])[_0x3e56f0(0x1f6)]['contains']('games_totals'))$(_0x296333[0x0])[_0x3e56f0(0x2dd)][_0x3e56f0(0x383)]='translate(0,\x20100%)';else $(_0x296333[0x0])['id']==_0x3e56f0(0x16c)?HideChat(_0x3e56f0(0x20d)):($(_0x296333[0x1])['style'][_0x3e56f0(0x301)]=_0x3e56f0(0x26e),$(_0x296333[0x0])[_0x3e56f0(0x2dd)]['display']='grid');}}else{if(!Game[_0x3e56f0(0x3a3)]){let _0x5f7c40=$$(_0x3e56f0(0xdd));if(_0x5f7c40[_0x3e56f0(0x2b4)]==0x0){let _0xda795c=BackState['moves']['length'];if(_0x48a67e||_0xda795c>0x0&&Game[_0x3e56f0(0x382)]==='two-player-offline'||(Game['mode']==_0x3e56f0(0x309)||Game[_0x3e56f0(0x382)]===_0x3e56f0(0x350)&&Game['undoCount']<0x5)&&_0xda795c>0x1&&(Game[_0x3e56f0(0x370)]&&playerA[_0x3e56f0(0x1c3)]===_0x3e56f0(0x40d)||!Game[_0x3e56f0(0x370)]&&playerA['pieceColor']===_0x3e56f0(0x23d))){let _0x2fe858=BackState[_0x3e56f0(0x310)][_0xda795c-0x1];await BackState[_0x3e56f0(0x310)]['pop'](),Undo[_0x3e56f0(0x3c2)](_0x2fe858);for(let _0x14a5e1 of BackState['moves']){if(_0x14a5e1[_0x3e56f0(0x2b4)]===0x3){let _0x1a158b=_0x14a5e1[0x1][_0x3e56f0(0x2fe)]||_0x14a5e1[0x0][_0x3e56f0(0x1b8)][_0x3e56f0(0x366)];if(_0x1a158b['className']['includes'](playerA[_0x3e56f0(0x1c3)][_0x3e56f0(0x113)]()))playerA['longestCapture']=Math[_0x3e56f0(0x3cd)](_0x14a5e1[0x2][_0x3e56f0(0x2b4)],playerA[_0x3e56f0(0xf3)]);else playerB[_0x3e56f0(0xf3)]=Math[_0x3e56f0(0x3cd)](_0x14a5e1[0x2][_0x3e56f0(0x2b4)],playerB['longestCapture']);}}for(let _0x255e2e of $$('#table\x20.valid,\x20#table\x20.pre_valid,\x20#table\x20.hint,\x20.helper_empty,\x20.helper_filled')){_0x255e2e[_0x3e56f0(0x1f6)][_0x3e56f0(0x194)]('valid',_0x3e56f0(0x186),_0x3e56f0(0xdf),_0x3e56f0(0x240),_0x3e56f0(0x1b1));}Game[_0x3e56f0(0x370)]=!Game['whiteTurn'];if(!_0x48a67e&&(Game[_0x3e56f0(0x382)]==='single-player'||Game[_0x3e56f0(0x382)]==_0x3e56f0(0x309))&&(Game['whiteTurn']&&playerB[_0x3e56f0(0x1c3)]==='White'||!Game[_0x3e56f0(0x370)]&&playerB[_0x3e56f0(0x1c3)]===_0x3e56f0(0x23d))){Game[_0x3e56f0(0x382)]==_0x3e56f0(0x309)?(await Publish[_0x3e56f0(0x242)]({'channel':Lobby[_0x3e56f0(0x13c)],'message':{'title':_0x3e56f0(0x37e),'content':{}}}),await Publish[_0x3e56f0(0x242)]({'channel':Lobby[_0x3e56f0(0x13c)],'message':{'title':_0x3e56f0(0x37e),'content':{}}})):(Game[_0x3e56f0(0x325)]=![],Game['undoCount']++,$$(_0x3e56f0(0x1a0))[0x0][_0x3e56f0(0x262)]=Game[_0x3e56f0(0x237)],$$(_0x3e56f0(0x1a0))[0x1][_0x3e56f0(0x262)]=Game[_0x3e56f0(0x237)],$$('#play-window\x20.penalties\x20div:first-of-type')[0x0][_0x3e56f0(0x2dd)]['display']=_0x3e56f0(0x15b),$$(_0x3e56f0(0x3f0))[0x1][_0x3e56f0(0x2dd)][_0x3e56f0(0x301)]=_0x3e56f0(0x15b));await back(!![],!![]);return;}clearTimeout(general[_0x3e56f0(0x25c)]),general[_0x3e56f0(0x25c)]=setTimeout(async _0x567f9e=>{const _0x842cf3=_0x3e56f0;general[_0x842cf3(0x2e0)]=[];let _0x80728b=Game[_0x842cf3(0x370)]&&playerA[_0x842cf3(0x1c3)]===_0x842cf3(0x40d)||!Game[_0x842cf3(0x370)]&&playerA[_0x842cf3(0x1c3)]==='Black'?playerA[_0x842cf3(0x1c3)][_0x842cf3(0x16f)](0x0):playerB[_0x842cf3(0x1c3)][_0x842cf3(0x16f)](0x0);Game['moves']=await AssessAll({'id':_0x80728b,'state':Game[_0x842cf3(0x261)]}),await Helper(Game[_0x842cf3(0x310)],Copy(Game[_0x842cf3(0x261)])),await UpdatePiecesStatus();},0x64);}else{if((Game['mode']==_0x3e56f0(0x350)||Game['mode']==_0x3e56f0(0x309))&&_0xda795c<=0x1&&(Game['whiteTurn']&&playerA[_0x3e56f0(0x1c3)]==_0x3e56f0(0x40d)||!Game[_0x3e56f0(0x370)]&&playerA[_0x3e56f0(0x1c3)]==_0x3e56f0(0x23d))||_0xda795c==0x0)Notify[_0x3e56f0(0x204)]('No\x20moves\x20made\x20yet');else{if(Game[_0x3e56f0(0x382)]=='single-player'&&Game[_0x3e56f0(0x237)]>=0x5){let _0x34a5c4=general[_0x3e56f0(0x14f)]['toLowerCase']()[_0x3e56f0(0x2ed)](_0x3e56f0(0x177))?$(_0x3e56f0(0x100)):$(_0x3e56f0(0x1b5));clearTimeout(general[_0x3e56f0(0x25c)]),_0x34a5c4[_0x3e56f0(0x2dd)][_0x3e56f0(0x168)]=_0x3e56f0(0x360),_0x34a5c4[_0x3e56f0(0x2dd)][_0x3e56f0(0x168)]=_0x3e56f0(0xe4),general['timeout']=setTimeout(()=>{const _0x66aee5=_0x3e56f0;_0x34a5c4[_0x66aee5(0x2dd)]['backgroundSize']=_0x66aee5(0x360),Notify[_0x66aee5(0x204)](_0x66aee5(0x398));},0x12c);}else Notify['popUpNote'](_0x3e56f0(0x260));}}}else{}}else GameOver();}}class Undo{static [_0x1fe42c(0x310)]=[];static [_0x1fe42c(0x3c2)]=_0x35953a=>{const _0xc5ac00=_0x1fe42c;this[_0xc5ac00(0x310)][_0xc5ac00(0x158)](_0x35953a);if(this['moves'][_0xc5ac00(0x2b4)]==0x1)this['undo']();};static ['undo']=async()=>{const _0x56ea9c=_0x1fe42c;let _0x233fef=$(_0x56ea9c(0x199));while(this['moves']['length']>0x0){let _0x5df343=this[_0x56ea9c(0x310)][0x0],_0x414528=![];_0x5df343['length']>=0x3&&(_0x414528=await _0x5df343[_0x56ea9c(0x409)](_0x401df1=>_0x401df1['king']),_0x5df343=[_0x5df343[0x0],_0x5df343[_0x56ea9c(0x157)](-0x2,-0x1)[0x0],_0x5df343[_0x56ea9c(0x157)](-0x1)[0x0]]);let _0x5d6fcf=_0x5df343[0x1]['i'],_0x475e77=_0x5df343[0x1]['j'],_0x349397=_0x5df343[0x0]['i'],_0x548bce=_0x5df343[0x0]['j'],_0x4dee63=_0x5df343[0x1][_0x56ea9c(0x2fe)],_0x319cc3=Game[_0x56ea9c(0x261)][_0x5d6fcf][_0x475e77];await _0x4dee63['classList'][_0x56ea9c(0x194)](_0x56ea9c(0x154));if(_0x5df343[0x1][_0x56ea9c(0x32e)]||_0x414528){_0x4dee63[_0x56ea9c(0x416)][_0x56ea9c(0x2ed)]('white')?_0x4dee63[_0x56ea9c(0x1f6)][_0x56ea9c(0x194)](_0x56ea9c(0x163)):_0x4dee63[_0x56ea9c(0x1f6)][_0x56ea9c(0x194)]('crown_black');if(_0x4dee63[_0x56ea9c(0x416)][_0x56ea9c(0x2ed)](playerA[_0x56ea9c(0x1c3)][_0x56ea9c(0x113)]()))playerA[_0x56ea9c(0x3ac)]--;else playerB[_0x56ea9c(0x3ac)]--;_0x319cc3=_0x319cc3[_0x56ea9c(0xd5)]('K','M');}if(_0x4dee63['className'][_0x56ea9c(0x2ed)](playerA[_0x56ea9c(0x1c3)]['toLowerCase']()))playerA[_0x56ea9c(0x310)]--;else playerB['moves']--;Game['drawStateCount']=Game[_0x56ea9c(0x17c)]>0x0?Game[_0x56ea9c(0x17c)]-0x1:Game[_0x56ea9c(0x17c)],Game[_0x56ea9c(0x184)]=Game[_0x56ea9c(0x184)]>0x1?Game['baseStateCount']-0x1:Game[_0x56ea9c(0x184)],_0x233fef[_0x56ea9c(0x1b4)][_0x5d6fcf*Game[_0x56ea9c(0x32b)]+_0x475e77]['innerHTML']='',_0x233fef['children'][_0x349397*Game[_0x56ea9c(0x32b)]+_0x548bce]['appendChild'](_0x4dee63),Game['state'][_0x5d6fcf][_0x475e77]='EC',Game[_0x56ea9c(0x261)][_0x349397][_0x548bce]=_0x319cc3;if(_0x5df343[_0x56ea9c(0x2b4)]===0x3)for(let _0x513a6f of _0x5df343[0x2]){await _0x513a6f[0x0][_0x56ea9c(0x1f6)][_0x56ea9c(0x194)](_0x56ea9c(0x154)),_0x5d6fcf=_0x513a6f[0x1],_0x475e77=_0x513a6f[0x2],$('#table')[_0x56ea9c(0x1b4)][_0x5d6fcf*Game['boardSize']+_0x475e77]['appendChild'](_0x513a6f[0x0]),Game[_0x56ea9c(0x261)][_0x5d6fcf][_0x475e77]=_0x513a6f[0x3];}this[_0x56ea9c(0x310)][_0x56ea9c(0x222)]();}};}const PopState=()=>{const _0x2bae08=_0x1fe42c;if(BackState[_0x2bae08(0x261)][_0x2bae08(0x2b4)]>0x0){if(GetValue($('#play-window'),'display')=='grid')Exit();else back();history[_0x2bae08(0x1f4)](null,'',_0x2bae08(0x1fc));}else!document[_0x2bae08(0x31a)][_0x2bae08(0x33e)][_0x2bae08(0x2ed)](_0x2bae08(0x1e2))&&(Clicked(),Notify[_0x2bae08(0x204)](_0x2bae08(0x1a9)),setTimeout(()=>{const _0x49819f=_0x2bae08;history[_0x49819f(0x1f4)](null,'',_0x49819f(0x1fc));},0xfa0));};
+'use strict'
+
+/* Version: 35 */
+const Icons = {
+    alertIcon: "", 
+    confirmIcon: "", 
+    winnerIcon: "", 
+    loserIcon: "", 
+    drawIcon: "",
+    loadIcon: "",
+    diceIcon: "",
+    contactIcon: "", 
+}
+const Sound = { 
+    click: "",
+    capture: "",
+    king: "", 
+    collect: "", 
+    gameWin: "", 
+    gameLose: "",
+    notification: "",
+    startRecording: "",
+    deleteRecording: "",
+    stopRecording: "",
+    throwRecording: "", 
+    muted: false
+}
+let storage = null;
+if(localStorage) storage = localStorage;
+let appShells = ["alert.png",
+	            "confirm.png", 
+	            "winner.png",
+	            "loser.png", 
+	            "draw.png",
+	            "load.png",
+	            "dice roll.png",
+				"contact.png",
+				"american flag.jpeg",
+	            "kenyan flag.jpeg",
+	            "casino flag.jpeg", 
+	            "international flags.jpeg",
+	            "pool flag.jpeg",
+	            "russian flag.jpeg",
+	            "nigerian flag.jpeg",
+	            "black piece.png",
+	            "white piece.png",
+	            "cancel.png", 
+	            "lock.png", 
+	            "star.png",
+	            "background1.jpeg",
+	            "click.mp3",
+				"capture.mp3", 
+				"king.mp3", 
+				"collect.mp3",
+				"game win.mp3", 
+				"game lose.mp3", 
+				"notification.mp3", 
+				"start recording.mp3",
+				"delete recording.mp3", 
+				"stop recording.mp3", 
+				"throw recording.mp3", 
+	            "background2.jpeg", 
+	            "black cell.jpeg", 
+	            "white cell.jpeg",
+	            "frame.jpeg", 
+	            "hint.png", 
+	            "menu.png", 
+	            "restart.png", 
+	            "undo.png", 
+	            "about.png",
+	            "black crown.png", 
+	            "white crown.png",
+	            "sound on.png",
+	            "sound off.png",
+	            "send.png",
+	            "recorder.png", 
+				"bin.png",
+				"bin lid.png",
+				"copy.png", 
+	            "warning.png"];
+let srcs = [];
+let soundProps = Object.keys(Sound);
+let imageProps = [...Object.keys(Icons), 
+				    "--english-flag",
+                    "--kenyan-flag",
+                    "--casino-flag", 
+                    "--international-flags",
+                    "--pool-flag",
+                    "--russian-flag",
+                    "--nigerian-flag", 
+                    "--black-piece", 
+                    "--white-piece", 
+                    "--cancel",
+                    "--lock",
+                    "--star",
+                    "--bg1",
+                    "--bg2",
+                    "--black-cell", 
+                    "--white-cell",
+                    "--frame",
+                    "--hint",
+                    "--menu", 
+                    "--restart", 
+                    "--undo", 
+                    "--about",
+                    "--black-crown", 
+                    "--white-crown",
+                    "--sound-on",
+                    "--sound-off",
+                    "--send-btn",
+                    "--recorder-btn", 
+					"--delete-bin", 
+					"--delete-lid",
+					"--copy",
+					"--warning"];
+
+let loadingInfo = $("#load-window .loader p");
+let progress = $("#load-window .loader .progress");
+
+async function LoadResources (src = appShells[0], i = 0) {
+    if(src.includes(".mp3")) {
+        src = "./src/audio/" + src;
+    } 
+    else {
+        src = "./src/images/" + src;
+    }
+    let response = await fetch(src);
+    if(response.status === 200) {
+        let blob = await response.blob();
+        if(blob.size > 0) {
+            if(!src.includes(".mp3")) {
+            	loadingInfo.textContent = "Loading textures...";
+            	progress.style.width = `calc(calc(100% / 3) * ${(i + 1) / 21} + calc(100% / 3))`;
+                src = await URL.createObjectURL(blob);
+                appShells.splice(i, 1, src);
+                if(i < Object.keys(Icons).length) {
+                    Icons[imageProps[i]] = src;
+                }
+                else {
+                    document.documentElement.style.setProperty(imageProps[(i < Object.keys(Icons).length + 13? i: i - 11)], `url(${src})`);
+                }
+            } 
+            else {
+            	loadingInfo.innerHTML = "Loading audio...";
+            	progress.style.width = `calc(calc(100% / 3) * ${(i - 20) / 11} + calc(100% / 1.5))`;
+                src = await URL.createObjectURL(blob);
+                let audio = new Audio(src);
+                Sound[soundProps[i - 21]] = audio;
+            }
+            if(i == 32) {
+            	loadingInfo.innerHTML = "Finishing...";
+                await LoadingDone();
+            }
+            
+            i++;
+            if(i < appShells.length) {
+                LoadResources(appShells[i], i);
+            }
+            else {
+            	appShells = null;
+            	imageProps = null;
+            	soundProps = null;
+            	await new Sleep().wait(0.5);
+            	
+            	if(deferredEvent && !newSW) {
+			        $(".install").classList.add("show_install_prompt");
+			    } 
+			    else if(newSW) {
+			    	InvokeSWUpdateFlow(newSW);
+			    } 
+			    else {
+			    	Permissions.check();
+			    } 
+            } 
+        }
+        else {
+            alert("BUFFERING ERROR!\nFailed to buffer fetched data to an array data.");
+        } 
+    }
+    else {
+    	console.log(response);
+        alert("LOADING ERROR!\nFailed to load AppShellFiles. Either you have bad network or you have lost internet connection.");
+    } 
+} 
+
+async function LoadingDone () {
+	srcs = appShells.slice(0, 17);
+	
+	if(screen.orientation.type.includes("landscape")) {
+		document.body.style.backgroundSize = "auto 70vmax";
+	} 
+    
+    $("#item1").style.display = "none";
+   
+    document.addEventListener("fullscreenchange", _ => Fullscreen(true, true), false);
+    document.addEventListener("msFullscreenchange", _ => Fullscreen(true, true), false);
+    document.addEventListener("mozFullscreenchange", _ => Fullscreen(true, true), false);
+    document.addEventListener("webkitFullscreenchange", _ => Fullscreen(true, true), false);
+   
+    let drag = new Drag($(".recorder_button"), "x", "0.3s");
+    $(".recorder_button").addEventListener("touchstart", drag.start, false);
+    $(".recorder_button").addEventListener("touchend", drag.end, false);
+    $(".recorder_button").addEventListener("touchmove", drag.move, false);
+   
+    $(".recorder_button").addEventListener("mousedown", drag.start, false);
+    $(".recorder_button").addEventListener("mouseup", drag.end, false);
+    $(".recorder_button").addEventListener("mousemove", drag.move, false);
+   
+    drag = new Drag($("#chat-icon"), "both", "0.5s");
+    $("#chat-icon").addEventListener("touchstart", drag.start, false);
+    $("#chat-icon").addEventListener("touchend", drag.end, false);
+    $("#chat-icon").addEventListener("touchmove", drag.move, false);
+    
+    $("#chat-icon").addEventListener("mousedown", drag.start, false);
+    $("#chat-icon").addEventListener("mouseup", drag.end, false);
+    $("#chat-icon").addEventListener("mousemove", drag.move, false);
+    
+    drag = new Drag($(".games_totals"), "y", "0.5s");
+    $(".games_totals").addEventListener("touchstart", drag.start, false);
+    $(".games_totals").addEventListener("touchend", drag.end, false);
+    $(".games_totals").addEventListener("touchmove", drag.move, false);
+    
+    $(".games_totals").addEventListener("mousedown", drag.start, false);
+    $(".games_totals").addEventListener("mouseup", drag.end, false);
+    $(".games_totals").addEventListener("mousemove", drag.move, false);
+   
+    $(".chat_delete").addEventListener("click", Bubble.requestDelete, false);
+    $(".chat_copy").addEventListener("click", Bubble.copyBubbleText, false);
+   
+    $(".bubbles_container").addEventListener("scroll", (event) => LongPress.end(event, $(".bubbles_container")), false);
+    $("#games").addEventListener("scroll", GamesScroll.check, false);
+    $(".totals_footer button").addEventListener("click", ShowTotalStats, false);
+    
+    Disable($("#two-players-window #playerB .white"), general.disabled, "#B4B4B4");
+    general.selected = $("#main .default");
+    general.level = $("#nav .default");
+   
+    $("#load-window").style.display = "none";
+    $("#main-window").style.display = "grid";
+    
+    let btns = $$("#main-window #levels #nav div");
+    let btn = null;
+    let p = null;
+    
+    if(storage === null || storage.getItem("Checkers - versions") === null) {
+        for(btn of btns) {
+            p = btn.children[1];
+            if(btn.getAttribute("value") != "lockers ") {
+                p.children[0].classList.add("not_achieved");
+                p.children[1].classList.add("not_achieved");
+                p.children[2].classList.add("not_achieved");
+            } 
+            else {
+                p.style.filter = "grayscale(0%) invert(0%) brightness(100%)";
+                p.style.backgroundImage = 'var(--lock)';
+            } 
+        }
+        if(storage) {
+            storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+            storage.setItem("Checkers - version", Game.version);
+        } 
+    }
+    else {
+        Game.versions = JSON.parse(storage.getItem("Checkers - versions"));
+        let version = storage.getItem("Checkers - version");
+        version = /^\d+/gi.test(version)? "american": version;
+        Game.version = version;
+        version = $(`#main-window .version[value='${version}']`);
+        await Version(version, undefined, false);
+        
+        Game.stats = JSON.parse(storage.getItem("Checkers - stats")) || [];
+        
+        let length = Game.stats.length;
+        let mainSec = $("#games-window #games");
+        
+    	$(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
+        for(let i = 0; i < length; i++) {
+            let no = i;
+            const stat = Game.stats[no];
+            let itemSec = $$$("section", ["class", "game_item"]);
+            let ref;
+            if(stat.ms) {
+            	let today = new Date();
+            	let yesterday = new Date();
+            	yesterday.setDate(today.getDate() - 1);
+            	let date = new Date(stat.ms);
+            	let str = date.toLocaleDateString('en-US', {weekday: "long", month: "short", year: "numeric"}).split(" ");
+            	str = date.toDateString() == today.toDateString()? "Today": date.toDateString() == yesterday.toDateString()? "Yesterday": str[2] + ", " + str[0] + " " + date.getDate() + " " + str[1];
+            	ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
+            	if(!ref) {
+            		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
+            		let leastDiff = Number.MAX_SAFE_INTEGER;
+            		for(let sec of mainSec.$$(".games_date")) {
+            			if(sec.getAttribute("date") == "sometime back") continue;
+            			let diff = new Date(sec.getAttribute("date")).getTime() - date.getTime();
+                		if(Math.abs(diff) < leastDiff && diff < 0) {
+							leastDiff = Math.abs(diff);
+                			ref = sec;
+                		}
+                	}
+					if(ref) {
+						ref = mainSec.$(`section[date='${ref.getAttribute("date")}']:last-of-type`);
+						mainSec.insertBefore(dateSec, ref.nextElementSibling);
+					}
+					else {
+						mainSec.appendChild(dateSec);
+					} 
+					ref = dateSec;
+            	}
+            	itemSec.setAttribute("date", date.toDateString());
+            }
+            else {
+            	ref = mainSec.$("section[date='sometime back']:last-of-type");
+            	if(!ref) {
+            		let dateSec = $$$("section", ["class", "games_date", "date", "sometime back", "textContent", "Sometime Back"]);
+            		mainSec.appendChild(dateSec);
+            		ref = dateSec;
+            	}
+            	itemSec.setAttribute("date", "sometime back");
+            }
+            
+            if(stat.version) {
+            	if(stat.version.length == 3) {
+	                let versions = Object.keys(Game.versions);
+	                stat.version = versions.find((v) => {return v.startsWith(stat.version.toLowerCase())}).toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+					stat.version += !/checkers$/gi.test(stat.version)? " Checkers": "";
+				} 
+				if(stat.level)
+					stat.level = stat.level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase());
+			}
+            p = $$$("p", ["innerHTML", `${stat.playerName[0]} VS ${stat.playerName[1]} ${stat.version? "<br><span>" + stat.version + (!stat.mode || stat.mode == "single-player"? (stat.level? "<br>" + stat.level: ""): "<br>" + stat.mode.replaceAll("-", " ").replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())) + "&nbsp&nbsp" + ConvertTo(new Date(stat.ms).toTimeString(), 12) + "</span>": ""}`]);
+            let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
+            btn.addEventListener("click", () => GetStats(no), false);
+            itemSec.appendChild(p);
+            itemSec.appendChild(btn);
+            mainSec.insertBefore(itemSec, ref.nextElementSibling);
+        }
+        GetTotals();
+      
+        /* Mute */
+        let muted = storage.getItem("Checkers - muted");
+        if(muted == "false") {
+            Mute(JSON.parse(muted));
+            $("#unmute").style.background = general.default;
+            $("#mute").style.background = general.background;
+        }
+        else if(muted == "true") {
+            Mute(JSON.parse(muted));
+            $("#mute").style.background = general.default;
+            $("#unmute").style.background = general.background;
+        }
+        else {
+            storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
+        }
+        
+        /* First Move */
+        let firstMove = JSON.parse(storage.getItem("Checkers - first_move"));
+        if(firstMove) {
+            Game.whiteTurn = firstMove.whiteTurn;
+            Game.rollDice = firstMove.rollDice;
+            btns = $$("#item3 button");
+            if(firstMove.rollDice == true) {
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.default;
+            }
+            else if(firstMove.rollDice == false) {
+                if(firstMove.whiteTurn) {
+                    btns[0].style.background = general.default;
+                    btns[1].style.background = general.background;
+                }
+                else {
+                    btns[0].style.background = general.background;
+                    btns[1].style.background = general.default;
+                } 
+                btns[2].style.background = general.background;
+            }
+        } 
+        else {
+            storage.setItem("Checkers - first_move", JSON.stringify({whiteTurn: Game.whiteTurn, rollDice: Game.rollDice}));
+        }
+       
+        /* Play As */
+        let playAs = JSON.parse(storage.getItem("Checkers - play_as"));
+        if(playAs) {
+            if(playAs.alternate == true) {
+                btn = $$("#item4 button")[2];
+                await Clicked(btn, btn.parentNode, false);
+                await PlayAs(btn);
+            }
+            else {
+                btn = playAs.playerA == "White"? $$("#item4 button")[0]: $$("#item4 button")[1];
+                await Clicked(btn, btn.parentNode, false);
+                await PlayAs(btn);
+            } 
+        }
+        else {
+            storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
+        } 
+       
+        /* Mandatory Capture */
+        let mandatoryCapture = storage.getItem("Checkers - mandatory_capture");
+        
+        if(mandatoryCapture) {
+        	mandatoryCapture = JSON.parse(mandatoryCapture);
+            Game.mandatoryCapture = mandatoryCapture;
+            btns = $$("#item5 button");
+            if(mandatoryCapture == true) {
+                btns[0].style.background = general.default;
+                btns[1].style.background = general.background;
+            }
+            else if(firstMove.rollDice == false) {
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.default;
+            }
+        } 
+        else {
+            storage.setItem("Checkers - mandatory_capture", JSON.stringify(Game.mandatoryCapture));
+        }
+       
+        /* Helper */
+        let helper = JSON.parse(storage.getItem("Checkers - helper"));
+        if(helper) {
+            Game.helper= helper.helper;
+            Game.capturesHelper = helper.capturesHelper;
+            btns = $$("#item6 button");
+            if(helper.capturesHelper == true && helper.helper == true) {
+                btns[0].style.background = general.default;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.background;
+            }
+            else if(helper.capturesHelper == false && helper.helper == false) {
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.default;
+                btns[2].style.background = general.background;
+            }
+            else if(helper.capturesHelper == true && helper.helper == false) {
+                btns[0].style.background = general.background;
+                btns[1].style.background = general.background;
+                btns[2].style.background = general.default;
+            } 
+        } 
+        else {
+            storage.setItem("Checkers - helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
+        }
+    }
+    
+    document.addEventListener("visibilitychange", (e) => {
+		if(document.visibilityState == "visible") {
+			AdjustBoard();
+		} 
+	});
+    window.addEventListener("orientationchange", AdjustBoard);
+    
+    UpdateOnlineStatus();
+    window.addEventListener("resize", () => {
+		if(document.activeElement == $(".chat_field")) {
+			let height = parseFloat(GetValue($("#chat-section"), "height"));
+			if(general.initialHeight && general.initialHeight < height) {
+				document.activeElement.blur();
+				general.chatFieldHadFocus = false;
+			} 
+			general.initialHeight = height;
+		} 
+	});
+    window.addEventListener("online", UpdateOnlineStatus, false);
+    window.addEventListener("offline", UpdateOnlineStatus, false);
+    window.addEventListener("popstate", () => setTimeout(PopState, 0), false);
+    CheckHref();
+} 
+
+class ElemHint {
+	static timeout;
+	static setHint = (elem, text) => {
+		clearTimeout(this.timeout);
+		let hint = $(".elem_hint");
+		let root = document.documentElement;
+		hint.textContent = text;
+		hint.style.display = "block";
+		hint.style.opacity = 1;
+		let hintRect = hint.getBoundingClientRect();
+		let elemRect = elem.getBoundingClientRect();
+		
+		if(elemRect.width / 2 >= hintRect.width / 2) { /* can be fit at the center */
+			root.style.setProperty('--hint-pointer-x', `${hintRect.width / 2 - 10}px`);
+			hint.style.left = `${elemRect.width / 2 + elemRect.left - (hintRect.width / 2)}px`;
+		}
+		else if(elemRect.width / 2 < hintRect.width / 2) {
+			if(elemRect.width / 2 + elemRect.left - (hintRect.width / 2) > 5 &&
+			   elemRect.right - (elemRect.width / 2) + (hintRect.width / 2) < window.innerWidth - 5) { /* center alignment */
+				root.style.setProperty('--hint-pointer-x', `${hintRect.width / 2 - 10}px`);
+				hint.style.left = `${elemRect.width / 2 + elemRect.left - (hintRect.width / 2)}px`;
+			}
+			else if(elemRect.left > 5 && elemRect.right < window.innerWidth / 2) { /* Not at extreme far left*/
+				root.style.setProperty('--hint-pointer-x', `${elemRect.width / 2 + elemRect.left - 15}px`);
+				hint.style.left = `5px`;
+			}
+			else if(elemRect.right < window.innerWidth - 5) { /* Not at extreme far right */
+				root.style.setProperty('--hint-pointer-x', `${(elemRect.width / 2 + elemRect.left - 10) - (window.innerWidth - hintRect.width - 5)}px`); /* 5 because of screen margin and border width which is 10*/
+				hint.style.left = `${window.innerWidth - hintRect.width - 5}px`;
+			} 
+		} 
+		
+		
+		if(elemRect.top - hintRect.height - 13 > 0) {
+			hint.classList.remove("top");
+			root.style.setProperty('--hint-pointer-y', '-10px');
+			hint.style.top = `${elemRect.top - hintRect.height - 13}px`;
+		} 
+		else if(elemRect.bottom + hintRect.height + 13 < window.innerHeight) {
+			hint.classList.add("top");
+			root.style.setProperty('--hint-pointer-y', '-10px');
+			hint.style.top = `${elemRect.bottom + 13}px`;
+		} 
+			
+		hint.style.opacity = 1;
+		this.timeout = setTimeout(() => {hint.style.display = "none";}, 3500);
+	} 
+} 
+
+class Drag {
+	initialX = 0;
+	initialY = 0;
+	currentX = 0;
+	currentY = 0;
+	xOffset = 0;
+	yOffset = 0;
+	active = false;
+	moved = false;
+	direction = "both";
+	dragItem = null;
+	sleep;
+	transitionDuration;
+	
+	constructor (dragItem, direction = "both", duration = "0.5s") {
+		this.direction = direction;
+		this.dragItem = dragItem;
+		this.transitionDuration = duration;
+		this.sleep = new Sleep();
+	}
+	
+	start = async (e) => {
+		if(this.dragItem == e.target) {
+			e.preventDefault();
+			if(this.dragItem.classList.contains("recorder_button")) {
+				general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+				this.xOffset = 0;
+				this.yOffset = 0;
+				this.recorderContainer = $(".recorder_container");
+				this.recorderContainer.style.transitionDuration = "0s";
+				this.active = await VoiceNoteRecorder.record(this.dragItem);
+			}
+			else {
+				this.active = true;
+			} 
+			this.dragItem.style.transitionDuration = "0s";
+		    if (e.type === "touchstart") {
+		        this.initialX = e.touches[0].clientX - this.xOffset;
+		        this.initialY = e.touches[0].clientY - this.yOffset;
+		    } else {
+		        this.initialX = e.clientX - this.xOffset;
+		        this.initialY = e.clientY - this.yOffset;
+		    }
+		} 
+	}
+	
+	end = async (e) => {
+	    if(this.active && this.moved && (e.type === "touchend" || e.type == "mouseup")) {
+			e.preventDefault();
+			this.active = false;
+			this.dragItem.style.transitionDuration = this.transitionDuration;
+			if(this.dragItem === $("#chat-icon")) {
+				let rect = this.dragItem.getBoundingClientRect();
+		        if(rect.left < 10) {
+		            this.currentX += 10 - rect.left;
+		        }
+		        else if(rect.right > window.innerWidth - 10) {
+		            this.currentX += window.innerWidth - 10 - rect.right;
+		        }
+				else if(rect.width / 2 + rect.left > window.innerWidth / 2) {
+					this.currentX += window.innerWidth - 10 - rect.right;
+				}
+				else if(rect.width / 2 + rect.left < window.innerWidth / 2) {
+					this.currentX += 10 - rect.left;
+				} 
+		        if(rect.top < 10) {
+		            this.currentY += 10 - rect.top;
+		        }
+		        else if(rect.bottom > window.innerHeight - 10) {
+		            this.currentY += window.innerHeight - 10 - rect.bottom;
+		        }
+				this.translate(this.currentX, this.currentY, this.dragItem);
+			}
+			else if(this.dragItem === $(".games_totals")) {
+				let rect = this.dragItem.getBoundingClientRect();
+				let parRect = this.dragItem.parentNode.getBoundingClientRect();
+				let offset = rect.bottom - parRect.bottom;
+				if(rect.top >= (rect.height * 0.25) + rect.top - offset) {
+					let dist = parRect.bottom - rect.top;
+					this.translate(0, this.currentY + dist, this.dragItem);
+					this.currentY = 0;
+					BackState.state.pop();
+				}
+				else {
+					let dist = rect.bottom - parRect.bottom;
+					this.currentY -= dist;
+					this.translate(0, this.currentY, this.dragItem);
+				} 
+			}
+			else if(this.dragItem === $(".recorder_button")) {
+				this.currentX = 0;
+				this.currentY = 0;
+				this.recorderContainer.style.transitionDuration = this.transitionDuration;
+				this.recorderContainer.style.width = `calc(100% - 70px)`;
+				VoiceNoteRecorder.stopRecording(this.dragItem);
+			} 
+			await this.sleep.wait(parseFloat(this.transitionDuration));
+	        this.xOffset = this.currentX;
+	        this.yOffset = this.currentY;
+	    }
+		else if(this.dragItem === $(".recorder_button")) {
+			VoiceNoteRecorder.stopRecording(this.dragItem);
+		} 
+	    else if(this.active && !this.moved && this.dragItem === $("#chat-icon")) {
+	        ShowChat();
+		}
+		this.moved = false;
+	}
+	
+	move = async (e) => {
+	    if(this.active) {
+			e.preventDefault();
+	        if (e.type === "touchmove") {
+	            this.currentX = e.touches[0].clientX - this.initialX;
+	            this.currentY = e.touches[0].clientY - this.initialY;
+	        } else {
+	            this.currentX = e.clientX - this.initialX;
+	            this.currentY = e.clientY - this.initialY;
+	        }
+	      
+			if(this.direction == "both") {
+	        	this.translate(this.currentX, this.currentY, e.target);
+			} 
+			else if(this.direction == "x") {
+				if(this.dragItem.classList.contains("recorder_button")) {
+					let recCont = this.recorderContainer.getBoundingClientRect();
+					let targetRect = $(".chat_field_container").getBoundingClientRect();
+					let rect = this.dragItem.getBoundingClientRect();
+					let dist = this.currentX - this.xOffset;
+					let xThreshold1 = targetRect.width*0.5;
+					let xThreshold2 = targetRect.right - rect.width - 10 /*padding*/;
+					let expectedX = dist + rect.left;
+					if(expectedX < xThreshold1) {
+						this.currentX -= (expectedX - xThreshold1);
+						dist = this.currentX - this.xOffset;
+						this.recorderContainer.style.width = `${recCont.width + dist}px`;
+						this.translate(this.currentX, 0, e.target);
+						this.active = false;
+						this.dragItem.style.transitionDuration = this.transitionDuration;
+						this.recorderContainer.style.transitionDuration = this.transitionDuration;
+						this.recorderContainer.style.width = `calc(100% - 70px)`;
+						VoiceNoteRecorder.stopRecording(this.dragItem, true);
+						return;
+					}
+					if(expectedX > xThreshold2) {
+						this.currentX -= (expectedX - xThreshold2);
+						dist = this.currentX - this.xOffset;
+					} 
+					this.recorderContainer.style.width = `${recCont.width + dist}px`;
+				}
+				this.translate(this.currentX, 0, e.target);
+			}
+			else {
+				if(this.dragItem.classList.contains("games_totals")) {
+					let rect = this.dragItem.getBoundingClientRect();
+					let parRect = this.dragItem.parentNode.getBoundingClientRect();
+					let dist = this.currentY - this.yOffset;
+					let yThreshold = parRect.bottom - rect.height;
+					let expectedY = dist + rect.top;
+					if(expectedY < yThreshold) {
+						this.currentY -= (expectedY - yThreshold);
+					}
+				} 
+				this.translate(0, this.currentY, this.dragItem);
+			}
+			this.moved = Math.abs(this.currentX - this.xOffset) > 0 || Math.abs(this.currentY - this.yOffset) > 0;
+			this.xOffset = this.currentX;
+			this.yOffset = this.currentY;
+	    }
+	}
+	
+	translate = (x, y, elem) => {
+	    elem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
+	}
+}
+
+class LongPress {
+	static selectMode = false;
+	static delay = null;
+	static hinted = false;
+	static scroll = false;
+	static firstTime = false;
+	static start = (event, target) => {
+		if(event.target == target) {
+			this.scroll = false;
+			this.firstTime = false;
+			if(!this.selectMode) {
+				this.delay = setTimeout(() => {
+					$$(".chat_header h2")[1].style.display = "none";
+					$$(".chat_header p")[1].style.display = "none";
+					$(".chat_menu").style.display = "flex";
+					target.classList.toggle("selected_bubble");
+					$(".chat_copy").classList.remove("disabled_button");
+					if(target.$(".text > div").classList.contains("audio_panel")) {
+						$(".chat_copy").classList.add("disabled_button");
+					} 
+					this.selectMode = true;
+					$(".bubbles_container").classList.add("select_mode");
+				}, 500);
+				this.firstTime = true;
+			} 
+		}
+	}
+	static end = (event, target) => {
+		if(event.target == target) {
+			clearTimeout(this.delay);
+			if(!this.scroll && (event.type == "touchend" || event.type == "mouseup")) {
+				event.preventDefault();
+				if(!this.selectMode && !this.hinted) {
+					ElemHint.setHint(target.$(".text"), "Long press for more options.");
+					this.hinted = true;
+				}
+				else if(this.selectMode && !this.firstTime) {
+					target.classList.toggle("selected_bubble");
+					let selected = $$(".selected_bubble");
+					
+					if(selected.length == 0) {
+						clearTimeout(this.delay);
+						$$(".chat_header h2")[1].style.display = "block";
+						$$(".chat_header p")[1].style.display = "block";
+						$(".chat_menu").style.display = "none";
+						this.selectMode = false;
+						$(".bubbles_container").classList.remove("select_mode");
+					}
+					else if(selected.length > 1) {
+						$(".chat_copy").classList.add("disabled_button");
+					}
+					else if(selected.length == 1) {
+						$(".chat_copy").classList.remove("disabled_button");
+					}
+					
+					if($(".selected_bubble .audio_panel")) {
+						$(".chat_copy").classList.add("disabled_button");
+					}
+				} 
+			}
+			else if(event.type == "scroll") {
+				this.scroll = true;
+			} 
+		} 
+	} 
+} 
+
+const HideChat = (caller = "event") => {
+    $("#chat-window").style.display = "none";
+    $("#chat-icon").style.display = "block";
+    
+    let unreadBubble = $(".center_bubble");
+    if(unreadBubble != null) {
+        unreadBubble.parentNode.removeChild(unreadBubble);
+    }
+    if(caller == "event") 
+    	BackState.state.pop();
+}
+
+const ShowChat = () => {
+    $("#chat-icon").style.display = "none";
+    $("#chat-window").style.display = "flex";
+    general.chatFieldHadFocus = false;
+   
+    let badge = $(".badge");
+    if(parseInt(badge.innerHTML) > 0) {
+        setTimeout(() => {
+			$(".bubbles_container").scrollTop = $(".anchor").offsetTop;
+		}, 200);
+    } 
+    
+    general.chatFieldHadFocus = true;
+    badge.innerHTML = 0;
+    badge.style.display = "none";
+    if(Lobby.unreadMessages.length > 0) {
+    	let data = Lobby.unreadMessages.slice(-1)[0];
+    	let id = `many-${Lobby.unreadMessages.length}`;
+    	let timetoken = data.timetoken;
+    	Lobby.PUBNUB.addMessageAction({
+			channel: Lobby.CHANNEL, 
+			messageTimetoken: timetoken, 
+			action: {
+				type: "read", 
+				value: id
+			} 
+		});
+    	Lobby.unreadMessages = [];
+    }
+    BackState.state.push(["#chat-window"]);
+}
+
+const BoardClick = async (e) => {
+	if(e.target.classList.contains("cell")) {
+		let index = Array.from($("#table").children).indexOf(e.target);
+		let i = Math.floor(index / Game.boardSize);
+		let j = index % Game.boardSize;
+		ValidateMove({cell: e.target, i, j});
+	} 
+} 
+
+const LoadBoard = async (playerAPieceColor, playerBPieceColor) => {
+	let board = $("#table");
+	let frame = $$(".frame");
+	let ftc, frc, fbc, flc;
+	let cells = board.children;
+	let isEmpty = Game.state.length === 0? true: false;
+	let chars = "ABCDEFGHIJKLMNOPQRST";
+	let count = 0;
+    for(let i = 0; i < Game.boardSize; i++) {
+        if(isEmpty) 
+        Game.state.push([]);
+        
+        for(let j=0; j < Game.boardSize; j++) {
+            if(Game.version == "american" || Game.version == "kenyan" || Game.version == "casino" || Game.version == "russian" || Game.version == "pool") {
+                if(j == 0) {
+                    ftc = frame[0].children[Game.boardSize-1-i];
+                    fbc = frame[2].children[i];
+                    ftc.innerHTML = chars.charAt(i);
+                    fbc.innerHTML = chars.charAt(i);
+                }
+                if(j == 0 || j == Game.boardSize-1) {
+                    frc = frame[1].children[i];
+                    flc = frame[3].children[Game.boardSize-1-i];
+                    frc.innerHTML = i+1;
+                    flc.innerHTML = i+1;
+                } 
+            }
+            else if(Game.version == "nigerian") {
+                if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
+                    ++count;
+                    if(i == 0) {
+                        ftc = frame[0].children[Game.boardSize-1-j];
+                        ftc.innerHTML = count;
+                    } 
+                    if(j == 0) {
+                        flc = frame[3].children[i];
+                        flc.innerHTML = count;
+                    }
+                    if(j == Game.boardSize-1) {
+                        frc = frame[1].children[Game.boardSize-1-i];
+                        frc.innerHTML = count;
+                    }
+                    if(i == Game.boardSize-1) {
+                        fbc = frame[2].children[j];
+                        fbc.innerHTML = count;
+                    } 
+                } 
+            }
+            else if(Game.version == "international") {
+                if(i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
+                    ++count;
+                    if(i == 0) {
+                        ftc = frame[0].children[Game.boardSize-1-j];
+                        ftc.innerHTML = count;
+                    } 
+                    if(j == 0) {
+                        flc = frame[3].children[i];
+                        flc.innerHTML = count;
+                    }
+                    if(j == Game.boardSize-1) {
+                        frc = frame[1].children[Game.boardSize-1-i];
+                        frc.innerHTML = count;
+                    }
+                    if(i == Game.boardSize-1) {
+                        fbc = frame[2].children[j];
+                        fbc.innerHTML = count;
+                    } 
+                } 
+            }
+            
+            let cell = cells[(i*Game.boardSize)+j] || await $$$("div");
+            if(!cell.classList.contains('cell')) 
+                cell.classList.add("cell");
+            
+            cell.style.top = `calc(100% / var(--board-size) * ${i})`;
+            cell.style.left = `calc(100% / var(--board-size) * ${j})`;
+            cell.id = i + "" + j;
+            let ref = cells[(i*Game.boardSize+j)+1];
+            if(!cell.parentNode) 
+            	table.insertBefore(cell, ref);
+            
+            if(Game.version != "nigerian" && (j%2 == 1 && i%2 == 0 || j%2 == 0 && i%2 == 1) || Game.version === "nigerian" && (j%2 == 0 && i%2 == 0 || j%2 == 1 && i%2 == 1)) {
+                if(!cell.classList.contains('cell_black')) {
+                    cell.classList.add("cell_black");
+                    cell.addEventListener("click", BoardClick, false);
+                }
+                if(isEmpty) {
+	                if(i < Game.rowNo) {
+	                    let div = $$$("div");
+	                    if(playerBPieceColor === "Black") {
+	                        div.classList.add("piece_black");
+	                        Game.state[i].push("MB");
+	                    } 
+	                    else if(playerBPieceColor === "White") {
+	                        div.classList.add("piece_white");
+	                        Game.state[i].push("MW");
+	                    } 
+	                    cell.appendChild(div);
+	                } 
+	                else if(i > Game.boardSize - Game.rowNo - 1) {
+	                    let div = $$$("div");
+	                    if(playerAPieceColor === "White") {
+	                        div.classList.add("piece_white");
+	                        Game.state[i].push("MW");
+	                    } 
+	                    else if(playerAPieceColor === "Black") {
+	                        div.classList.add("piece_black");
+	                        Game.state[i].push("MB");
+	                    } 
+	                    cell.appendChild(div);
+	                } 
+	                else {
+	                    Game.state[i].push("EC");
+	                }
+				}
+				else {
+					if(Game.state[i][j].includes("B")) {
+						let div = $$$("div");
+						div.classList.add("piece_black");
+						if(Game.state[i][j] == "KB")
+						div.classList.add("crown_black");
+						cell.appendChild(div);
+					}
+					else if(Game.state[i][j].includes("W")) {
+						let div = $$$("div");
+						div.classList.add("piece_white");
+						if(Game.state[i][j] == "KW")
+						div.classList.add("crown_white");
+						cell.appendChild(div);
+					} 
+				} 
+            }
+            else {
+                if(!cell.classList.contains('cell_white')) {
+                    cell.classList.add("cell_white");
+                }
+                if(isEmpty)
+                	Game.state[i].push("NA");
+            } 
+            await Prms("done");
+        }
+        await Prms("done");
+    }
+   
+    for(let i = Game.boardSize; i < frame[0].children.length; i++) {
+        frame[0].children[i].style.display = "none";
+        frame[1].children[i].style.display = "none";
+        frame[2].children[i].style.display = "none";
+        frame[3].children[i].style.display = "none";
+    }
+    return Prms("done");
+} 
+
+const Refresh = async (restart = false, color = playerA.pieceColor, gameState = []) => {
+    let cells = $$("#table .cell");
+    for(let cell of cells) {
+        cell.className = "";
+        cell.innerHTML = "";
+        cell.removeEventListener("click", BoardClick, false);
+    }
+   
+    for(let p of $$(".frame p")) {
+        p.innerHTML = "";
+        p.style.display = "flex";
+    } 
+    let table = $("#table");
+    if(table.children.length > Math.pow(Game.boardSize)) {
+        for(let i = 0; i < Math.sqrt(table.children.length); i++) {
+        	for(let j = 0; j < Math.sqrt(table.children.length); j++) {
+        		if(i < Game.boardSize && j >= Game.boardSize) {
+					table.removeChild(table.$("#" + i + "" + j));
+				}
+				else if(i >= Game.boardSize) {
+					table.removeChild(table.$("#" + i + "" + j));
+				} 
+			} 
+        } 
+    } 
+    
+    if(storage.getItem("Checkers-Test-State5")) {
+		Game.state = JSON.parse(storage.getItem("Checkers-Test-State"));
+	}
+	else {
+		Game.state = gameState;
+	   /*[["NA", "EC", "NA", "EC", "NA", "EC", "NA", "MB"],
+		["MB", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "KW", "NA", "MW", "NA", "KW", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "KB"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "MB", "NA", "MW"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"]];*/
+	} 
+	BackState.moves = [];
+    Game.track = [];
+    Game.moves = {};
+    Game.date = new Date();
+    Game.over = false;
+    Game.possibleWin = false;
+    Game.isComputer = false;
+    Game.pieceSelected = false;
+    Game.validForHint = true;
+    Game.prop = null;
+    Game.baseStateCount = 1;
+    Game.drawStateCount = 0;
+    Game.hintCount = 0;
+    Game.undoCount = 0;
+    general.aiPath = [];
+    general.sorted = [];
+    playerA.kings = 0;
+    playerA.moves = 0;
+    playerA.captures = 0;
+    playerA.longestCapture = 0;
+    playerB.kings = 0;
+    playerB.moves = 0;
+    playerB.captures = 0;
+    playerB.longestCapture = 0;
+    Timer.reset();
+    
+    $("#play-window .header_section h2").innerHTML = Game.version.toUpperCase() + " CHECKERS";
+    
+    if(restart && Game.mode != "two-player-online") {
+        start();
+        return Prms(true);
+    }
+    else if(restart) {
+        await LoadBoard(playerA.pieceColor, playerB.pieceColor);
+        await UpdatePiecesStatus();
+        if(Game.firstMove) {
+            let id = playerA.pieceColor.slice(0,1);
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
+            Notify.popUpNote("You are the one to start. Make a move.");
+        }
+        else {
+        	let id = playerB.pieceColor.slice(0,1);
+            Game.moves = await AssessAll({id, state: Game.state});
+            await Helper(Game.moves, Copy(Game.state));
+            Notify.popUpNote(`${playerB.name} will make the first move. Please wait.`);
+        } 
+        AdjustBoard();
+        return Prms(true);
+    } 
+    
+    async function start () {
+        let res = null;
+        let btns = $$("#item3 button");
+        if(Game.rollDice) {
+            res = await RollDice();
+            Game.whiteTurn = (playerA.pieceColor.includes("White"))? res: !res;
+        }
+        else {
+            Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
+        } 
+        await LoadBoard(playerA.pieceColor, playerB.pieceColor);
+        await UpdatePiecesStatus();
+        Game.baseState = Copy(Game.state);
+        if(Game.mode === "single-player") {
+            $$("#play-window .penalties div")[0].style.display = "none";
+            $$("#play-window .penalties div")[1].style.display = "none";
+            $$("#play-window .penalties div")[2].style.display = "none";
+            $$("#play-window .penalties div")[3].style.display = "none";
+            if(general.orientation.toLowerCase().includes("landscape")) {
+                let versions = ["american", "kenyan", "casino", "international", "pool", "russian", "nigerian"];
+                setTimeout(_ => Notify.popUpAlert({
+                        header: Game.version.toUpperCase() + " CHECKERS<br>" + Game.levels[Game.level].level.toUpperCase(), 
+                        icon: srcs[versions.indexOf(Game.version)],
+                        iconType: "flag", 
+                        delay: 1500}), 500);
+            } 
+            if(Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") {
+                setTimeout(_ => aiStart(), 100);
+                Timer.start("B");
+            }
+            else if(Game.helper) {
+                let id = playerA.pieceColor.slice(0,1);
+                Game.moves = await AssessAll({id, state: Game.state});
+                await Helper(Game.moves, Copy(Game.state));
+                Timer.start("A");
+            }
+            else {
+            	let id = playerA.pieceColor.slice(0,1);
+                Game.moves = await AssessAll({id, state: Game.state});
+            	Timer.start("A");
+            } 
+        }
+        else if(Game.mode === "two-player-offline") {
+            let id = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
+            Game.moves = await AssessAll({id, state: Game.state});
+            if(Game.helper) 
+            	await Helper(Game.moves, Copy(Game.state));
+            let player = Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"? "A": "B";
+            Timer.start(player);
+        }
+        else if((Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
+            let id = playerA.pieceColor.slice(0,1);
+            Game.moves = await AssessAll({id, state: Game.state});
+            if(Game.helper)
+            	await Helper(Game.moves, Copy(Game.state));
+            Timer.start("A");
+        }
+        else {
+        	Timer.start("B");
+        } 
+        
+        if(Game.rollDice) {
+            if(Game.mode != "two-player-offline") {
+                let t = 500;
+                if(general.orientation.toLowerCase().includes("landscape")) {
+                	t = 2500;
+                } 
+                if(res) 
+                setTimeout(_ => Notify.popUpAlert({
+                        header: "YOU WIN!<br>PLAY FIRST.", 
+                        icon: Icons.diceIcon, 
+                        iconType: "dice", 
+                        delay: 1500}), t);
+                else if(!res) 
+                setTimeout(_ => Notify.popUpAlert({
+                        header: "YOU LOSE!<br>OPPONENT FIRST.", 
+                        icon: Icons.diceIcon, 
+                        iconType: "dice", 
+                        delay: 1500}), t);
+            } 
+            else {
+                let name;
+                if(res) 
+                    name = playerA.name;
+                else
+                    name = playerB.name;
+                    
+                setTimeout(_ => Notify.popUpAlert({
+                        header: name.toUpperCase() + " WON!<br>PLAY FIRST.", 
+                        icon: Icons.diceIcon, 
+                        iconType: "dice",
+                        delay: 1500}), 500);
+            } 
+        }
+        AdjustBoard();
+    } 
+        
+    async function aiStart () {
+    	for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) { 
+            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+        } 
+        let state = Game.state;
+    	let id = playerB.pieceColor.substring(0,1);
+        Game.moves = await AssessAll({id, state});
+        let moves;
+        if(Game.mandatoryCapture && Game.moves.captures.length > 0) {
+        	moves = Game.moves.captures;
+        }
+        else if(Game.mandatoryCapture && Game.moves.captures.length == 0) {
+        	moves = Game.moves.nonCaptures;
+        }
+        else if(!Game.mandatoryCapture) {
+        	moves = Game.moves.nonCaptures;
+        	moves = moves.concat(Game.moves.captures);
+        }
+        /*await Helper(Game.moves, Copy(Game.state));
+        let ai = new AI({moves, depth: Game.level, state});
+        console.log(JSON.stringify(moves));
+        moves = await ai.sort(moves.reverse(), state);
+        console.log(JSON.stringify(moves));
+        return;*/
+        
+        let chosen = (Math.random()*(moves.length - 1)).toFixed(0);
+        let bestMove = moves[chosen];
+        let i = parseInt(bestMove.cell.slice(0,1));
+        let j = parseInt(bestMove.cell.slice(1,2));
+        let m = parseInt(bestMove.empty.slice(0,1));
+        let n = parseInt(bestMove.empty.slice(1,2));
+        setTimeout( async () => {
+            await ValidateMove({cell: $("#table").children[i*Game.boardSize+j], i, j, isComputer: true});
+            await ValidateMove({cell: $("#table").children[m*Game.boardSize+n], i: m, j: n, isComputer: true});
+        }, 250);
+        return Prms("");
+    } 
+} 
+
+const Alternate = async () => {
+    if(playerA.pieceColor == "White") {
+        playerA.pieceColor = 'Black';
+        playerB.pieceColor = 'White';
+    } 
+    else if(playerA.pieceColor == "Black") {
+        playerA.pieceColor = 'White';
+        playerB.pieceColor = 'Black';
+    }
+    return Prms("done");
+} 
+
+const RollDice = () => {
+    while(true) {
+        let res = Math.round(Math.random()*7) + Math.round(Math.random()*7);
+        if(res == 7 || res == 11)
+        return true; 
+        else if(res == 2 || res == 3 || res == 12) 
+        return false;
+    } 
+}
+
+const BackState = {
+    state: [], 
+    moves: []
+} 
+
+const GetValue = function (elem, value, pseudo = null) {
+    return window.getComputedStyle(elem, pseudo).getPropertyValue(value);
+}
+
+const RGBValueOf = (hex) => {
+    hex = hex.replace("#", "");
+    if(hex.length === 3) {
+        let newHex = "";
+        for(let x of hex) {
+            newHex += x + x;
+        }
+        hex = newHex;
+    }
+    
+    rgb = "rgb(";
+    
+    rgb += parseInt(hex.slice(0,2), 16) + ", ";
+    rgb += parseInt(hex.slice(2,4), 16) + ", ";
+    rgb += parseInt(hex.slice(4,6), 16) + ")";
+    
+    return rgb;
+}
+
+const GetPosition = function (x, y) {
+	let obj = {};
+    obj.cellSize = parseFloat(GetValue($("#table"), "width")) / Game.boardSize;
+    obj.top = parseFloat(GetValue($("#table").children[x*Game.boardSize+y], "top"));
+	obj.left  = parseFloat(GetValue($("#table").children[x*Game.boardSize+y], "left"));
+	return obj;
+} 
+
+class Move {
+    root = document.documentElement;
+    moving = $$(".transmitter.cargo_ready .cargo.move");
+    constructor (prop) {
+        if(this.moving.length === 0 && prop.select) {
+            return this.select(prop);
+        }
+        else if(this.moving.length === 0 && prop.movePiece) {
+            return this.makePath(prop);
+        } 
+        else if(this.moving.length === 0 && prop.capture) { 
+        	return this.select(prop);
+        }
+        else if(this.moving.length === 0 && prop.captureMove) {
+        	return this.captures(prop);
+        }
+    }
+   
+    captures = async function (prop) {
+        let final = false;
+    	let validMove = false;
+    	for(let cell of $$("#table .helper_empty, #table .pre_valid, #table .valid")) {
+    		cell.classList.remove("helper_empty", "pre_valid", "valid");
+    	} 
+    	for(let sort of general.sorted) {
+    		for(let move of sort) {
+    			let empty = `${prop.i}${prop.j}`;
+    			if(move.empty == empty && sort[0].i == Game.prop.i && sort[0].j == Game.prop.j) {
+    				validMove = true;
+				    for(let move2 of sort.slice(0, sort.indexOf(move) + 1)) {
+					    let cell = $("#table").children[move2.m*Game.boardSize+move2.n];
+			            cell.classList.add("valid", "cell_disabled");
+					    if(cell.lastChild)
+						    cell.removeChild(cell.lastChild);
+				    }
+    				$$(".controls")[1].classList.add("cell_disabled");
+                    $$(".controls")[2].classList.add("cell_disabled");
+                    $$(".horiz_controls")[1].classList.add("cell_disabled");
+                    $$(".horiz_controls")[2].classList.add("cell_disabled");
+				    
+    				if(sort.indexOf(move) != sort.length-1) {
+    					let clone = Game.prop.cell.lastChild.cloneNode(true);
+        				clone.style.opacity = "0.5";
+			            prop.cell.appendChild(clone);
+					    Game.prop.cell.classList.add("valid", "cell_disabled");
+    				} 
+    				else {
+					    final = true;
+    				}
+					
+	    			if((Game.helper || Game.capturesHelper) && (Game.mode == "two-player-online" || Game.mode == "two-player-offline" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"))) {
+						let emptyCells = [];
+	    				for(let arr of general.sorted) {
+							for(let data of arr) {
+								if(data.cell == empty) {
+									emptyCells.push(...arr.slice(arr.indexOf(data)));
+									break;
+								} 
+							} 
+						}
+						for(let data of emptyCells) {
+							let emptyCell = $("#table").children[data.m*Game.boardSize+data.n];
+							if(!emptyCell.classList.contains("pre_valid"))
+								emptyCell.classList.add("helper_empty");
+						} 
+	    			}
+					break;
+    			}
+    		}
+		    if(final) {
+			    for(let move of sort) {
+				    let cell1 = $("#table").children[move.i*Game.boardSize+move.j];
+				    let cell2 = $("#table").children[move.m*Game.boardSize+move.n];
+				    
+				    await this.select({cell: cell1, i: move.i, j: move.j}, true);
+				    let track2 = await this.makePath({cell: cell2, i: move.m, j: move.n}, true);
+				    track2.a = parseInt(move.capture.slice(0,1));
+				    track2.b = parseInt(move.capture.slice(1,2));
+				    Game.track.push([Game.prop, track2]);
+			    }
+			    
+			    for(let move of sort) {
+				    let i = parseInt(move.empty.slice(0,1));
+				    let j = parseInt(move.empty.slice(1,2));
+				    let cell1 = $("#table").children[i*Game.boardSize+j];
+				    cell1.classList.remove("valid");
+			    } 
+			    Move.startMoving();
+			    break;
+		    } 
+    	}
+    	
+    	if(validMove && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+        }
+    	return validMove;
+    } 
+   
+    static startMoving = async function (n = 0) {
+   	 Game.prop = Game.track[n][0];
+   	 let prop = Game.track[n][1];
+   	 prop.n = n;
+   	 if(n == Game.track.length-1) {
+   		 prop.final = true;
+   	 } 
+   	 new Move({}).sendCargo(prop, true);
+    }
+        
+        
+    select = async function (prop, capture = false) { 
+        if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+        }
+        
+        if(this.moving.length > 0) {
+            await Move.receiveCargo();
+        } 
+       
+        if(!capture)
+	        for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
+	            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+	        }
+        
+        Game.pieceSelected = true;
+        Game.isComputer = prop.isComputer;
+        Game.prop = {cell: prop.cell, i: prop.i, j: prop.j};
+        
+        prop.cell.classList.add("valid");
+        return Prms(true);
+    } 
+    
+    makePath = async function (prop, capture = false) { 
+    	if(!capture && Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") ) {
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "Moved", content: {i: prop.i, j: prop.j} } });
+        } 
+        
+        if(!capture) {
+            for(let cell of $$("#table .hint"))
+                cell.classList.remove("hint");
+        	Game.prop.cell.classList.remove("valid");
+        } 
+        
+        if(!capture)
+            this.sendCargo({cell: prop.cell, i: prop.i, j: prop.j});
+        else {
+        	return {cell: prop.cell, i: prop.i, j: prop.j};
+        } 
+    } 
+    
+    sendCargo = async function (prop, capture = false) { 
+        let piece = Game.prop.cell.lastChild;
+        let transmitter = $(".transmitter");
+        let cargo = transmitter.lastElementChild;
+        cargo.lastElementChild.classList.add(...Array.from(piece.classList));
+        Game.prop.cell.removeChild(piece);
+        let data1 = await GetPosition(prop.i, prop.j);
+        let data2 = await GetPosition(Game.prop.i, Game.prop.j);
+        cargo.style.top = data2.top + "px";
+        cargo.style.left = data2.left + "px";
+        
+        this.root.style.setProperty('--ept', `${data1.top - data2.top}px/*calc(100% * ${prop.i - Game.prop.i})*/`);
+        this.root.style.setProperty('--epl', `${data1.left - data2.left}px/*calc(100% * ${prop.j - Game.prop.j})*/`);
+        
+        let mt = 0.35;
+    	let increase = mt * 0.25;
+    	let no_of_cells = Math.abs(Game.prop.i - prop.i);
+    	for(let i = 1; i < no_of_cells; i++) {
+    		mt += increase;
+    	} 
+    	this.root.style.setProperty("--mt", mt + "s");
+        
+        general.prop = prop;
+        
+        cargo.setAttribute('onanimationend', `Move.receiveCargo(${capture})`);
+        transmitter.classList.add("cargo_ready");
+        cargo.classList.add("move");
+    } 
+    
+    static receiveCargo = async function (capture) { 
+        let prop = general.prop;
+        let root = document.documentElement;
+        Game.pieceSelected = false;
+        
+        if(Game.prop != null && prop != null) {
+            for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
+                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+            } 
+            general.sorted = [];
+            let transmitter = $(".transmitter");
+            let cargo = transmitter.lastElementChild;
+            let piece = cargo.lastElementChild.cloneNode(true);
+            transmitter.classList.remove("cargo_ready");
+            cargo.classList.remove("move");
+            cargo.lastElementChild.classList.remove("piece_black", "crown_black", "piece_white", "crown_white");
+            
+            prop.cell.classList.remove("cell_disabled");
+            prop.cell.appendChild(piece);
+            
+            prop.piece = piece;
+            
+            if(!capture || prop.final) {
+                if(piece.className.includes(playerA.pieceColor.toLowerCase())) 
+                	playerA.moves++;
+                else
+                	playerB.moves++;
+            } 
+            
+            if((Game.version !== "russian" && prop.final || Game.version === "russian" && capture || !capture) && !piece.className.includes("crown") && (prop.i === 0 && piece.className.includes(playerA.pieceColor.toLowerCase()) || prop.i === Game.boardSize - 1 && piece.className.includes(playerB.pieceColor.toLowerCase()))) {
+                if(piece.classList.contains("piece_white")) {
+                    piece.classList.add("crown_white");
+                } 
+                else {
+                    piece.classList.add("crown_black");
+                }
+               
+                prop.piece = piece;
+                prop.king = true;
+                if(capture)
+                	Game.track[prop.n][1] = prop;
+            }  
+            
+            piece = Game.state[Game.prop.i][Game.prop.j];
+            if(!piece.includes("K") && ((Game.version !== "russian" && prop.final || Game.version === "russian" && capture || !capture))) 
+                piece = await (prop.i === 0 && piece.includes(playerA.pieceColor.slice(0,1)) || prop.i === Game.boardSize - 1 && piece.includes(playerB.pieceColor.slice(0,1)))? piece.replace("M", "K"): piece;
+            Game.state[Game.prop.i][Game.prop.j] = "EC";
+            Game.state[prop.i][prop.j] = piece;
+            
+            if(!capture) {
+                
+                Game.whiteTurn = !Game.whiteTurn;
+                let id;
+                id = (piece.includes("W"))? "B":"W";
+                let initProp = Game.prop;
+                
+                id = id.replace(/[MK]/g, "");
+                let over = await this.isOver(id);
+                if(over)
+                    return;
+                else { 
+                    BackState.moves.push([initProp, prop]);
+                    if(Game.helper) {
+                        Game.prop.cell.classList.add("valid");
+                        prop.cell.classList.add("valid");
+					} 
+                    if(prop.king) {
+                        AudioPlayer.play("king", 1);
+                    } 
+                    else {
+                        AudioPlayer.play("click", 0.8);
+                    } 
+                    Helper(Game.moves, Copy(Game.state));
+                    
+                    if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
+                        UpdatePiecesStatus("thinking...");
+                        setTimeout( async () => { 
+                            let id = playerB.pieceColor.substring(0,1);
+                            let state = Copy(Game.state);
+                            let moves = Game.moves.captures;
+                            if(Game.mandatoryCapture && moves.length == 0) {
+                                moves = Game.moves.nonCaptures;
+                            } 
+                            else if(!Game.mandatoryCapture) {
+                                moves = Game.moves.nonCaptures;
+								moves = moves.concat(Game.moves.captures);
+                            } 
+                            
+                            let ai = new AI({state, moves, depth: Game.level});
+                            await ai.makeMove();
+                            ai = null;
+                        }, 1);
+                    }
+                    
+                } 
+            } 
+            else {
+                if(!prop.final) {
+                    let i = prop.a;
+                    let j = prop.b;
+                    
+                    let id = Game.state[i][j];
+                    Game.state[i][j] = "EC";
+                    
+                    if(!prop.king) {
+                        AudioPlayer.play("capture", 1);
+                    }
+                    
+                    this.startMoving(prop.n+1);
+                } 
+                else if(prop.final) {
+                    $$(".controls")[1].classList.remove("cell_disabled");
+                    $$(".controls")[2].classList.remove("cell_disabled");
+                    $$(".horiz_controls")[1].classList.remove("cell_disabled");
+                    $$(".horiz_controls")[2].classList.remove("cell_disabled");
+                    
+                    let i = prop.a;
+                    let j = prop.b;
+                    
+                    let id = Game.state[i][j];
+                    Game.state[i][j] = "EC";
+                    
+                    if(piece.includes(playerA.pieceColor.slice(0,1)))
+                        playerA.longestCapture = Math.max(Game.track.length, playerA.longestCapture);
+                    else
+                        playerB.longestCapture = Math.max(Game.track.length, playerB.longestCapture);
+                    
+                    Game.whiteTurn = !Game.whiteTurn;
+                    
+                    id = (piece.includes("W"))? "B":"W";
+                    let over = await this.isOver(id);
+                    if(over)
+                        return;
+                    else {
+                        let captures = [];
+                        let moves = [];
+                        for(let track of Game.track) {
+                            moves.push(track[1]);
+                            if(Game.helper || Game.capturesHelper) {
+                                track[0].cell.classList.add("valid");
+                                track[1].cell.classList.add("valid");
+							} 
+                            track[0].cell.classList.remove("cell_disabled");
+                            track[1].cell.classList.remove("cell_disabled");
+                            i = track[1].a;
+                            j = track[1].b;
+                            let capturedPiece = $("#table").children[i*Game.boardSize+j].firstChild;
+                            
+                            id = (capturedPiece.className.includes("white"))? "W": "B";
+                            id = ((capturedPiece.className.includes("crown"))? "K": "M") + id;
+                            
+                            captures.push([capturedPiece, i, j, id]);
+                            
+                            
+                            capturedPiece.setAttribute("onanimationend", "End(event)");
+                            capturedPiece.classList.add("captured");
+                        }
+                        moves.unshift(Game.track[0][0]);
+                        BackState.moves.push([...moves, captures]);
+                        
+                        
+                        if(!prop.king && Game.track.length > 1) {
+                            AudioPlayer.play("collect", 0.5);
+                        } 
+                        else if(!prop.king) {
+                            AudioPlayer.play("capture", 1);
+                        } 
+                        else {
+                            AudioPlayer.play("king", 1);
+                        }
+                            
+                        Game.track = [];
+                        Helper(Game.moves, Copy(Game.state));
+                        
+                        if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
+                            UpdatePiecesStatus("thinking...");
+                            setTimeout( async () => { 
+                                let id = playerB.pieceColor.substring(0,1);
+                                let state = Copy(Game.state);
+                                let moves = Game.moves.captures;
+	                            if(Game.mandatoryCapture && moves.length == 0) {
+	                                moves = Game.moves.nonCaptures;
+	                            } 
+	                            else if(!Game.mandatoryCapture) {
+	                                moves = Game.moves.nonCaptures;
+									moves = moves.concat(Game.moves.captures);
+	                            }
+                                
+                                let ai = new AI({state, moves, depth: Game.level});
+                                await ai.makeMove();
+                                ai = null;
+                            }, 1);
+                        }
+                    } 
+                } 
+            } 
+        }
+       
+        if(Game.whiteTurn && playerA.pieceColor == 'White' || !Game.whiteTurn && playerA.pieceColor == "Black") {
+        	Timer.start("A");
+        }
+        else {
+        	Timer.start("B");
+        } 
+        
+        return;
+    } 
+    
+    static isOver = async function (id) {
+        Game.moves = await AssessAll({id, state: Game.state});
+        
+        if(Game.moves.captures.length > 0) {
+            if(Game.mandatoryCapture) 
+            await UpdatePiecesStatus("Mandatory Capture!");
+            else
+            await UpdatePiecesStatus("Captures Available!");
+        } 
+        else if(Game.moves.nonCaptures.length == 0) {
+        	GameOver();
+        	return Prms(true);
+        } 
+        else {
+            await UpdatePiecesStatus();
+            
+            if(Game.possibleWin) {
+            	Game.drawStateCount = 0;
+            	Game.baseStateCount = 1;
+				return Prms(false);
+			} 
+            
+        	if(Game.level > 0 && playerA.pieces == playerB.pieces && playerA.pieces <= 2) {
+        		if(Game.drawStateCount == 12) {
+        			GameOver(true);
+        			return;
+        		}
+        		else {
+        			Game.drawStateCount++;
+        		} 
+        	} 
+        	else if(Game.level > 0 && playerA.kings == playerA.pieces && playerB.kings == playerB.pieces && playerA.pieces + playerB.pieces <= 6) {
+        		if(Game.drawStateCount == 12) {
+        			GameOver(true);
+        			return;
+        		}
+        		else {
+        			Game.drawStateCount++;
+        		} 
+        	} 
+        	
+            if((playerB.pieceColor == "White" && Game.whiteTurn || playerB.pieceColor == "Black" && !Game.whiteTurn) && playerA.moves % 2 == 0) {
+                if(JSON.stringify(Game.baseState) == JSON.stringify(Game.state)) {
+                    if(Game.baseStateCount === 2) {
+                        GameOver(true);
+                        return;
+                    } 
+                    else 
+                        Game.baseStateCount++;
+                } 
+                else {
+                    Game.baseStateCount = 1;
+                    Game.baseState = Copy(Game.state);
+                }
+            } 
+        } 
+        return Prms(false);
+    } 
+}
+
+const ValidateMove = async (prop) => {
+    /** To determine turn taking, will use Game.whiteTurn property of the Game object
+      * If true is white's turn else black's turn
+      * Will confirm possible captures and moves and game x1 and y1 to validate piece selections for move
+      **/
+    if(!prop.cell.classList.contains("cell")) {
+    	return;
+    }
+    if(!Game.over) {
+    	let isEmpty = prop.cell.lastChild && prop.cell.lastChild.className.includes("captured") || prop.cell.children.length == 0;
+        let valid = isEmpty && Game.pieceSelected || !isEmpty && (Game.mode === "two-player-offline" && (Game.whiteTurn && prop.cell.lastChild.className.includes("piece_white") || !Game.whiteTurn && prop.cell.lastChild.className.includes("piece_black")) || prop.isComputer && prop.cell.lastChild.className.includes(playerB.pieceColor.toLowerCase()) || Game.whiteTurn && prop.cell.lastChild.className.includes("piece_white") && playerA.pieceColor == "White" || !Game.whiteTurn && prop.cell.lastChild.className.includes("piece_black") && playerA.pieceColor == "Black");
+        
+        if(valid) {
+            let id = Game.state[prop.i][prop.j];
+            let posId = `${prop.i}${prop.j}`; 
+            if(Game.moves.captures.length > 0 && !isEmpty) {
+                for(let type of Game.moves.captures) {
+                    if(type.cell == posId) {
+                        prop.capture = true;
+                        await new Move(prop);
+                        if(general.sorted.length > 0) {
+                        	let emptyCells = [];
+                            for(let arr of general.sorted) {
+                            	if(arr[0].cell == posId) {
+	                            	for(let data of arr) {
+	                            		if(!JSON.stringify(emptyCells).includes(JSON.stringify(data))) {
+											emptyCells.push(data);
+										} 
+	                            	}
+								} 
+                            } 
+                            if(Game.helper || Game.capturesHelper) 
+	                            if(Game.mode == "two-player-offline" || Game.mode == "two-player-online" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
+		                            for(let cell of emptyCells) {
+		                                $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("helper_empty");
+		                            }
+								}
+                            return;
+                        } 
+                    } 
+                } 
+                if(Game.mandatoryCapture) {
+                    if(!isEmpty) {
+                        /**
+                          * resetting animation 
+                          **/
+                        prop.cell.classList.remove("invalid");
+                        void prop.cell.offsetWidth;
+                        prop.cell.classList.add("invalid");
+                        
+                        Notify.popUpNote("You must capture");
+                        setTimeout(() => {
+							prop.cell.classList.remove("invalid");
+						}, 750);
+                    } 
+                    return;
+                } 
+            } 
+           else if(Game.moves.captures.length > 0 && isEmpty && Game.isComputer == prop.isComputer) {
+           	prop.captureMove = true;
+           	let validMove = await new Move(prop);
+           	if(!validMove) {
+           		Game.pieceSelected = false;
+           		for(let arr of general.sorted) {
+			            let cell = arr[0];
+						if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper_filled")) 
+			            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+			        } 
+           	}
+           	return;
+           } 
+            
+           if(!isEmpty) {
+                Game.moves = await AssesMoves({id, i: prop.i, j: prop.j, state: Game.state});
+                if(Game.moves.nonCaptures.length > 0) {
+                	prop.select = true;
+                    await new Move(prop);
+                    if(Game.helper && !prop.isComputer) {
+                        for(let move of Game.moves.nonCaptures) {
+                            let m = parseInt(move.empty.slice(0,1));
+                            let n = parseInt(move.empty.slice(1,2));
+                            $("#table").children[m*Game.boardSize+n].classList.add("hint");
+                        } 
+                    } 
+                    return;
+                } 
+            } 
+            else if(Game.isComputer == prop.isComputer) {
+                for(let type of Game.moves.nonCaptures) {
+                    if(type.empty == posId && type.cell == `${Game.prop.i}${Game.prop.j}`) {
+                    	prop.movePiece = true;
+                        await new Move(prop) ;
+                        return;
+                    } 
+                } 
+            } 
+            if(!isEmpty) {
+                /**
+                  * resetting animation 
+                  **/
+                prop.cell.classList.remove("invalid");
+                void prop.cell.offsetWidth;
+                prop.cell.classList.add("invalid");
+                setTimeout(() => {
+					prop.cell.classList.remove("invalid");
+				}, 500);
+            } 
+        } 
+    } 
+    else {
+        GameOver();
+    } 
+}
+
+class Timer {
+	static AH = 0;
+	static BH = 0;
+	static AM = 0;
+	static BM = 0;
+	static interval;
+	static start = (player) => {
+		clearInterval(this.interval);
+		this.interval = setInterval (() => {
+			if(player == "A") {
+				this.AM++;
+				this.AH = this.AM >= 60? this.AH+1: this.AH;
+				this.AM = this.AM >= 60? 0: this.AM;
+			}
+			else {
+				this.BM++;
+				this.BH = this.BM >= 60? this.BH+1: this.BH;
+				this.BM = this.BM >= 60? 0: this.BM;
+			}
+			this.show(player);
+		}, 1000);
+	}
+	static stop = () => {
+		clearInterval(this.interval);
+	}
+	static reset = () => {
+		this.AH = this.AM = this.BH = this.BM = 0;
+		let icons = $$("#play-window .player_A_icon, #play-window .player_B_icon");
+		icons[0].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		icons[2].style.backgroundImage = `var(--${playerA.pieceColor.toLowerCase()}-piece)`;
+		icons[1].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		icons[3].style.backgroundImage = `var(--${playerB.pieceColor.toLowerCase()}-piece)`;
+		icons[0].classList.remove("black_icon", "white_icon");
+		icons[0].classList.add(`${playerA.pieceColor.toLowerCase()}_icon`);
+		icons[2].classList.remove("black_icon", "white_icon");
+		icons[2].classList.add(`${playerA.pieceColor.toLowerCase()}_icon`);
+		icons[1].classList.remove("black_icon", "white_icon");
+		icons[1].classList.add(`${playerB.pieceColor.toLowerCase()}_icon`);
+		icons[3].classList.remove("black_icon", "white_icon");
+		icons[3].classList.add(`${playerB.pieceColor.toLowerCase()}_icon`);
+		this.show('all');
+	}
+	static show = (player) => {
+		if(player == 'A') {
+			$$(".player_A_time")[0].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_A_time")[1].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+		}
+		else if(player == 'B') {
+			$$(".player_B_time")[0].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+			$$(".player_B_time")[1].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+		}
+		else if(player == "all") {
+			$$(".player_A_time")[0].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_A_time")[1].textContent = (this.AH + "").padStart(2, '0') + ":" + (this.AM + "").padStart(2, '0');
+			$$(".player_B_time")[0].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+			$$(".player_B_time")[1].textContent = (this.BH + "").padStart(2, '0') + ":" + (this.BM + "").padStart(2, '0');
+		} 
+	} 
+} 
+
+const UpdatePiecesStatus = (string = null) => {
+    let barA = $("#play-window .footer_section pre"); 
+    let barB = $(".face_bottom pre"); 
+    if(string != null) {
+        barA.innerHTML = string;
+        barB.innerHTML = string;
+    } 
+    else {
+        countPieces();
+        if(Game.mode === "single-player") { 
+            let labels = [$$("#play-window .score_cont .score label"), $$("#play-window .middle_section .score label")];
+            if(Game.validForHint) {
+               let threshold = Math.floor((Game.boardSize / 2 * Game.rowNo) / 4);
+               if(playerA.pieces < threshold) {
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("not_achieved");
+	                   label[1].classList.add("not_achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
+               }
+               else if(playerA.pieces >= threshold && playerA.pieces < threshold * 2) {
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("not_achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
+               }
+               else if(playerA.pieces >= threshold * 2 && playerA.pieces < threshold * 3) {
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("achieved");
+	                   label[2].classList.add("not_achieved");
+				   } 
+               }
+               else if(playerA.pieces >= threshold * 3) {
+               	for(let label of labels) {
+	                   label[0].classList.remove("not_achieved", "achieved");
+	                   label[1].classList.remove("not_achieved", "achieved");
+	                   label[2].classList.remove("not_achieved", "achieved");
+	                   label[0].classList.add("achieved");
+	                   label[1].classList.add("achieved");
+	                   label[2].classList.add("achieved");
+				   } 
+               }
+            }
+            else {
+            	for(let label of labels) {
+	                label[0].classList.remove("not_achieved", "achieved");
+	                label[1].classList.remove("not_achieved", "achieved");
+	                label[2].classList.remove("not_achieved", "achieved");
+	                label[0].classList.add("not_achieved");
+	                label[1].classList.add("not_achieved");
+	                label[2].classList.add("not_achieved");
+				} 
+            } 
+            barA.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
+            barB.innerHTML = `${playerA.pieceColor}: ${playerA.pieces}    ${playerB.pieceColor}: ${playerB.pieces}`
+        } 
+        else {
+            barA.innerHTML = `${playerA.name} (${playerA.pieceColor}): ${playerA.pieces}    ${playerB.name} (${playerB.pieceColor}): ${playerB.pieces}`;
+            barB.innerHTML = `${playerA.name} (${playerA.pieceColor}): ${playerA.pieces}    ${playerB.name} (${playerB.pieceColor}): ${playerB.pieces}`;
+        }
+    } 
+    
+    function countPieces () {
+        let id1 = playerA.pieceColor.slice(0,1);
+        let id2 = playerB.pieceColor.slice(0,1);
+        playerA.pieces = playerB.pieces = 0;
+        playerA.kings = playerB.kings = 0;
+        
+        for(let row of Game.state) {
+            for(let id of row) {
+                if(id.includes(id1)) {
+                	playerA.pieces++;
+                	if(id.includes("K"))
+						playerA.kings++;
+                } 
+                else if(id.includes(id2)) {
+                	playerB.pieces++;
+                	if(id.includes("K"))
+						playerB.kings++;
+                } 
+            } 
+        } 
+    } 
+} 
+
+const GameOver = async (draw = false) => {
+    /** Based on the property whiteTurn of the Game object, we can compare it against the player's piece color to identify whose turn was. 
+      * The player identified is the loser
+      */
+    let actionResponse;
+    let name = (Game.whiteTurn && playerA.pieceColor.includes("White") || !Game.whiteTurn && playerA.pieceColor.includes("Black"))? playerA.name: playerB.name;
+	let noCaptureDraw = false;
+	if(!draw) {
+		noCaptureDraw = playerA.pieces === playerB.pieces && playerA.pieces === Game.boardSize / 2 * Game.rowNo;
+		draw = noCaptureDraw;
+	} 
+    general.pressed = false;
+    Timer.stop();
+    
+    if(Game.mode === "single-player") {
+        if(!Game.over && !draw) {
+            if(name === playerA.name) {
+                AudioPlayer.play("gameLose", 1);
+            } 
+            else {
+                AudioPlayer.play("gameWin", 1);
+            } 
+        } 
+        if(name === playerA.name && !draw)
+            actionResponse = await Notify.confirm({
+                header: "YOU LOSE!", 
+                message: "Amending mistakes you made, can guarantee you a win.<br>Practice make perfect!", 
+                type: "MENU/REPLAY", 
+                icon: Icons.loserIcon, 
+                iconType: "loser"
+			});
+        else if(draw) {
+            if(noCaptureDraw) {
+                actionResponse = await Notify.confirm({
+                    header: "DRAW!", 
+                    message: "Those were really clever moves! you forced out a draw.", 
+                    type: "MENU/REPLAY", 
+                    icon: Icons.drawIcon, 
+                    iconType: "draw"
+				});
+            } 
+            else {
+                actionResponse = await Notify.other({
+                    header: "DRAW!", 
+                    message: "You are really hard to crack. This is a draw.<br>Do you think by continuing you can change this around?", 
+                    type: "MENU/CONTINUE/REPLAY", 
+                    icon: Icons.drawIcon,
+                    iconType: "draw"
+				});
+            } 
+        } 
+        else { 
+            if(Game.validForHint) {
+                let labels = $$("#levels #nav div")[Game.level].children[1].children;
+                let score = Game.levels[Game.level].score;
+                
+                if(score < playerA.pieces) {
+                    let threshold = Math.floor((Game.boardSize / 2 * Game.rowNo) / 4);
+                    if(playerA.pieces >= threshold && playerA.pieces < threshold * 2) {
+                        labels[2].classList.remove("not_achieved", "achieved");
+                        labels[2].classList.add("achieved");
+                    }
+                    else if(playerA.pieces >= threshold * 2 && playerA.pieces < threshold * 3) {
+                        labels[2].classList.remove("not_achieved", "achieved");
+                        labels[1].classList.remove("not_achieved", "achieved");
+                        labels[2].classList.add("achieved");
+                        labels[1].classList.add("achieved");
+                    }
+                    else if(playerA.pieces >= threshold * 3) {
+                        labels[2].classList.remove("not_achieved", "achieved");
+                        labels[1].classList.remove("not_achieved", "achieved");
+                        labels[0].classList.remove("not_achieved", "achieved");
+                        labels[2].classList.add("achieved");
+                        labels[1].classList.add("achieved");
+                        labels[0].classList.add("achieved");
+                    }
+                }
+                
+                score = Math.max(playerA.pieces, score);
+                Game.levels[Game.level].score = score;
+            }
+            let level = Game.level;
+            
+            if(level < Game.levels.length-1)
+                await Level(false);
+               
+            let comment = ["Wonderful! Good start. ✨", "Kudos! You are doing great. 👍", "What a good learner! 👏", "Very good play. 👌", "Bravo! You are becoming a pro. 😎", "Amazing! You are a pro indeed. 😱", "Brilliant! You are really intelligent. 🤔", "What can I say Master 🤷‍♂️! Wonderful!", "You are simply a masterclass player. Congratulations 🥇👏"];
+            actionResponse = await Notify[(level < Game.levels.length-1)? "other": "confirm"]({
+                header: "YOU WIN!", 
+                message: comment[level] + "<br>" + (level < Game.levels.length-1? ` You can now proceed to ${Game.levels[Game.level + 1].level.toLowerCase().replace(/^\w/, t => t.toUpperCase())}.`: ``),
+                type: (level < Game.levels.length-1)? "MENU/REPLAY/NEXT LEVEL": "MENU/REPLAY", 
+                icon: Icons.winnerIcon,
+                iconType: "winner"
+			});
+        }
+    } 
+    else if(Game.mode === "two-player-offline") {
+        if(!Game.over && !draw)
+            AudioPlayer.play("gameWin", 1);
+        
+        if(!draw) {
+            actionResponse = await Notify.confirm({
+                header: "CONGRATULATIONS " + (name === playerA.name)? playerB.name.toUpperCase(): playerA.name.toUpperCase() + "!", 
+                message: "It was an entertaining match. " + name + " do you want a rematch?",
+                type: "MENU/REMATCH", 
+                icon: Icons.winnerIcon,
+                iconType: "winner"
+			});
+        }
+        else if(draw) {
+            if(noCaptureDraw) {
+                actionResponse = await Notify.confirm({
+                    header: "DRAW!", 
+                    message: "Well! Well! those were clever moves.<br>But there are no moves to play,<br>what about a rematch?", 
+                    type: "MENU/REMATCH", 
+                    icon: Icons.drawIcon,
+                    iconType: "draw"
+				});
+            } 
+            else {
+                actionResponse = await Notify.other({
+                    header: "DRAW!", 
+                    message: "You people really don't wanna give in to each other.<br>Do you still want to continue?", 
+                    type: "MENU/CONTINUE/REMATCH", 
+                    icon: Icons.drawIcon,
+                    iconType: "draw"
+				});
+            } 
+        }
+    } 
+    else if(Game.mode === "two-player-online") {
+        if(!Game.over && !draw) {
+            if(name === playerA.name) {
+                AudioPlayer.play("gameLose", 1);
+            } 
+            else {
+                AudioPlayer.play("gameWin", 1);
+            } 
+        } 
+        if(name === playerA.name && !draw) {
+            actionResponse = await Notify.confirm({
+                header: "YOU LOSE!", 
+                message: "Amending those mistakes you made, you can win. :-)", 
+                type: "MENU/REMATCH", 
+                icon: Icons.loserIcon, 
+                iconType: "loser"
+			});
+        } 
+        else if(draw) {
+            if(noCaptureDraw) {
+                actionResponse = await Notify.confirm({
+                    header: "DRAW!", 
+                    message: "Well! Well! those were clever moves.<br>But there are no moves to play,<br>what about a rematch?", 
+                    type: "MENU/REMATCH", 
+                    icon: Icons.drawIcon,
+                    iconType: "draw"
+				});
+            } 
+            else {
+                actionResponse = await Notify.other({
+                    header: "DRAW!", 
+                    message: "This game is a draw. What do you think?", 
+                    type: "MENU/CONTINUE/REPLAY", 
+                    icon: Icons.drawIcon,
+                    iconType: "draw"
+				});
+            } 
+        } 
+        else 
+            actionResponse = await Notify.confirm({
+                header: "YOU WIN!", 
+                message: "You capitalized on " + playerB.name + "'s mistakes. Congratulations, those were great moves.",
+                type: "MENU/REMATCH", 
+                icon: Icons.winnerIcon,
+                iconType: "winner"
+			});
+    }
+    
+    if(!draw || noCaptureDraw) {
+    	Game.over = true;
+    }
+   
+    if(Game.over)
+    	await UpdatePiecesStatus("Game Over!");
+   
+    Game.draw = draw;
+    Game.name = name;
+    
+    
+    if(!general.pressed) {
+        if(actionResponse === "MENU") {
+            await AddItem();
+            back();
+            return;
+        } 
+        else if(actionResponse === "REPLAY" || actionResponse == "REMATCH") {
+            if(Game.mode === "two-player-online") {
+                if(Game.alternatePlayAs) {
+                    let color = playerA.pieceColor;
+                    await Alternate(color);
+                }
+                if(Game.rollDice) {
+                    Game.firstMove = await RollDice();
+                    Game.whiteTurn = (Game.firstMove && playerA.pieceColor === "White" || !Game.firstMove && playerA.pieceColor === "Black")? true: false;
+                }
+                else {
+                    let btns = $$("#item3 button");
+                    Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
+                    Game.firstMove = Game.whiteTurn;
+                }
+               
+                Notify.popUpNote("Rematch request has been sent to " + playerB.name);
+                Notify.alertSpecial({
+                        header: "Please Wait!",
+                        message: "Wait for opponent's feedback."});
+                let gameSettings = {firstMove: !Game.firstMove, mandatoryCapture: Game.mandatoryCapture, version: Game.version};
+                Publish.send({channel: Lobby.CHANNEL, message: {title: 'RequestReplay', content: gameSettings}});
+                return;
+            }
+            await AddItem();
+            await setTimeout(_ => {Refresh(true);}, 200);
+            return;
+        } 
+        else if(actionResponse === "NEXT LEVEL") {
+        	await AddItem();
+            await Level(true);
+        } 
+        else if(actionResponse === "CONTINUE") {
+        	Timer.start();
+            Game.baseStateCount = 1;
+            Game.drawStateCount = 0;
+            Game.baseState = Copy(Game.state);
+            if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor.includes("W") || !Game.whiteTurn && playerB.pieceColor.includes("B")) ) {
+                let id = playerB.pieceColor.substring(0,1);
+                let state = Copy(Game.state);
+                let moves = await AssessAll({id, state, func: AssesMoves});
+                let ai = new AI({state, moves, depth: Game.level});
+                await ai.makeMove(false);
+            } 
+        }
+        general.pressed = true;
+    }
+    else
+        return;
+}
+
+const AddItem = async function () {
+	let name = Game.name;
+	let draw = Game.draw
+	let date = Game.date;
+    Game.levels[Game.level].validForHint = Game.validForHint;
+    playerA.captures = Game.boardSize / 2 * Game.rowNo - playerB.pieces;
+    playerB.captures = Game.boardSize / 2 * Game.rowNo - playerA.pieces;
+    
+    
+    Game.stats.push({playerName: [playerA.name, playerB.name],
+                     pieceColor: [playerA.pieceColor.toUpperCase(), playerB.pieceColor.toUpperCase()],
+                     gameStatus: [draw? "DRAW": name === playerA.name? "LOST": "WON", draw? "DRAW": name === playerB.name? "LOST": "WON"], 
+                     piecesRemaining: [playerA.pieces, playerB.pieces], 
+                     kingsMade: [playerA.kings, playerB.kings], 
+                     movesMade: [playerA.moves, playerB.moves],
+                     capturesMade: [playerA.captures, playerB.captures], 
+                     longestCapture: [playerA.longestCapture, playerB.longestCapture], 
+					 time: [(Timer.AH + "").padStart(2, '0') + ":" + (Timer.AM + "").padStart(2, '0'), (Timer.BH + "").padStart(2, '0') + ":" + (Timer.BM + "").padStart(2, '0')],
+					 ms: date.getTime(),
+					 mode: Game.mode
+                    });
+    
+    let length = Game.stats.length;
+    let mainSec = $("#games-window #games");   
+    let itemSec = $$$("section", ["class", "game_item", "date", date.toDateString()]);
+    let ref = mainSec.$(`section[date='${date.toDateString()}']:last-of-type`);
+    if(!ref) {
+    	let str = "Today";
+    	if(!ref) {
+    		let dateSec = $$$("section", ["class", "games_date", "date", date.toDateString(), "textContent", str]);
+			mainSec.appendChild(dateSec);
+			ref = dateSec;
+    	}
+    } 
+    let p = $$$("p", ["innerHTML", `${playerA.name} VS ${playerB.name} <br><span>${Game.version.replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase())} Checkers${Game.mode == "single-player"? "<br>" + Game.levels[Game.level].level.toLowerCase().replaceAll(/^\w|\s\w/g, (t) => t.toUpperCase()): Game.mode.replaceAll(/^\w|\s\w/gi, (t) => t.toUpperCase())} &nbsp&nbsp(${ConvertTo(date.toTimeString(), 12)})</span>`]);
+    let btn = $$$("button", ["class", "default", "textContent", "SEE STATS"]);
+    btn.addEventListener("click", () => GetStats(length - 1), false);
+    itemSec.appendChild(p);
+    itemSec.appendChild(btn);
+    mainSec.insertBefore(itemSec, ref.nextElementSibling);
+    $(".totals_footer p").textContent = "Total of " + length + " game" + (length > 1? "s":"") + " played so far...";
+    
+    if(Game.mode === "single-player") {
+        Game.stats[length-1].level = Game.levels[Game.level].level;
+    }
+    Game.stats[length-1].version = Game.version.substring(0,3).toUpperCase();
+    GetTotals();
+    if(storage) {
+        storage.setItem("Checkers - stats", JSON.stringify(Game.stats));
+    }
+} 
+
+class AudioPlayer {
+	static play = async (tone, vol) => {
+	    if(!Sound.muted) { 
+	        try {
+	            Sound[tone].muted = false;
+	            Sound[tone].volume = vol;
+                Sound[tone].pause();
+                Sound[tone].currentTime = 0;
+                setTimeout(_ => Sound[tone].play(), 0.1);
+	        } catch (error) {}
+	    }
+	}
+	static initializeAudios = () => {
+		Sound.click.muted = true;
+		Sound.capture.muted = true;
+	    Sound.king.muted = true;
+	    Sound.collect.muted = true;
+	    Sound.gameWin.muted = true;
+	    Sound.gameLose.muted = true;
+		Sound.notification.muted = true;
+		Sound.click.play();
+	    Sound.capture.play();
+	    Sound.king.play();
+	    Sound.collect.play();
+	    Sound.gameWin.play();
+	    Sound.gameLose.play();
+		Sound.notification.play();
+	} 
+} 
+
+const Clicked = async (elem, parent, click = true) => {
+    if(click) 
+        AudioPlayer.play("click", 1);
+    if(elem != undefined && elem.getAttribute("value") != "locked" || elem != undefined && !click) {
+        let btns = parent.children;
+        for(let btn of btns) {
+            if(parent.id !== "vc" && btn.tagName.toLowerCase() == "div" || parent.id !== "vc" && btn.tagName.toLowerCase() == "button") {
+                btn.style.background = general.background;
+            }
+            else if(parent.id === "vc") {
+                btn.classList.remove("default");
+            } 
+        } 
+        
+        
+        if(parent.id === "nav") {
+            $(`#${parent.parentNode.id} h2`).innerHTML = elem.children[0].innerHTML.replace("<br>", " ");
+        } 
+        else if(parent.id === "main") { 
+            $(`#${parent.id} h2`).innerHTML = elem.innerHTML.split("<br>").join(" ");
+            
+            if(elem.getAttribute("value") == "single-player") 
+                $("#main-window #levels h2").style.color = "#000";
+            else
+                $("#main-window #levels h2").style.color = "#6C6C6C";
+        } 
+        
+        /*setting background to green*/
+        if(parent.id !== "vc") 
+            elem.style.background = general.default;
+        else {
+            elem.classList.add("default");
+            await Scroll(elem, {block: "nearest", inline: "center", behavior: "smooth"}, elem.parentNode.parentNode);
+        } 
+        
+        if(parent.id == "main" || parent.id == "nav") {
+            for(let btn of btns) {
+                if(!btn.tagName.includes("H")) {
+                    btn.style.color = "#fff";
+                } 
+            } 
+            
+            if(elem.getAttribute("value") === "single-player" || parent.id === "nav") {
+                if(parent.id === "nav") general.level = elem;
+                await Enable($("#main-window #levels #nav"), general.background, "#fff");
+            } 
+            else {
+                await Disable($("#main-window #levels #nav"), general.disabled, "#B4B4B4");
+            }
+        }
+    }
+    else if(elem != undefined && elem.getAttribute("value") == "locked") {
+        
+        clearTimeout(general.timeout);
+        elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
+        
+        let size = GetValue(elem.children[1], "background-size");
+        elem.children[1].style.backgroundSize = (parseInt(size) + 8) + "px";
+        general.timeout = setTimeout(() => {
+			elem.children[1].style.backgroundSize = "calc(calc(.2 * var(--W) ) - 5px)";
+			Notify.popUpNote("To unlock this level, you must win the previous level.");
+		}, 300);
+        return;
+    } 
+    
+    if(general.initialLoading && click) {
+    	AudioPlayer.initializeAudios();
+    	general.initialLoading = false;
+    } 
+}
+
+const Scroll = async (elem, options, parent) => {
+    const startScroll = new Promise((resolve, reject) => {
+        let tm = null;
+        let scrLeft = elem.scrollLeft;
+        if(elem instanceof Element) {	
+            clearTimeout(tm);
+            parent.removeEventListener("scroll", check, false);
+            elem.scrollIntoView(options);
+            parent.addEventListener("scroll", check, false);
+            check();
+        }
+        else {
+            reject("Argument Error: elem must be of type Element");
+        }
+       
+        function check () {
+            clearTimeout(tm);
+            tm = setTimeout(() => {
+                
+                parent.removeEventListener("scroll", check, false);
+                resolve(true);
+            }, 300);
+        }
+    });
+   
+    return startScroll;
+} 
+
+const Disable = async (parent, bgColor, color = "#7C7C7C") => {
+    let children = parent.children;
+    children = (!children.length)? [parent]:children;
+    
+    for(let child of children) {
+        if(parent.id != "main") {
+            if(GetValue(child, "background-image") === general.default) { 
+                general.selected = child;
+                
+            } 
+                
+            if(child.tagName.toLowerCase() != "p" && child.tagName.toLowerCase() != "h2") {
+                child.style.background = bgColor;
+                child.style.color = color;
+            } 
+                
+            if(child.children.length > 0) {
+                child.children[0].style.color = color;
+                if(!child.children[1].className.includes('disabled')) {
+                    child.children[1].classList.remove("disabled");
+                    child.children[1].children[0].classList.remove("disabled");
+                    child.children[1].children[1].classList.remove("disabled");
+                    child.children[1].children[2].classList.remove("disabled");
+                    
+                    child.children[1].classList.add("disabled");
+                    child.children[1].children[0].classList.add("disabled");
+                    child.children[1].children[1].classList.add("disabled");
+                    child.children[1].children[2].classList.add("disabled");
+                } 
+            } 
+            
+            
+            child.style.pointerEvents = "none";
+        } 
+        else {
+            if(child.children.length > 0) {
+                child.children[0].style.color = color;
+                child.children[1].style.filter = "grayscale(100%) brightness(50%)";
+            } 
+            child.style.pointerEvents = "none";
+        } 
+    } 
+} 
+
+const Enable = async (parent, bgColor, color) => { 
+    let children = parent.children;
+    children = (!children.length)? [parent]:children;
+    
+    for(let child of children) {
+        if(parent.id != "nav" && child === general.selected || child === general.level) {
+            child.style.background = general.default;
+        } 
+        else if(child.tagName.toLowerCase() != "p" && child.tagName.toLowerCase() != "h2") {
+            child.style.background = bgColor;
+            child.style.color = color;
+        } 
+        
+        if(child.children.length > 0) {
+            if(child.getAttribute("value") === "locked") {
+                child.style.background = general.disabled;
+            } 
+            
+            child.children[0].style.color = color;
+            child.children[1].classList.remove("disabled");
+            child.children[1].children[0].classList.remove("disabled");
+            child.children[1].children[1].classList.remove("disabled");
+            child.children[1].children[2].classList.remove("disabled");
+        } 
+        
+        
+        child.style.pointerEvents = "auto";
+    }
+    
+    if(parent.id == "nav") {
+        await Scroll(general.level, {block: "nearest", inline: "center", behavior: "smooth"}, general.level.parentNode);
+    }
+} 
+
+const Mute = (mute) => {
+	if(mute == undefined) {
+		Sound.muted = !Sound.muted;
+		mute = Sound.muted;
+		if(mute) {
+			$("#unmute").style.background = general.background;
+            $("#mute").style.background = general.default;
+            Clicked();
+		}
+		else {
+			$("#unmute").style.background = general.default;
+            $("#mute").style.background = general.background;
+		} 
+	}
+	let btns = $$('.middle_section .horiz_controls:nth-of-type(6), .controls_section .controls:nth-of-type(6)');
+	if(mute) {
+		btns[0].style.backgroundImage = "var(--sound-on)";
+		btns[1].style.backgroundImage = "var(--sound-on)";
+	}
+	else {
+		btns[0].style.backgroundImage = "var(--sound-off)";
+		btns[1].style.backgroundImage = "var(--sound-off)";
+	} 
+    Sound.muted = mute;
+    if(storage) {
+        storage.setItem("Checkers - muted", JSON.stringify(Sound.muted));
+    } 
+} 
+
+const Edit = (elem, extreme) => {
+    if(extreme) {
+        elem.value = elem.value.replace(/\s+/g, '');
+    } 
+    else {
+        elem.value = elem.value.replace(/\s+/g, ' ');
+    } 
+} 
+
+const Submit = (event) => {
+    event.preventDefault();
+    document.activeElement.blur();
+    let isOnlineForm = GetValue($("#online"), "display") == "grid";
+    if(isOnlineForm) {
+        if(navigator.onLine)
+            ChannelFunction();
+        else
+            Notify.popUpNote("You are offline, please turn on your device internet connection and try again.");
+    } 
+    else {
+        let playerA_name = $("#offline #playerA .playerA_name").value.trim();
+        let playerB_name = $("#offline #playerB .playerB_name").value.trim();
+        if(playerA_name != "" && playerB_name != "") {
+            
+            playerA.name = playerA_name.replace(/^\w|\s\w/g, t => t.toUpperCase());
+        
+            
+            playerB.name = playerB_name.replace(/^\w|\s\w/g, t => t.toUpperCase());
+            
+            Notify.popUpNote("Names submitted successfully!");
+        } 
+        else {
+        	if(playerA_name == "") {
+                $("#offline #playerA .playerA_name").focus();
+            	Notify.popUpNote("Please fill out player 1 name.");
+            } 
+            else if(playerB_name == "") {
+                $("#offline #playerB .playerB_name").focus();
+            	Notify.popUpNote("Please fill out player 2 name.");
+            } 
+        } 
+    } 
+} 
+
+const AboutOnline = () => {
+    Notify.alert({
+            header: "HOW TO CONNECT ONLINE CHANNEL", 
+            message: "To successfully play the online match, you are required to be in a channel so that you and your opponent can communicate exclusively. Now, to do that, there is a field named \"CHANNEL DETAILS\" on TWO PLAYERS window. In that field, enter your preferred channel name. It can be anything as long as is an name as shown below.<img src='./src/images/channel image.png'>In the next field named \"PLAYER DETAILS\", enter your preferred name. This name will help identify you. Your opponent will refer to you using this name as well.<img src='./src/images/player image.png'>Once done filling the details, tap <kbd>SUBMIT</kbd> button at the bottom of the screen or just press <kbd>ENTER</kbd> on the keyboard. If you are successfully connected, under \"CHANNEL STATUS DETAILS\" at the top of the sreen, your status will change color to green and indicate your connection status<img src='./src/images/status image.png'>. Likewise, the channel you have joined will be shown under \"CHANEL DETAILS\" and indicate whether you are the host or guest.<img src='./src/images/channel joined image.png'>If you are the host of that channel, that means you will have to invite your opponent to your channel. You can do this by telling him/her the channel you have joined, or create and share the link to that channel by clicking the <kbd>SHARE</kbd> button under the \"CHANNEL DETAILS\".<br>Once you are all connected to the same channel, a chat button will pop at top right corner of the screen. You can share instant messages live on the app without leaving the app. To initiate a match, just hit the <kbd>PLAY</kbd> button on the screen."});
+}
+
+const Restart = async (option) => {
+	if(Game.thinking) {
+		Notify.popUpNote("Please wait for opponent's move");
+		return;
+	} 
+    if(!Game.over) {
+        let choice = await Notify.confirm({
+                header: "Restart Game!", 
+                message: "Do you really want to restart this game?<br>Restarting will mean you accept defeat.",
+                type: "CANCEL/RESTART"
+		});
+        
+        
+    	Timer.stop();
+        if(choice === "RESTART") {
+            if(Game.mode === "two-player-online") {
+                if(Game.alternatePlayAs) {
+                    let color = playerA.pieceColor;
+                    await Alternate(color);
+                }
+                if(Game.rollDice) {
+                    Game.firstMove = await RollDice();
+                    Game.whiteTurn = (Game.firstMove && playerA.pieceColor === "White" || !Game.firstMove && playerA.pieceColor === "Black")? true: false;
+                }
+                else {
+                    let btns = $$("#item3 button");
+                    Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
+                    Game.firstMove = Game.whiteTurn;
+                }
+               
+                Notify.popUpNote("Restart request has been sent to " + playerB.name);
+                Notify.alertSpecial({
+                        header: "Please Wait!",
+                        message: "Wait for opponent's feedback."
+				});
+                let gameSettings = {firstMove: !Game.firstMove, mandatoryCapture: Game.mandatoryCapture, version: Game.version};
+                Publish.send({channel: Lobby.CHANNEL, message: {title: 'RequestRestart', content: gameSettings}});
+                return;
+            }
+            Game.name = playerA.name;
+            await AddItem();
+            if(Game.alternatePlayAs) {
+                let color = playerA.pieceColor;
+                await Alternate(color);
+            }
+            
+            await setTimeout(_ => {Refresh(true);}, 200);
+        } 
+    } 
+    else {
+        GameOver();
+    } 
+} 
+
+const Hint = async (elem, state=Copy(Game.state)) => {
+	if(Game.thinking) {
+		Notify.popUpNote("Please wait for opponent's move");
+		return;
+	}
+    if(!Game.over) { 
+        
+        
+        if(Game.mode === "two-player-offline" || Game.mode === "two-player-online" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode === "single-player" && Game.hintCount < 3 && (Game.level === 0 || Game.levels[Game.level-1].validForHint)) {
+        	if(Game.mode === "single-player") {
+				Game.validForHint = false;
+				Game.hintCount++;
+				$$("#play-window .penalties div:last-of-type span")[0].textContent = Game.hintCount;
+				$$("#play-window .penalties div:last-of-type span")[1].textContent = Game.hintCount;
+				$$("#play-window .penalties div:last-of-type")[0].style.display = "block";
+				$$("#play-window .penalties div:last-of-type")[1].style.display = "block";
+				UpdatePiecesStatus();
+		    }
+		    else if(Game.mode === "two-player-online") {
+			    Publish.send({channel: Lobby.CHANNEL, message: {title: "Hint"}});
+			} 
+	        elem.style.backgroundSize = "3.75vmax 3.75vmax";
+	        elem.style.backgroundImage = `url('${Icons.loadIcon}')`;
+			elem.style.pointerEvents = "none";
+			general.hintPath = [];
+			await setTimeout( () => getHint(elem, state), 100);
+		}
+		else if (Game.mode === "single-player") { 
+            
+            clearTimeout(general.timeout);
+            let validForHint = Game.level > 0? Game.levels[Game.level-1].validForHint: true;
+            elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
+            
+            elem.style.backgroundSize = validForHint? "5.5vmax 4.75vmax" : "4.75vmax 5.5vmax";
+            general.timeout = setTimeout(() => {
+				elem.style.backgroundSize = validForHint? "4.5vmax 3.75vmax" : "3.75vmax 4.5vmax";
+				if(Game.hintCount == 0)
+					Notify.popUpNote("Please win the previous level without using the hint and undo buttons");
+				else
+					Notify.popUpNote("You can't hint more than three (3) times in a game.");
+			}, 300);
+        }
+        else {
+            Notify.popUpNote("Please wait for your turn.");
+            
+        } 
+    } 
+    else {
+        GameOver();
+    }
+   
+    async function getHint(elem, state) {
+        let id = (Game.mode !== "two-player-offline")? playerA.pieceColor.substring(0,1): (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
+        let moves = await AssessAll({id, state});
+        if(Game.mandatoryCapture && moves.captures.length > 0) {
+        	moves = moves.captures;
+        }
+        else if(Game.mandatoryCapture && moves.captures.length == 0) {
+        	moves = moves.nonCaptures;
+        }
+        else {
+        	moves = moves.nonCaptures.concat(moves.captures);
+        } 
+        let level = Game.mode != "single-player"? 5: Game.level;
+        let ai = new AI({state, moves, depth: (level < 4? 4: level)});
+        await ai.makeMove(true);
+       
+        let cell = general.aiPath[0];
+        await ValidateMove({cell: $("#table").children[cell.i*Game.boardSize+cell.j], i: cell.i, j: cell.j});
+        
+        for(cell of general.aiPath) {
+            $("#table").children[cell.m*Game.boardSize+cell.n].classList.remove("helper_empty");
+            $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("hint");
+        }
+        AudioPlayer.play("notification", 0.1);
+        general.aiPath = [];
+        elem.style.backgroundSize = "4.5vmax 3.75vmax";
+        elem.style.backgroundImage = `var(--hint)`;
+        elem.style.pointerEvents = "auto";
+        return;
+    } 
+} 
+
+const Exit = async () => { 
+    if(BackState.moves.length > 0 && !Game.over) {
+        let choice = await Notify.confirm({
+                header: "Do you really want to exit?", 
+                message: "The current game progress will be lost!",
+                type: "CANCEL/EXIT"
+		});
+                
+        
+        if(choice == "EXIT") {
+            if(Game.mode === "two-player-online") {
+                Publish.send({channel: Lobby.CHANNEL, message: {title: "ExitedGame", content: playerA.name} });
+            }
+            TerminateWorkers();
+            Timer.stop();
+            back();
+            return;
+        } 
+    } 
+    else if(!Game.over) {
+        if(Game.mode === "two-player-online") {
+            Publish.send({channel: Lobby.CHANNEL, message: {title: "ExitedGame", content: playerA.name} });
+        } 
+        back();
+    } 
+    else {
+        GameOver();
+    } 
+} 
+
+const AboutCheckers = () => {
+    if(!Game.over) {
+        let src = null;
+        let message = "";
+        let version = Game.version.toUpperCase() + " CHECKERS";
+        let root = document.documentElement;
+        switch(Game.version) {
+            case "american":
+                message = "American Checkers also known as English/Standard Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) are only allowed to move forwards. When there is multiple capturing sequence, one is expected to choose only one and not necessarily the one that will result in multiple captures. All the captures in the chosen sequence should be made. Kings (crowned pieces) can capture and move both forwards and backwards. However, they can move only one square.";
+                src = srcs[Object.keys(Icons).length];
+                break;
+            case "kenyan":
+                message = "Kenyan Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move and capture forward. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture both forwards and backwards. However in the event of a capture, a king can jump multiple steps and land only to the immediate square after the captured piece. Incase of multiple captures, one should make sure all the captures in the chosen path are made.";
+                src = srcs[Object.keys(Icons).length + 1];
+                break;
+            case "casino":
+                message = "Casino Checkers is a Kenyan checkers game played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move forward one square. They can however capture two squares both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture both forwards and backwards. However in the event of a capture, a king can jump multiple steps and land only to the immediate square after the captured piece. Incase of multiple captures, one should make sure all the captures in the chosen path are made.";
+                src = srcs[Object.keys(Icons).length + 2];
+                break;
+            case "international":
+                message = "International Checkers is played on 10x10 board with each player having 20 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively.";
+                src = srcs[Object.keys(Icons).length + 3];
+                break;
+            case "pool":
+                message = "Pool Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However, they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece stops and becomes crowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively";
+                src = srcs[Object.keys(Icons).length + 4];
+                break;
+            case "russian":
+                message = "Russian Checkers is played on 8x8 board with each player having 12 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However, they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece is crowned and continues as a king. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However all the captures in the chosen path should be made exclusively.";
+                src = srcs[Object.keys(Icons).length + 5];
+                break;
+            case "nigerian":
+                message = "Nigerian Checkers is similar to international checkers with the difference being, the longest diagonal is align to the right of the players. The game is played on 10x10 board with each player having 20 pieces at the start of the game. Men (uncrowned pieces) can only move one square forward. However they can capture both forwards and backwards. In the event of capture, a piece reaches the far end of the board and there are more captures to be made, the piece will continue uncrowned. Kings (crowned pieces) can move and capture multiple steps both forwards and backwards. They are also called flying kings. Incase of multiple captures, you can only choose one that favors your game. However, all the captures in the chosen path should be made exhaustively.";
+                src = srcs[Object.keys(Icons).length + 6];
+                break;
+        }
+        
+        Notify.alert({
+                header: `<img src=${src}> <span>${version}</span>`, 
+                message});
+    } 
+    else
+    GameOver();
+} 
+
+
+const Helper = async (moves, state, isMultJump = false) => {
+    for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, #table .helper_empty, #table .helper_filled")) {
+        cell.classList.remove("hint", "helper_empty", "helper_filled");
+    }
+    let showNonCapture = Game.mandatoryCapture && Game.moves.captures.length == 0 || !Game.mandatoryCapture;
+    
+    if(showNonCapture && !isMultJump) {
+    	if(!((Game.mode == "single-player" || Game.mode == "two-player-online") && (Game.whiteTurn && playerB.pieceColor == "White" || !Game.whiteTurn && playerB.pieceColor == "Black")) && Game.helper) 
+	        for(let move of moves.nonCaptures) {
+	            let i = parseInt(move.cell.slice(0,1));
+	            let j = parseInt(move.cell.slice(1,2));
+	            let m = parseInt(move.empty.slice(0,1));
+	            let n = parseInt(move.empty.slice(1,2));
+	            $("#table").children[i*Game.boardSize+j].classList.add("pre_valid");
+	        }
+		if(Game.mandatoryCapture)
+			return;
+    }
+    moves = moves.captures;
+    
+    for(let k = 0; k < moves.length; k++) {
+    	let move = moves[k];
+        let i = parseInt(move.cell.slice(0,1));
+        let j = parseInt(move.cell.slice(1,2));
+        let m = parseInt(move.empty.slice(0,1));
+        let n = parseInt(move.empty.slice(1,2));
+        let crowned = false;
+        if(!isMultJump) 
+        	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: true});
+        else
+        	general.helperPath.push({i, j, m, n, cell: move.cell, capture: move.capture, empty: move.empty, source: false});
+        
+        if(move.capture != undefined) {
+            let cloneState = Copy(state);
+            let id = cloneState[i][j];
+            let a = parseInt(move.capture.slice(0,1)), 
+                b = parseInt(move.capture.slice(1,2));
+            cloneState[a][b] = "EC";
+            cloneState[i][j] = "IP";
+            if(id.includes("M") && (id.includes(playerA.pieceColor.slice(0,1)) && m === 0 || id.includes(playerB.pieceColor.slice(0,1)) && m === Game.boardSize - 1)) {
+                id = id.replace("M", "K");
+                crowned = true;
+            }
+            let moves2 = [];
+            id = crowned && /^casino|international|nigerian$/gi.test(Game.version)? id.replace("K", "M"): id;
+            cloneState[m][n] = id;
+			
+            if(!crowned || crowned && /^casino|international|nigerian|russian$/gi.test(Game.version)) {
+            	moves2 = await AssesMoves({id, i: m, j: n, state: cloneState});
+                
+				if(moves2.captures.length > 0) {
+					await Helper(moves2, cloneState, true);
+				} 
+				else if(crowned) {
+					id = id.replace("M", "K");
+				} 
+            } 
+            cloneState[m][n] = id;
+    	} 
+    }
+    
+    if(isMultJump) {
+        return Prms(true);
+    }
+   
+    general.sorted = await SortCaptures(general.helperPath);
+    general.helperPath = [];
+    if((Game.helper || Game.capturesHelper) && Game.mandatoryCapture && (Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode != "single-player")) {
+	    let i = general.sorted[0][0].i,
+	        j = general.sorted[0][0].j, 
+	        singleCell = general.sorted[0][0].cell;
+	        
+	    for(let arr of general.sorted) {
+			let data = arr[0];
+        	if(data.cell != singleCell) {
+				singleCell = false;
+				break;
+			} 
+	    } 
+	    
+	    if(singleCell) {
+			if(Game.mode != "two-player-online")
+	        	await ValidateMove({cell: $("#table").children[i*Game.boardSize+j], i, j});
+			else
+				$("#table").children[i*Game.boardSize+j].classList.add("helper_filled");
+	        return;
+	    } 
+	    else if(Game.helper || Game.capturesHelper) {
+	        for(let arr of general.sorted) {
+	            let cell = arr[0];
+	            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+	        } 
+	        return;
+	    }
+	}
+	else if((Game.helper || Game.capturesHelper) && !Game.mandatoryCapture && (Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode != "single-player")) {
+		for(let arr of general.sorted) {
+            let cell = arr[0];
+            $("#table").children[cell.i*Game.boardSize+cell.j].classList.remove("pre_valid");
+            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+        } 
+        return;
+	} 
+} 
+
+const PlayAs = (elem) => { 
+    if(elem.parentNode.id == "playerA") {
+        if(elem.getAttribute("value") != "play-as-alternately") {
+            let num = elem.classList.length - 1;
+            Enable($$("#playerB button")[0], general.default, "#fff");
+            Enable($$("#playerB button")[1], general.default, "#fff");
+            Disable($(`#playerB .${elem.classList[num]}`), general.disabled, "#B4B4B4");
+            Enable($(`#playerB button:not(.${elem.classList[num]})`), general.default, "#fff");
+            let btn = $(`#item4 button[value='${elem.getAttribute("value")}']`);
+            Clicked(btn, btn.parentNode, false);
+        }
+        else {
+            Game.alternatePlayAs = true;
+            let btns = $$("#item4 button")[2];
+            Clicked(btns, btns.parentNode, false);
+           
+            btns = $$("#playerB button");
+            for(let btn of btns) {
+               if(GetValue(btn, "background-image") === general.default) {
+                   Disable(btn, general.disabled, "#B4B4B4");
+                   break;
+               } 
+            } 
+        } 
+    } 
+    if(elem.getAttribute("value") != "play-as-alternately") {
+        Game.alternatePlayAs = false;
+        let playAsWhite = (elem.getAttribute("value") == "play-as-white");
+        playerA.pieceColor = (playAsWhite)? "White": "Black";
+        playerB.pieceColor = (playAsWhite)? "Black": "White";
+        
+        if(elem.parentNode.id !== "playerA") {
+            let btns = $$("#playerA button");
+            for(let btn of btns) {
+            	if(btn.getAttribute("value") === elem.getAttribute("value")) {
+            	    Clicked(btn, btn.parentNode, false);
+                    let num = btn.classList.length - 1;
+                    Disable($(`#playerB .${btn.classList[num]}`), general.disabled, "#B4B4B4");
+                    Enable($(`#playerB button:not(.${btn.classList[num]})`), general.default, "#fff");
+                    break;
+            	} 
+            } 
+        } 
+    } 
+    else {
+        Game.alternatePlayAs = true;
+        let btns = $$("#playerA button")[2];
+        Clicked(btns, btns.parentNode, false);
+        btns = $$("#playerB button");
+        for(let btn of btns) {
+           if(GetValue(btn, "background-image") === general.default) {
+               Disable(btn, general.disabled, "#B4B4B4");
+               break;
+           } 
+        } 
+    }
+    if(storage)
+        storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
+} 
+
+const Contact = async () => {
+	let response = await Notify.other({
+		header: "CONTACT DEVELOPER",
+		message: "Feel free to reach out to me via either of the following options. Let's build checkers together.",
+ 		   type: "NOT NOW/EMAIL/WHATSAPP",
+		icon: Icons.contactIcon
+	});
+	
+	if(response == "EMAIL") 
+		window.location.href = "mailto:markcodes789@gmail.com? &subject=Checkers%20Support%20Feedback";
+	else if(response == "WHATSAPP")
+		window.location.href = "https://wa.me/+254798916984?";
+} 
+
+const Attribute = () => {
+    Notify.alert({
+            header: "ATTRIBUTES", 
+            message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
+}
+const currentAppVersion = "22.15.188.517";
+const currentVersionDescription = "<ul><li>Added voice notes in the chat engine.</li><li>Added delete and copy option for chat engine.</li><li>Improved internal operations.</li><li>Improved the AI thinking time.</li><li>Fixed channel subscription error.</li><li>Fixed more other errors.</li><li>Discover by yourself</li></ul>";
+const AppVersion = () => {
+	Notify.alert({
+            header: "CHECKERS VERSION", 
+            message: "<label style='display: block; text-align: left;'>Your current app version is: " + currentAppVersion + "</label><span>Updates of this version</span>" + currentVersionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
+} 
+
+const FollowUp = () => {
+    BackState.state.push(["#settings-window", "#follow-up-window"]);
+    $("#settings-window").style.display = "none";
+    $("#follow-up-window").style.display = "grid";
+} 
+
+const GetGames = () => {
+    BackState.state.push(["#main-window", "#games-window"]);
+    $("#main-window").style.display = "none";
+    $("#games-window").style.display = "grid";
+    if(Game.stats.length == 0)
+        Notify.popUpNote("Your Games will be displayed here.");
+}
+
+const ShowTotalStats = async () => {
+	let sec = $(".games_totals");
+	sec.style.transform = "translate(0%, 0%)";
+	BackState.state.push([".games_totals"]);
+}
+
+const GetTotals = () => { 
+	for(let div of $$(".totals_div")) {
+		let p = div.$("p");
+		p.innerHTML = p.innerHTML.replace(/\d+/gi, 0);
+		p.setAttribute("total", 0);
+		let conts = div.$$("div");
+		for(let cont of conts) 
+			div.removeChild(cont);
+	} 
+	for(const stat of Game.stats) {
+		let mode = stat.mode;
+		let names = JSON.parse(JSON.stringify(stat.playerName));
+		let name1 = stat.playerName[0];
+		let name2 = stat.playerName[1];
+		let status1 = stat.gameStatus[0].toLowerCase();
+		let status2 = stat.gameStatus[1].toLowerCase();
+		let version = stat.version.toUpperCase();
+		version = version? version.length == 3? Object.keys(Game.versions).find((v) => {
+			return v.toUpperCase().startsWith(version);
+		}).toUpperCase() + " CHECKERS": version: "Unknown";
+		
+		let table = $(`#${names.join("-")}`) || $(`#${names.reverse().join("-")}`) || $$$("table", ["id", names.join("-")]);
+		let thead = table.$("thead") || $$$("thead");
+		let tbody = table.$("tbody") || $$$("tbody");
+		let tr1 = thead.$$("tr")[0] || $$$("tr");
+		let tr2 = thead.$$("tr")[1] || $$$("tr");
+		let tr3 = tbody.$$("tr")[0] || $$$("tr", ["name", name1]);
+		let tr4 = tbody.$$("tr")[1] || $$$("tr", ["name", name2]);
+		
+		if(!tr1.parentNode || !tr1.$(`th[value='${version}']`)) {
+			let th;
+			if(!tr1.parentNode) {
+				th = $$$("th", ["textContent", "Player", "rowspan", "2"]);
+				tr1.appendChild(th);
+			} 
+			th = $$$("th", ["textContent", version, "value", version, "colspan", "4"]);
+			tr1.appendChild(th);
+			th = $$$("th", ["textContent", "Wins", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Losses", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Draws", "value", version]);
+			tr2.appendChild(th);
+			th = $$$("th", ["textContent", "Win Probability", "value", version]);
+			tr2.appendChild(th);
+			
+			if(!tr1.parentNode) {
+				thead.appendChild(tr1);
+				thead.appendChild(tr2);
+			} 
+			
+			let td;
+			if(!tr3.parentNode) {
+				td = $$$("td", ["textContent", name1, "name", name1]);
+				tr3.appendChild(td);
+			} 
+			let count = status1 == "won"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			count = status1 == "lost"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			count = status1 == "draw"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr3.appendChild(td);
+			
+			let cells = tr3.$$(`td[value='${version}']`);
+			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
+			tr3.appendChild(td);
+			
+			if(!tr4.parentNode) {
+				td = $$$("td", ["textContent", name2, "name", name2]);
+				tr4.appendChild(td);
+			} 
+			count = status2 == "won"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			count = status2 == "lost"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			count = status2 == "draw"? 1: 0;
+			td = $$$("td", ["textContent", count, "count", count, "value", version]);
+			tr4.appendChild(td);
+			
+			cells = tr4.$$(`td[value='${version}']`);
+			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
+			tr4.appendChild(td);
+			
+			if(!tr3.parentNode) {
+				tbody.appendChild(tr3);
+				tbody.appendChild(tr4);
+				
+				table.appendChild(thead);
+				table.appendChild(tbody);
+			} 
+		}
+		else if(tr1.$(`th[value='${version}']`)) {
+			tr3 = tbody.$(`td[name='${name1}']`).parentNode;
+			let cells = tr3.$$(`td[value='${version}']`);
+			let cell = status1 == "won"? cells[0]: status1 == "lost"? cells[1]: cells[2];
+			let count = parseInt(cell.getAttribute("count")) + 1;
+			cell.textContent = count;
+			cell.setAttribute("count", count);
+			
+			let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			cells[3].textContent = prob + "%";
+			cells[3].setAttribute("prob", prob);
+			
+			tr4 = tbody.$(`td[name='${name2}']`).parentNode;
+			cells = tr4.$$(`td[value='${version}']`);
+			cell = status2 == "won"? cells[0]: status2 == "lost"? cells[1]: cells[2];
+			count = parseInt(cell.getAttribute("count")) + 1;
+			cell.textContent = count;
+			cell.setAttribute("count", count);
+			
+			prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+			cells[3].textContent = prob + "%";
+			cells[3].setAttribute("prob", prob);
+		}
+		let prob1 = tr3.$$(`td[value='${version}']`);
+		let prob2 = tr4.$$(`td[value='${version}']`);
+		prob1 = prob1[prob1.length-1];
+		prob2 = prob2[prob2.length-1];
+		prob1.classList.remove("default", "red_ui");
+		prob2.classList.remove("default", "red_ui");
+		if(prob1.getAttribute("prob") > prob2.getAttribute("prob")) {
+			prob1.classList.add("default");
+			prob2.classList.add("red_ui");
+		}
+		else if(prob1.getAttribute("prob") < prob2.getAttribute("prob")) {
+			prob1.classList.add("red_ui");
+			prob2.classList.add("default");
+		}
+		
+		let div;
+		if(mode == "single-player" || name1.toLowerCase() == "you" && name2.toLowerCase("ai")) {
+			div = $(".single_player_totals");
+		}
+		else if(mode == "two-player-online") {
+			div = $(".online_totals");
+		}
+		else if(mode == "two-player-offline") {
+			div = $(".offline_totals");
+		}
+		else {
+			div = $(".uncategorized_totals");
+		}
+		
+		if(!table.parentNode) {
+			let cont = $$$("div");
+			cont.appendChild(table);
+			div.appendChild(cont);
+		} 
+			
+		let p = div.$("p");
+		let count = parseInt(p.getAttribute("total")) + 1;
+		p.innerHTML = p.innerHTML.replace(/\d+/gi, count);
+		p.setAttribute("total", count);
+	}
+} 
+
+class GamesScroll {
+	static lastScrollTop = 0;
+	static check = (e) => {
+		if(Game.stats.length == 0) return;
+		let dir = e.target.scrollTop - this.lastScrollTop; 
+		let floatDate = $(".float_date");
+		let date = floatDate.getAttribute("value") || $(".games_date").getAttribute("date");
+		let targetElem = $$(`.game_item[date='${date}']`);
+		
+		targetElem = targetElem[dir > 0? targetElem.length-1: 0];
+		let threshold;
+		if(dir > 0) {
+			let parTop = e.target.getBoundingClientRect().top;
+			let targetElemTop = targetElem.getBoundingClientRect().top;
+			threshold = targetElemTop - parTop;
+		}
+		else if(dir < 0) {
+			let parBottom = e.target.getBoundingClientRect().bottom;
+			let targetElemBottom = targetElem.getBoundingClientRect().bottom;
+			threshold = parBottom - targetElemBottom;
+		} 
+		
+		if(threshold <= -20 && targetElem.nextElementSibling) {
+			date = dir > 0? targetElem.nextElementSibling : targetElem.previousElementSibling.previousElementSibling;
+			floatDate.textContent = $(`.games_date[date='${date.getAttribute("date")}']`).textContent;
+			floatDate.setAttribute("value", date.getAttribute("date"));
+		}
+		else if(!floatDate.getAttribute("value")) {
+			date = $(".games_date");
+			floatDate.textContent = date.textContent;
+			floatDate.setAttribute("value", date.getAttribute("date"));
+		} 
+		floatDate.classList.add("show_float_date");
+		clearTimeout(general.floatTimeout);
+		general.floatTimeout = setTimeout(() => {
+			floatDate.classList.remove("show_float_date");
+		}, 2000);
+		this.lastScrollTop = e.target.scrollTop;
+	} 
+}
+
+const ConvertTo = (time, to, includeSec = false) => {
+	if(time == "Invalid Date")
+		return "";
+	time = time.split(" ")[0];
+	let hr = parseInt(time.split(":")[0]);
+	let min = time.split(" ")[0].split(":")[1];
+	let sec = time.split(" ")[0].split(":")[2] || "00";
+	let converted = "";
+	if(to == 24) {
+		let prd = time.split(" ")[1];
+		if(prd == "PM" && hr < 12) {
+			converted = String((hr + 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
+		} 
+		else if(prd == "AM" && hr == 12) {
+			converted = "00:" + min + (includeSec? ":" + sec: "");
+		} 
+		else {
+			converted = String(hr).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "");
+		} 
+	} 
+	else if(to == 12) {
+		if(hr == 0) {
+			converted = "12:" + min + (includeSec? ":" + sec: "") + " AM";
+		} 
+		else if(hr > 12) {
+			converted = String((hr - 12)).padStart(2, "0") + ":" + min + (includeSec? ":" + sec: "") + " PM";
+		} 
+		else if(hr == 12) {
+			converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " PM";
+		} 
+		else {
+			converted = String(hr).padStart(2, "0") + ":" + min  + (includeSec? ":" + sec: "") + " AM";
+		} 
+	} 
+	return converted;
+} 
+
+const ClearGames = async () => {
+	Clicked();
+	let response; 
+	if(Game.stats.length > 0) {
+		response = await Notify.confirm({
+		        header: "Are you sure you want clear?", 
+		        message: "Once done this action can not be undone.", 
+                type: "CANCEL/CLEAR"
+		});
+	} else {
+		Notify.popUpNote("No games played yet.");
+		return;
+	}
+	
+	if(response == "CLEAR") {
+		$("#games").innerHTML = "";
+		let p = $(".totals_footer p");
+		p.innerHTML = p.innerHTML.replace(/\d+/gi, 0);
+	    Game.stats = [];
+		GetTotals();
+		$(".float_date").textContent = "";
+		$(".float_date").removeAttribute("value");
+	    Notify.popUpNote("Games cleared successfully");
+	    if(storage) {
+		    storage.removeItem("Checkers - stats");
+	    }
+	} 
+} 
+
+const GetStats = (no) => { 
+	let section = $(".stats_section");
+	section.innerHTML = "";
+	let stat = Game.stats[no];
+	let imgs = $$(".stats_header img");
+	imgs[0].src = stat.pieceColor[0] == "BLACK"? srcs[srcs.length-2]: srcs[srcs.length-1];
+	imgs[1].src = stat.pieceColor[1] == "BLACK"? srcs[srcs.length-2]: srcs[srcs.length-1];
+	
+    for(let key of Object.keys(stat)) {
+    	if(/version|level|ms|mode/gi.test(key))
+    		continue;
+    	let value = stat[key];
+    	let item = $$$("div");
+		item.classList.add("stats_item");
+		let val1 = $$$("div");
+		val1.classList.add("stats_value");
+		let name = $$$("div");
+		val1.classList.add("stats_name");
+		let val2 = $$$("div");
+		val2.classList.add("stats_value");
+		
+		for(let ch of key) {
+			if(ch == ch.toUpperCase()) {
+				let index = key.indexOf(ch);
+				key = key.slice(0, index) + " " + key.slice(index);
+				break;
+			}
+		} 
+		
+		val1.innerHTML = String(value[0]).toLowerCase().replace(/^\w/, (t) => t.toUpperCase());
+		val2.innerHTML = String(value[1]).toLowerCase().replace(/^\w/, (t) => t.toUpperCase());
+		name.innerHTML = key.replace(/^\w/, (t) => t.toUpperCase());;
+		
+		item.appendChild(val1);
+		item.appendChild(name);
+		item.appendChild(val2);
+		section.appendChild(item);
+    } 
+    Clicked();
+    
+    BackState.state.push(["#games-window", "#stats-window"]);
+    $("#games-window").style.display = "none";
+    $("#stats-window").style.display = "grid";
+} 
+
+const Mode = async (type, click = true) => {
+    if(type == 2) {
+        Game.mode = "two-player-offline";
+        playerA.name = $(".playerA_name").value;
+        playerB.name = $(".playerB_name").value;
+        $("#two-players-window h2").innerHTML = "TWO PLAYERS OFFLINE";
+        $("#item4").style.display = "none";
+        $("#online").style.display = "none";
+        $("#offline").style.display = "grid";
+      
+        let elem = $("#main div:nth-of-type(2)");
+        await Clicked(elem, elem.parentNode, click);
+    } 
+    else if(type == 3) {
+        Game.mode = "two-player-online";
+        playerA.name = $$("#online .player_name")[0].innerHTML;
+        playerB.name = $$("#online .player_name")[1].innerHTML;
+        $("#two-players-window h2").innerHTML = "TWO PLAYERS ONLINE";
+        $("#item4").style.display = "grid";
+        $("#online").style.display = "grid";
+        $("#offline").style.display = "none";
+       
+        let elem = $("#main div:nth-of-type(3)");
+        await Clicked(elem, elem.parentNode, click);
+        if(Lobby.isConnected) {
+        	setTimeout(() => {
+	        	if(GetValue($("#two-players-window"), "display") == "grid")
+	        	ElemHint.setHint($("#online .field.playerA_name"), "To change your name, enter the name here and hit submit or enter.");
+			}, 200);
+        } 
+    } 
+    else if(type == 1) { 
+        Game.mode = "single-player";
+        playerA.name = "You";
+        playerB.name = "AI";
+        $("#item4").style.display = "grid";
+       
+        let elem = $$("#main div")[0];
+        await Clicked(elem, elem.parentNode, click);
+    }
+   
+    if(click && type != 1) {
+        BackState.state.push(["#main-window", "#two-players-window"]);
+        $("#main-window").style.display = "none";
+        $("#two-players-window").style.display = "grid";
+    }
+} 
+
+const Settings = (elem) => {
+    let modes = $$("#main-window #main div");
+    let previousMode;
+    for(let mode of modes) {
+        if(GetValue(mode, "background-image") === general.default) { 
+            previousMode = mode;
+            break;
+        } 
+    } 
+    Clicked(elem, elem.parentNode);
+    BackState.state.push(["#main-window", "#settings-window", previousMode]);
+    $("#main-window").style.display = "none";
+    $("#settings-window").style.display = "grid";
+}
+
+const NotificationClick = (elem) => {
+	Notify.buttonAction(elem);
+}
+
+class Notify {
+	static popUpNote = (data) => {
+		let popUpNote = $("#pop-up-note");
+        popUpNote.innerHTML = data;
+        popUpNote.style.display = "block";
+        popUpNote.classList.remove("pop");
+        void popUpNote.offsetWidth;
+        popUpNote.classList.add("pop");
+	} 
+	static reset = () => {
+		this.note_window = $("#notification-window"), 
+        this.note_main = $("#note"), 
+        this.note_image = $(".note_img"), 
+        this.note_head = $(".note_header"), 
+        this.note_body = $(".note_body"), 
+        this.note_footer = $(".note_footer"), 
+        this.note_buttons = this.note_footer.children,
+        this.note_close_button = $("#note .close_btn");
+         
+        this.note_window.classList.remove("fade_note");
+        this.note_window.style.justifyContent = "center";
+        this.note_main.style.gridTemplateRows = "auto auto auto";
+        this.note_main.style.gridTemplateColumns = "60px auto 25px";
+        this.note_main.style.gridRowGap = "5px";
+        this.note_main.style.padding = "10px";
+        this.note_image.style.padding = "5px";
+        this.note_image.style.objectFit = "contain";
+        this.note_head.style.fontWeight = "900";
+        this.note_body.style.display = "block";
+        this.note_window.removeAttribute("onclick");
+        this.note_close_button.style.display = "block";
+       
+        if(this.sleep)
+        	this.sleep.end();
+        else
+        	this.sleep = new Sleep();
+	} 
+
+    static alert = async (data) => {
+    	await this.reset();
+    	this.note_head.innerHTML = data.header || "";
+        this.note_body.innerHTML = data.message || "";
+        this.note_image.src = Icons.alertIcon;
+        this.note_image.style.width = "60px";
+        this.note_image.style.height = "60px";
+        this.note_buttons[0].style.display = "none";
+        this.note_buttons[1].style.display = "none";
+        this.note_buttons[2].style.display = "inline-block";
+        this.note_buttons[2].textContent = "OK";
+        this.note_buttons[2].setAttribute("value", "OK");
+        this.note_window.setAttribute("onclick", "Notify.cancel()");
+        this.note_close_button.setAttribute("value", "OK");
+        this.note_close_button.style.pointerEvents = "auto";
+		
+        this.note_window.style.display = "flex";
+        await this.sleep.start();
+        return this.action;
+    }
+	static popUpAlert = async (data) => {
+		await this.reset();
+    	this.note_head.innerHTML = data.header || "";
+        this.note_body.innerHTML = data.message || "";
+        this.note_window.style.justifyContent = "flex-start";
+        this.note_main.style.gridTemplateColumns = data.iconType == "dice"? "60px auto": "100px auto";
+        this.note_main.style.gridTemplateRows = "auto";
+        this.note_main.style.padding = "5px";
+        this.note_main.style.gridRowGap = "0px";
+        this.note_image.style.padding = "0px 10px 0px 0px";
+        if(data.iconType == "flag") {
+        	this.note_image.style.height = "6ch";
+        	this.note_image.style.objectFit = "fill";
+        	this.note_main.style.gridTemplateColumns = "auto auto";
+        } 
+       
+        this.note_close_button.style.display = "none";
+        this.note_head.style.fontWeight = "500";
+        this.note_body.style.display = "none";
+        this.note_image.src = data.icon;
+        this.note_image.style.width = data.iconType == "dice"? "60px": data.iconType =="flag"? "auto": "100px";
+        this.note_buttons[0].style.display = "none";
+        this.note_buttons[1].style.display = "none";
+        this.note_buttons[2].style.display = "none";
+        let delay = data.delay || 1000;
+        setTimeout(this.cancel, delay);
+       
+		this.note_window.style.display = "flex";
+    } 
+	static alertSpecial = async (data) => {
+		await this.reset();
+    	this.note_head.innerHTML = data.header || "";
+        this.note_body.innerHTML = data.message || "";
+        this.note_image.src = Icons.loadIcon;
+        this.note_image.style.width = "60px";
+        this.note_buttons[0].style.display = "none";
+        this.note_buttons[1].style.display = "none";
+        this.note_buttons[2].style.display = "none";
+        this.note_close_button.style.pointerEvents = "none";
+       
+		this.note_window.style.display = "flex";
+    } 
+	static confirm = async (data) => {
+		await this.reset();
+    	this.note_head.innerHTML = data.header || "";
+        this.note_body.innerHTML = data.message || "";
+        this.note_image.style.width = "60px";
+        this.note_image.style.height = "60px";
+        if(data.icon === undefined) 
+            this.note_image.src = Icons.confirmIcon;
+        else {
+            if(data.iconType == "winner") {
+            	this.note_image.style.height = "80px";
+            } 
+            else if(data.iconType == "draw") {
+            	this.note_main.style.gridTemplateColumns = "80px auto 25px";
+            	this.note_image.style.width = "80px";
+            } 
+            this.note_image.src = data.icon;
+        } 
+        
+        this.note_buttons[0].style.display = "none";
+        this.note_buttons[1].style.display = "inline-block";
+        this.note_buttons[2].style.display = "inline-block";
+        this.note_buttons[1].textContent = data.type.split("/")[0];
+        this.note_buttons[2].textContent = data.type.split("/")[1];
+        this.note_buttons[1].setAttribute("value", data.type.split("/")[0]);
+        this.note_buttons[2].setAttribute("value", data.type.split("/")[1]);
+        this.note_close_button.setAttribute("value", data.type.split("/")[0]);
+        this.note_close_button.style.pointerEvents = "auto";
+       
+		this.note_window.style.display = "flex";
+        await this.sleep.start();
+        return this.action;
+	}
+    static other = async (data) => {
+    	await this.reset();
+    	this.note_head.innerHTML = data.header || "";
+        this.note_body.innerHTML = data.message || "";
+    	if(data.icon === undefined) 
+            this.note_image.src = Icons.confirmIcon;
+        else
+        	this.note_image.src = data.icon;
+        this.note_image.style.height = "60px";
+        if(data.iconType == "winner") {
+            this.note_image.style.width = "60px";
+            this.note_image.style.height = "80px";
+        } 
+        else if(data.iconType == "draw") {
+        	this.note_main.style.gridTemplateColumns = "80px auto 25px";
+            this.note_image.style.width = "80px";
+        } 
+        
+        this.note_buttons[0].style.display = "inline-block";
+        this.note_buttons[1].style.display = "inline-block";
+        this.note_buttons[2].style.display = "inline-block";
+        this.note_buttons[0].innerHTML = data.type.split("/")[0];
+        this.note_buttons[1].innerHTML = data.type.split("/")[1];
+        this.note_buttons[2].innerHTML = data.type.split("/")[2];
+        this.note_buttons[0].setAttribute("value", data.type.split("/")[0]);
+        this.note_buttons[1].setAttribute("value", data.type.split("/")[1]);
+        this.note_buttons[2].setAttribute("value", data.type.split("/")[2]);
+        this.note_close_button.setAttribute("value", data.type.split("/")[0]);
+        this.note_close_button.style.pointerEvents = "auto";
+       
+		this.note_window.style.display = "flex";
+        await this.sleep.start();
+        return this.action;
+    }
+   
+    static buttonAction = async (elem) => {
+    	this.action = elem.getAttribute("value");
+    	this.sleep.end();
+    	this.cancel();
+    }
+   
+	static cancel = async () => {
+		this.note_window = $("#notification-window");
+	    this.note_window.classList.remove("fade_note");
+	    void this.note_window.offsetWidth;
+	    this.note_window.setAttribute("onanimationend", "End(event)");
+	    this.note_window.classList.add("fade_note");
+	} 
+}
+
+const Version = async (elem, index, click = true) => { 
+    elem.parentNode.classList.add("disabled_container");
+    $("#footer .left_btn").style.pointerEvents = "none";
+    $("#nav").classList.add("disabled_levels");
+    let levels = $$("#nav div");
+
+    if(click) {
+        let scores = [];
+        let levelIndex;
+        levels.forEach((level, index) => {
+            if(level.getAttribute("value") !== "locked") {
+                let score = 3;
+                for(let i = 0; i < level.children[1].children.length; i++) {
+                    let label = level.children[1].children[i];
+                    if(!label.className.includes("not_achieved")) {
+                        score = i;
+                        break;
+                    } 
+                }
+                let validForHint = Game.levels[index].validForHint;
+                scores.push({score, validForHint});
+                levelIndex = index;
+            } 
+        });
+        Game.versions[Game.version] = scores;
+        Game.version = elem.getAttribute("value");
+        $(".header_div:last-of-type h2").innerHTML = Game.version.toUpperCase() + " CHECKERS";
+        await Clicked(elem, elem.parentNode, click);
+        
+        
+        if(storage) {
+            storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+            storage.setItem("Checkers - version", Game.version);
+            storage.setItem("Checkers - currentLevel", levelIndex);
+        }
+        await loop();
+    }
+    else {
+        $(".header_div:last-of-type h2").innerHTML = Game.version.toUpperCase() + " CHECKERS";
+        await Clicked(elem, elem.parentNode, click);
+        await loop();
+    } 
+    
+    async function loop (m = 0) {
+    	
+        if(m === levels.length) {
+            if(Game.mode === "single-player") {
+            	let level = levels[Game.versions[Game.version].length-1];
+            	if(storage && !click) {
+            		let lvl = storage.getItem("Checkers - currentLevel");
+            		if(lvl) {
+            			lvl = levels[lvl];
+            			if(lvl && lvl.getAttribute("value") != "locked") {
+            				level = lvl;
+            			} 
+					} 
+            	} 
+                await Clicked(level, level.parentNode, false);
+            }
+            else {
+                general.level = levels[Game.versions[Game.version].length-1];
+            }
+            await loopingDone();
+            elem.parentNode.classList.remove("disabled_container");
+            $("#nav").classList.remove("disabled_levels");
+            $("#footer .left_btn").style.pointerEvents = "auto";
+            return;
+        } 
+        
+        let level = levels[m];
+        
+        if(m < Game.versions[Game.version].length) {
+            Game.level = m-1;
+            await Level(false, "version");
+            Game.level = m;
+            Game.levels[Game.level].validForHint = Game.versions[Game.version][m].validForHint;
+            if(Game.levels[Game.level].validForHint === undefined)
+            	Game.levels[Game.level].validForHint = true;
+            
+            let score = Game.versions[Game.version][m].score; 
+			if(score === undefined) 
+				Game.versions[Game.version][m];
+            
+            for(let i = 0; i < 3; i++) {
+                level.children[1].children[i].classList.remove("achieved", "not_achieved");
+                
+                if(i >= score) {
+                    level.children[1].children[i].classList.add("achieved");
+                }
+                else {
+                    level.children[1].children[i].classList.add("not_achieved");
+                } 
+            }
+        }
+        else {
+        	level.setAttribute("value", "locked");
+            level.children[0].innerHTML = "LOCKED";
+            level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
+            level.style.backgroundImage = general.disabled;
+            level.children[1].style.backgroundImage = "var(--lock)";
+
+            for(let label of level.children[1].children) {
+                label.classList.remove("achieved", "not_achieved");
+            } 
+        }
+       
+        if(Game.mode !== "single-player") {
+            await Disable(level.parentNode, general.disabled, "#B4B4B4");
+        } 
+        
+        await loop(m+1);
+    }
+    function loopingDone () {
+        if(Game.version != "international" && Game.version != "nigerian") {
+            Game.boardSize = 8;
+            Game.rowNo = 3;
+        } 
+        else {
+            Game.boardSize = 10;
+            Game.rowNo = 4;
+        }
+        document.documentElement.style.setProperty("--board-size", Game.boardSize);
+    } 
+}
+
+const RestartLevels = async () => { 
+	let option = Notify.confirm({
+			header: "Are you sure restart all levels!", 
+			message: "Once done this action can not be reversed.",
+			type: "CANCEL/RESTART"
+	});
+			
+	
+	if(option == "RESTART") {
+		await Notify.alertSpecial({
+				header: "Please Wait!", 
+				message: "Resetting levels..."});
+		
+		Object.keys(Game.versions).map((key) => {
+			Game.versions[key] = [{score: 3, validForHint: true}];
+		});
+		if(storage) {
+	        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+	        storage.setItem("Checkers - version", Game.version);
+			storage.setItem("Checkers - currentLevel", 0);
+	    }
+	    let version = $(`#main-window .version[value='${Game.version}']`);
+	    await Version(version, undefined, false);
+		Notify.cancel();
+	} 
+} 
+
+const Level = async (elem, index, click = true) => {
+    if(typeof elem === "object") {
+        await Clicked(elem, elem.parentNode, click);
+        if(elem.getAttribute("value") != "locked") {
+            if(storage) {
+                let level = index;
+                storage.setItem("Checkers - currentLevel", (level).toString());
+            } 
+            Game.level = index;
+        }
+    } 
+    else if(elem) { 
+        let level = $$("#levels #nav div")[Game.level+1];
+        await Clicked(level, level.parentNode, false);
+        $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
+        $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${$("#levels h2").innerHTML}`;
+        for(level of Game.levels) {
+            if(level.level === $("#levels h2").innerHTML) {
+                Game.level = Game.levels.indexOf(level);
+                break;
+            } 
+        } 
+        
+        if(Game.levels[Game.level-1].validForHint) {
+            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+        } 
+        else if(!Game.levels[Game.level-1].validForHint) {
+            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+            $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
+            $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
+        } 
+        if(Game.alternatePlayAs) {
+            let color = playerA.pieceColor;
+            await Alternate(color); 
+        }
+        await setTimeout(_ => {Refresh(true);}, 200);
+        index = 0;
+    } 
+    else {
+        let level = $$("#levels #nav div")[Game.level+1];
+        if(level.getAttribute("value") == "locked") {
+        	level.setAttribute("value", Game.levels[Game.level+1].level.toLowerCase().replace(" level", ""));
+            level.style.backgroundImage = general.background;
+            level.children[0].innerHTML = Game.levels[Game.level+1].level.replace(" ", "<br/>");
+            level.children[1].style.filter = "grayscale(0) invert(0) brightness(1)";
+            level.children[1].style.backgroundImage = `none`;
+            if(level.children[1].children[0].className === "" || !level.children[1].children[0].className.includes("achieved")) {
+                level.children[1].children[0].classList.add("not_achieved");
+                level.children[1].children[1].classList.add("not_achieved");
+                level.children[1].children[2].classList.add("not_achieved");
+            }
+        }
+    } 
+    
+    if(storage && index != "version") {
+        let levels = $$("#nav div");
+        let scores = [];
+        levels.forEach((level, index) => {
+            if(level.getAttribute("value") !== "locked") {
+                let score = 3;
+                for(let i = 0; i < level.children[1].children.length; i++) {
+                    let label = level.children[1].children[i];
+                    if(!label.className.includes("not_achieved")) {
+                        score = i;
+                        break;
+                    } 
+                }
+                let validForHint = Game.levels[index].validForHint;
+                scores.push({score, validForHint});
+            } 
+        });
+        Game.versions[Game.version] = scores;
+        storage.setItem("Checkers - versions", JSON.stringify(Game.versions));
+        storage.setItem("Checkers - version", Game.version);
+    }
+    return Prms("done");
+} 
+
+const End = (event) => {
+    if(event.animationName === "pop-out") {
+        let popUpNote = $("#pop-up-note");
+        popUpNote.style.display = "none";
+    } 
+    else if(event.animationName === "fade-out") { 
+        event.target.removeAttribute("onanimationend");
+        event.target.classList.remove("captured");
+        event.target.parentNode.removeChild(event.target);
+        /*if(!$(".captured")) {
+        	general.captureFadeTime.end();
+        } */
+    }
+    else if(event.animationName === "fade-note") {
+        event.target.removeAttribute("onanimationend");
+        event.target.style.display = "none";
+        event.target.classList.remove("fade_note");
+    }
+    else if(event.animationName === "slide_float_date") {
+    	event.target.classList.remove("show_float_date");
+    } 
+} 
+
+const Home = async () => {
+    if(GetValue($("#main-window"), "display") === "none") {
+        let length = BackState.state.length;
+        if(length > 0) { 
+            let current_state = BackState.state[length-1];
+            await BackState.state.pop();
+            
+            if(current_state.length > 2) {
+                await Clicked(current_state[2], current_state[2].parentNode, false);
+            }
+            if($(current_state[0]).classList.contains("games_totals")) {
+            	$(current_state[0]).style.transform = "translate(0, 100%)";
+            }
+            else if($(current_state[0]).id == "chat-window") {
+            	HideChat("back");
+            } 
+            $(current_state[1]).style.display = "none";
+            $(current_state[0]).style.display = "grid"; 
+        } 
+        await Home();
+    }
+    
+    return true;
+}
+
+async function play (accepted = false) {
+    if(Lobby != undefined && Lobby.isConnected && Lobby.opponent && Game.mode === "two-player-online" || Game.mode === "single-player") {
+        if(GetValue($("#play-window"), "display") == "none" || accepted) {
+        	
+            if(Game.mode === "two-player-online" && !accepted) {
+                if(Game.alternatePlayAs) {
+                    let color = playerA.pieceColor;
+                    await Alternate(color);
+                }
+                setTimeout(async () => {
+                    if(Game.rollDice) {
+                        Game.firstMove = await RollDice();
+                        
+                        Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
+                    }
+                    else {
+                        let btns = $$("#item3 button");
+                        Game.whiteTurn = (GetValue(btns[0], "background-image") == general.default);
+                        Game.firstMove = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? true: false;
+                    }
+                	
+                    Notify.popUpNote("Play request has been sent to " + playerB.name);
+                    let gameSettings = {firstMove: !Game.firstMove, mandatoryCapture: Game.mandatoryCapture, version: Game.version};
+                    Publish.send({channel: Lobby.CHANNEL, message: {title: 'RequestPlay', content: gameSettings}});
+                }, 200);
+                return;
+            }
+            else if(Game.mode === "two-player-online" && accepted) {
+                await setTimeout(async () => await Refresh(true), 200);
+            } 
+            
+            if(Game.mode !== "two-player-online") {
+                if(Game.alternatePlayAs) {
+                    let color = playerA.pieceColor;
+                    await Alternate(color);
+                } 
+                await Refresh(true);
+            }
+           
+            
+            if(Game.mode === "two-player-online" || Game.level === 0 || Game.levels[Game.level-1].validForHint) {
+                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+            } 
+            else if(!Game.levels[Game.level-1].validForHint) {
+                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--lock)";
+                $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
+                $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "3.75vmax 4.5vmax";
+            }
+            
+            await Home();
+            BackState.state.push(["#main-window", "#play-window"]);
+            $("#main-window").style.display = "none";
+            $("#play-window").style.display = "grid";
+        }
+        if(GetValue($("#play-window"), "display") == "grid") {
+            AdjustBoard();
+            if(Game.mode === "single-player") {
+                $("#play-window .header_section h3").innerHTML = `${$("#levels h2").innerHTML}`;
+                $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${$("#levels h2").innerHTML}`;
+                for(let level of Game.levels) {
+                    if(level.level === $("#levels h2").innerHTML) {
+                        Game.level = Game.levels.indexOf(level);
+                    } 
+                } 
+            } 
+            else {
+                $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
+                $(".face_bottom #level").innerHTML = `${Game.version.toUpperCase().slice(0,3)} - ${playerA.name} VS ${playerB.name}`;
+            } 
+        }
+    } 
+    else if(Game.mode === "two-player-offline" && playerA.name != "You" && playerA.name !== "" && playerB.name != "AI" && playerB.name !== "") { 
+        $("#play-window .header_section h3").innerHTML = `${playerA.name} VS ${playerB.name}`;
+        if(Game.alternatePlayAs) {
+            let color = playerA.pieceColor;
+            await Alternate(color);
+        } 
+        await Refresh(true);
+        
+        $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+        $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundImage = "var(--hint)";
+        $("#play-window .controls_section .controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+        $("#play-window .middle_section .horiz_controls:nth-of-type(3)").style.backgroundSize = "4.5vmax 3.75vmax";
+        
+        BackState.state.push(["#main-window", "#play-window"]);
+        $("#main-window").style.display = "none";
+        $("#play-window").style.display = "grid";
+    } 
+    else {
+        if(Game.mode === 'two-player-online')
+            Notify.popUpNote("Can't play, you have no opponent. Please wait or invite one or join another channel.");
+        else if(Game.mode === 'two-player-offline')
+            Notify.popUpNote("Can't play, you haven't filled out players details. Fill them out and try again.");
+    }
+}
+
+const AdjustBoard = () => {
+	general.orientation = screen.orientation.type;
+	let offlineMode = Game.mode == "two-player-offline";
+	let root = document.documentElement;
+    if(BackState.state.length && BackState.state[BackState.state.length-1][0] == ".games_totals") {
+    	$(".games_totals").style.transform = "translate(0, 100%)";
+    	BackState.state.pop();
+    }
+    let width = parseInt(GetValue($("#table"), "width")) / Game.boardSize * 0.1;
+
+	if(screen.orientation.type.toLowerCase().includes("landscape")) {
+		$("#horiz").style.backgroundImage = general.default;
+		$("#vert").style.backgroundImage = general.background;
+		document.body.style.backgroundSize = "auto 70vmax";
+        
+        if(offlineMode) {
+        	root.style.setProperty("--z-plane-distance", "0px");
+        	root.style.setProperty("--perspective-y", "50%");
+        	root.style.setProperty("--shadow-width", "0px");
+        	root.style.setProperty("--unrotated-shadow", `${width * 1.3}px`);
+        	root.style.setProperty("--angleX", "0deg");
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
+            $("#play-window .middle_section .score").style.display = "none";
+            $("#play-window .middle_section .penalties").style.display = "none";
+            $("#play-window .middle_section .timer_front_a").classList.add("unrotated");
+            $("#play-window .middle_section .timer_front_b").classList.add("unrotated");
+        } 
+        else {
+        	root.style.setProperty("--z-plane-distance", "122px");
+        	root.style.setProperty("--perspective-y", "80%");
+        	root.style.setProperty("--shadow-width", `${width}px`);
+        	root.style.setProperty("--unrotated-shadow", "0px");
+        	root.style.setProperty("--angleX", "30deg");
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 -4vmin 2vmin 4vmin #000, 0 4vmin 2vmin 0 #0006";
+            $("#play-window .middle_section .timer_front_a").classList.remove("unrotated");
+        	$("#play-window .middle_section .timer_front_b").classList.remove("unrotated");
+            if(Game.mode == "single-player") {
+	            $("#play-window .middle_section .score").style.display = "flex";
+	        	$("#play-window .middle_section .penalties").style.display = "flex";
+			}
+			else {
+				$("#play-window .middle_section .score").style.display = "none";
+	        	$("#play-window .middle_section .penalties").style.display = "none";
+			} 
+        } 
+    } 
+    else if(screen.orientation.type.toLowerCase().includes("portrait")) {
+    	$("#horiz").style.backgroundImage = general.background;
+		$("#vert").style.backgroundImage = general.default;
+    	document.body.style.backgroundSize = "auto 100vmax";
+        root.style.setProperty("--shadow-width", "0px");
+        root.style.setProperty("--unrotated-shadow", `${width * 1.3}px`);
+        root.style.setProperty("--angleX", "0deg");
+        root.style.setProperty("--z-plane-distance", "0px");
+        root.style.setProperty("--perspective-y", "50%");
+        
+       
+        $("#play-window .middle_section .score").style.display = "none";
+	    $("#play-window .middle_section .penalties").style.display = "none";
+		$("#play-window .middle_section .timer_front_a").classList.remove("unrotated");
+        $("#play-window .middle_section .timer_front_b").classList.remove("unrotated");
+        
+        if(offlineMode) {
+        	root.style.setProperty("--angleZ", "90deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "-90deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "-90deg");
+            $("#play-window .controls_section .score_cont").style.display = "none";
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
+        }
+        else {
+        	root.style.setProperty("--angleZ", "0deg");
+            root.style.setProperty("--angleZ" + playerB.pieceColor.slice(0,1), "0deg");
+            root.style.setProperty("--angleZ" + playerA.pieceColor.slice(0,1), "0deg");
+            $("#play-window .middle_section .face_back").style.boxShadow = "0 7vmin 1vmin 4vmin #0008, 0 0 1vmin 4vmin #000a";
+            if(Game.mode == "single-player") {
+            	$("#play-window .controls_section .score_cont").style.display = "flex";
+            }
+            else {
+            	$("#play-window .controls_section .score_cont").style.display = "none";
+            } 
+        } 
+    } 
+} 
+
+const Fullscreen = async (value, isEvent = false) => { 
+    try {
+	    let isFullScreen = () => {
+            if(document.fullscreenElement !== undefined) return document.fullscreenElement;
+            if(document.webkitFullscreenElement !== undefined) return document.webkitFullscreenElement;
+            if(document.mozFullscreenElement !== undefined) return document.mozFullscreenElement;
+            if(document.msFullscreenElement !== undefined) return document.msFullscreenElement;
+        }
+        let elem = document.documentElement;
+        let enterFullscreen = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullscreen || elem.msRequestFullscreen;
+        let exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen || document.mozExitFullscreen || document.msExitFullscreen;
+        
+	    if(value && !isEvent) {
+		    if(enterFullscreen && !isFullScreen()) {
+			    $("#item1").style.display = "grid";
+        		await enterFullscreen.call(elem, {navigationUI: "hide"});
+        		
+        		Clicked($("#fs-on"), $("#fs-on").parentNode);
+			    general.fullscreen = value;
+			    
+			    let res = await orientationLocking(document.documentElement, general.orientation);
+                if(!res) {
+                    $("#item1").style.display = "none";
+                } 
+        	}
+        	else
+        		Notify.alert({
+					    header: "Fullscreen Error",
+					    message: "Your browser doesn't support Fullscreen functionality."});
+	    } 
+	    else if(!isEvent) {
+		    if(exitFullscreen && isFullScreen()) {
+			    general.fullscreen = value;
+			    $("#item1").style.display = "none";
+        		await exitFullscreen.call(document);
+        		Clicked($("#fs-off"), $("#fs-off").parentNode);
+        	}
+	    } 
+	    else if(isEvent && !isFullScreen()) {
+		    $("#item1").style.display = "none";
+		    let btns = $$("#item0 button");
+		    btns[0].style.background = general.background;
+		    btns[1].style.background = general.default;
+		    general.fullscreen = false;
+		} 
+
+	} catch (error) {
+		if(!general.fullscreen)
+		    $("#item1").style.display = "none";
+		Notify.alert({
+				header: "Fullscreen Error",
+				message: "Your browser doesn't support Fullscreen functionality.\n"});
+	}
+} 
+
+async function orientationLocking (elem, orientation) {
+	let res = false;
+	try {
+		await screen.orientation.lock(orientation).then(_ => {
+            res = true;
+        }).catch((error) => {
+            if(error.name != "NotSupportedError")
+                Notify.popUpNote("An error occurred while locking orientation view");
+            res = false;
+        }); 
+    } catch (error) {
+        Notify.popUpNote("Locking error: " + error);
+    }
+    return Prms(res);
+}
+
+async function back (undo = false, isComp = false) {
+	if(Game.thinking && undo) {
+		Notify.popUpNote("Please wait for opponent's move");
+		return;
+	} 
+    if(!undo) {
+    	if(GetValue($("#settings-window"), "display") == "grid") {
+	        let btns;
+			if(general.fullscreen && GetValue($("#item1"), "display") == "grid") {
+	        	btns = $$("#item1 button");
+		        for(let btn of btns) {
+		            if(GetValue(btn, "background-image") == general.default) { 
+		                if(btn.id == "horiz" && general.orientation.toLowerCase().includes("portrait")) {
+		                    orientationLocking(document.documentElement, "landscape-primary"); 
+		                } 
+		                else if(btn.id == "vert" && general.orientation.toLowerCase().includes("landscape")) {
+		                    orientationLocking(document.documentElement, "portrait-primary");
+		                } 
+		            } 
+		        }
+			} 
+	        
+	        btns = $$("#item3 button");
+	        for(let btn of btns) {
+	            if(GetValue(btn, "background-image") == general.default) { 
+	                if(btn.id != "first-move-roll-dice") {
+	                    Game.whiteTurn = btn.id == "first-move-white";
+	                    Game.rollDice = false;
+	                } 
+	                else
+	                    Game.rollDice = true;
+	                    
+	                break;
+	            } 
+	        }
+	        if(storage)
+	            storage.setItem("Checkers - first_move", JSON.stringify({rollDice: Game.rollDice, whiteTurn: Game.whiteTurn}));
+	        
+	        btns = $$("#item5 button");
+	        for(let btn of btns) {
+	            if(GetValue(btn, "background-image") == general.default) { 
+	                Game.mandatoryCapture = btn.id === "must-jump";
+	                break;
+	            } 
+	        }
+	        if(storage) 
+	            storage.setItem("Checkers - mandatory_capture", JSON.stringify(Game.mandatoryCapture));
+	        
+	        btns = $$("#item6 button");
+	        for(let btn of btns) {
+	            if(GetValue(btn, "background-image") === general.default) {
+	                if(btn.id === "active") {
+	                    Game.helper = true;
+	                    Game.capturesHelper = true;
+	                    break;
+	                } 
+	                else if(btn.id === "inactive") {
+	                    Game.helper = false;
+	                    Game.capturesHelper = false;
+	                    break;
+	                }
+	                else {
+	                    Game.capturesHelper = true;
+	                    Game.helper = false;
+	                    break;
+	                } 
+	            } 
+	        }
+	        if(storage)
+	            storage.setItem("Checkers - helper", JSON.stringify({helper: Game.helper, capturesHelper: Game.capturesHelper}));
+		} 
+        
+        let length = BackState.state.length;
+        if(length > 0) { 
+            let current_state = BackState.state[length-1];
+
+            await BackState.state.pop();
+            
+            if(current_state.length > 2) {
+                await Clicked(current_state[2], current_state[2].parentNode);
+            }
+            else
+            	await Clicked();
+            if($(current_state[0]).classList.contains("games_totals")) {
+            	$(current_state[0]).style.transform = "translate(0, 100%)";
+            }
+            else if($(current_state[0]).id == "chat-window") {
+            	HideChat("back");
+            } 
+            else {
+	            $(current_state[1]).style.display = "none";
+	            $(current_state[0]).style.display = "grid"; 
+			}
+        } 
+    } 
+    else if(!Game.over) { 
+        let moving = $$("#transmitter .outer");
+        if(moving.length == 0) {
+            let length = BackState.moves.length;
+            if(isComp || length > 0 && Game.mode === "two-player-offline" || ((Game.mode == "two-player-online" || Game.mode === "single-player" && Game.undoCount < 5) && length > 1 && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") )) {
+            	let move = BackState.moves[length-1];
+                await BackState.moves.pop();
+                Undo.move(move);
+               
+                for(let move of BackState.moves) {
+                    if(move.length === 3) { 
+                        let piece = move[1].piece || move[0].cell.firstChild;
+                        if(piece.className.includes(playerA.pieceColor.toLowerCase()))
+                            playerA.longestCapture = Math.max(move[2].length, playerA.longestCapture);
+                        else
+                            playerB.longestCapture = Math.max(move[2].length, playerB.longestCapture);
+                    } 
+                } 
+               
+                for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
+	                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+	            }
+				
+                Game.whiteTurn = !Game.whiteTurn;
+                
+                if(!isComp && (Game.mode === "single-player" || Game.mode == "two-player-online") && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")) {
+                	if(Game.mode == "two-player-online") {
+                		await Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
+                		await Publish.send({channel: Lobby.CHANNEL, message: {title: "Undone", content: {} } });
+                	}
+                	else {
+	                	Game.validForHint = false;
+						Game.undoCount++;
+						$$("#play-window .penalties div:first-of-type span")[0].textContent = Game.undoCount;
+						$$("#play-window .penalties div:first-of-type span")[1].textContent = Game.undoCount;
+						$$("#play-window .penalties div:first-of-type")[0].style.display = "block";
+						$$("#play-window .penalties div:first-of-type")[1].style.display = "block"; 
+					} 
+                     
+                    await back(true, true);
+                    return;
+                }
+
+                
+                clearTimeout(general.timeout);
+                general.timeout = setTimeout(async _ => {
+                	general.sorted = [];
+	                let id = Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black"? playerA.pieceColor.charAt(0): playerB.pieceColor.charAt(0);
+	                Game.moves = await AssessAll({id, state: Game.state});
+	                
+	                await Helper(Game.moves, Copy(Game.state));
+                    await UpdatePiecesStatus();
+				}, 100);
+            } 
+            else if((Game.mode == "single-player" || Game.mode == "two-player-online") && length <= 1 && (Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black") || length == 0) {
+                Notify.popUpNote("No moves made yet");
+            }
+            else if(Game.mode == "single-player" && Game.undoCount >= 5) {
+            	let elem = general.orientation.toLowerCase().includes("landscape")? $(".horiz_controls:nth-of-type(2)") : $(".controls:nth-of-type(2)");
+            	
+            	clearTimeout(general.timeout);
+	            elem.style.backgroundSize = "3vmax 3vmax";
+	            
+	            elem.style.backgroundSize = "4vmax 4vmax";
+	            general.timeout = setTimeout(() => {
+					elem.style.backgroundSize = "3vmax 3vmax";
+					Notify.popUpNote("You can't undo more than five (5) times in a game.");
+				}, 300);
+            } 
+            else {
+            	Notify.popUpNote("Please wait for opponent's move");
+            } 
+        }
+        else {
+            
+        }
+    }
+    else {
+        GameOver();
+    } 
+}
+
+class Undo {
+	static moves = [];
+	static move = (move) => {
+		
+		
+		this.moves.push(move);
+		if(this.moves.length == 1)
+			this.undo();
+	}
+	static undo = async () => {
+		let table = $("#table");
+		while(this.moves.length > 0) {
+			let move = this.moves[0];
+			let king = false;
+			if(move.length >= 3) {
+				king = await move.some((prop) => prop.king);
+				move = [move[0], move.slice(-2,-1)[0], move.slice(-1)[0]];
+			} 
+			let i = move[1].i;
+			let j = move[1].j;
+			let m = move[0].i;
+			let n = move[0].j;
+			let piece = move[1].piece;
+			let id = Game.state[i][j];
+			await piece.classList.remove("captured");
+			if(move[1].king || king) {
+	            if(piece.className.includes("white")) {
+	                piece.classList.remove("crown_white");
+	            } 
+	            else {
+	                piece.classList.remove("crown_black");
+	            } 
+	            
+	            if(piece.className.includes(playerA.pieceColor.toLowerCase()))
+	            playerA.kings--;
+	            else
+	            playerB.kings--;
+	            
+	            id = id.replace("K", "M");
+			}
+			
+			if(piece.className.includes(playerA.pieceColor.toLowerCase()))
+            	playerA.moves--;
+            else
+            	playerB.moves--;
+           
+            
+            Game.drawStateCount = Game.drawStateCount > 0? Game.drawStateCount-1: Game.drawStateCount;
+            Game.baseStateCount = Game.baseStateCount > 1? Game.baseStateCount-1: Game.baseStateCount;
+            
+			table.children[i*Game.boardSize+j].innerHTML = "";
+			table.children[m*Game.boardSize+n].appendChild(piece);
+			Game.state[i][j] = "EC";
+			Game.state[m][n] = id;
+			
+			if(move.length === 3) {
+                for(let caps of move[2]) {
+                	await caps[0].classList.remove("captured");
+                    i = caps[1];
+                    j = caps[2];
+                    $("#table").children[i*Game.boardSize+j].appendChild(caps[0]);
+                    Game.state[i][j] = caps[3];
+                } 
+            }
+            this.moves.shift();
+		} 
+	} 
+}
+
+const PopState = () => {
+	if(BackState.state.length > 0) {
+		if(GetValue($("#play-window"), "display") == "grid")
+			Exit();
+		else
+			back();
+		history.pushState(null, "", "?window1");
+	}
+	else if(!document.location.href.includes("window")) {
+		Clicked();
+		Notify.popUpNote("Press again to exit.");
+		setTimeout(() => {
+			history.pushState(null, "", "?window1");
+		}, 4000);
+	}
+}
+
+
