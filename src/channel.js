@@ -1,1 +1,1441 @@
-'use strict';const _0x3bcd1c=_0x15e3;(function(_0xd6ecd8,_0x5299d9){const _0x1f1cb6=_0x15e3,_0x542a3e=_0xd6ecd8();while(!![]){try{const _0x6eedb0=-parseInt(_0x1f1cb6(0x23c))/0x1+parseInt(_0x1f1cb6(0x2b7))/0x2+parseInt(_0x1f1cb6(0x21e))/0x3+-parseInt(_0x1f1cb6(0x2b1))/0x4+-parseInt(_0x1f1cb6(0x204))/0x5+parseInt(_0x1f1cb6(0x2e4))/0x6*(parseInt(_0x1f1cb6(0x32e))/0x7)+parseInt(_0x1f1cb6(0x232))/0x8;if(_0x6eedb0===_0x5299d9)break;else _0x542a3e['push'](_0x542a3e['shift']());}catch(_0x23c884){_0x542a3e['push'](_0x542a3e['shift']());}}}(_0x4c77,0x8cb56));function _0x4c77(){const _0x426ace=['button_pop_up','#chat-icon','opponent','100px','.chat_header','alert','skip','dataavailable','Please\x20wait','category','selectMode','CANCEL','name=','#online\x20.playerA_name','done','start','0:00','Text\x20copied\x20to\x20clipboard','Your\x20opponent\x20is\x20','concat','alertSpecial','#main-window','end','from','downloadFile','ONLINE','receive','firstMove','height','Delete\x20','loadeddata','toString','DISCONNECTED','stringify','panel','We\x20couldn\x27t\x20communicate\x20with\x20the\x20opponent.\x20Please\x20try\x20again.<br>Details:<br>','span','deleteBubble','PUBNUB','.selected_bubble','\x20channel\x20as\x20shown\x20below.\x20Your\x20opponent\x20will\x20refer\x20to\x20you\x20using\x20the\x20name\x20you\x20will\x20provide.<img\x20src=\x27./src/images/player\x20image.png\x27>','audio_download','Connection\x20timeout\x20to\x20','pop','orange_ui','</div>','toFile','className','online','publish','leave','unreadMessages','count','.left_bubble.selected_bubble','ended','innerHTML','Having\x20trouble\x20to\x20connect,\x20please\x20check\x20your\x20device\x20internet\x20connection.','center_bubble','mimeType','error','.center_bubble','tick','mouseup','black_ui','add','parentNode','paused','\x20exited\x20the\x20game.','toUpperCase','10px','NameChange','updateState','1532635TpSfDu','shift','timetoken','LOBBY','moves','chat_field','send','contains','selectedRight','slice','Request\x20for\x20rematch','check','opacity','#left-','selectedLeft','replace','CH-','#pubnub-file','popUpNote','getItem','totalOccupancy','removeListener','initializationError','N/A','cancel','make','1235214SNoDCg','requestAbortion','Unsubscribing\x20','isConnected','#online\x20.lobby_name','\x20undid\x20the\x20move','value','Lobby','transform','join','no\x20media','message','throwRecording','RequestReplay','alternatePlayAs','insertBefore','length','RequestRestart','audio_panel','canShare','12527056RjjSOG','now','PNTimeoutCategory','same_side_bubble','playing','stream','confirm','children','Message','test','960983XgrolY','pieceColor','subscribe','load','stopRecording','version','playbackRate','flex','range','preventDefault','Your\x20Browser\x20does\x20not\x20support\x20this\x20kind\x20of\x20sharing.\x20Please\x20use\x20your\x20ordinary\x20means.','classList','move','DeclinedRequest','unsubscribe','clientHeight','#player-1-status','touchstart','click','location','EVERYONE','messages','.bubbles_container','pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71','audioBlob','typing','.anchor','\x20from\x20','mode','whiteTurn','focus','channel','.chat_field','a\x20new\x20message','transitionDuration','mediaRecorder','file','head','Text\x20was\x20not\x20copied\x20to\x20clipboard\x20for\x20some\x20reason.','ids','setFilterExpression','play','data','.recorder_container','button','left_bubble','initiating','RequestPlay','.right_bubble.selected_bubble','NOT\x20NOW/LEAVE\x20ANYWAY','You\x20have\x20been\x20dormant\x20in\x20a\x20while,\x20we\x20couldn\x27t\x20establish\x20a\x20connection\x20to\x20','toLowerCase','audio_play\x20audio_download','.chat_header\x20p','AM\x20ACTIVE/LEAVE\x20ANYWAY','success','padStart','adjust','backgroundSize','You\x20have\x20','Request\x20for\x20a\x20\x20match!','45px','includes','LEAVE\x20ANYWAY','appendChild','...','Without\x20a\x20channel\x20you\x20cannot\x20play\x20an\x20online\x20match.','currentPlayer','Unsubscribed\x20from\x20','\x20channel.\x20If\x20this\x20persist\x20for\x203\x20minutes\x20without\x20any\x20action\x20you\x20will\x20be\x20unsubscribed\x20from\x20the\x20channel.','remove','Hi,\x20','recorder','#online\x20#channel-name','#two-players-window','\x20left\x20','.tick','generateUUID','#main-section-tp','state','<div\x20class=\x27anchor\x27></div>','.recorder_button','div','\x20UNREAD\x20MESSAGE','clipboard-write','getUUID','#player-2-status','parse','\x20channel...','\x20channel\x20successfully\x20as\x20the\x20guest\x20member.','visibility','audio_pause','removeChild','OpponentName','calc(100%\x20-\x2070px)','\x20wants\x20to\x20restart\x20this\x20match.','\x20is\x20requesting\x20a\x20rematch\x20with\x20you.','message\x20size\x20exceeded\x20limit','createObjectURL','sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872','recording','.bubble','other','documentElement','setProperty','uuid','activeElement','setHint','duration','CANCEL/MYSELF','trim','muted','.recorder_delete','.send_button','aborting','setState','stop','4033808mtxLNj','addMessageAction','PNNetworkDownCategory','.center_bubble\x20p','<div>','innerHeight','827932BruIFK','setAttribute','PNNetworkUpCategory','#play-window','share','getUserMedia','timer','ExitedGame','getAttribute','You\x20have\x20not\x20joined\x20any\x20channel.','\x20(Host)','width','You\x20are\x20offline.','delivered','CHANNEL','.badge','action','\x20new\x20messages','UUID','skipInput','auto','Please\x20fill\x20out\x20your\x20name.','addEventListener','.selected_bubble.deleted','init','wait','delete_recording','You\x20are\x20back\x20online.','style','permissions','right_bubble','substring','pointerEvents','display','getMinutes','CONNECTED','report','.tick.grey','bottom','\x20is\x20back\x20online.','notification','Duplicate\x20Action','uuid\x20!=\x20\x27','catch','retryCount','12jOsvXl','.recorder_time','\x20is\x20requesting\x20a\x20match\x20with\x20you','adjustWidth','<br>','#main-window\x20.version[value=\x27','addListener','\x20UNREAD\x20MESSAGES','finishedExecuting','pause','boardSize','mousedown','LISTENER','AM\x20ACTIVE','https://mark-code789.github.io/Checkers/index.html?name=','split','deleteRecording','btn','\x20is\x20requesting\x20you\x20to\x20join\x20the\x20following\x20channel\x20to\x20play\x20checkers\x20match.\x20Please\x20click\x20the\x20the\x20link\x20below\x20to\x20join.\x0a','chatFieldHadFocus','\x20channel.\x20Reconnecting...','target','floor','Name\x20changed\x20successfully','0.3s','\x20channel\x20successfully.','microphone','</b>\x20channel.\x20To\x20join\x20another\x20channel,\x20unsubscribe\x20from\x20this\x20channel\x20first.</p>','audio_slider','.field_container','\x20channel.','.chat_header\x20h2','onLine','vibrate','AcceptedRequest','ACCEPT','block','Reconnected','occupancy','script','Connecting...','#not-must-jump','read','grey','mandatoryCapture','class','stateTimeout','default','Please\x20fill\x20out\x20channel\x20name.','type','none','Connected\x20to\x20','content','time','Network\x20Error','audioChunks','getTracks','Infinity','Preparing\x20to\x20share','#two-players-window\x20h2','.state_container','select_mode','input','map','#chat-window','Drag\x20to\x20move.\x20Click\x20to\x20open\x20chat.','PNConnectedCategory','Hint','channel-name','offlineTimeout','70px','.chat_header\x20>\x20p:nth-of-type(2)','max','\x20(Guest)','1612513wNliXv','\x20channel?','copyBubbleText','initialPlay','publisher','maxHeight','textContent','cloneNode','Done','bubble','scrollTop','selected_bubble','100','then','object','Do\x20you\x20really\x20want\x20to\x20leave\x20','This\x20message\x20was\x20deleted.','CANCEL/ACCEPT','string','isHost','mediaDevices','Channel\x20name\x20shared\x20successfully.','Moved','push','src','.selected_bubble\x20.text\x20>\x20div','PNNetworkIssueCategory','Can\x27t\x20complete\x20this\x20request.\x20You\x20are\x20offline.','#online\x20.player_name:first-of-type','.chat_menu','MYSELF','currentTime','Your\x20opponent\x20changed\x20name\x20to\x20','offsetHeight','grid','name','calc(100%\x20-\x2060px)','deleted','.chat_header\x20>\x20h2:last-of-type','timeout','blue','Whom\x20do\x20you\x20want\x20to\x20delete\x20for?','ChatMessage','setItem','maxLength','LOBBY_LISTENER','\x20messages','#online\x20.player_name','replaceAll','title','text','arrayBuffer','#connectivity','offsetTop','audio','Connection\x20Timeout?','offline','Checkers\x20-\x20uuid','requestDelete'];_0x4c77=function(){return _0x426ace;};return _0x4c77();}const CheckHref=async()=>{const _0x1afdbe=_0x15e3;let _0x36b4f8=document[_0x1afdbe(0x24f)]['href'][_0x1afdbe(0x2f3)]('?');if(_0x36b4f8[_0x1afdbe(0x22e)]>0x1&&_0x36b4f8[0x1][_0x1afdbe(0x27a)]('name=')){let _0x36b250=_0x36b4f8[0x1]['replace'](_0x1afdbe(0x1c8),'');$(_0x1afdbe(0x285))[_0x1afdbe(0x224)]=_0x36b250,await Mode(0x3,![]),BackState[_0x1afdbe(0x28b)][_0x1afdbe(0x345)]([_0x1afdbe(0x1d1),_0x1afdbe(0x286)]),$('#main-window')[_0x1afdbe(0x2d3)][_0x1afdbe(0x2d8)]=_0x1afdbe(0x316),$(_0x1afdbe(0x286))['style'][_0x1afdbe(0x2d8)]='grid',Notify['alert']({'header':_0x1afdbe(0x23a),'message':'Please\x20fill\x20in\x20your\x20name\x20in\x20the\x20field\x20named\x20\x27PLAYER\x20DETAILS\x27\x20and\x20hit\x20<kbd>SUBMIT</kbd>\x20button\x20at\x20the\x20bottom\x20right\x20corner\x20of\x20this\x20window\x20to\x20join\x20'+_0x36b250+_0x1afdbe(0x1e4)}),$(_0x1afdbe(0x1c9))[_0x1afdbe(0x25a)]();}history['pushState'](null,'','?window1');},Lobby={'isConnected':![],'isHost':![],'unreadMessages':[],'offlineTimeout':null},ChannelFunction=async()=>{const _0x18b7c2=_0x15e3;if(!navigator[_0x18b7c2(0x304)]){Notify[_0x18b7c2(0x216)](_0x18b7c2(0x349));return;}let _0x480f48=$(_0x18b7c2(0x1c9))[_0x18b7c2(0x224)][_0x18b7c2(0x2aa)](),_0x3e07be=$(_0x18b7c2(0x285))[_0x18b7c2(0x224)];if(_0x3e07be==='')$(_0x18b7c2(0x285))[_0x18b7c2(0x25a)](),Notify['popUpNote'](_0x18b7c2(0x314));else{if(_0x480f48==='')$('#online\x20.playerA_name')[_0x18b7c2(0x25a)](),Notify['popUpNote'](_0x18b7c2(0x2cc));else{_0x3e07be=_0x3e07be[_0x18b7c2(0x1b1)](/^\w|\s\w/g,_0x4fc004=>_0x4fc004['toUpperCase']()),_0x480f48=_0x480f48[_0x18b7c2(0x213)](/^\w|\s\w/g,_0x12fe83=>_0x12fe83[_0x18b7c2(0x200)]()),$('#online\x20#channel-name')[_0x18b7c2(0x1ad)]=_0x18b7c2(0x33a),playerA[_0x18b7c2(0x1a4)]=_0x480f48;try{if(!Lobby[_0x18b7c2(0x221)])$$(_0x18b7c2(0x1b0))[0x0][_0x18b7c2(0x1f3)]=_0x480f48,$$('#online\x20.player_name')[0x0]['setAttribute'](_0x18b7c2(0x224),_0x480f48),storage?storage[_0x18b7c2(0x217)]('Checkers\x20-\x20uuid')?Lobby['UUID']=storage['getItem'](_0x18b7c2(0x1ba)):(Lobby['UUID']=PubNub[_0x18b7c2(0x289)](),storage[_0x18b7c2(0x1ac)](_0x18b7c2(0x1ba),Lobby[_0x18b7c2(0x2c9)])):Lobby[_0x18b7c2(0x2c9)]=PubNub['generateUUID'](),Lobby[_0x18b7c2(0x2c5)]=_0x3e07be,Lobby[_0x18b7c2(0x207)]=_0x18b7c2(0x225)+_0x3e07be,Lobby[_0x18b7c2(0x1e2)]=new PubNub({'uuid':Lobby[_0x18b7c2(0x2c9)],'publish_key':_0x18b7c2(0x253),'subscribe_key':_0x18b7c2(0x29f),'ssl':!![],'presenceTimeout':0x14,'restore':![]}),Lobby['LOBBY_LISTENER']={'presence':function(_0x53b75d){const _0x97aa2e=_0x18b7c2;if(_0x53b75d[_0x97aa2e(0x25b)]==Lobby['LOBBY']&&_0x53b75d[_0x97aa2e(0x2c7)]==='join')Lobby[_0x97aa2e(0x1e2)]['hereNow']({'channels':[Lobby[_0x97aa2e(0x2c5)]]},function(_0x3058e2,_0x5edea9){const _0x3bed62=_0x97aa2e;if(_0x5edea9[_0x3bed62(0x218)]<0x2){Lobby[_0x3bed62(0x341)]=_0x5edea9[_0x3bed62(0x218)]==0x0,Lobby['PUBNUB'][_0x3bed62(0x219)](Lobby[_0x3bed62(0x1ae)]),Lobby['PUBNUB'][_0x3bed62(0x24a)]({'channels':[Lobby[_0x3bed62(0x207)]]}),Lobby[_0x3bed62(0x1e2)][_0x3bed62(0x2ea)](Lobby[_0x3bed62(0x2f0)]);const _0x3c8a08=_0x3bed62(0x2e1)+Lobby[_0x3bed62(0x1e2)][_0x3bed62(0x291)]()+'\x27';Lobby[_0x3bed62(0x1e2)][_0x3bed62(0x264)](_0x3c8a08),Lobby[_0x3bed62(0x1e2)][_0x3bed62(0x23e)]({'channels':[Lobby[_0x3bed62(0x2c5)]],'withPresence':!![]});}else Notify[_0x3bed62(0x216)](Lobby[_0x3bed62(0x2c5)]+'\x20channel\x20is\x20fully\x20occupied,\x20please\x20try\x20another\x20channel.'),Lobby[_0x3bed62(0x1e2)]['removeListener'](Lobby[_0x3bed62(0x1ae)]),Lobby[_0x3bed62(0x1e2)][_0x3bed62(0x24a)]({'channels':[Lobby['LOBBY']]}),Lobby[_0x3bed62(0x2c5)]=null,Lobby['LOBBY']=null,Lobby[_0x3bed62(0x221)]=![],Lobby[_0x3bed62(0x1e2)]=null,Lobby[_0x3bed62(0x341)]=![],$('#online\x20#channel-name')['value']='';});else _0x53b75d[_0x97aa2e(0x25b)]==Lobby[_0x97aa2e(0x207)]&&_0x53b75d[_0x97aa2e(0x2c7)]===_0x97aa2e(0x1a8)&&Notify['popUpNote'](_0x97aa2e(0x1e6)+Lobby[_0x97aa2e(0x2c5)]+_0x97aa2e(0x2f8));}},Lobby[_0x18b7c2(0x1e2)]['addListener'](Lobby[_0x18b7c2(0x1ae)]),Lobby[_0x18b7c2(0x1e2)]['subscribe']({'channels':[Lobby[_0x18b7c2(0x207)]],'withPresence':!![]}),await new Sleep()[_0x18b7c2(0x2d0)](0.1),Notify[_0x18b7c2(0x216)](_0x18b7c2(0x30c)),Lobby['LISTENER']={'presence':async function(_0x101aec){const _0x5a73ff=_0x18b7c2;if(_0x101aec[_0x5a73ff(0x25b)]==Lobby[_0x5a73ff(0x2c5)]){if(_0x101aec[_0x5a73ff(0x2c7)]===_0x5a73ff(0x227)){if(_0x101aec[_0x5a73ff(0x2a5)]==Lobby[_0x5a73ff(0x2c9)]&&_0x101aec[_0x5a73ff(0x30a)]<=0x2){}else{if(_0x101aec[_0x5a73ff(0x2c9)]!=Lobby[_0x5a73ff(0x2c9)]&&_0x101aec[_0x5a73ff(0x30a)]<=0x2){}else _0x101aec[_0x5a73ff(0x30a)]>0x2&&(Unsubscribed(),Notify[_0x5a73ff(0x216)](Lobby['CHANNEL']+'\x20channel\x20is\x20full\x20please\x20try\x20another\x20one'));}}else{if(_0x101aec[_0x5a73ff(0x2c7)]==='timeout'){if(_0x101aec[_0x5a73ff(0x2a5)]==Lobby[_0x5a73ff(0x2c9)])Unsubscribe(![]);else{if(Lobby[_0x5a73ff(0x1be)]){Lobby[_0x5a73ff(0x329)]=setTimeout(()=>LeftChannel({'totalOccupancy':0x1}),0x2bf20);let _0x1a3768=$$('#online\x20.player_name')[0x1][_0x5a73ff(0x1f3)];Notify['popUpNote'](_0x1a3768+'\x20went\x20offline.');let _0xc9fe70=$$(_0x5a73ff(0x271))[0x1];_0xc9fe70['innerHTML']=_0x5a73ff(0x1b9);let _0x367aaf=$(_0x5a73ff(0x292));_0x367aaf['setAttribute'](_0x5a73ff(0x224),'offline'),_0x367aaf[_0x5a73ff(0x1f3)]='OFFLINE',_0x367aaf[_0x5a73ff(0x247)][_0x5a73ff(0x282)]('black_ui',_0x5a73ff(0x313)),_0x367aaf[_0x5a73ff(0x247)][_0x5a73ff(0x1fc)]('orange_ui');}}}else{if(_0x101aec['action']===_0x5a73ff(0x1ee)&&_0x101aec['uuid']!=Lobby[_0x5a73ff(0x2c9)])LeftChannel({'totalOccupancy':0x1});else{if(_0x101aec['action']===_0x5a73ff(0x1ee)&&_0x101aec[_0x5a73ff(0x2a5)]==Lobby[_0x5a73ff(0x2c9)]){}else{if(_0x101aec[_0x5a73ff(0x2c7)]==='state-change'&&_0x101aec['uuid']!=Lobby[_0x5a73ff(0x2c9)]){let _0x317e2e=_0x101aec[_0x5a73ff(0x28b)][_0x5a73ff(0x2c7)];if(_0x101aec[_0x5a73ff(0x28b)][_0x5a73ff(0x224)]==!![]){let _0xc8a138=$(_0x5a73ff(0x320));_0xc8a138[_0x5a73ff(0x247)]['add'](_0x317e2e);let _0xf179f6=$$('.chat_header\x20p')[0x1];_0xf179f6['innerHTML']=_0x317e2e+_0x5a73ff(0x27d);}else{let _0x1ff43d=$(_0x5a73ff(0x320));_0x1ff43d['classList'][_0x5a73ff(0x282)](_0x5a73ff(0x2a0),_0x5a73ff(0x255));let _0x7bfb08=$$(_0x5a73ff(0x271))[0x1];_0x7bfb08[_0x5a73ff(0x1f3)]=_0x5a73ff(0x1ec);}}}}}}}},'status':async function(_0x34daba){const _0x5ce433=_0x18b7c2;if(!Lobby[_0x5ce433(0x221)]&&_0x34daba[_0x5ce433(0x1c5)]===_0x5ce433(0x326)){let _0x582a20=$(_0x5ce433(0x1b5));_0x582a20[_0x5ce433(0x247)][_0x5ce433(0x282)](_0x5ce433(0x1e8)),_0x582a20[_0x5ce433(0x247)][_0x5ce433(0x1fc)]('default'),_0x582a20['textContent']=_0x5ce433(0x2da),Lobby[_0x5ce433(0x221)]=!![],$(_0x5ce433(0x222))[_0x5ce433(0x334)]=Lobby['CHANNEL']+(Lobby[_0x5ce433(0x341)]?_0x5ce433(0x2c1):_0x5ce433(0x32d)),Lobby['isHost']?Notify[_0x5ce433(0x216)](_0x5ce433(0x317)+Lobby['CHANNEL']+'\x20channel\x20successfully\x20as\x20the\x20host\x20member.\x20Waiting\x20for\x20opponent...'):(Notify[_0x5ce433(0x216)](_0x5ce433(0x317)+Lobby[_0x5ce433(0x2c5)]+_0x5ce433(0x295)),Publish['send']({'channel':Lobby[_0x5ce433(0x2c5)],'message':{'title':_0x5ce433(0x299),'content':$$(_0x5ce433(0x1b0))[0x0][_0x5ce433(0x1f3)]}}));}else{if(_0x34daba[_0x5ce433(0x1c5)]==='PNReconnectedCategory')Notify[_0x5ce433(0x216)]('Reconnected\x20back\x20to\x20'+Lobby[_0x5ce433(0x2c5)]+_0x5ce433(0x2fd)),Publish[_0x5ce433(0x20a)]({'channel':Lobby['CHANNEL'],'message':{'title':_0x5ce433(0x309),'content':''}});else{if(_0x34daba['category']===_0x5ce433(0x2b9))Notify[_0x5ce433(0x216)](_0x5ce433(0x2d2));else{if(_0x34daba[_0x5ce433(0x1c5)]===_0x5ce433(0x348))Notify[_0x5ce433(0x216)](_0x5ce433(0x1f4));else{if(_0x34daba[_0x5ce433(0x1c5)]===_0x5ce433(0x2b3))Notify[_0x5ce433(0x216)](_0x5ce433(0x2c3));else{if(_0x34daba[_0x5ce433(0x1c5)]===_0x5ce433(0x234)){}}}}}}},'message':function(_0x15d9c5){const _0x6fe28f=_0x18b7c2;_0x15d9c5[_0x6fe28f(0x229)]=JSON[_0x6fe28f(0x293)](_0x15d9c5[_0x6fe28f(0x229)]),clearTimeout(Lobby[_0x6fe28f(0x329)]);if(_0x15d9c5[_0x6fe28f(0x25b)]===Lobby[_0x6fe28f(0x2c5)]){if(_0x15d9c5['message'][_0x6fe28f(0x1b2)]===_0x6fe28f(0x309)){Notify[_0x6fe28f(0x216)](playerB[_0x6fe28f(0x1a4)]+_0x6fe28f(0x2de));let _0xded08a=$$(_0x6fe28f(0x271))[0x1];_0xded08a[_0x6fe28f(0x1f3)]=_0x6fe28f(0x1ec);let _0x39b3fb=$(_0x6fe28f(0x292));_0x39b3fb[_0x6fe28f(0x2b8)](_0x6fe28f(0x224),_0x6fe28f(0x1ec)),_0x39b3fb[_0x6fe28f(0x1f3)]='ONLINE',_0x39b3fb['classList'][_0x6fe28f(0x282)](_0x6fe28f(0x1e8),'black_ui'),_0x39b3fb[_0x6fe28f(0x247)][_0x6fe28f(0x1fc)](_0x6fe28f(0x313)),clearTimeout(Lobby[_0x6fe28f(0x329)]);}else{if(_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x1b2)]==='NameChange')_0x480f48=_0x15d9c5[_0x6fe28f(0x229)]['content'],$$(_0x6fe28f(0x1b0))[0x1]['innerHTML']=_0x480f48,$$(_0x6fe28f(0x303))[0x1][_0x6fe28f(0x1f3)]=_0x480f48,Lobby['opponent']=_0x480f48,Notify[_0x6fe28f(0x216)](_0x6fe28f(0x1a1)+_0x480f48);else{if(_0x15d9c5['message'][_0x6fe28f(0x1b2)]==='OpponentName'){_0x480f48=_0x15d9c5['message'][_0x6fe28f(0x318)],$$(_0x6fe28f(0x1b0))[0x1][_0x6fe28f(0x334)]=_0x480f48,Lobby[_0x6fe28f(0x1be)]=_0x480f48;let _0x1ebd56=$(_0x6fe28f(0x292));_0x1ebd56[_0x6fe28f(0x2b8)]('value',_0x6fe28f(0x1ec)),_0x1ebd56[_0x6fe28f(0x1f3)]=_0x6fe28f(0x1d5),_0x1ebd56['classList']['remove'](_0x6fe28f(0x1e8),_0x6fe28f(0x1fb)),_0x1ebd56[_0x6fe28f(0x247)][_0x6fe28f(0x1fc)](_0x6fe28f(0x313)),$(_0x6fe28f(0x1bd))[_0x6fe28f(0x2d3)][_0x6fe28f(0x2d8)]=_0x6fe28f(0x308),setTimeout(()=>{const _0x116c0a=_0x6fe28f;ElemHint[_0x116c0a(0x2a7)]($('#chat-icon'),_0x116c0a(0x325));},0x3e8),$$(_0x6fe28f(0x303))[0x1][_0x6fe28f(0x1f3)]=_0x480f48,$(_0x6fe28f(0x252))['innerHTML']=_0x6fe28f(0x28c),playerB[_0x6fe28f(0x1a4)]=_0x480f48,Notify[_0x6fe28f(0x216)](_0x6fe28f(0x1ce)+_0x480f48),Lobby[_0x6fe28f(0x341)]&&Publish['send']({'channel':Lobby['CHANNEL'],'message':{'title':_0x6fe28f(0x299),'content':$$(_0x6fe28f(0x1b0))[0x0]['innerHTML']}});}else{if(_0x15d9c5[_0x6fe28f(0x229)]['title']===_0x6fe28f(0x1ab)){Lobby[_0x6fe28f(0x1e2)]['addMessageAction']({'channel':Lobby['CHANNEL'],'messageTimetoken':_0x15d9c5[_0x6fe28f(0x206)],'action':{'type':'delivered','value':_0x15d9c5[_0x6fe28f(0x229)]['content']['id']}});let _0x59518d=$(_0x6fe28f(0x320));_0x59518d[_0x6fe28f(0x247)][_0x6fe28f(0x282)](_0x6fe28f(0x2a0),'typing');let _0x50f666=$$(_0x6fe28f(0x271))[0x1];_0x50f666[_0x6fe28f(0x1f3)]=_0x6fe28f(0x1ec);let _0x3b5f6a=$(_0x6fe28f(0x2c6));GetValue($(_0x6fe28f(0x1bd)),_0x6fe28f(0x2d8))===_0x6fe28f(0x308)&&(_0x3b5f6a['textContent']=parseInt(_0x3b5f6a['innerHTML'])+0x1,_0x3b5f6a[_0x6fe28f(0x2d3)][_0x6fe28f(0x2d8)]=_0x6fe28f(0x308),Notify[_0x6fe28f(0x216)]('You\x20have\x20'+(parseInt(_0x3b5f6a['textContent'])<=0x1?_0x6fe28f(0x25d):_0x3b5f6a[_0x6fe28f(0x1f3)]+'\x20new\x20messages')+_0x6fe28f(0x257)+$$(_0x6fe28f(0x1b0))[0x1][_0x6fe28f(0x1f3)]),AudioPlayer[_0x6fe28f(0x265)](_0x6fe28f(0x2df),0.8)),Message({'action':_0x6fe28f(0x1d6),'count':parseInt(_0x3b5f6a[_0x6fe28f(0x1f3)]),'text':_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x318)][_0x6fe28f(0x1b3)],'id':_0x15d9c5['message'][_0x6fe28f(0x318)]['id'],'timetoken':_0x15d9c5[_0x6fe28f(0x206)]});}else{if(_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x1b2)]===_0x6fe28f(0x1a6)){let _0x54bac0=_0x15d9c5['message'][_0x6fe28f(0x263)]['split']('-'),_0x544092=[];for(let _0x37d2df of _0x54bac0){let _0x470526=$(_0x6fe28f(0x211)+_0x37d2df);_0x470526&&_0x544092[_0x6fe28f(0x345)](_0x470526);}Bubble[_0x6fe28f(0x212)]=_0x544092,Bubble[_0x6fe28f(0x1e1)](_0x6fe28f(0x19f),!![]);}else{if(_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x1b2)]===_0x6fe28f(0x26b))Request(_0x15d9c5[_0x6fe28f(0x229)]);else{if(_0x15d9c5[_0x6fe28f(0x229)]['title']===_0x6fe28f(0x22b))Request(_0x15d9c5[_0x6fe28f(0x229)]);else{if(_0x15d9c5[_0x6fe28f(0x229)]['title']===_0x6fe28f(0x22f))Request(_0x15d9c5['message']);else{if(_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x1b2)]===_0x6fe28f(0x306))Notify[_0x6fe28f(0x216)]($$(_0x6fe28f(0x1b0))[0x1][_0x6fe28f(0x1f3)]+'\x20accepted\x20the\x20request,\x20the\x20game\x20will\x20start\x20shortly.'),Notify[_0x6fe28f(0x21c)](),setTimeout(()=>play(!![]),0x7d0);else{if(_0x15d9c5['message']['title']===_0x6fe28f(0x249))Notify['popUpNote']($$(_0x6fe28f(0x1b0))[0x1][_0x6fe28f(0x1f3)]+'\x20declined\x20your\x20request.'),Notify[_0x6fe28f(0x21c)]();else{if(_0x15d9c5[_0x6fe28f(0x229)]['title']===_0x6fe28f(0x344))OpponentMove[_0x6fe28f(0x248)](_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x318)]);else{if(_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x1b2)]==='Undone')Notify[_0x6fe28f(0x216)](playerB['name']+_0x6fe28f(0x223)),back(!![],!![]);else{if(_0x15d9c5[_0x6fe28f(0x229)]['title']===_0x6fe28f(0x327))Notify[_0x6fe28f(0x216)](playerB[_0x6fe28f(0x1a4)]+'\x20has\x20use\x20hint');else _0x15d9c5['message'][_0x6fe28f(0x1b2)]===_0x6fe28f(0x2be)&&(Notify['popUpNote'](_0x15d9c5[_0x6fe28f(0x229)][_0x6fe28f(0x318)]+_0x6fe28f(0x1ff)),back());}}}}}}}}}}}}}},'messageAction':function(_0x344481){const _0x1691c5=_0x18b7c2;if(_0x344481[_0x1691c5(0x332)]!=Lobby['UUID']){let _0x195e48=_0x344481[_0x1691c5(0x266)]['type'],_0x495d9f=_0x344481[_0x1691c5(0x266)][_0x1691c5(0x224)];if(_0x195e48=='delivered'){let _0xb12959=$('#'+_0x495d9f);_0xb12959[_0x1691c5(0x247)][_0x1691c5(0x1fc)](_0x1691c5(0x30f));}else{if(_0x195e48==_0x1691c5(0x30e)){if(/many-\d+$/gi[_0x1691c5(0x23b)](_0x495d9f)){let _0x49b2d3=parseInt(_0x495d9f[_0x1691c5(0x2f3)]('-')[0x1]),_0x2b3141=Array[_0x1691c5(0x1d3)]($$(_0x1691c5(0x2dc)))[_0x1691c5(0x20d)](-_0x49b2d3);for(let _0x11f0ac of _0x2b3141){_0x11f0ac[_0x1691c5(0x247)]['add'](_0x1691c5(0x1a9));}}else{let _0x5adbd9=$('#'+_0x495d9f);_0x5adbd9['classList'][_0x1691c5(0x1fc)](_0x1691c5(0x1a9));}}}}},'file':function(_0x3e272e){const _0x53a7d8=_0x18b7c2;let _0x58cf97=$(_0x53a7d8(0x2c6));GetValue($(_0x53a7d8(0x1bd)),_0x53a7d8(0x2d8))===_0x53a7d8(0x308)&&(_0x58cf97[_0x53a7d8(0x1f3)]=parseInt(_0x58cf97['innerHTML'])+0x1,_0x58cf97['style'][_0x53a7d8(0x2d8)]=_0x53a7d8(0x308),Notify[_0x53a7d8(0x216)](_0x53a7d8(0x277)+(parseInt(_0x58cf97['innerHTML'])<=0x1?_0x53a7d8(0x25d):_0x58cf97[_0x53a7d8(0x1f3)]+_0x53a7d8(0x2c8))+_0x53a7d8(0x257)+$$(_0x53a7d8(0x1b0))[0x1][_0x53a7d8(0x1f3)]),AudioPlayer[_0x53a7d8(0x265)]('notification',0.8));let _0x3527a2=new VoiceNotePlayer();_0x3527a2[_0x53a7d8(0x1d6)]({'id':_0x3e272e[_0x53a7d8(0x260)]['id'],'name':_0x3e272e[_0x53a7d8(0x260)][_0x53a7d8(0x1a4)],'channel':_0x3e272e[_0x53a7d8(0x25b)],'message':{'timetoken':_0x3e272e['timetoken'],'id':_0x3e272e['message']['id'],'count':parseInt(_0x58cf97[_0x53a7d8(0x1f3)])}}),Lobby[_0x53a7d8(0x1e2)][_0x53a7d8(0x2b2)]({'channel':Lobby[_0x53a7d8(0x2c5)],'messageTimetoken':_0x3e272e[_0x53a7d8(0x206)],'action':{'type':_0x53a7d8(0x2c4),'value':_0x3e272e[_0x53a7d8(0x229)]['id']}});}};else{if(Lobby[_0x18b7c2(0x221)]&&$$(_0x18b7c2(0x1b0))[0x0][_0x18b7c2(0x1f3)][_0x18b7c2(0x26f)]()==$(_0x18b7c2(0x1c9))[_0x18b7c2(0x224)][_0x18b7c2(0x26f)]())Notify[_0x18b7c2(0x1c1)]({'header':_0x18b7c2(0x2e0),'message':'<p>You\x20are\x20already\x20subscribed\x20to\x20<b>'+Lobby['CHANNEL']+_0x18b7c2(0x2ff)});else Lobby['isConnected']&&$$(_0x18b7c2(0x1b0))[0x0][_0x18b7c2(0x1f3)][_0x18b7c2(0x26f)]()!=$(_0x18b7c2(0x1c9))[_0x18b7c2(0x224)]['toLowerCase']()&&(Publish[_0x18b7c2(0x20a)]({'channel':Lobby[_0x18b7c2(0x2c5)],'message':{'title':_0x18b7c2(0x202),'content':$(_0x18b7c2(0x1c9))[_0x18b7c2(0x224)][_0x18b7c2(0x1b1)](/^\w|\s\w/g,_0xcc999e=>_0xcc999e['toUpperCase']())}}),$$(_0x18b7c2(0x1b0))[0x0][_0x18b7c2(0x1f3)]=$(_0x18b7c2(0x1c9))[_0x18b7c2(0x224)][_0x18b7c2(0x213)](/^\w|\s\w/g,_0x486b96=>_0x486b96[_0x18b7c2(0x200)]()),Notify[_0x18b7c2(0x216)](_0x18b7c2(0x2fb)));}}catch(_0x371066){Notify[_0x18b7c2(0x216)]('An\x20error\x20occurred.\x20Loading\x20necessary\x20data...');let _0x9dba26=$(_0x18b7c2(0x215))[_0x18b7c2(0x2bf)](_0x18b7c2(0x346)),_0x54cd32=$$$(_0x18b7c2(0x30b));document[_0x18b7c2(0x261)]['removeChild']($('#pubnub-file')),document[_0x18b7c2(0x261)][_0x18b7c2(0x27c)](_0x54cd32),_0x54cd32[_0x18b7c2(0x2cd)](_0x18b7c2(0x23f),()=>{ChannelFunction();},![]),_0x54cd32['setAttribute']('id','pubnub-file'),_0x54cd32[_0x18b7c2(0x346)]=_0x9dba26;}}}},Unsubscribe=async(_0x3bc874=!![])=>{const _0x4366a9=_0x15e3;if(Lobby[_0x4366a9(0x221)]){let _0x29f9fa;_0x3bc874?_0x29f9fa=await Notify['confirm']({'header':_0x4366a9(0x33d)+Lobby[_0x4366a9(0x2c5)]+_0x4366a9(0x32f),'message':_0x4366a9(0x27e),'type':_0x4366a9(0x26d)}):(Lobby[_0x4366a9(0x329)]=setTimeout(()=>{UnsubscribeResponse('LEAVE\x20ANYWAY');},0x2bf20),_0x29f9fa=await Notify['confirm']({'header':_0x4366a9(0x1b8),'message':_0x4366a9(0x26e)+Lobby['CHANNEL']+_0x4366a9(0x281),'type':_0x4366a9(0x272)})),UnsubscribeResponse(_0x29f9fa);}else Notify['popUpNote'](_0x4366a9(0x2c0));},UnsubscribeResponse=async _0x1e5198=>{const _0x3d0384=_0x15e3;if(_0x1e5198==_0x3d0384(0x27b)){Notify[_0x3d0384(0x1d0)]({'header':_0x3d0384(0x1c4),'message':_0x3d0384(0x220)+Lobby['CHANNEL']+_0x3d0384(0x294)}),Lobby[_0x3d0384(0x1e2)][_0x3d0384(0x24a)]({'channels':[Lobby[_0x3d0384(0x2c5)]]}),await new Sleep()[_0x3d0384(0x2d0)](0x1),Notify[_0x3d0384(0x21c)](),Lobby[_0x3d0384(0x1e2)]['removeListener'](Lobby[_0x3d0384(0x2f0)]),Notify['popUpNote'](_0x3d0384(0x280)+Lobby[_0x3d0384(0x2c5)]+_0x3d0384(0x2fd)),clearTimeout(Lobby[_0x3d0384(0x329)]);let _0x198095=$(_0x3d0384(0x1b5));_0x198095['classList'][_0x3d0384(0x282)](_0x3d0384(0x313)),_0x198095[_0x3d0384(0x247)][_0x3d0384(0x1fc)](_0x3d0384(0x1e8)),_0x198095[_0x3d0384(0x1f3)]=_0x3d0384(0x1dc),$(_0x3d0384(0x222))[_0x3d0384(0x1f3)]=_0x3d0384(0x21b),$('#online\x20#channel-name')['value']='';let _0x32bd9f=$(_0x3d0384(0x292));_0x32bd9f[_0x3d0384(0x1f3)]=_0x3d0384(0x21b),_0x32bd9f[_0x3d0384(0x247)][_0x3d0384(0x282)](_0x3d0384(0x313),_0x3d0384(0x1e8)),_0x32bd9f[_0x3d0384(0x247)][_0x3d0384(0x1fc)]('black_ui'),$('#online\x20.playerA_name')['value']='',$(_0x3d0384(0x19d))['innerHTML']=_0x3d0384(0x21b),$('#online\x20.player_name:last-of-type')[_0x3d0384(0x1f3)]='N/A';if(GetValue($('#chat-window'),_0x3d0384(0x2d8))==_0x3d0384(0x243))BackState[_0x3d0384(0x28b)][_0x3d0384(0x1e7)]();$(_0x3d0384(0x324))[_0x3d0384(0x2d3)][_0x3d0384(0x2d8)]=_0x3d0384(0x316),$(_0x3d0384(0x1bd))[_0x3d0384(0x2d3)][_0x3d0384(0x2d8)]=_0x3d0384(0x316),Lobby[_0x3d0384(0x2c5)]=null,Lobby[_0x3d0384(0x221)]=![],Lobby['PUBNUB']=null,Lobby['isHost']=![],Lobby[_0x3d0384(0x329)]=null,Lobby[_0x3d0384(0x1be)]=null;}else(_0x1e5198=='NOT\x20NOW'||_0x1e5198==_0x3d0384(0x2f1))&&(_0x1e5198==_0x3d0384(0x2f1)&&(Publish[_0x3d0384(0x20a)]({'channel':Lobby['CHANNEL'],'message':{'title':'Reconnected','content':''}}),clearTimeout(Lobby[_0x3d0384(0x329)])));};class OpponentMove{static [_0x3bcd1c(0x208)]=[];static [_0x3bcd1c(0x248)]=_0x5b7360=>{const _0x5e7975=_0x3bcd1c;this[_0x5e7975(0x208)]['push'](_0x5b7360);if(this[_0x5e7975(0x208)][_0x5e7975(0x22e)]==0x1)this[_0x5e7975(0x21d)]();};static ['make']=async()=>{const _0x5d516c=_0x3bcd1c;let _0x2449a5=this,_0x4ceb72=_0x2449a5[_0x5d516c(0x208)][0x0],_0x4bd657=Game[_0x5d516c(0x2ee)]-0x1-_0x4ceb72['i'],_0x27afd5=Game['boardSize']-0x1-_0x4ceb72['j'],_0x59958a=$('#table')[_0x5d516c(0x239)][_0x4bd657*Game[_0x5d516c(0x2ee)]+_0x27afd5];await ValidateMove({'cell':_0x59958a,'i':_0x4bd657,'j':_0x27afd5,'isComputer':!![]}),await this['moves'][_0x5d516c(0x205)]();if(this['moves'][_0x5d516c(0x22e)]>0x0)await this[_0x5d516c(0x21d)]();};}class Publish{static ['messages']=[];static [_0x3bcd1c(0x2e3)]=0x0;static [_0x3bcd1c(0x20a)]=async _0x57d869=>{const _0x5e02fe=_0x3bcd1c,_0x33dae1={'uuid':Lobby[_0x5e02fe(0x2c9)]},_0x5d19ca={'channel':Lobby[_0x5e02fe(0x2c5)],'message':JSON[_0x5e02fe(0x1dd)](_0x57d869[_0x5e02fe(0x229)]),'meta':_0x33dae1};this[_0x5e02fe(0x251)][_0x5e02fe(0x345)](_0x5d19ca);if(this[_0x5e02fe(0x251)][_0x5e02fe(0x22e)]==0x1)this['publish']();return Prms(_0x5e02fe(0x1ca));};static ['publish']=async()=>{const _0x4eaefd=_0x3bcd1c;let _0x5e61e7=this[_0x4eaefd(0x251)][0x0],_0x1d4e9b=this;return Lobby[_0x4eaefd(0x1e2)]['publish'](_0x5e61e7,async(_0x53e8ec,_0x2a4579)=>{const _0x5f0043=_0x4eaefd;!_0x53e8ec[_0x5f0043(0x1f7)]&&(_0x1d4e9b[_0x5f0043(0x251)]['shift'](),_0x1d4e9b[_0x5f0043(0x2e3)]=0x0);if(_0x53e8ec[_0x5f0043(0x1f7)]){if(_0x1d4e9b[_0x5f0043(0x2e3)]<=0x2)++_0x1d4e9b['retryCount'];else _0x1d4e9b['retryCount']=0x0,_0x1d4e9b[_0x5f0043(0x251)]=[],Notify[_0x5f0043(0x1c1)]({'header':_0x5f0043(0x31a),'message':_0x5f0043(0x1df)+_0x53e8ec['message']+_0x5f0043(0x2e8)+_0x53e8ec[_0x5f0043(0x1c5)]});}if(_0x1d4e9b[_0x5f0043(0x251)]['length']>0x0)await _0x1d4e9b[_0x5f0043(0x1ed)]();}),Prms(_0x4eaefd(0x336));};}const LeftChannel=_0x5c1fc9=>{const _0x3424e8=_0x3bcd1c;if(_0x5c1fc9[_0x3424e8(0x218)]<0x2){Game[_0x3424e8(0x258)]=='\x20two-player-online'&&GetValue($(_0x3424e8(0x2ba)),_0x3424e8(0x2d8))==_0x3424e8(0x1a3)&&(Cancel(),back());let _0x2afdac=$$(_0x3424e8(0x1b0))[0x1][_0x3424e8(0x1f3)];$$(_0x3424e8(0x1b0))[0x1][_0x3424e8(0x1f3)]=_0x3424e8(0x21b);let _0x4290b8=$('#player-2-status');_0x4290b8[_0x3424e8(0x1f3)]='N/A',_0x4290b8[_0x3424e8(0x247)]['remove']('default',_0x3424e8(0x1e8)),_0x4290b8['classList']['add'](_0x3424e8(0x1fb));if(GetValue($(_0x3424e8(0x324)),_0x3424e8(0x2d8))==_0x3424e8(0x243))BackState[_0x3424e8(0x28b)][_0x3424e8(0x1e7)]();$(_0x3424e8(0x1bd))[_0x3424e8(0x2d3)][_0x3424e8(0x2d8)]='none',$(_0x3424e8(0x324))['style'][_0x3424e8(0x2d8)]=_0x3424e8(0x316),$(_0x3424e8(0x222))[_0x3424e8(0x1f3)]=Lobby['CHANNEL']+_0x3424e8(0x2c1),Lobby[_0x3424e8(0x341)]=!![],Lobby[_0x3424e8(0x1be)]=null,Notify[_0x3424e8(0x216)](_0x2afdac+_0x3424e8(0x287)+Lobby[_0x3424e8(0x2c5)]+_0x3424e8(0x302));}},CalculateSize=_0x21a2c1=>{const _0x1b5305=_0x3bcd1c;let _0x2b8017={'title':_0x1b5305(0x1ab),'content':_0x21a2c1},_0x54770d=Lobby[_0x1b5305(0x2c5)]+JSON[_0x1b5305(0x1dd)](_0x2b8017),_0xf77513=encodeURIComponent(_0x54770d)[_0x1b5305(0x22e)]+0x64;return _0xf77513;},UpdateOnlineStatus=()=>{const _0x312e42=_0x3bcd1c;let _0x26fd50=$(_0x312e42(0x24c));!navigator['onLine']?(_0x26fd50[_0x312e42(0x2b8)]('value',_0x312e42(0x1b9)),_0x26fd50[_0x312e42(0x1f3)]='OFFLINE',_0x26fd50[_0x312e42(0x247)][_0x312e42(0x282)](_0x312e42(0x313)),_0x26fd50[_0x312e42(0x247)][_0x312e42(0x1fc)](_0x312e42(0x1e8))):(_0x26fd50[_0x312e42(0x2b8)]('value','online'),_0x26fd50[_0x312e42(0x1f3)]=_0x312e42(0x1d5),_0x26fd50[_0x312e42(0x247)]['remove'](_0x312e42(0x1e8)),_0x26fd50[_0x312e42(0x247)][_0x312e42(0x1fc)](_0x312e42(0x313)));},Share=_0x3eb598=>{const _0x5faf0d=_0x3bcd1c;if(Lobby[_0x5faf0d(0x221)]){if(navigator[_0x5faf0d(0x231)]){Notify[_0x5faf0d(0x1d0)]({'header':_0x5faf0d(0x1c4),'message':_0x5faf0d(0x31e)});let _0x4a6ede=Lobby[_0x5faf0d(0x2c5)],_0xb33eff=$$(_0x5faf0d(0x1b0))[0x0][_0x5faf0d(0x334)];navigator[_0x5faf0d(0x2bb)]({'title':'Checkers\x20Game','text':_0x5faf0d(0x283)+_0xb33eff+_0x5faf0d(0x2f6),'url':_0x5faf0d(0x2f2)+_0x4a6ede})[_0x5faf0d(0x33b)](()=>{const _0x435afd=_0x5faf0d;Notify[_0x435afd(0x21c)](),Notify[_0x435afd(0x216)](_0x435afd(0x343));})[_0x5faf0d(0x2e2)](_0x387166=>{const _0x2c0fe2=_0x5faf0d;let _0x582764=_0x387166[_0x2c0fe2(0x1db)]()['split'](':');Notify[_0x2c0fe2(0x1c1)]({'header':_0x582764[0x0],'message':'There\x20was\x20an\x20error\x20while\x20trying\x20to\x20share\x20the\x20name\x20of\x20the\x20channel.<br>\x20:-'+_0x582764[0x1]});});}else Notify[_0x5faf0d(0x1c1)]({'header':'Oops!\x20Sorry','message':_0x5faf0d(0x246)});}else Notify['popUpNote']('You\x20have\x20not\x20joined\x20any\x20channel.');};class VoiceNoteRecorder{[_0x3bcd1c(0x237)];[_0x3bcd1c(0x25f)];['audioChunks'];[_0x3bcd1c(0x2bd)];static [_0x3bcd1c(0x284)]=null;static ['requestAbortion']=![];static [_0x3bcd1c(0x26a)]=![];static ['aborting']=![];static [_0x3bcd1c(0x21a)]=![];[_0x3bcd1c(0x2cf)]=async()=>{const _0x5268a7=_0x3bcd1c;try{this[_0x5268a7(0x237)]=await navigator['mediaDevices'][_0x5268a7(0x2bc)]({'audio':!![]});}catch(_0x5704b7){return _0x5704b7[_0x5268a7(0x1a4)];}return this[_0x5268a7(0x25f)]=new MediaRecorder(this[_0x5268a7(0x237)]),this[_0x5268a7(0x31b)]=[],this[_0x5268a7(0x25f)][_0x5268a7(0x2cd)](_0x5268a7(0x1c3),_0xf5eb04=>{const _0x5c55a8=_0x5268a7;this[_0x5c55a8(0x31b)][_0x5c55a8(0x345)](_0xf5eb04[_0x5c55a8(0x266)]);}),_0x5268a7(0x273);};[_0x3bcd1c(0x1cb)]=()=>{const _0x145f3a=_0x3bcd1c;this[_0x145f3a(0x25f)][_0x145f3a(0x1cb)]();let _0x471d3f=0x0,_0x926e46=0x0,_0xb5c825=$(_0x145f3a(0x2e5));_0xb5c825[_0x145f3a(0x334)]=_0x145f3a(0x1cc),clearInterval(this[_0x145f3a(0x2bd)]),this[_0x145f3a(0x2bd)]=setInterval(()=>{const _0x365578=_0x145f3a;_0x926e46++,_0x926e46==0x3c&&(_0x471d3f++,_0x926e46=0x0),_0xb5c825['textContent']=_0x471d3f+':'+String(_0x926e46)[_0x365578(0x274)](0x2,'0');},0x3e8);};[_0x3bcd1c(0x2b0)]=async(_0x4d1976=![])=>{const _0x109928=_0x3bcd1c;let _0x26e936=null,_0x2ea30e=new Sleep(),_0x4bb7b2=this;return this[_0x109928(0x25f)]?(this[_0x109928(0x25f)]['addEventListener'](_0x109928(0x2b0),()=>{const _0x40fce3=_0x109928;if(!_0x4d1976&&this['audioChunks'][_0x40fce3(0x22e)]>0x0){const _0x3d174d=new Blob(this[_0x40fce3(0x31b)]),_0x2f1d6c=URL[_0x40fce3(0x29e)](_0x3d174d),_0x3fd7cb=new Audio(_0x2f1d6c),_0x3dd984=_0x4bb7b2[_0x40fce3(0x25f)][_0x40fce3(0x1f6)][_0x40fce3(0x2f3)](';')[0x0];_0x26e936={'audioBlob':_0x3d174d,'mimeType':_0x3dd984,'audio':_0x3fd7cb};}else this[_0x40fce3(0x31b)]=[],_0x26e936=null;clearInterval(this[_0x40fce3(0x2bd)]),$('.recorder_time')[_0x40fce3(0x334)]=_0x40fce3(0x1cc),_0x2ea30e[_0x40fce3(0x1d2)]();}),this[_0x109928(0x25f)][_0x109928(0x28b)]==_0x109928(0x2a0)&&(this[_0x109928(0x25f)][_0x109928(0x2b0)](),await _0x2ea30e[_0x109928(0x1cb)]()),this[_0x109928(0x237)][_0x109928(0x31c)]()[0x0][_0x109928(0x2b0)]()):_0x26e936=_0x109928(0x228),_0x26e936;};static ['record']=async _0x5f3fc5=>{const _0x3e89ae=_0x3bcd1c;if(!Permissions[_0x3e89ae(0x2d4)][_0x3e89ae(0x2fe)])return Permissions[_0x3e89ae(0x20f)](_0x3e89ae(0x284)),![];if(this[_0x3e89ae(0x26a)]||this[_0x3e89ae(0x2ae)])return![];this[_0x3e89ae(0x21f)]=![],this[_0x3e89ae(0x26a)]=!![],this[_0x3e89ae(0x21a)]=![];try{let _0x225cd5=await navigator['mediaDevices'][_0x3e89ae(0x2bc)]({'audio':!![]});for(let _0xffa639 of _0x225cd5[_0x3e89ae(0x31c)]()){_0xffa639['stop']();}}catch(_0x2719f3){}this[_0x3e89ae(0x284)]=new VoiceNoteRecorder();let _0x373f1a=await this[_0x3e89ae(0x284)][_0x3e89ae(0x2cf)]();if(_0x373f1a!=_0x3e89ae(0x273))return Notify[_0x3e89ae(0x216)](_0x373f1a+'\x20occurred.\x20We\x20couldn\x27t\x20proceed.'),navigator[_0x3e89ae(0x305)]([0x64,0x32,0x64]),this[_0x3e89ae(0x284)]=null,this[_0x3e89ae(0x21a)]=!![],this[_0x3e89ae(0x26a)]=![],![];let _0x2d3ab1=$(_0x3e89ae(0x267));_0x2d3ab1[_0x3e89ae(0x2d3)][_0x3e89ae(0x25e)]=_0x3e89ae(0x2fc),_0x5f3fc5['style'][_0x3e89ae(0x25e)]='0.3s',_0x5f3fc5[_0x3e89ae(0x2d3)][_0x3e89ae(0x1d8)]=_0x3e89ae(0x32a),_0x5f3fc5['style'][_0x3e89ae(0x2c2)]=_0x3e89ae(0x32a),_0x5f3fc5[_0x3e89ae(0x2d3)][_0x3e89ae(0x2dd)]='-2.5px',$('.field_container')[_0x3e89ae(0x2d3)][_0x3e89ae(0x210)]=0x0,_0x2d3ab1[_0x3e89ae(0x2d3)][_0x3e89ae(0x2d8)]=_0x3e89ae(0x243),_0x2d3ab1[_0x3e89ae(0x2d3)][_0x3e89ae(0x2c2)]=_0x3e89ae(0x1a5),AudioPlayer['play']('startRecording',0x1),navigator[_0x3e89ae(0x305)](0x32),await new Sleep()[_0x3e89ae(0x2d0)](0.5),_0x373f1a=!![];if(this['requestAbortion']){if(this[_0x3e89ae(0x284)]&&this[_0x3e89ae(0x284)]['stream'])this[_0x3e89ae(0x284)][_0x3e89ae(0x237)][_0x3e89ae(0x31c)]()[0x0][_0x3e89ae(0x2b0)]();this['recorder']=null,_0x5f3fc5[_0x3e89ae(0x2d3)][_0x3e89ae(0x1d8)]=_0x3e89ae(0x279),_0x5f3fc5[_0x3e89ae(0x2d3)][_0x3e89ae(0x2c2)]=_0x3e89ae(0x279),_0x5f3fc5[_0x3e89ae(0x2d3)]['bottom']='10px',_0x5f3fc5['style'][_0x3e89ae(0x226)]=_0x3e89ae(0x316),_0x2d3ab1[_0x3e89ae(0x2d3)]['width']=_0x3e89ae(0x29a),await new Sleep()[_0x3e89ae(0x2d0)](0.3),$(_0x3e89ae(0x301))[_0x3e89ae(0x2d3)][_0x3e89ae(0x210)]=0x1,_0x2d3ab1[_0x3e89ae(0x2d3)]['display']='none',_0x373f1a=![],ElemHint[_0x3e89ae(0x2a7)](_0x5f3fc5,'Hold\x20to\x20record.\x20Release\x20to\x20send.\x20Slide\x20left\x20to\x20cancel.');}else Lobby[_0x3e89ae(0x221)]&&Lobby[_0x3e89ae(0x1e2)][_0x3e89ae(0x2af)]({'state':{'action':_0x3e89ae(0x2a0),'value':!![]},'channels':[Lobby[_0x3e89ae(0x2c5)]]}),this[_0x3e89ae(0x284)]['start']();return this[_0x3e89ae(0x26a)]=![],_0x5f3fc5[_0x3e89ae(0x2d3)]['transitionDuration']='0s',_0x2d3ab1[_0x3e89ae(0x2d3)]['transitionDuration']='0s',_0x373f1a;};static [_0x3bcd1c(0x240)]=async(_0x3b2078,_0xdea5ec=![])=>{const _0x42d612=_0x3bcd1c;if(!Permissions[_0x42d612(0x2d4)][_0x42d612(0x2fe)])return;try{this['requestAbortion']=!![];if(this[_0x42d612(0x26a)]||this['initializationError']||this['aborting'])return;this[_0x42d612(0x2ae)]=!![],_0x3b2078[_0x42d612(0x2d3)]['height']='45px',_0x3b2078[_0x42d612(0x2d3)]['width']='45px',_0x3b2078[_0x42d612(0x2d3)]['bottom']=_0x42d612(0x201),_0x3b2078[_0x42d612(0x2d3)][_0x42d612(0x226)]=_0x42d612(0x316),await new Sleep()['wait'](0.3);let _0x3fe88e=await this[_0x42d612(0x284)][_0x42d612(0x2b0)](_0xdea5ec);if(_0xdea5ec)Lobby[_0x42d612(0x221)]&&Lobby[_0x42d612(0x1e2)]['setState']({'state':{'action':_0x42d612(0x2a0),'value':![]},'channels':[Lobby[_0x42d612(0x2c5)]]}),setTimeout(()=>{const _0x4c1e63=_0x42d612;$(_0x4c1e63(0x2ac))['classList'][_0x4c1e63(0x1fc)](_0x4c1e63(0x2d1));},0x190),setTimeout(()=>{const _0x1abfe3=_0x42d612;AudioPlayer['play'](_0x1abfe3(0x22a),0x1);},0x320),$(_0x42d612(0x2e5))['classList']['add']('delete_recording'),AudioPlayer[_0x42d612(0x265)](_0x42d612(0x2f4),0x1),navigator[_0x42d612(0x305)](0x32),await new Sleep()[_0x42d612(0x2d0)](2.1),$(_0x42d612(0x2ac))['classList']['remove'](_0x42d612(0x2d1)),$('.recorder_time')[_0x42d612(0x247)][_0x42d612(0x282)](_0x42d612(0x2d1)),Notify[_0x42d612(0x216)]('deleted\x20successfully');else{if(typeof _0x3fe88e=='object'){Lobby[_0x42d612(0x221)]&&Lobby[_0x42d612(0x1e2)]['setState']({'state':{'action':'recording','value':![]},'channels':[Lobby[_0x42d612(0x2c5)]]});let _0x2e8519=new VoiceNotePlayer();_0x2e8519[_0x42d612(0x20a)](_0x3fe88e),AudioPlayer[_0x42d612(0x265)](_0x42d612(0x240),0x1),navigator[_0x42d612(0x305)](0x32);}}$(_0x42d612(0x301))[_0x42d612(0x2d3)][_0x42d612(0x210)]=0x1,$(_0x42d612(0x267))[_0x42d612(0x2d3)][_0x42d612(0x2c2)]=_0x42d612(0x29a),$(_0x42d612(0x267))['style'][_0x42d612(0x2d8)]=_0x42d612(0x316),this['recorder']=null,this[_0x42d612(0x2ae)]=![];}catch(_0x3affca){try{let _0x399ecb=await navigator[_0x42d612(0x342)][_0x42d612(0x2bc)]({'audio':!![]});for(let _0x4b1192 of _0x399ecb[_0x42d612(0x31c)]()){_0x4b1192['stop']();}}catch(_0x1114d4){}_0x3b2078['style'][_0x42d612(0x1d8)]=_0x42d612(0x279),_0x3b2078[_0x42d612(0x2d3)][_0x42d612(0x2c2)]=_0x42d612(0x279),_0x3b2078[_0x42d612(0x2d3)][_0x42d612(0x2dd)]=_0x42d612(0x201),_0x3b2078[_0x42d612(0x2d3)]['transform']=_0x42d612(0x316),$(_0x42d612(0x2ac))[_0x42d612(0x247)][_0x42d612(0x282)](_0x42d612(0x2d1)),$(_0x42d612(0x2e5))[_0x42d612(0x247)]['remove'](_0x42d612(0x2d1)),$('.field_container')[_0x42d612(0x2d3)][_0x42d612(0x210)]=0x1,$(_0x42d612(0x267))[_0x42d612(0x2d3)][_0x42d612(0x2c2)]=_0x42d612(0x29a),$(_0x42d612(0x267))[_0x42d612(0x2d3)][_0x42d612(0x2d8)]=_0x42d612(0x316),this[_0x42d612(0x284)]=null,this['aborting']=![];}};}class VoiceNotePlayer{[_0x3bcd1c(0x1de)];[_0x3bcd1c(0x2f5)];[_0x3bcd1c(0x244)];[_0x3bcd1c(0x319)];[_0x3bcd1c(0x2bd)];[_0x3bcd1c(0x1b7)];[_0x3bcd1c(0x236)]=![];[_0x3bcd1c(0x331)]=![];static [_0x3bcd1c(0x27f)];constructor(){const _0x67d8eb=_0x3bcd1c;this[_0x67d8eb(0x1de)]=$$$(_0x67d8eb(0x28e),[_0x67d8eb(0x311),_0x67d8eb(0x230)]),this[_0x67d8eb(0x2f5)]=$$$(_0x67d8eb(0x268),['class',_0x67d8eb(0x270)]),this[_0x67d8eb(0x244)]=$$$(_0x67d8eb(0x322),[_0x67d8eb(0x315),_0x67d8eb(0x244),_0x67d8eb(0x32c),_0x67d8eb(0x33a),_0x67d8eb(0x224),'0',_0x67d8eb(0x311),_0x67d8eb(0x300)]),this[_0x67d8eb(0x319)]=$$$('label',[_0x67d8eb(0x311),'audio_current_time','textContent',_0x67d8eb(0x1cc)]),this[_0x67d8eb(0x1de)][_0x67d8eb(0x27c)](this[_0x67d8eb(0x2f5)]),this['panel'][_0x67d8eb(0x27c)](this[_0x67d8eb(0x244)]),this[_0x67d8eb(0x1de)][_0x67d8eb(0x27c)](this[_0x67d8eb(0x319)]),this[_0x67d8eb(0x2f5)][_0x67d8eb(0x2cd)](_0x67d8eb(0x24e),this[_0x67d8eb(0x265)],![]),this[_0x67d8eb(0x2f5)][_0x67d8eb(0x2cd)]('focus',_0x3e85cd=>ChangeTextBox(![],this[_0x67d8eb(0x2f5)],_0x3e85cd),![]),this['range'][_0x67d8eb(0x2cd)]('change',this[_0x67d8eb(0x1c2)],![]),this[_0x67d8eb(0x244)][_0x67d8eb(0x2cd)](_0x67d8eb(0x322),this[_0x67d8eb(0x2ca)],![]),this[_0x67d8eb(0x244)][_0x67d8eb(0x2cd)](_0x67d8eb(0x25a),_0x1c1b8a=>ChangeTextBox(![],this[_0x67d8eb(0x244)],_0x1c1b8a),![]);}[_0x3bcd1c(0x20a)]=async _0x14c257=>{const _0x39255a=_0x3bcd1c;this[_0x39255a(0x1b7)]=_0x14c257[_0x39255a(0x1b7)],this['audio'][_0x39255a(0x2cd)](_0x39255a(0x1f2),()=>{const _0x4c382b=_0x39255a;this[_0x4c382b(0x236)]=![],this['audio'][_0x4c382b(0x1a0)]=0x0,this[_0x4c382b(0x1b7)][_0x4c382b(0x2ab)]=![],this['audio'][_0x4c382b(0x242)]=0x1,clearInterval(this[_0x4c382b(0x2bd)]),this['time']['textContent']=_0x4c382b(0x1cc),this[_0x4c382b(0x244)][_0x4c382b(0x2d3)][_0x4c382b(0x276)]='0%',this[_0x4c382b(0x244)]['value']=0x0,this[_0x4c382b(0x2f5)][_0x4c382b(0x247)][_0x4c382b(0x282)](_0x4c382b(0x297),'audio_download'),this[_0x4c382b(0x1de)]['style'][_0x4c382b(0x2d7)]='auto',this[_0x4c382b(0x244)][_0x4c382b(0x2d3)][_0x4c382b(0x2d7)]=_0x4c382b(0x2cb),VoiceNotePlayer[_0x4c382b(0x27f)]=null;}),this[_0x39255a(0x1b7)]['addEventListener'](_0x39255a(0x1da),()=>{const _0x2c50d0=_0x39255a;if(String(this[_0x2c50d0(0x1b7)]['duration'])==_0x2c50d0(0x31d)){this[_0x2c50d0(0x1b7)][_0x2c50d0(0x2ab)]=!![],this[_0x2c50d0(0x1b7)][_0x2c50d0(0x265)](),this['audio'][_0x2c50d0(0x242)]=0xa;return;}this[_0x2c50d0(0x2f5)][_0x2c50d0(0x247)]['remove']('audio_download'),this['panel'][_0x2c50d0(0x2d3)]['pointerEvents']='auto';});const _0x35d3ec=await Message({'action':_0x39255a(0x20a),'text':this[_0x39255a(0x1de)]},![]),_0x8b210e=await _0x14c257[_0x39255a(0x254)][_0x39255a(0x1b4)](),_0x57e460=_0x14c257['mimeType'];if(Lobby[_0x39255a(0x221)]){const _0x42aa0f={'uuid':Lobby[_0x39255a(0x2c9)]},_0x59d118={'data':_0x8b210e,'name':_0x39255a(0x214)+Date[_0x39255a(0x233)]()+'.'+_0x57e460[_0x39255a(0x2f3)]('/')[0x1],'mimeType':_0x57e460},_0x24884d={'id':_0x35d3ec};Lobby[_0x39255a(0x1e2)]['sendFile']({'channel':Lobby[_0x39255a(0x2c5)],'message':_0x24884d,'file':_0x59d118,'meta':_0x42aa0f});}};['receive']=async _0x2897da=>{const _0x170b63=_0x3bcd1c;Message({'action':_0x170b63(0x1d6),'text':this[_0x170b63(0x1de)],'count':_0x2897da[_0x170b63(0x229)][_0x170b63(0x1f0)],'id':_0x2897da[_0x170b63(0x229)]['id'],'timetoken':_0x2897da[_0x170b63(0x229)]['timetoken']});let _0x269905={'channel':_0x2897da[_0x170b63(0x25b)],'id':_0x2897da['id'],'name':_0x2897da[_0x170b63(0x1a4)]},_0x5dbc6b=await Lobby[_0x170b63(0x1e2)][_0x170b63(0x1d4)](_0x269905),_0x2489d7=await _0x5dbc6b[_0x170b63(0x1ea)](),_0x2dc714=URL[_0x170b63(0x29e)](_0x2489d7);this[_0x170b63(0x1b7)]=new Audio(_0x2dc714),this[_0x170b63(0x1b7)][_0x170b63(0x2cd)](_0x170b63(0x1f2),()=>{const _0x10126b=_0x170b63;this['playing']=![],this[_0x10126b(0x1b7)][_0x10126b(0x1a0)]=0x0,this[_0x10126b(0x1b7)][_0x10126b(0x2ab)]=![],this[_0x10126b(0x1b7)][_0x10126b(0x242)]=0x1,clearInterval(this[_0x10126b(0x2bd)]),this['time'][_0x10126b(0x334)]='0:00',this[_0x10126b(0x244)][_0x10126b(0x2d3)][_0x10126b(0x276)]='0%',this[_0x10126b(0x244)]['value']=0x0,this['btn']['classList'][_0x10126b(0x282)](_0x10126b(0x297),_0x10126b(0x1e5)),this['panel'][_0x10126b(0x2d3)][_0x10126b(0x2d7)]=_0x10126b(0x2cb),this['range'][_0x10126b(0x2d3)][_0x10126b(0x2d7)]=_0x10126b(0x2cb),VoiceNotePlayer['currentPlayer']=null;if(this[_0x10126b(0x331)])this[_0x10126b(0x2f5)][_0x10126b(0x24e)]();this[_0x10126b(0x331)]=![];}),this[_0x170b63(0x1b7)][_0x170b63(0x2cd)](_0x170b63(0x1da),()=>{const _0x57d9e2=_0x170b63;String(this['audio'][_0x57d9e2(0x2a8)])==_0x57d9e2(0x31d)&&(this['btn'][_0x57d9e2(0x247)][_0x57d9e2(0x282)](_0x57d9e2(0x1e5)),this['range'][_0x57d9e2(0x2d3)]['pointerEvents']=_0x57d9e2(0x316)),this['btn'][_0x57d9e2(0x247)][_0x57d9e2(0x282)](_0x57d9e2(0x1e5)),this['panel'][_0x57d9e2(0x2d3)]['pointerEvents']=_0x57d9e2(0x2cb);});};[_0x3bcd1c(0x265)]=async _0x58c4b8=>{const _0x768e85=_0x3bcd1c;general[_0x768e85(0x2f7)]=document[_0x768e85(0x2a6)]==$(_0x768e85(0x25c));if(this[_0x768e85(0x236)])this[_0x768e85(0x236)]=![],this[_0x768e85(0x1b7)][_0x768e85(0x2ed)](),clearInterval(this[_0x768e85(0x2bd)]),_0x58c4b8[_0x768e85(0x2f9)][_0x768e85(0x247)]['remove'](_0x768e85(0x297)),VoiceNotePlayer[_0x768e85(0x27f)]=null;else{if(String(this[_0x768e85(0x1b7)]['duration'])==_0x768e85(0x31d)){this[_0x768e85(0x1b7)][_0x768e85(0x2ab)]=!![],this['audio'][_0x768e85(0x242)]=0xa,this[_0x768e85(0x2f5)]['classList'][_0x768e85(0x1fc)](_0x768e85(0x1e5)),this[_0x768e85(0x1de)][_0x768e85(0x2d3)][_0x768e85(0x2d7)]=_0x768e85(0x316),this['initialPlay']=!![],this[_0x768e85(0x1b7)]['play']();return;}VoiceNotePlayer[_0x768e85(0x27f)]&&VoiceNotePlayer[_0x768e85(0x27f)]['btn'][_0x768e85(0x24e)](),VoiceNotePlayer['currentPlayer']=this,this[_0x768e85(0x236)]=!![],this['audio'][_0x768e85(0x265)](),this[_0x768e85(0x2bd)]=setInterval(()=>{const _0x706bfc=_0x768e85;let _0x1a3576=Math['floor'](this[_0x706bfc(0x1b7)][_0x706bfc(0x1a0)]/0x3c),_0xdd1d4c=Math['floor'](this[_0x706bfc(0x1b7)][_0x706bfc(0x1a0)]%0x3c);this[_0x706bfc(0x319)]['textContent']=_0x1a3576+':'+String(_0xdd1d4c)[_0x706bfc(0x274)](0x2,'0');let _0x49fa9b=Math[_0x706bfc(0x2fa)](this[_0x706bfc(0x1b7)][_0x706bfc(0x1a0)]/this[_0x706bfc(0x1b7)][_0x706bfc(0x2a8)]*0x64);this[_0x706bfc(0x244)][_0x706bfc(0x2d3)][_0x706bfc(0x276)]=_0x49fa9b+'%',this[_0x706bfc(0x244)][_0x706bfc(0x224)]=''+_0x49fa9b;},0x1),_0x58c4b8[_0x768e85(0x2f9)][_0x768e85(0x247)][_0x768e85(0x1fc)](_0x768e85(0x297));}};[_0x3bcd1c(0x1c2)]=async _0x1c754e=>{const _0x3857f7=_0x3bcd1c;general[_0x3857f7(0x2f7)]=document[_0x3857f7(0x2a6)]==$(_0x3857f7(0x25c));let _0x282252=_0x1c754e[_0x3857f7(0x2f9)][_0x3857f7(0x224)],_0x2ab03a=_0x282252/0x64*this[_0x3857f7(0x1b7)][_0x3857f7(0x2a8)];this[_0x3857f7(0x1b7)][_0x3857f7(0x1a0)]=_0x2ab03a,this[_0x3857f7(0x236)]&&(this[_0x3857f7(0x236)]=![],this[_0x3857f7(0x2f5)]['click']());};[_0x3bcd1c(0x2ca)]=async _0x18e300=>{const _0x361647=_0x3bcd1c;!this['audio'][_0x361647(0x1fe)]&&(this['audio'][_0x361647(0x2ed)](),clearInterval(this[_0x361647(0x2bd)]),this[_0x361647(0x2f5)]['classList'][_0x361647(0x282)](_0x361647(0x297)));_0x18e300[_0x361647(0x2f9)]['style']['backgroundSize']=_0x18e300['target'][_0x361647(0x224)]+'%';let _0x54b3a8=_0x18e300[_0x361647(0x2f9)][_0x361647(0x224)]/0x64*this[_0x361647(0x1b7)][_0x361647(0x2a8)],_0x318c63=Math['floor'](_0x54b3a8/0x3c),_0x58f33a=Math['floor'](_0x54b3a8%0x3c);this[_0x361647(0x319)][_0x361647(0x334)]=_0x318c63+':'+String(_0x58f33a)[_0x361647(0x274)](0x2,'0');};}const Message=async(_0x17f7fd,_0x5e6114=!![])=>{const _0x4219c0=_0x3bcd1c;let _0x53fb34=$(_0x4219c0(0x252)),_0x13126e=$(_0x4219c0(0x256)),_0x17e48d=$$$(_0x4219c0(0x28e)),_0x417054=$$$(_0x4219c0(0x28e),['class',_0x4219c0(0x1b3)]),_0xb61da8=$$$(_0x4219c0(0x1e0),[_0x4219c0(0x311),_0x4219c0(0x2db)]),_0x5c3f5f=$$$(_0x4219c0(0x1e0),[_0x4219c0(0x311),'time']);_0x17e48d['addEventListener'](_0x4219c0(0x24d),_0x2e41b3=>LongPress[_0x4219c0(0x1cb)](_0x2e41b3,_0x17e48d),![]),_0x17e48d[_0x4219c0(0x2cd)]('touchend',_0x170bf0=>LongPress[_0x4219c0(0x1d2)](_0x170bf0,_0x17e48d),![]),_0x17e48d[_0x4219c0(0x2cd)](_0x4219c0(0x2ef),_0x28d117=>LongPress[_0x4219c0(0x1cb)](_0x28d117,_0x17e48d),![]),_0x17e48d[_0x4219c0(0x2cd)](_0x4219c0(0x1fa),_0x24cd30=>LongPress[_0x4219c0(0x1d2)](_0x24cd30,_0x17e48d),![]);let _0x11d259=_0x17f7fd[_0x4219c0(0x1b3)]||$(_0x4219c0(0x25c))[_0x4219c0(0x1f3)],_0x2b8a6e=new Date(),_0x340c1c=('0'+_0x2b8a6e['getHours']())[_0x4219c0(0x20d)](-0x2),_0x521b35=('0'+_0x2b8a6e[_0x4219c0(0x2d9)]())['slice'](-0x2),_0x1592b3=parseInt(_0x340c1c)>=0xc?'PM':'AM';_0x340c1c=_0x340c1c>0xc?_0x340c1c%0xc:_0x340c1c,_0x2b8a6e=_0x340c1c+':'+_0x521b35+'\x20'+_0x1592b3;typeof _0x11d259==_0x4219c0(0x340)?_0x417054[_0x4219c0(0x1f3)]=_0x4219c0(0x2b5)+_0x11d259+_0x4219c0(0x1e9):_0x417054['appendChild'](_0x11d259);_0x5c3f5f[_0x4219c0(0x1f3)]=_0x2b8a6e,_0xb61da8[_0x4219c0(0x27c)](_0x5c3f5f),_0x417054[_0x4219c0(0x27c)](_0xb61da8);let _0xa42fd6=$$(_0x4219c0(0x2a1));if(_0x17f7fd[_0x4219c0(0x2c7)]==='send'){let _0x331a8e=$$$(_0x4219c0(0x1e0));_0x331a8e[_0x4219c0(0x247)][_0x4219c0(0x1fc)](_0x4219c0(0x1f9)),_0xb61da8['appendChild'](_0x331a8e),_0xb61da8[_0x4219c0(0x27c)](_0x331a8e[_0x4219c0(0x335)](!![])),$(_0x4219c0(0x25c))[_0x4219c0(0x1f3)]='';if(general[_0x4219c0(0x2f7)])$('.chat_field')['focus']();await ChangeTextBox(!![],$(_0x4219c0(0x25c))),await AdjustWidth[_0x4219c0(0x275)]($(_0x4219c0(0x25c))),_0x17e48d['classList'][_0x4219c0(0x1fc)]('bubble',_0x4219c0(0x2d5)),_0x17e48d[_0x4219c0(0x27c)](_0x417054);_0xa42fd6[_0x4219c0(0x22e)]>0x0&&_0xa42fd6[_0xa42fd6[_0x4219c0(0x22e)]-0x1][_0x4219c0(0x1eb)][_0x4219c0(0x27a)](_0x4219c0(0x2d5))&&_0x17e48d[_0x4219c0(0x247)][_0x4219c0(0x1fc)](_0x4219c0(0x235));_0x53fb34[_0x4219c0(0x22d)](_0x17e48d,_0x13126e),_0x331a8e['id']='tick'+$$('.right_bubble')['length'];let _0xbc7b73=$(_0x4219c0(0x1f8));if(_0xbc7b73!=null)_0xbc7b73[_0x4219c0(0x1fd)][_0x4219c0(0x298)](_0xbc7b73);return setTimeout(()=>{const _0x27d4e9=_0x4219c0;_0x53fb34['scrollTop']=_0x13126e[_0x27d4e9(0x1b6)];},0xc8),Lobby['isConnected']&&_0x5e6114&&Publish[_0x4219c0(0x20a)]({'channel':Lobby[_0x4219c0(0x2c5)],'message':{'title':_0x4219c0(0x1ab),'content':{'text':_0x11d259,'id':_0x331a8e['id']}}}),_0x331a8e['id'];}else{if(_0x17f7fd[_0x4219c0(0x2c7)]==='receive'){_0x17e48d[_0x4219c0(0x247)][_0x4219c0(0x1fc)]('bubble',_0x4219c0(0x269)),_0x17e48d['id']='left-'+_0x17f7fd['id'];let _0x2bd4ee=$$$('p');_0x2bd4ee['innerHTML']=$$(_0x4219c0(0x303))[0x1][_0x4219c0(0x1f3)][_0x4219c0(0x2f3)]('\x20')[_0x4219c0(0x323)](_0x142d71=>_0x142d71[0x0])['join'](''),_0x17e48d[_0x4219c0(0x27c)](_0x2bd4ee),_0x17e48d[_0x4219c0(0x27c)](_0x417054);if(_0xa42fd6[_0x4219c0(0x22e)]>0x0&&_0xa42fd6[_0xa42fd6[_0x4219c0(0x22e)]-0x1]['className'][_0x4219c0(0x27a)]('left_bubble'))_0x2bd4ee[_0x4219c0(0x2d3)][_0x4219c0(0x296)]='hidden',_0x17e48d[_0x4219c0(0x247)][_0x4219c0(0x1fc)](_0x4219c0(0x235));else{}if($('.center_bubble')===null&&_0x17f7fd['count']===0x1){let _0x3fcddc=$$$(_0x4219c0(0x28e));_0x3fcddc[_0x4219c0(0x247)]['add']('bubble',_0x4219c0(0x1f5));let _0x23ae24=$$$('p');_0x23ae24[_0x4219c0(0x1f3)]=_0x17f7fd[_0x4219c0(0x1f0)]+_0x4219c0(0x28f),_0x3fcddc[_0x4219c0(0x27c)](_0x23ae24),_0x53fb34[_0x4219c0(0x22d)](_0x3fcddc,_0x13126e);}else _0x17f7fd['count']>0x1&&($(_0x4219c0(0x2b4))['innerHTML']=_0x17f7fd['count']+_0x4219c0(0x2eb));_0x53fb34[_0x4219c0(0x22d)](_0x17e48d,_0x13126e);if(GetValue($('#chat-window'),_0x4219c0(0x2d8))===_0x4219c0(0x243))Lobby[_0x4219c0(0x221)]&&Lobby[_0x4219c0(0x1e2)][_0x4219c0(0x2b2)]({'channel':Lobby[_0x4219c0(0x2c5)],'messageTimetoken':_0x17f7fd[_0x4219c0(0x206)],'action':{'type':'read','value':_0x17f7fd['id']}}),Lobby[_0x4219c0(0x1ef)]=[],setTimeout(()=>{const _0x2b1075=_0x4219c0;_0x53fb34[_0x2b1075(0x338)]=_0x13126e[_0x2b1075(0x1b6)];},0xc8);else Lobby['unreadMessages'][_0x4219c0(0x345)]({'id':_0x17f7fd['id'],'timetoken':_0x17f7fd[_0x4219c0(0x206)]});}}};class Bubble{static ['selectedLeft']=[];static [_0x3bcd1c(0x20c)]=[];static [_0x3bcd1c(0x1bb)]=async()=>{const _0x20e6cf=_0x3bcd1c;this[_0x20e6cf(0x212)]=$$(_0x20e6cf(0x1f1)),this[_0x20e6cf(0x20c)]=$$(_0x20e6cf(0x26c));let _0x2e6c12=this[_0x20e6cf(0x212)][_0x20e6cf(0x22e)]+this['selectedRight']['length'],_0x166ec5;this[_0x20e6cf(0x212)][_0x20e6cf(0x22e)]||$(_0x20e6cf(0x2ce))?_0x166ec5=await Notify[_0x20e6cf(0x2c7)]({'header':_0x20e6cf(0x1d9)+(_0x2e6c12+(_0x2e6c12>0x1?_0x20e6cf(0x1af):'\x20message')),'message':_0x20e6cf(0x1aa),'type':_0x20e6cf(0x2a9)}):_0x166ec5=await Notify[_0x20e6cf(0x2a2)]({'header':_0x20e6cf(0x1d9)+(_0x2e6c12+(_0x2e6c12>0x1?_0x20e6cf(0x1af):'\x20message')),'message':'Whom\x20do\x20you\x20want\x20to\x20delete\x20for?','type':'CANCEL/EVERYONE/MYSELF'}),this[_0x20e6cf(0x1e1)](_0x166ec5);};static ['deleteBubble']=(_0x535346,_0x74843c)=>{const _0x5898e9=_0x3bcd1c;let _0x24658e=Array[_0x5898e9(0x1d3)](Bubble[_0x5898e9(0x212)])[_0x5898e9(0x1cf)](Array[_0x5898e9(0x1d3)](Bubble[_0x5898e9(0x20c)])),_0x4e010c='';if(_0x535346!=_0x5898e9(0x1c7)){for(let _0x358334 of _0x24658e){if(!_0x358334['classList'][_0x5898e9(0x20b)](_0x5898e9(0x1a6))&&_0x358334['$'](_0x5898e9(0x288))&&_0x358334['$'](_0x5898e9(0x288))['classList'][_0x5898e9(0x20b)](_0x5898e9(0x30f)))_0x358334['$']('.text\x20>\x20div')[_0x5898e9(0x1f3)]='You\x20deleted\x20this\x20message.',_0x358334['classList'][_0x5898e9(0x1fc)](_0x5898e9(0x1a6)),_0x4e010c+=_0x358334['$'](_0x5898e9(0x288))['id']+'-';else _0x74843c?(_0x358334['$']('.text\x20>\x20div')[_0x5898e9(0x1f3)]=_0x5898e9(0x33e),_0x358334['classList'][_0x5898e9(0x1fc)](_0x5898e9(0x1a6))):_0x358334[_0x5898e9(0x1fd)][_0x5898e9(0x298)](_0x358334);_0x358334[_0x5898e9(0x247)]['remove'](_0x5898e9(0x339));}_0x535346==_0x5898e9(0x250)&&Lobby[_0x5898e9(0x221)]&&(_0x4e010c=_0x4e010c[_0x5898e9(0x213)](/-$/g,''),Publish['send']({'channel':Lobby[_0x5898e9(0x2c5)],'message':{'title':_0x5898e9(0x1a6),'ids':_0x4e010c}}));}else for(let _0x1e3d78 of _0x24658e){_0x1e3d78[_0x5898e9(0x247)][_0x5898e9(0x282)](_0x5898e9(0x339));}window['$'](_0x5898e9(0x1a7))[_0x5898e9(0x2d3)][_0x5898e9(0x2d8)]=_0x5898e9(0x308),window['$'](_0x5898e9(0x32b))['style']['display']=_0x5898e9(0x308),window['$'](_0x5898e9(0x19e))[_0x5898e9(0x2d3)][_0x5898e9(0x2d8)]=_0x5898e9(0x316),window['$']('.bubbles_container')['classList'][_0x5898e9(0x282)](_0x5898e9(0x321)),LongPress['selectMode']=![],Bubble[_0x5898e9(0x212)]=[],Bubble[_0x5898e9(0x20c)]=[],Cancel();};static [_0x3bcd1c(0x330)]=async()=>{const _0x297173=_0x3bcd1c;if(Permissions[_0x297173(0x2d4)]['clipboard']){let _0xbb7a61=$(_0x297173(0x347))[_0x297173(0x334)];navigator['clipboard']['writeText'](_0xbb7a61)['then'](()=>{const _0x39157d=_0x297173;Notify[_0x39157d(0x216)](_0x39157d(0x1cd));},()=>{const _0x3033d7=_0x297173;Notify[_0x3033d7(0x216)](_0x3033d7(0x262));});}else Permissions[_0x297173(0x20f)](_0x297173(0x337),_0x297173(0x290));$('.selected_bubble')[_0x297173(0x247)][_0x297173(0x282)](_0x297173(0x339)),$('.chat_header\x20>\x20h2:last-of-type')[_0x297173(0x2d3)][_0x297173(0x2d8)]=_0x297173(0x308),$(_0x297173(0x32b))['style'][_0x297173(0x2d8)]='block',$(_0x297173(0x19e))[_0x297173(0x2d3)][_0x297173(0x2d8)]=_0x297173(0x316),$(_0x297173(0x252))['classList'][_0x297173(0x282)](_0x297173(0x321)),LongPress[_0x297173(0x1c6)]=![];};}function _0x15e3(_0x15268d,_0x133274){const _0x4c775b=_0x4c77();return _0x15e3=function(_0x15e3c4,_0x426c83){_0x15e3c4=_0x15e3c4-0x19d;let _0x536fbf=_0x4c775b[_0x15e3c4];return _0x536fbf;},_0x15e3(_0x15268d,_0x133274);}const Request=async _0x216652=>{const _0xa127b6=_0x3bcd1c;let _0x42b5b9;if(_0x216652[_0xa127b6(0x1b2)]===_0xa127b6(0x26b))_0x42b5b9=await Notify[_0xa127b6(0x238)]({'header':_0xa127b6(0x278),'type':'CANCEL/ACCEPT','message':$$(_0xa127b6(0x1b0))[0x1]['innerHTML']+_0xa127b6(0x2e6)}),Lobby[_0xa127b6(0x1d7)]=_0x216652['content'][_0xa127b6(0x1d7)],Lobby[_0xa127b6(0x310)]=_0x216652[_0xa127b6(0x318)][_0xa127b6(0x310)],Lobby[_0xa127b6(0x241)]=_0x216652[_0xa127b6(0x318)][_0xa127b6(0x241)];else{if(_0x216652[_0xa127b6(0x1b2)]===_0xa127b6(0x22b))_0x42b5b9=await Notify['confirm']({'header':_0xa127b6(0x20e),'type':'CANCEL/ACCEPT','message':$$('#online\x20.player_name')[0x1][_0xa127b6(0x1f3)]+_0xa127b6(0x29c)}),Lobby[_0xa127b6(0x1d7)]=_0x216652[_0xa127b6(0x318)][_0xa127b6(0x1d7)],Lobby[_0xa127b6(0x310)]=_0x216652[_0xa127b6(0x318)][_0xa127b6(0x310)],Lobby[_0xa127b6(0x241)]=_0x216652[_0xa127b6(0x318)]['version'];else _0x216652[_0xa127b6(0x1b2)]==='RequestRestart'&&(_0x42b5b9=await Notify['confirm']({'header':'Request\x20to\x20restart','type':_0xa127b6(0x33f),'message':$$(_0xa127b6(0x1b0))[0x1][_0xa127b6(0x1f3)]+_0xa127b6(0x29b)}),Lobby[_0xa127b6(0x1d7)]=_0x216652['content']['firstMove'],Lobby[_0xa127b6(0x310)]=_0x216652[_0xa127b6(0x318)]['mandatoryCapture'],Lobby[_0xa127b6(0x241)]=_0x216652[_0xa127b6(0x318)][_0xa127b6(0x241)]);}if(_0x42b5b9===_0xa127b6(0x307)){Game[_0xa127b6(0x1d7)]=Lobby[_0xa127b6(0x1d7)],Game['mandatoryCapture']=Lobby[_0xa127b6(0x310)],Game[_0xa127b6(0x241)]=Lobby[_0xa127b6(0x241)];if(Game[_0xa127b6(0x22c)]){let _0x593561=playerA[_0xa127b6(0x23d)];await Alternate(_0x593561);}await setTimeout(async()=>{const _0x372ffb=_0xa127b6;await Publish[_0x372ffb(0x20a)]({'channel':Lobby[_0x372ffb(0x2c5)],'message':{'title':_0x372ffb(0x306),'content':''}}),Notify[_0x372ffb(0x216)]('The\x20game\x20will\x20start\x20shortly...'),Game[_0x372ffb(0x259)]=Game[_0x372ffb(0x1d7)]?playerA['pieceColor']==='White':playerB[_0x372ffb(0x23d)]==='White',await Mode(0x3,![]);let _0x43d86f=Game[_0x372ffb(0x310)]?$('#must-jump'):$(_0x372ffb(0x30d));await Clicked(_0x43d86f,_0x43d86f['parentNode'],![]);let _0x394f19=$(_0x372ffb(0x2e9)+Game[_0x372ffb(0x241)]+'\x27]');await Version(_0x394f19,0x0,!![]),await new Sleep()['wait'](0x2),await play(!![]);},0xc8);}else _0x42b5b9===_0xa127b6(0x1c7)&&Publish['send']({'channel':Lobby[_0xa127b6(0x2c5)],'message':{'title':'DeclinedRequest','content':''}});return;},ChangeWidth=(_0x3642c2,_0x25980b)=>{const _0xf39f68=_0x3bcd1c;AdjustWidth[_0xf39f68(0x275)](this,_0x25980b);};class AdjustWidth{static [_0x3bcd1c(0x2ec)]=!![];static ['stateTimeout'];static [_0x3bcd1c(0x255)]=![];static [_0x3bcd1c(0x275)]=(_0x4ce050,_0xc5aef6)=>{const _0x36df54=_0x3bcd1c;_0xc5aef6&&_0xc5aef6[_0x36df54(0x245)]();if(this[_0x36df54(0x2ec)])this[_0x36df54(0x2ec)]=![],this[_0x36df54(0x203)](_0x4ce050,typeof _0xc5aef6==_0x36df54(0x33c));else return;};static [_0x3bcd1c(0x203)]=(_0x1607f0,_0x35e0ff)=>{const _0x30c4b6=_0x3bcd1c;let _0x54feba=this;if(_0x35e0ff&&Lobby[_0x30c4b6(0x221)]){clearTimeout(this[_0x30c4b6(0x312)]);if(_0x1607f0['innerHTML'][_0x30c4b6(0x26f)]()[_0x30c4b6(0x213)](/<div><br><\/div>/gm,'')=='')clearTimeout(AdjustWidth[_0x30c4b6(0x312)]),Lobby['PUBNUB'][_0x30c4b6(0x2af)]({'state':{'action':'typing','value':![]},'channels':[Lobby[_0x30c4b6(0x2c5)]]}),this['typing']=![];else!this[_0x30c4b6(0x255)]?(Lobby[_0x30c4b6(0x1e2)][_0x30c4b6(0x2af)]({'state':{'action':_0x30c4b6(0x255),'value':!![]},'channels':[Lobby[_0x30c4b6(0x2c5)]]}),this[_0x30c4b6(0x255)]=!![]):(clearTimeout(this[_0x30c4b6(0x312)]),this[_0x30c4b6(0x312)]=setTimeout(()=>{const _0x38a56e=_0x30c4b6;Lobby[_0x38a56e(0x1e2)][_0x38a56e(0x2af)]({'state':{'action':'typing','value':![]},'channels':[Lobby[_0x38a56e(0x2c5)]]}),this['typing']=![];},0x2bc));}_0x54feba[_0x30c4b6(0x2e7)](_0x1607f0);};static [_0x3bcd1c(0x2e7)]=_0x36ffd4=>{const _0x4db1d3=_0x3bcd1c;let _0x4b1ce2=$(_0x4db1d3(0x2ad)),_0x1eeb68=$(_0x4db1d3(0x28d));_0x36ffd4[_0x4db1d3(0x1f3)][_0x4db1d3(0x26f)]()[_0x4db1d3(0x213)](/<div><br><\/div>/gm,'')==''?GetValue(_0x4b1ce2,_0x4db1d3(0x2d8))==_0x4db1d3(0x308)&&(_0x36ffd4[_0x4db1d3(0x1f3)]='',_0x4b1ce2[_0x4db1d3(0x2d3)]['display']=_0x4db1d3(0x316),_0x1eeb68[_0x4db1d3(0x2d3)][_0x4db1d3(0x2d8)]=_0x4db1d3(0x308),_0x1eeb68[_0x4db1d3(0x247)]['add']('button_pop_up'),setTimeout(()=>{const _0xa2534c=_0x4db1d3;_0x1eeb68['classList'][_0xa2534c(0x282)]('button_pop_up');},0x12c)):(GetValue(_0x1eeb68,'display')==_0x4db1d3(0x308)&&(_0x1eeb68[_0x4db1d3(0x2d3)][_0x4db1d3(0x2d8)]=_0x4db1d3(0x316),_0x4b1ce2[_0x4db1d3(0x2d3)]['display']=_0x4db1d3(0x308),_0x4b1ce2[_0x4db1d3(0x2d3)][_0x4db1d3(0x2d8)]=_0x4db1d3(0x308),_0x4b1ce2[_0x4db1d3(0x247)][_0x4db1d3(0x1fc)](_0x4db1d3(0x1bc)),setTimeout(()=>{const _0x55d40d=_0x4db1d3;_0x4b1ce2[_0x55d40d(0x247)][_0x55d40d(0x282)](_0x55d40d(0x1bc));},0x12c)),CalculateSize(_0x36ffd4[_0x4db1d3(0x1f3)])>=0x8000&&(_0x36ffd4[_0x4db1d3(0x1f3)]=_0x36ffd4[_0x4db1d3(0x1f3)][_0x4db1d3(0x2d6)](0x0,_0x36ffd4['innerHTML'][_0x4db1d3(0x22e)]-0x2),Notify[_0x4db1d3(0x216)](_0x4db1d3(0x29d))));let _0x1620a7=$(_0x4db1d3(0x301))[_0x4db1d3(0x1a2)]||parseFloat(GetValue($(_0x4db1d3(0x301)),_0x4db1d3(0x1d8)));document[_0x4db1d3(0x2a3)][_0x4db1d3(0x2d3)][_0x4db1d3(0x2a4)]('--txt-size',_0x1620a7+0x14+'px'),this[_0x4db1d3(0x2ec)]=!![];};}const ChangeTextBox=async(_0x62b52d,_0x201623,_0x1df0df)=>{const _0x3c69e9=_0x3bcd1c;let _0x53cdcd=document[_0x3c69e9(0x2a6)];if(typeof _0x1df0df=='object'){_0x1df0df[_0x3c69e9(0x245)]();_0x1df0df[_0x3c69e9(0x315)]=='blur'&&_0x201623['classList']['contains'](_0x3c69e9(0x209))&&(AdjustWidth[_0x3c69e9(0x255)]=![],clearTimeout(AdjustWidth['stateTimeout']),Lobby[_0x3c69e9(0x221)]&&Lobby[_0x3c69e9(0x1e2)][_0x3c69e9(0x2af)]({'state':{'action':_0x3c69e9(0x255),'value':![]},'channels':[Lobby['CHANNEL']]}));if(_0x1df0df[_0x3c69e9(0x315)]==_0x3c69e9(0x25a)&&general['chatFieldHadFocus']&&$('#chat-window')['contains'](_0x53cdcd)){for(let _0x2f6d3c of $$(_0x3c69e9(0x1e3))){_0x2f6d3c[_0x3c69e9(0x247)][_0x3c69e9(0x282)]('selected_bubble');}$('.chat_header\x20>\x20h2:last-of-type')[_0x3c69e9(0x2d3)][_0x3c69e9(0x2d8)]='block',$(_0x3c69e9(0x32b))['style']['display']=_0x3c69e9(0x308),$(_0x3c69e9(0x19e))['style'][_0x3c69e9(0x2d8)]=_0x3c69e9(0x316),$('.bubbles_container')[_0x3c69e9(0x247)][_0x3c69e9(0x282)](_0x3c69e9(0x321)),LongPress[_0x3c69e9(0x1c6)]=![],$(_0x3c69e9(0x25c))[_0x3c69e9(0x25a)]();}}!_0x201623[_0x3c69e9(0x1eb)][_0x3c69e9(0x27a)](_0x3c69e9(0x209))&&(_0x62b52d&&setTimeout(()=>{const _0x185908=_0x3c69e9;let _0x576740=$(_0x185908(0x28a));_0x576740[_0x185908(0x338)]=_0x201623[_0x185908(0x1a2)]+_0x201623['offsetTop']-_0x576740[_0x185908(0x24b)]+0x14;},0xc8)),_0x201623['id']===_0x3c69e9(0x328)&&(_0x201623[_0x3c69e9(0x1ad)]='100'),setTimeout(()=>{const _0x3bed57=_0x3c69e9;let _0x4793c3=window[_0x3bed57(0x2b6)];if(_0x4793c3<0x96&&_0x62b52d)_0x201623[_0x3bed57(0x1eb)][_0x3bed57(0x27a)](_0x3bed57(0x209))?($(_0x3bed57(0x1c0))[_0x3bed57(0x2d3)][_0x3bed57(0x2d8)]=_0x3bed57(0x316),$(_0x3bed57(0x252))[_0x3bed57(0x2d3)][_0x3bed57(0x2d8)]=_0x3bed57(0x316),$('.chat_field')[_0x3bed57(0x2d3)]['maxHeight']=_0x3bed57(0x279)):($('#two-players-window\x20h2')['style']['display']='none',_0x201623[_0x3bed57(0x1fd)][_0x3bed57(0x338)]=_0x201623['offsetTop']);else(_0x4793c3<0x96&&!_0x62b52d||_0x4793c3>0x96)&&(_0x201623['className'][_0x3bed57(0x27a)](_0x3bed57(0x209))?($(_0x3bed57(0x1c0))['style']['display']=_0x3bed57(0x1a3),$(_0x3bed57(0x252))['style']['display']='block',$(_0x3bed57(0x25c))[_0x3bed57(0x2d3)][_0x3bed57(0x333)]=_0x3bed57(0x1bf)):$(_0x3bed57(0x31f))[_0x3bed57(0x2d3)][_0x3bed57(0x2d8)]=_0x3bed57(0x243));},0x12c);},ChangeFocus=()=>{const _0x2c68a8=_0x3bcd1c;general[_0x2c68a8(0x2f7)]=!![];};
+'use strict' 
+
+/* Version: 48*/
+
+const CheckHref = async () => {
+	let split = document.location.href.split("?");
+	
+	if(split.length > 1 && split[1].includes("name=")) {
+		let name = split[1].replace("name=", "");
+		$("#online #channel-name").value = name;
+		await Mode(3, false);
+		BackState.state.push(["#main-window", "#two-players-window"]);
+        $("#main-window").style.display = "none";
+        $("#two-players-window").style.display = "grid";
+        
+        Notify.alert({ 
+    			header: "Message", 
+    			message: `Please fill in your name in the field named 'PLAYER DETAILS' and hit <kbd>SUBMIT</kbd> button at the bottom right corner of this window to join ${name} channel as shown below. Your opponent will refer to you using the name you will provide.<img src='./src/images/player image.png'>`});
+    	$("#online .playerA_name").focus();
+	} 
+	history.pushState(null, "", "?window1");
+} 
+
+const Lobby = {isConnected: false, isHost: false, unreadMessages: [], offlineTimeout: null};
+
+const ChannelFunction = async () => {
+	if(!navigator.onLine) {
+		Notify.popUpNote("Can't complete this request. You are offline.");
+		return;
+	} 
+	
+    let name = $("#online .playerA_name").value.trim();
+    let channel = $("#online #channel-name").value;
+    if(channel === "") {
+        $("#online #channel-name").focus();
+    	Notify.popUpNote("Please fill out channel name.");
+    } 
+	else if(name === "") {
+		$("#online .playerA_name").focus();
+        Notify.popUpNote("Please fill out your name.");
+    } 
+    else {
+        channel = channel.replaceAll(/^\w|\s\w/g, t => t.toUpperCase());
+        name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
+        $("#online #channel-name").maxLength = "100";
+        playerA.name = name;
+        
+        try { 
+            if(!Lobby.isConnected) { 
+            	$$("#online .player_name")[0].innerHTML = name;
+            	$$("#online .player_name")[0].setAttribute("value", name);
+            	if(storage) {
+            		if(storage.getItem("Checkers - uuid")) {
+                		Lobby.UUID = storage.getItem("Checkers - uuid");
+                	} 
+					else {
+						Lobby.UUID = PubNub.generateUUID();
+						storage.setItem("Checkers - uuid", Lobby.UUID);
+					} 
+                } 
+                else {
+					Lobby.UUID = PubNub.generateUUID();
+				} 
+                
+                Lobby.CHANNEL = channel;
+                Lobby.LOBBY = "Lobby"+channel;
+                Lobby.PUBNUB = new PubNub({
+                    uuid: Lobby.UUID,
+                    publish_key: 'pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71',
+                    subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
+                    ssl: true, 
+                    presenceTimeout: 20, 
+                    restore: false
+                });
+                
+                Lobby.LOBBY_LISTENER = {
+                	presence: function(response) { 
+						if(response.channel == Lobby.LOBBY && response.action === "join") {
+	                		Lobby.PUBNUB.hereNow({
+	                    		channels: [Lobby.CHANNEL] 
+	                    	}, function (status, response2) {
+	                        	if(response2.totalOccupancy < 2) {
+									Lobby.isHost = response2.totalOccupancy == 0;
+									Lobby.PUBNUB.removeListener(Lobby.LOBBY_LISTENER);
+									Lobby.PUBNUB.unsubscribe({
+										channels: [Lobby.LOBBY] 
+									});
+									Lobby.PUBNUB.addListener(Lobby.LISTENER);
+									const Filter = `uuid != '${Lobby.PUBNUB.getUUID()}'`;
+            						Lobby.PUBNUB.setFilterExpression(Filter);
+		                            Lobby.PUBNUB.subscribe({
+										channels: [Lobby.CHANNEL], 
+										withPresence: true
+									});
+								} 
+								else {
+									Notify.popUpNote(`${Lobby.CHANNEL} channel is fully occupied, please try another channel.`);
+									Lobby.PUBNUB.removeListener(Lobby.LOBBY_LISTENER);
+									Lobby.PUBNUB.unsubscribe({
+										channels: [Lobby.LOBBY]
+									});
+									Lobby.CHANNEL = null;
+									Lobby.LOBBY = null;
+							        Lobby.isConnected = false;
+							        Lobby.PUBNUB = null;
+							        Lobby.isHost = false;
+									$("#online #channel-name").value = "";
+								} 
+							});
+						} 
+						else if(response.channel == Lobby.LOBBY && response.action === 'timeout') {
+                            Notify.popUpNote(`Connection timeout to ${Lobby.CHANNEL} channel. Reconnecting...`);
+                        } 
+                	}
+                } 
+                
+                Lobby.PUBNUB.addListener(Lobby.LOBBY_LISTENER);
+                Lobby.PUBNUB.subscribe({
+                    channels: [Lobby.LOBBY], 
+                    withPresence: true, 
+                }); 
+                
+                await new Sleep().wait(0.1);
+                Notify.popUpNote("Connecting...");
+                
+                Lobby.LISTENER = {
+                    presence: async function(response) { 
+						if(response.channel == Lobby.CHANNEL) {
+	                        if(response.action === 'join') {
+								if(response.uuid == Lobby.UUID && response.occupancy <= 2) {
+									
+								} 
+								else if(response.UUID != Lobby.UUID && response.occupancy <= 2) {
+									
+								} 
+								else if(response.occupancy > 2) {
+									Unsubscribed();
+									Notify.popUpNote(`${Lobby.CHANNEL} channel is full please try another one`);
+								} 
+	                        } 
+	                        else if(response.action === 'timeout') {
+								if(response.uuid == Lobby.UUID) {
+									Unsubscribe(false);
+								} 
+								else if(Lobby.opponent) { 
+									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 180_000);
+									let opp = $$("#online .player_name")[1].innerHTML;
+									Notify.popUpNote(`${opp} went offline.`);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "offline";
+									let opponentStatus = $("#player-2-status");
+									opponentStatus.setAttribute("value", "offline");
+						        	opponentStatus.innerHTML = "OFFLINE";
+						        	opponentStatus.classList.remove("black_ui", "default");
+									opponentStatus.classList.add("orange_ui");
+								} 
+	                        } 
+							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
+								LeftChannel({totalOccupancy: 1});
+							} 
+							else if(response.action === "leave" && response.uuid == Lobby.UUID) {
+								
+							} 
+							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { 
+								let action = response.state.action;
+								
+								if(response.state.value == true) {
+									let state = $(".state_container");
+									state.classList.add(action);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = `${action}...`;
+								} 
+								else {
+									let state = $(".state_container");
+									state.classList.remove("recording", "typing");
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
+								} 
+							} 
+                        } 
+                    }, 
+                    status: async function(event) {
+                        if(!Lobby.isConnected && event.category === 'PNConnectedCategory') {
+                        	let connectivityStatus = $("#connectivity");
+                            connectivityStatus.classList.remove("orange_ui");
+                            connectivityStatus.classList.add("default");
+                            connectivityStatus.textContent = "CONNECTED";
+                            Lobby.isConnected = true;
+                            
+							$("#online .lobby_name").textContent = Lobby.CHANNEL + (Lobby.isHost? " (Host)": " (Guest)");
+							
+                            if(Lobby.isHost) {
+                                Notify.popUpNote(`Connected to ${Lobby.CHANNEL} channel successfully as the host member. Waiting for opponent...`);
+                            } 
+                            else {
+                                Notify.popUpNote(`Connected to ${Lobby.CHANNEL} channel successfully as the guest member.`);
+                                Publish.send({
+                                        channel: Lobby.CHANNEL, 
+                                        message: {
+                                                 title: "OpponentName", 
+                                                 content: $$("#online .player_name")[0].innerHTML}
+                                        });
+                            } 
+                        } 
+                        else if(event.category === 'PNReconnectedCategory') {
+                        	Notify.popUpNote(`Reconnected back to ${Lobby.CHANNEL} channel successfully.`);
+                        	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+                        } 
+                        else if(event.category === 'PNNetworkUpCategory') {
+                        	
+                            Notify.popUpNote("You are back online.");
+                        } 
+                        else if(event.category === 'PNNetworkIssueCategory') {
+                            Notify.popUpNote("Having trouble to connect, please check your device internet connection.");
+                        } 
+                        else if(event.category === 'PNNetworkDownCategory') {
+                            Notify.popUpNote("You are offline.");
+                        }
+                        else if(event.category === 'PNTimeoutCategory') {
+							
+                        } 
+                    }, 
+                    message: function(msg) {
+                    	msg.message = JSON.parse(msg.message);
+                    	clearTimeout(Lobby.offlineTimeout);
+                        if(msg.channel === Lobby.CHANNEL) {
+                            if(msg.message.title === 'Reconnected') {
+                            	Notify.popUpNote(`${playerB.name} is back online.`);
+                                let status = $$(".chat_header p")[1];
+								status.innerHTML = "online";
+								let opponentStatus = $("#player-2-status");
+								opponentStatus.setAttribute("value", "online");
+							    opponentStatus.innerHTML = "ONLINE";
+							    opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
+								clearTimeout(Lobby.offlineTimeout);
+                            } 
+                            else if(msg.message.title === "NameChange") {
+                        		name = msg.message.content;
+                        		$$("#online .player_name")[1].innerHTML = name;
+                        		$$(".chat_header h2")[1].innerHTML = name;
+                        		Lobby.opponent = name;
+                        		Notify.popUpNote(`Your opponent changed name to ${name}`);
+                        	} 
+                            else if(msg.message.title === 'OpponentName') { 
+                                name = msg.message.content;
+                                $$("#online .player_name")[1].textContent = name;
+                                Lobby.opponent = name;
+                                let opponentStatus = $("#player-2-status");
+                                opponentStatus.setAttribute("value", "online");
+                                opponentStatus.innerHTML = "ONLINE";
+                                opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
+                                $("#chat-icon").style.display = 'block';
+                                setTimeout(() => {ElemHint.setHint($("#chat-icon"), "Drag to move. Click to open chat.");}, 1000);
+                                $$(".chat_header h2")[1].innerHTML = name;
+                                $(".bubbles_container").innerHTML = "<div class='anchor'></div>";
+                                playerB.name = name;
+                                Notify.popUpNote(`Your opponent is ${name}`);
+                                
+                                if(Lobby.isHost) {
+	                                Publish.send({
+	                                         channel: Lobby.CHANNEL, 
+	                                         message: {
+	                                                  title: "OpponentName", 
+	                                                  content: $$("#online .player_name")[0].innerHTML}
+	                                         });
+								}
+                            } 
+                            else if(msg.message.title === 'ChatMessage') { 
+                            	Lobby.PUBNUB.addMessageAction({
+									channel: Lobby.CHANNEL, 
+									messageTimetoken: msg.timetoken, 
+									action: {
+										type: "delivered", 
+										value: msg.message.content.id
+									} 
+								});
+								let state = $(".state_container");
+									state.classList.remove("recording", "typing");
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
+                                let badge = $(".badge");
+                                if(GetValue($("#chat-icon"), "display") === "block") {
+                                    badge.textContent = parseInt(badge.innerHTML)+1;
+                                    badge.style.display = "block";
+                                    Notify.popUpNote(`You have ${parseInt(badge.textContent) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                                    AudioPlayer.play("notification", 0.8);
+                                } 
+                                Message({action: 'receive', count: parseInt(badge.innerHTML), text: msg.message.content.text, id: msg.message.content.id, timetoken: msg.timetoken});
+                            } 
+                            else if(msg.message.title === "deleted") {
+                            	let ids = msg.message.ids.split("-");
+                            	let selected = [];
+                            	for(let id of ids) {
+                            		let bubble = $("#left-" + id);
+                            		if(bubble) {
+                            			selected.push(bubble);
+                            		} 
+                            	} 
+                            	
+                            	Bubble.selectedLeft = selected;
+                            	Bubble.deleteBubble("MYSELF", true);
+                            } 
+                            else if(msg.message.title === "RequestPlay") {
+                            	Request(msg.message);
+                            } 
+                            else if(msg.message.title === "RequestReplay") {
+                                Request(msg.message);
+                            } 
+                            else if(msg.message.title === "RequestRestart") {
+                                Request(msg.message);
+                            } 
+                            else if(msg.message.title === "AcceptedRequest") {
+                                Notify.popUpNote($$("#online .player_name")[1].innerHTML + " accepted the request, the game will start shortly.");
+                                Notify.cancel();
+                                setTimeout(() => play(true), 2000);
+                            } 
+                            else if(msg.message.title === "DeclinedRequest") {
+                                Notify.popUpNote($$("#online .player_name")[1].innerHTML + " declined your request.");
+                                Notify.cancel();
+                            } 
+                            else if(msg.message.title === "Moved") { 
+                            	OpponentMove.move(msg.message.content);
+                            } 
+                            else if(msg.message.title === "Undone") {
+                            	Notify.popUpNote(playerB.name + " undid the move");
+                                back(true, true);
+                            } 
+                            else if(msg.message.title === "Hint") {
+                                Notify.popUpNote(playerB.name + " has use hint");
+                            } 
+                            else if(msg.message.title === "ExitedGame") {
+                                Notify.popUpNote(msg.message.content + " exited the game.");
+                                back();
+                            } 
+                        } 
+                    }, 
+                    messageAction: function(action) { 
+                    	if(action.publisher != Lobby.UUID) {
+	                    	let type = action.data.type;
+	                    	let id = action.data.value;
+	                    	if(type == "delivered") {
+	                    		let tick = $("#" + id);
+	                            tick.classList.add("grey");
+	                    	} 
+	                    	else if(type == "read") {
+								if(/many-\d+$/gi.test(id)) {
+									let length = parseInt(id.split("-")[1]);
+									let ticks = Array.from($$(".tick.grey")).slice(-length);
+									for(let tick of ticks) {
+										tick.classList.add("blue");
+									} 
+								} 
+								else {
+	                    			let tick = $("#" + id);
+	                            	tick.classList.add("blue");
+								} 
+	                    	} 
+						}
+                    }, 
+                    file: function(event) {
+                    	let badge = $(".badge");
+                        if(GetValue($("#chat-icon"), "display") === "block") {
+                            badge.innerHTML = parseInt(badge.innerHTML)+1;
+                            badge.style.display = "block";
+                            Notify.popUpNote(`You have ${parseInt(badge.innerHTML) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                            AudioPlayer.play("notification", 0.8);
+                        } 
+                        
+						let player = new VoiceNotePlayer();
+						player.receive({id: event.file.id, name: event.file.name, channel: event.channel, message: {timetoken: event.timetoken, id: event.message.id, count: parseInt(badge.innerHTML)}});
+						Lobby.PUBNUB.addMessageAction({
+							channel: Lobby.CHANNEL, 
+							messageTimetoken: event.timetoken, 
+							action: {
+								type: "delivered", 
+								value: event.message.id
+							} 
+						});
+					} 
+                } 
+                /* End of listener*/
+            } 
+            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online .playerA_name").value.toLowerCase()) {
+                Notify.alert({ 
+                        header: "Duplicate Action", 
+                        message: `<p>You are already subscribed to <b>${Lobby.CHANNEL}</b> channel. To join another channel, unsubscribe from this channel first.</p>`});
+            } 
+            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online .playerA_name").value.toLowerCase()) {
+            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online .playerA_name").value.replaceAll(/^\w|\s\w/g, t => t.toUpperCase())}});
+            	$$("#online .player_name")[0].innerHTML = $("#online .playerA_name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
+            	Notify.popUpNote("Name changed successfully");
+            } 
+        } catch (error) {
+            Notify.popUpNote("An error occurred. Loading necessary data...");
+            let src = $("#pubnub-file").getAttribute("src");
+            let script = $$$("script");
+            document.head.removeChild($("#pubnub-file"));
+            document.head.appendChild(script);
+            script.addEventListener("load", () => {
+                ChannelFunction();
+            } , false);
+            script.setAttribute("id", "pubnub-file");
+            script.src = src;
+        } 
+    } 
+}
+
+const Unsubscribe = async (isClick = true) => {
+    if(Lobby.isConnected) {
+    	let choice;
+    	if(isClick) {
+	    	choice = await Notify.confirm({
+	    			header: "Do you really want to leave " + Lobby.CHANNEL + " channel?", 
+	    			message: "Without a channel you cannot play an online match.", 
+	    			type: "NOT NOW/LEAVE ANYWAY"
+			});
+		} 
+		else {
+			Lobby.offlineTimeout = setTimeout(() => {
+				UnsubscribeResponse("LEAVE ANYWAY");
+			}, 180_000); /* 3 minutes */
+			
+			choice = await Notify.confirm({
+	    			header: "Connection Timeout?", 
+	    			message: `You have been dormant in a while, we couldn't establish a connection to ${Lobby.CHANNEL} channel. If this persist for 3 minutes without any action you will be unsubscribed from the channel.`, 
+	    			type: "AM ACTIVE/LEAVE ANYWAY"
+	    	});
+		} 
+		
+		UnsubscribeResponse(choice);
+    } 
+    else {
+        Notify.popUpNote("You have not joined any channel.");
+    } 
+} 
+
+const UnsubscribeResponse = async (choice) => { 
+	if(choice == "LEAVE ANYWAY") {
+    	Notify.alertSpecial({ 
+    			header: "Please wait", 
+    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
+		
+		Lobby.PUBNUB.unsubscribe({
+			channels: [Lobby.CHANNEL]
+		});
+
+		await new Sleep().wait(1);
+		
+    	Notify.cancel();
+        
+        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
+        Notify.popUpNote(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
+        
+        clearTimeout(Lobby.offlineTimeout);
+        let connectivityStatus = $("#connectivity");
+        connectivityStatus.classList.remove("default");
+        connectivityStatus.classList.add("orange_ui");
+        connectivityStatus.innerHTML = "DISCONNECTED";
+        $("#online .lobby_name").innerHTML = "N/A";
+        $("#online #channel-name").value = "";
+        let opponentStatus = $("#player-2-status");
+        opponentStatus.innerHTML = "N/A";
+        opponentStatus.classList.remove("default", "orange_ui");
+		opponentStatus.classList.add("black_ui");
+		$("#online .playerA_name").value = "";
+        $("#online .player_name:first-of-type").innerHTML = "N/A";
+		$("#online .player_name:last-of-type").innerHTML = "N/A";
+		if(GetValue($("#chat-window"), "display") == "flex")
+			 BackState.state.pop();
+		$("#chat-window").style.display = "none";
+		$("#chat-icon").style.display = 'none';
+        Lobby.CHANNEL = null;
+        Lobby.isConnected = false;
+        Lobby.PUBNUB = null;
+        Lobby.isHost = false;
+        Lobby.offlineTimeout = null;
+		Lobby.opponent = null;
+	} 
+	else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
+		if(choice == "AM ACTIVE") {
+			Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+			clearTimeout(Lobby.offlineTimeout);
+		} 
+	} 
+} 
+
+class OpponentMove {
+	static moves = [];
+	static move = (prop) => {
+		this.moves.push(prop);
+		if(this.moves.length == 1)
+			this.make();
+	} 
+	static make = async () => {
+		let self = this;
+		
+		let prop = self.moves[0];
+        let i = Game.boardSize-1 - prop.i, 
+            j = Game.boardSize-1 - prop.j,
+            cell = $("#table").children[i*Game.boardSize+j];
+        await ValidateMove({cell, i, j, isComputer: true});
+		await this.moves.shift();
+		if(this.moves.length > 0)
+			await this.make();
+	} 
+} 
+
+class Publish { 
+	static messages = [];
+	static retryCount = 0;
+	static send = async (prop) => {
+	    const MetaConfig = {
+	        "uuid": Lobby.UUID
+	    } 
+	    const PublishConfig = {
+	        channel: Lobby.CHANNEL, 
+	        message: JSON.stringify(prop.message), 
+	        meta: MetaConfig 
+	    } 
+		
+	    this.messages.push(PublishConfig);
+	    
+	    if(this.messages.length == 1)
+	        this.publish();
+	
+		return Prms("done");
+	} 
+	    
+    static publish = async () => { 
+        let config = this.messages[0];
+        let self = this;
+		Lobby.PUBNUB.publish(config, async (status, response) => {
+            if(!status.error) {
+				self.messages.shift();
+    			self.retryCount = 0;
+            } 
+            if(status.error) {
+				if(self.retryCount <= 2) 
+                	++self.retryCount;
+				else {
+					self.retryCount = 0;
+		        	self.messages = [];
+					Notify.alert({ 
+	                    header: "Network Error", 
+	                    message: "We couldn't communicate with the opponent. Please try again.<br>Details:<br>" + status.message + "<br>" + status.category});
+				} 
+            } 
+			if(self.messages.length > 0) 
+	        	await self.publish();
+	    });
+		return Prms("Done");
+	} 
+} 
+
+const LeftChannel = (response) => {
+    if(response.totalOccupancy < 2) {
+    	if(Game.mode ==" two-player-online" && GetValue($("#play-window"), "display") == "grid") {
+    		Cancel();
+    		back();
+    	} 
+        let name = $$("#online .player_name")[1].innerHTML;
+        $$("#online .player_name")[1].innerHTML = "N/A";
+        let opponentStatus = $("#player-2-status");
+        opponentStatus.innerHTML = "N/A";
+        opponentStatus.classList.remove("default", "orange_ui");
+		opponentStatus.classList.add("black_ui");
+        if(GetValue($("#chat-window"), "display") == "flex")
+			BackState.state.pop();
+		$("#chat-icon").style.display = 'none';
+        $("#chat-window").style.display = "none";
+        $("#online .lobby_name").innerHTML = Lobby.CHANNEL + " (Host)";
+        Lobby.isHost = true;
+        Lobby.opponent = null;
+        Notify.popUpNote(`${name} left ${Lobby.CHANNEL} channel.`);
+    }
+} 
+
+const CalculateSize = (text) => {
+    let message = {title: "ChatMessage", content: text};
+    let packet = Lobby.CHANNEL + JSON.stringify(message);
+    let size = encodeURIComponent(packet).length + 100;
+    return size;
+} 
+
+const UpdateOnlineStatus = () => {
+	let yourStatus = $("#player-1-status");
+	if(!navigator.onLine) {
+		yourStatus.setAttribute("value", "offline");
+	    yourStatus.innerHTML = "OFFLINE";
+	    yourStatus.classList.remove("default");
+		yourStatus.classList.add("orange_ui");
+	    
+	} 
+	else {
+		yourStatus.setAttribute("value", "online");
+		yourStatus.innerHTML = "ONLINE";
+	    yourStatus.classList.remove("orange_ui");
+		yourStatus.classList.add("default");
+	    
+	} 
+} 
+
+const Share = (elem) => {
+    if(Lobby.isConnected) {
+        if(navigator.canShare) {
+        	Notify.alertSpecial({ 
+					header: "Please wait", 
+					message: "Preparing to share"});
+            let channelName = Lobby.CHANNEL;
+            let name = $$("#online .player_name")[0].textContent;
+            navigator.share({
+                title: "Checkers Game", 
+                text: `Hi, ${name} is requesting you to join the following channel to play checkers match. Please click the the link below to join.\n`, 
+                url: "https://mark-code789.github.io/Checkers/index.html?name=" + channelName
+            }).then( () => { 
+            	Notify.cancel();
+                Notify.popUpNote("Channel name shared successfully."); 
+            }).catch( (error) => { 
+            	let message = error.toString().split(":");
+                Notify.alert({ 
+                        header: message[0], 
+                        message: ("There was an error while trying to share the name of the channel.<br> :-" + message[1])});
+            });
+        } 
+        else {
+            Notify.alert({ 
+                    header: "Oops! Sorry", 
+                    message: "Your Browser does not support this kind of sharing. Please use your ordinary means."});
+        } 
+    } 
+    else 
+        Notify.popUpNote("You have not joined any channel.");
+} 
+
+class VoiceNoteRecorder {
+	stream;
+	mediaRecorder;
+	audioChunks;
+	timer;
+	static recorder = null;
+	static requestAbortion = false;
+	static initiating = false;
+	static aborting = false;
+	static initializationError = false;
+	init = async () => {
+		try {
+			this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+		} catch (error) {
+			return error.name;
+		} 
+    	this.mediaRecorder = new MediaRecorder(this.stream);
+    	this.audioChunks = [];
+    	this.mediaRecorder.addEventListener("dataavailable", (event) => {
+			this.audioChunks.push(event.data);
+		});
+		
+		return "success";
+	} 
+	start = () => {
+		this.mediaRecorder.start();
+		let m = 0;
+		let s = 0;
+		let recorderTime = $(".recorder_time");
+		recorderTime.textContent = "0:00";
+		clearInterval(this.timer);
+		this.timer = setInterval(() => {
+			s++;
+			if(s == 60) {
+				m++;
+				s = 0;
+			} 
+			recorderTime.textContent = `${m}:${String(s).padStart(2, '0')}`;
+		}, 1000);
+	} 
+	stop = async (cancelled = false) => {
+		let data = null;
+		let sleep = new Sleep();
+		let self = this;
+		if(this.mediaRecorder) {
+			this.mediaRecorder.addEventListener("stop", () => {
+				if(!cancelled && this.audioChunks.length > 0) {
+					const audioBlob = new Blob(this.audioChunks);
+					const audioURL = URL.createObjectURL(audioBlob);
+					const audio = new Audio(audioURL);
+					const mimeType = self.mediaRecorder.mimeType.split(";")[0];
+					data = {audioBlob, mimeType, audio};
+				} 
+				else {
+					this.audioChunks = [];
+					data = null;
+				} 
+				clearInterval(this.timer);
+				$(".recorder_time").textContent = "0:00";
+				sleep.end();
+			});
+			
+			if(this.mediaRecorder.state == "recording") {
+				this.mediaRecorder.stop();
+				await sleep.start();
+			} 
+			this.stream.getTracks()[0].stop();
+		} 
+		else {
+			data = "no media";
+		} 
+		
+		return data;
+	} 
+	static record = async (elem) => {
+		if(!Permissions.permissions.microphone) {
+			Permissions.check("recorder");
+			return false;
+		} 
+		if(this.initiating || this.aborting) return false; /* Discard the request */
+		this.requestAbortion = false; /* Resetting call to abort */
+		this.initiating = true; /* Process started */
+		this.initializationError = false;
+		
+		/* Stopping all initial opened streams*/
+		try {
+			let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			for(let track of stream.getTracks()) {
+				track.stop();
+			} 
+		} catch (error) {}
+		
+		this.recorder = new VoiceNoteRecorder();
+		let res = await this.recorder.init();
+		
+		if(res != "success") {
+			Notify.popUpNote(res + " occurred. We couldn't proceed.");
+			navigator.vibrate([100,50,100]);
+			this.recorder = null;
+			this.initializationError = true;
+			this.initiating = false;
+			return false;
+		} 
+		let recorderCont = $(".recorder_container");
+		recorderCont.style.transitionDuration = "0.3s";
+		elem.style.transitionDuration = "0.3s";
+		elem.style.height = "70px";
+		elem.style.width = "70px";
+		elem.style.bottom = "-2.5px";
+		$(".field_container").style.opacity = 0;
+		recorderCont.style.display = "flex";
+		recorderCont.style.width = "calc(100% - 60px)";
+		AudioPlayer.play("startRecording", 1);
+		navigator.vibrate(50);
+		await new Sleep().wait(0.5); /* waiting for recording audio to finish playing*/
+		res = true;
+		if(this.requestAbortion) {
+			if(this.recorder && this.recorder.stream) 
+				this.recorder.stream.getTracks()[0].stop();
+			this.recorder = null;
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			recorderCont.style.width = "calc(100% - 70px)";
+			
+			await new Sleep().wait(0.3); /* wait for animation to finish */
+			$(".field_container").style.opacity = 1;
+			recorderCont.style.display = "none";
+			res = false;
+			ElemHint.setHint(elem, "Hold to record. Release to send. Slide left to cancel.");
+		} 
+		else {
+			if(Lobby.isConnected) {
+				Lobby.PUBNUB.setState({
+					state: {action: "recording", value: true}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+			this.recorder.start();
+		} 
+		this.initiating = false;
+		elem.style.transitionDuration = "0s";
+		recorderCont.style.transitionDuration = "0s";
+		return res;
+	} 
+	static stopRecording = async (elem, cancelled = false) => {
+		if(!Permissions.permissions.microphone) {
+			return;
+		} 
+		try {
+			this.requestAbortion = true;
+			if(this.initiating || this.initializationError || this.aborting) return; /* Discard the request */
+			this.aborting = true; /* Aborting process started */
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			await new Sleep().wait(0.3); /* Wait for animation to finish */
+			let res = await this.recorder.stop(cancelled);
+			if(cancelled) {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				setTimeout(() => {$(".recorder_delete").classList.add("delete_recording")}, 400);
+				setTimeout(() => {AudioPlayer.play("throwRecording", 1)}, 800);
+				$(".recorder_time").classList.add("delete_recording");
+				AudioPlayer.play("deleteRecording", 1);
+				navigator.vibrate(50);
+				
+				await new Sleep().wait(2.1);
+				$(".recorder_delete").classList.remove("delete_recording");
+				$(".recorder_time").classList.remove("delete_recording");
+				Notify.popUpNote("deleted successfully");
+			} 
+			else if(typeof res == "object") {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				let player = new VoiceNotePlayer();
+				player.send(res);
+				AudioPlayer.play("stopRecording", 1);
+				navigator.vibrate(50);
+			} 
+			
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} catch (error) {
+			/* Stopping all initial opened streams*/
+			try {
+				let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+				for(let track of stream.getTracks()) {
+					track.stop();
+				} 
+			} catch (error) {}
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			$(".recorder_delete").classList.remove("delete_recording");
+			$(".recorder_time").classList.remove("delete_recording");
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} 
+	} 
+} 
+
+class VoiceNotePlayer {
+	panel;
+	btn;
+	range;
+	time;
+	timer;
+	audio;
+	playing = false;
+	initialPlay = false;
+	static currentPlayer;
+	constructor () {
+		this.panel = $$$("div", ["class", "audio_panel"]);
+		this.btn = $$$("button", ["class", "audio_play audio_download"]);
+		this.range = $$$("input", ["type", "range", "max", "100", "value", "0", "class", "audio_slider"]);
+		this.time = $$$("label", ["class", "audio_current_time", "textContent", "0:00"]);
+		this.panel.appendChild(this.btn);
+		this.panel.appendChild(this.range);
+		this.panel.appendChild(this.time);
+		
+		this.btn.addEventListener("click", this.play, false);
+		this.btn.addEventListener("focus", (event) => ChangeTextBox(false, this.btn, event), false);
+		this.range.addEventListener("change", this.skip, false);
+		this.range.addEventListener("input", this.skipInput, false);
+		this.range.addEventListener("focus", (event) => ChangeTextBox(false, this.range, event), false);
+	} 
+	send = async (data) => {
+		this.audio = data.audio;
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.play();
+				this.audio.playbackRate = 10;
+				return;
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+		
+		const msgID = await Message({action: 'send', text: this.panel}, false);
+		const buffer = await data.audioBlob.arrayBuffer();
+		const mimeType = data.mimeType;
+		if(Lobby.isConnected) {
+			const MetaConfig = {
+		        "uuid": Lobby.UUID
+		    } 
+			const FileConfig = {
+				data: buffer, 
+				name: "CH-" + Date.now() + "." + mimeType.split("/")[1],
+				mimeType
+			} 
+			const MessageConfig = {
+				id: msgID
+			} 
+			Lobby.PUBNUB.sendFile({
+				channel: Lobby.CHANNEL, 
+				message: MessageConfig, 
+				file: FileConfig, 
+				meta: MetaConfig
+			});
+		} 
+	} 
+	receive = async (data) => {
+		Message({action: 'receive', text: this.panel, count: data.message.count, id: data.message.id, timetoken: data.message.timetoken});
+		let DownloadConfig = {
+			channel: data.channel,
+			id: data.id,
+			name: data.name
+		} 
+		let file = await Lobby.PUBNUB.downloadFile(DownloadConfig);
+		let blob = await file.toFile();
+		let url = URL.createObjectURL(blob);
+		this.audio = new Audio(url);
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+			if(this.initialPlay)
+				this.btn.click();
+			this.initialPlay = false;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.btn.classList.remove("audio_download");
+				this.range.style.pointerEvents = "none";
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+	} 
+	play = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		if(this.playing) {
+			this.playing = false;
+			this.audio.pause();
+			clearInterval(this.timer);
+			event.target.classList.remove("audio_pause");
+			VoiceNotePlayer.currentPlayer = null;
+		} 
+		else {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.playbackRate = 10;
+				this.btn.classList.add("audio_download");
+				this.panel.style.pointerEvents = "none";
+				this.initialPlay = true;
+				this.audio.play();
+				return;
+			} 
+			if(VoiceNotePlayer.currentPlayer) {
+				VoiceNotePlayer.currentPlayer.btn.click();
+			} 
+			VoiceNotePlayer.currentPlayer = this;
+			this.playing = true;
+			this.audio.play();
+			this.timer = setInterval(() => {
+				let m = Math.floor(this.audio.currentTime / 60);
+				let s = Math.floor(this.audio.currentTime % 60);
+				this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+				let pac = Math.floor(this.audio.currentTime / this.audio.duration * 100);
+				this.range.style.backgroundSize = `${pac}%`;
+				this.range.value = `${pac}`;
+			}, 1);
+			event.target.classList.add("audio_pause");
+		} 
+	} 
+	skip = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		let point = event.target.value;
+		let time = point / 100 * this.audio.duration;
+		this.audio.currentTime = time;
+		if(this.playing) {
+			this.playing = false;
+			this.btn.click();
+		} 
+	} 
+	skipInput = async (event) => {
+		if(!this.audio.paused) {
+			this.audio.pause();
+			clearInterval(this.timer);
+			this.btn.classList.remove("audio_pause");
+		} 
+		event.target.style.backgroundSize = `${event.target.value}%`;
+		let time = event.target.value / 100 * this.audio.duration;
+		let m = Math.floor(time / 60);
+		let s = Math.floor(time % 60);
+		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+	} 
+} 
+
+const Message = async (prop, publish = true) => { 
+    let container = $(".bubbles_container");
+    let anchor = $(".anchor");
+    let bubble = $$$("div");
+    let pText = $$$("div", ["class", "text"]);
+    let pReport = $$$("span", ["class", "report"]);
+    let pTime = $$$("span", ["class", "time"]);
+    bubble.addEventListener("touchstart", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("touchend", (event) => LongPress.end(event, bubble), false);
+    bubble.addEventListener("mousedown", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("mouseup", (event) => LongPress.end(event, bubble), false);
+    
+    let text = prop.text || $('.chat_field').innerHTML;
+    let time = new Date();
+    let h = ("0" + time.getHours()).slice(-2);
+    let m = ("0" + time.getMinutes()).slice(-2);
+    let am_pm = (parseInt(h) >= 12)? "PM": "AM";
+    h = (h > 12)? h%12: h;
+    time = `${h}:${m} ${am_pm}`;
+    
+    if(typeof text == "string") {
+    	pText.innerHTML = `<div>${text}</div>`;
+    } 
+    else {
+    	pText.appendChild(text);
+    } 
+    pTime.innerHTML = time;
+    pReport.appendChild(pTime);
+    pText.appendChild(pReport);
+    
+    let children = $$(".bubble");
+    
+    if(prop.action === "send") {
+    	let pTick = $$$("span");
+    	pTick.classList.add("tick");
+    	pReport.appendChild(pTick);
+    	pReport.appendChild(pTick.cloneNode(true));
+        $('.chat_field').innerHTML = "";
+        if(general.chatFieldHadFocus)
+        	$('.chat_field').focus();
+        await ChangeTextBox(true, $(".chat_field"));
+        await AdjustWidth.adjust($(".chat_field"));
+        
+        bubble.classList.add("bubble", "right_bubble");
+        bubble.appendChild(pText);
+        if(children.length > 0 && children[children.length-1].className.includes("right_bubble")) {
+            bubble.classList.add("same_side_bubble");
+        } 
+        container.insertBefore(bubble, anchor);
+        pTick.id = "tick" + $$(".right_bubble").length;
+        
+        let unreadBubble = $(".center_bubble");
+        if(unreadBubble != null) 
+            unreadBubble.parentNode.removeChild(unreadBubble);
+        
+        setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
+        if(Lobby.isConnected && publish) {
+        	Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
+        } 
+        return pTick.id;
+    } 
+    else if(prop.action === 'receive') {
+        bubble.classList.add("bubble", "left_bubble");
+        bubble.id = "left-" + prop.id;
+        let pAvatar = $$$("p");
+        pAvatar.innerHTML = $$(".chat_header h2")[1].innerHTML.split(' ').map((n) => n[0]).join('');
+        bubble.appendChild(pAvatar);
+        bubble.appendChild(pText);
+        
+        if(children.length > 0 && children[children.length-1].className.includes("left_bubble")) {
+            pAvatar.style.visibility = "hidden";
+            bubble.classList.add("same_side_bubble");
+        } 
+        else {
+            
+        } 
+            
+        if($(".center_bubble") === null && prop.count === 1) {
+            let unreadBubble = $$$("div");
+            unreadBubble.classList.add("bubble", "center_bubble");
+            let unreadText = $$$("p");
+            unreadText.innerHTML = `${prop.count} UNREAD MESSAGE`;
+            unreadBubble.appendChild(unreadText);
+            container.insertBefore(unreadBubble, anchor);
+        } 
+        else if(prop.count > 1) {
+            $(".center_bubble p").innerHTML = `${prop.count} UNREAD MESSAGES`;
+        } 
+        container.insertBefore(bubble, anchor);
+        
+        if(GetValue($("#chat-window"), "display") === "flex") {
+        	if(Lobby.isConnected) {
+	        	Lobby.PUBNUB.addMessageAction({
+					channel: Lobby.CHANNEL, 
+					messageTimetoken: prop.timetoken, 
+					action: {
+						type: "read", 
+						value: prop.id
+					} 
+				});
+			} 
+        	Lobby.unreadMessages = [];
+            setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
+        } 
+        else 
+        	Lobby.unreadMessages.push({id: prop.id, timetoken: prop.timetoken});
+    } 
+} 
+
+class Bubble {
+	static selectedLeft = [];
+	static selectedRight = [];
+	static requestDelete = async () => {
+		this.selectedLeft = $$(".left_bubble.selected_bubble");
+		this.selectedRight = $$(".right_bubble.selected_bubble");
+		let total = this.selectedLeft.length + this.selectedRight.length;
+		let option; 
+		if(this.selectedLeft.length || $(".selected_bubble.deleted")) {
+			option = await Notify.action({
+				header: `Delete ${total + (total > 1? " messages": " message")}`, 
+				message: "Whom do you want to delete for?", 
+				type: "CANCEL/MYSELF"
+			});
+		} 
+		else {
+			option = await Notify.other({
+				header: `Delete ${total + (total > 1? " messages": " message")}`, 
+				message: "Whom do you want to delete for?", 
+				type: "CANCEL/EVERYONE/MYSELF"
+			});
+		} 
+		this.deleteBubble(option);
+	} 
+	
+	static deleteBubble = (option, deletedByPublisher) => {
+		let selected = Array.from(Bubble.selectedLeft).concat(Array.from(Bubble.selectedRight));
+		let ids = "";
+		if(option != "CANCEL") {
+			for(let bubble of selected) {
+				if(!bubble.classList.contains("deleted") && bubble.$(".tick") && bubble.$(".tick").classList.contains("grey")) {
+					bubble.$(".text > div").innerHTML = "You deleted this message.";
+					bubble.classList.add("deleted");
+					ids += bubble.$(".tick").id + "-";
+				} 
+				else if(deletedByPublisher) {
+					bubble.$(".text > div").innerHTML = "This message was deleted.";
+					bubble.classList.add("deleted");
+				} 
+				else {
+					bubble.parentNode.removeChild(bubble);
+				} 
+				bubble.classList.remove("selected_bubble");
+			} 
+			
+			if(option == "EVERYONE" && Lobby.isConnected) {
+				ids = ids.replace(/-$/g, "");
+				Publish.send({
+					channel: Lobby.CHANNEL, 
+					message: {title: "deleted", ids}
+				});
+			} 
+		} 
+		else {
+			for(let bubble of selected) {
+				bubble.classList.remove("selected_bubble");
+			} 
+		} 
+		
+		window.$(".chat_header > h2:last-of-type").style.display = "block";
+		window.$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		window.$(".chat_menu").style.display = "none";
+		window.$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+		Bubble.selectedLeft = [];
+		Bubble.selectedRight = [];
+		Cancel();
+	} 
+	
+	static copyBubbleText = async () => {
+		if(Permissions.permissions.clipboard) {
+			let text = $(".selected_bubble .text > div").textContent;
+			navigator.clipboard.writeText(text).then(() => {
+				Notify.popUpNote("Text copied to clipboard");
+			}, () => {
+				Notify.popUpNote("Text was not copied to clipboard for some reason.");
+			});
+		} 
+		else {
+			Permissions.check("bubble", "clipboard-write");
+		} 
+		$(".selected_bubble").classList.remove("selected_bubble");
+		$(".chat_header > h2:last-of-type").style.display = "block";
+		$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		$(".chat_menu").style.display = "none";
+		$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+	} 
+} 
+
+const Request = async (prop) => {
+	let option;
+    if(prop.title === "RequestPlay") {
+        option = await Notify.confirm({
+                header: "Request for a  match!", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} is requesting a match with you`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    else if(prop.title === "RequestReplay") {
+        option = await Notify.confirm({
+                header: "Request for rematch", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} is requesting a rematch with you.`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    else if(prop.title === "RequestRestart") {
+        option = await Notify.confirm({
+                header: "Request to restart", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} wants to restart this match.`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    
+    if(option === "ACCEPT") { 
+        Game.firstMove = Lobby.firstMove;
+        Game.mandatoryCapture = Lobby.mandatoryCapture;
+        Game.version = Lobby.version;
+        
+        if(Game.alternatePlayAs) {
+            let color = playerA.pieceColor;
+            await Alternate(color);
+        }
+        await setTimeout(async () => {
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "AcceptedRequest", content: ""} });
+            Notify.popUpNote("The game will start shortly...");
+            Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
+            await Mode(3, false);
+            
+            
+            let btn = (Game.mandatoryCapture)? $("#must-jump"): $("#not-must-jump");
+            await Clicked(btn, btn.parentNode, false);
+            let version = $(`#main-window .version[value='${Game.version}']`);
+            await Version(version, 0, true);
+            await new Sleep().wait(2);
+            await play(true);
+        }, 200);
+    } 
+    else if(option === "CANCEL") {
+        Publish.send({channel: Lobby.CHANNEL, message: {title: "DeclinedRequest", content: ""} });
+    } 
+    return;
+} 
+
+const ChangeWidth = (elem, event) => {
+	AdjustWidth.adjust(elem, event);
+} 
+
+class AdjustWidth {
+	static finishedExecuting = true;
+	static stateTimeout;
+	static typing = false;
+	static adjust = (elem, event) => {
+		if(event) {
+			event.preventDefault();
+		} 
+		if(this.finishedExecuting) {
+			this.finishedExecuting = false;
+			this.updateState(elem, typeof event == "object");
+		} 
+		else
+			return;
+	} 
+	static updateState = (elem, isEvent) => { 
+		let self = this;
+		
+		if(isEvent && Lobby.isConnected) {
+			clearTimeout(this.stateTimeout);
+			if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
+				clearTimeout(AdjustWidth.stateTimeout);
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: false}, 
+					channels: [Lobby.CHANNEL]
+				});
+				this.typing = false;
+			} 
+			else if(!this.typing) {
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: true}, 
+					channels: [Lobby.CHANNEL]
+				});
+				this.typing = true;
+			} 
+			else {
+				clearTimeout(this.stateTimeout);
+				this.stateTimeout = setTimeout(() => {
+					Lobby.PUBNUB.setState({
+						state: {action: "typing", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+					this.typing = false;
+				}, 700);
+			} 
+		} 
+		self.adjustWidth(elem);
+	} 
+	
+	static adjustWidth = (elem) => {
+	    let sendBtn = $(".send_button");
+		let recordBtn = $(".recorder_button");
+	    if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
+			if(GetValue(sendBtn, "display") == "block") {
+		        elem.innerHTML = "";
+				sendBtn.style.display = "none";
+				recordBtn.style.display = "block";
+				recordBtn.classList.add("button_pop_up");
+				setTimeout(() => {recordBtn.classList.remove("button_pop_up")}, 300);
+			}
+	    } 
+	    else {
+			if(GetValue(recordBtn, "display") == "block") {
+				recordBtn.style.display = "none";
+				sendBtn.style.display = "block";
+				sendBtn.style.display = "block";
+				sendBtn.classList.add("button_pop_up");
+				setTimeout(() => {sendBtn.classList.remove("button_pop_up")}, 300);
+			} 
+	        
+	        if(CalculateSize(elem.innerHTML) >= 32768) {
+	            elem.innerHTML = elem.innerHTML.substring(0, elem.innerHTML.length-2);
+	            Notify.popUpNote("message size exceeded limit");
+	        } 
+	    } 
+	    let height = $(".field_container").offsetHeight || parseFloat(GetValue($(".field_container"), "height"));
+	    document.documentElement.style.setProperty("--txt-size", ((height + 20) + "px"));
+		this.finishedExecuting = true;
+	} 
+} 
+
+const ChangeTextBox = async (isFocused, elem, event) => { 
+	let active = document.activeElement;
+	if(typeof event == "object") {
+		event.preventDefault();
+		if(event.type == "blur" && elem.classList.contains("chat_field")) {
+			AdjustWidth.typing = false;
+			clearTimeout(AdjustWidth.stateTimeout);
+			if(Lobby.isConnected) {
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: false}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+		} 
+		if(event.type == "focus" && general.chatFieldHadFocus && $("#chat-window").contains(active)) {
+			for(let bubble of $$(".selected_bubble")) {
+				bubble.classList.remove("selected_bubble");
+			} 
+			$(".chat_header > h2:last-of-type").style.display = "block";
+			$(".chat_header > p:nth-of-type(2)").style.display = "block";
+			$(".chat_menu").style.display = "none";
+			$(".bubbles_container").classList.remove("select_mode");
+			LongPress.selectMode = false;
+			$(".chat_field").focus();
+		} 
+	} 
+	
+	if(!elem.className.includes("chat_field")) {
+		if(isFocused) {
+			setTimeout (() => {
+				let par = $("#main-section-tp");
+				par.scrollTop = elem.offsetHeight + elem.offsetTop - par.clientHeight + 20;
+			}, 200);
+		} 
+	} 
+    if(elem.id === "channel-name") {
+        elem.maxLength = "100";
+    } 
+    setTimeout(() => {
+        let vh = window.innerHeight;
+        if(vh < 150 && isFocused) {
+            if(elem.className.includes("chat_field")) {
+                $(".chat_header").style.display = "none";
+                $(".bubbles_container").style.display = "none";
+                $(".chat_field").style.maxHeight = "45px";
+            } 
+            else {
+                $("#two-players-window h2").style.display = "none";
+                elem.parentNode.scrollTop = elem.offsetTop;
+            } 
+        } 
+        else if(vh < 150 && !isFocused || vh > 150) {
+            if(elem.className.includes("chat_field")) {
+                $(".chat_header").style.display = "grid";
+                $(".bubbles_container").style.display = "block";
+                $(".chat_field").style.maxHeight = "100px";
+            } 
+            else {
+                $("#two-players-window h2").style.display = "flex";
+            } 
+        } 
+    }, 300);
+} 
+
+const ChangeFocus = () => {
+	general.chatFieldHadFocus = true;
+} 
