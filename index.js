@@ -1,1 +1,301 @@
-'use strict';function _0x29da(_0xc6090a,_0xea39c2){const _0x34da9e=_0x34da();return _0x29da=function(_0x29da3d,_0x2fc5c5){_0x29da3d=_0x29da3d-0xcb;let _0x577647=_0x34da9e[_0x29da3d];return _0x577647;},_0x29da(_0xc6090a,_0xea39c2);}const _0x46406d=_0x29da;(function(_0x4d7f1b,_0x248134){const _0x5b741f=_0x29da,_0x2ecb62=_0x4d7f1b();while(!![]){try{const _0x54175a=-parseInt(_0x5b741f(0x102))/0x1*(parseInt(_0x5b741f(0x141))/0x2)+-parseInt(_0x5b741f(0x15c))/0x3*(parseInt(_0x5b741f(0x159))/0x4)+-parseInt(_0x5b741f(0x15b))/0x5+parseInt(_0x5b741f(0xf4))/0x6*(-parseInt(_0x5b741f(0x151))/0x7)+parseInt(_0x5b741f(0xfe))/0x8+-parseInt(_0x5b741f(0xdd))/0x9*(parseInt(_0x5b741f(0xf2))/0xa)+parseInt(_0x5b741f(0xf7))/0xb;if(_0x54175a===_0x248134)break;else _0x2ecb62['push'](_0x2ecb62['shift']());}catch(_0x434a9e){_0x2ecb62['push'](_0x2ecb62['shift']());}}}(_0x34da,0xa2098));const HideInstallPrompt=_0x236f59=>{const _0x53be09=_0x29da;$(_0x53be09(0x114))[_0x53be09(0x155)][_0x53be09(0xde)](_0x53be09(0x15d)),$(_0x53be09(0x114))[_0x53be09(0x155)]['add'](_0x53be09(0xef));if(typeof _0x236f59==_0x53be09(0x158))setTimeout(Permissions['check'],0x1f4);},InstallApp=async()=>{const _0x12fc08=_0x29da;HideInstallPrompt(),deferredEvent[_0x12fc08(0x134)]();const {outcome:_0x2d9699}=await deferredEvent[_0x12fc08(0xf6)];_0x2d9699==='accepted'?Notify[_0x12fc08(0x11e)](_0x12fc08(0x130)):Notify[_0x12fc08(0x11e)](_0x12fc08(0xec)),deferredEvent=null,Permissions[_0x12fc08(0xe1)]();};function _0x34da(){const _0x9c9cc7=['RELOAD','log','initTable','In\x201994\x20for\x20the\x20first\x20time,\x20a\x20computer\x20program\x20became\x20the\x20\x27Checkers\x20World\x20Champion.\x20The\x20program\x20was\x20called\x20\x27Chinook\x27\x20and\x20was\x20developed\x20in\x20the\x20University\x20of\x20Alberta.','run','none','.install','\x20option\x20and\x20click\x20it.\x20You\x20will\x20be\x20shown\x20a\x20list\x20of\x20sites\x20that\x20are\x20allowed\x20and\x20not\x20allowed.</li>','#load-window\x20.loader\x20p','addEventListener','.notify\x20div','query','onerror','./src/app.js','Checkers\x20is\x20played\x20on\x20the\x20same\x20board\x20as\x20chess\x20—\x208\x20x\x208\x20board\x20with\x2064\x20squares\x20of\x20black\x20and\x20white.','err','popUpNote','setAttribute','innerHTML','name','<label\x20style=\x27display:\x20block;\x20text-align:\x20left;\x27>Thank\x20you\x20for\x20using\x20Checkers\x20App.<br>There\x20is\x20a\x20new\x20version\x20of\x20this\x20app.\x20All\x20you\x20need\x20is\x20to\x20refresh.<br>New\x20version:\x20','split','load','alertSpecial','bubble','./src/objects.js','link','./src/channel.js','hardwareConcurrency','appendChild','href','createElement','sleep','head','Installation\x20successfully','isArray','Updating\x20Checkers...','<li>Under\x20browser\x20menu,\x20find\x20settings\x20option\x20and\x20click\x20it.</li>','prompt','calc(100%\x20/\x203\x20*\x20','Chinese\x20Checkers\x20has\x20nothing\x20to\x20do\x20with\x20checkers\x20or\x20draughts.\x20In\x20fact\x20it\x20was\x20not\x20invented\x20in\x20China.\x20It\x20was\x20named\x20that\x20way\x20as\x20a\x20marketing\x20strategy.','permissions','statechange','UPDATE','test','Marion\x20Tinsley\x20was\x20considered\x20the\x20greatest\x20checkers\x20player\x20of\x20all\x20time.\x20The\x20late\x20played\x20checkers\x20for\x2045\x20years\x20and\x20he\x20only\x20lost\x20less\x2010\x20games.\x20He\x20died\x20in\x201995.','skip-waiting','recorder','controllerchange','textContent','https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.1.min.js','9376Wdlify','stylesheet','total','target','onclick','mediaDevices','length','$$$','clipboard-write','LATER/UPDATE','NOT\x20NOW/ALLOW','There\x20are\x20many\x20version\x20of\x20checkers\x20played\x20in\x20different\x20countries\x20and\x20regions\x20with\x20there\x20own\x20rules\x20and\x20standards.\x20For\x20example\x20the\x20Nigerian\x20checkers\x20is\x20played\x20on\x2012\x20x\x2012\x20board\x20with\x2020\x20pieces\x20each.','reload','NOW\x20I\x20KNOW','width','Checkers\x20upon\x20reaching\x20to\x20England\x20from\x20France\x20it\x20was\x20renamed\x20by\x20English\x20men\x20to\x20Draughts\x20from\x20Dames\x20meaning\x20to\x20move\x20or\x20to\x20draw.\x20The\x20Americans\x20as\x20well\x20refer\x20to\x20it\x20as\x20Checkers\x20what\x20we\x20call\x20it\x20today.','75796wOIWRs','installing','parentNode','response','classList','lineno','display','object','1232ImQBKc','<label\x20style=\x27display:\x20block;\x20text-align:\x20left;\x27>Do\x20you\x20want\x20to\x20update?</label>','2112385rxxrRO','6009LqpaeJ','show_install_prompt','confirm','NotAllowedError','message','CRITICAL\x20FAILURE\x0a\x0aYour\x20browser\x20lacks\x20critical\x20component\x20for\x20better\x20performance\x20of\x20this\x20game.\x20Please,\x20we\x20recommend\x20you\x20update\x20it\x20or\x20try\x20another\x20one\x20preferably\x20Chrome.','Early\x20version\x20of\x20checkers\x20believed\x20to\x20be\x20dated\x201400\x20B.C,\x20was\x20played\x20on\x20a\x205\x20x\x205\x20board\x20with\x20each\x20player\x20having\x2010\x20pieces\x20each.\x20The\x20game\x20was\x20called\x20Quirkat\x20or\x20Alquerque.','waiting','microphone','prototype','querySelector','style','postMessage','stop','querySelectorAll','<li>Under\x20settings,\x20find\x20site\x20settings\x20and\x20click\x20it.\x20Depending\x20with\x20your\x20browser,\x20this\x20option\x20might\x20be\x20directly\x20under\x20Settings\x20or\x20under\x20another\x20option\x20in\x20the\x20Settings.\x20For\x20instance,\x20Opera\x20users\x20it\x20is\x20under\x20privacy\x20option\x20in\x20Settings\x20window.\x20Which\x20ever\x20the\x20case,\x20it\x20is\x20named\x20<b>\x27Site\x20Settings\x27</b></li>','text/css','./service\x20worker.js','table','<b>LOADING\x20ERROR!</b><br><br>Failed\x20to\x20load\x20AppShellFiles.\x20Check\x20your\x20internet\x20connection\x20and\x20hit\x20reload.<br>','369tmkYCH','remove','init-worker','./src/core.js','check','state','random','type','#load-window\x20.loader\x20.progress','floor','crypto','script','src','./src/worker.js','alert','Installation\x20canceled','preventDefault','The\x20rule\x20of\x20mandatory\x20jump\x20or\x20capture\x20was\x20introduced\x20in\x201535\x20by\x20the\x20English\x20men\x20when\x20checkers\x20arrived\x20in\x20America.\x20Initially\x20players\x20were\x20not\x20forced\x20to\x20take\x20opponents\x20pieces\x20when\x20the\x20opportunity\x20came.','hide_install_prompt','Permission\x20denied.','filename','254690ruXhtq','The\x20rule\x20of\x20crowing\x20was\x20introduced\x20in\x20the\x2013th\x20century\x20in\x20France.\x20Crowning\x20meant\x20the\x20crowned\x20piece\x20becomes\x20superior\x20than\x20other\x20pieces.','30vOvOIa','onload','userChoice','23207382yExEty','App\x20update\x20declined.','getRandomValues','clipboard','rel','App\x20Permissions','active','6621312yAbLyK','\x20occurred<br>Message:\x20','Loading\x20files...','error','29wZFaZs','pubnub-file','updatefound','denied','./src/ai.js','beforeinstallprompt','getUserMedia','<li>Under\x20Blocked\x20or\x20Not\x20allowed\x20option,\x20find\x20<em><b>https://mark-code789.github.io/Checkers</b></em>\x20and\x20click\x20to\x20unblock.</li></ol>','serviceWorker','<li>Under\x20Site\x20Settings,\x20find\x20','nextElementSibling','colno'];_0x34da=function(){return _0x9c9cc7;};return _0x34da();}class Permissions{static [_0x46406d(0x137)]={'microphone':![],'clipboard':![]};static [_0x46406d(0xe1)]=async(_0x2e370f,_0x40b49d=_0x46406d(0xd1))=>{const _0xbeff68=_0x46406d;let _0x96550;try{_0x96550=await navigator[_0xbeff68(0x137)][_0xbeff68(0x119)]({'name':_0x40b49d}),_0x96550=_0x96550[_0xbeff68(0xe2)];}catch(_0x20ae2c){if(_0x2e370f==_0xbeff68(0x13d)||_0x2e370f==_0xbeff68(0x126))Notify['popUpNote']('An\x20error\x20occurred\x20while\x20trying\x20to\x20get\x20permission\x20to\x20access\x20your\x20device\x27s\x20.'+_0x40b49d);return;}if(_0x96550=='prompt'){if(_0x40b49d==_0xbeff68(0xd1)){let _0x462c9a=await Notify[_0xbeff68(0xcb)]({'header':_0xbeff68(0xfc),'message':'Checkers\x20provides\x20in-app\x20chat\x20capabilities\x20in\x20two\x20players\x20online\x20mode.\x20This\x20feature\x20requires\x20permission\x20to\x20use\x20of\x20your\x20device\x20microphone.','type':_0xbeff68(0x14b)});this['response'](_0x462c9a);}else{if(_0x40b49d==_0xbeff68(0x149))this[_0xbeff68(0x137)][_0xbeff68(0xfa)]=!![];}}else{if(_0x96550==_0xbeff68(0x105)&&(_0x2e370f==_0xbeff68(0x13d)||_0x2e370f==_0xbeff68(0x126)))Notify[_0xbeff68(0xeb)]({'header':_0xbeff68(0xfc),'message':'You\x20have\x20blocked\x20this\x20app\x20from\x20using\x20your\x20device\x20microphone.\x20Follow\x20the\x20following\x20option\x20to\x20unblock:<ol>'+_0xbeff68(0x133)+_0xbeff68(0xd8)+_0xbeff68(0x10b)+_0x40b49d[_0xbeff68(0x123)]('-')[0x0]+_0xbeff68(0x115)+_0xbeff68(0x109)});else{if(_0x40b49d=='microphone')this[_0xbeff68(0x137)]['microphone']=!![];else{if(_0x40b49d==_0xbeff68(0x149))this[_0xbeff68(0x137)][_0xbeff68(0xfa)]=!![];}}}};static [_0x46406d(0x154)]=async _0x4e217a=>{const _0x3ca62c=_0x46406d;if(_0x4e217a=='ALLOW')try{let _0x208f96=await navigator[_0x3ca62c(0x146)][_0x3ca62c(0x108)]({'audio':!![]});for(let _0x4a5e12 of _0x208f96['getTracks']()){_0x4a5e12[_0x3ca62c(0xd6)]();}Permissions[_0x3ca62c(0x137)]['microphone']=!![];}catch(_0x2d75f1){if(_0x2d75f1['name']==_0x3ca62c(0xcc))Notify['popUpNote'](_0x3ca62c(0xf0));else Notify['popUpNote'](_0x2d75f1[_0x3ca62c(0x121)]+_0x3ca62c(0xff)+_0x2d75f1[_0x3ca62c(0xcd)]);}};}window['$']=_0x48ef0d=>{const _0x340580=_0x46406d;return document[_0x340580(0xd3)](_0x48ef0d);},window['$$']=_0x306359=>{const _0x6ef2ae=_0x46406d;return document[_0x6ef2ae(0xd7)](_0x306359);},window[_0x46406d(0x148)]=(_0x4da8a5,_0xe5d3a8=[])=>{const _0x31bb38=_0x46406d;if(!Array[_0x31bb38(0x131)](_0xe5d3a8))throw new Error('Data\x20object\x20passed\x20is\x20not\x20an\x20array.\x20At\x20$$$\x20line:\x20658');let _0xcd8a82=document[_0x31bb38(0x12d)](_0x4da8a5);for(let _0x551b99=0x0;_0x551b99<_0xe5d3a8[_0x31bb38(0x147)];_0x551b99+=0x2){if(/^(innerHTML|textContent)$/gi[_0x31bb38(0x13a)](_0xe5d3a8[_0x551b99]))_0xcd8a82[_0xe5d3a8[_0x551b99]]=_0xe5d3a8[_0x551b99+0x1];else _0xcd8a82[_0x31bb38(0x11f)](_0xe5d3a8[_0x551b99],_0xe5d3a8[_0x551b99+0x1]);}return _0xcd8a82;},Element[_0x46406d(0xd2)]['$']=function(_0x403f1f){const _0xa24c34=_0x46406d;if(/button/gi[_0xa24c34(0x13a)](this['tagName']))return $(_0x403f1f);return this[_0xa24c34(0xd3)](_0x403f1f);},Element['prototype']['$$']=function(_0x56d984){return this['querySelectorAll'](_0x56d984);};let deferredEvent,newSW,workers=[],initiatedPageComplete=![],randomFacts=[_0x46406d(0xcf),'During\x2013th\x20century,\x20checkers\x20name\x20was\x20renamed\x20to\x20Fierges\x20from\x20Quirkat\x20in\x20southern\x20France\x20and\x20was\x20now\x20played\x20on\x208\x20x\x208\x20board.\x20Later\x20in\x2015th\x20century\x20it\x20was\x20renamed\x20to\x20Jeu\x20De\x20Dames\x20popularly\x20referred\x20to\x20as\x20Dames.',_0x46406d(0x150),_0x46406d(0x14c),_0x46406d(0x136),_0x46406d(0x11c),_0x46406d(0xf3),_0x46406d(0xee),_0x46406d(0x111),_0x46406d(0x13b)];async function pageComplete(){const _0x2a8afb=_0x46406d;initiatedPageComplete=!![];let _0x596312=document[_0x2a8afb(0x12f)],_0x11030e=$$$(_0x2a8afb(0x128)),_0x3f3720=$$$(_0x2a8afb(0xe8)),_0x50890c=$$$(_0x2a8afb(0xe8)),_0x4a917b=$$$(_0x2a8afb(0xe8)),_0x21cc27=$$$(_0x2a8afb(0xe8)),_0x28fc64=$$$(_0x2a8afb(0xe8)),_0x4e2fff=$$$(_0x2a8afb(0xe8));_0x11030e[_0x2a8afb(0xf5)]=_0x95a9d3=>LoadedExternalFiles[_0x2a8afb(0x112)](_0x95a9d3),_0x11030e[_0x2a8afb(0x11a)]=_0x1edad3=>LoadedExternalFiles[_0x2a8afb(0x101)](_0x1edad3),_0x3f3720[_0x2a8afb(0xf5)]=_0x4cb6fd=>LoadedExternalFiles['run'](_0x4cb6fd),_0x50890c[_0x2a8afb(0xf5)]=_0x4beffb=>LoadedExternalFiles['run'](_0x4beffb),_0x4a917b[_0x2a8afb(0xf5)]=_0x3f7ab7=>LoadedExternalFiles[_0x2a8afb(0x112)](_0x3f7ab7),_0x21cc27[_0x2a8afb(0xf5)]=_0x131c44=>LoadedExternalFiles[_0x2a8afb(0x112)](_0x131c44),_0x28fc64['onload']=_0x2e8b6f=>LoadedExternalFiles[_0x2a8afb(0x112)](_0x2e8b6f),_0x3f3720[_0x2a8afb(0x11a)]=_0x1bba87=>LoadedExternalFiles[_0x2a8afb(0x101)](_0x1bba87),_0x50890c[_0x2a8afb(0x11a)]=_0x18ba0d=>LoadedExternalFiles[_0x2a8afb(0x101)](_0x18ba0d),_0x4a917b['onerror']=_0x2558ce=>LoadedExternalFiles[_0x2a8afb(0x101)](_0x2558ce),_0x21cc27[_0x2a8afb(0x11a)]=_0x3e8606=>LoadedExternalFiles[_0x2a8afb(0x101)](_0x3e8606),_0x28fc64['onerror']=_0x2f8cc9=>LoadedExternalFiles['error'](_0x2f8cc9),_0x11030e[_0x2a8afb(0xe4)]=_0x2a8afb(0xd9),_0x11030e[_0x2a8afb(0xfb)]=_0x2a8afb(0x142),_0x11030e[_0x2a8afb(0x12c)]='./src/app.css',_0x3f3720['src']=_0x2a8afb(0x11b),_0x50890c[_0x2a8afb(0xe9)]=_0x2a8afb(0x106),_0x4a917b[_0x2a8afb(0xe9)]=_0x2a8afb(0x129),_0x21cc27[_0x2a8afb(0xe9)]=_0x2a8afb(0xe0),_0x28fc64[_0x2a8afb(0xe9)]=_0x2a8afb(0x127),_0x4e2fff[_0x2a8afb(0xe9)]=_0x2a8afb(0x140),_0x596312[_0x2a8afb(0x12b)](_0x3f3720),_0x596312[_0x2a8afb(0x12b)](_0x50890c),_0x596312['appendChild'](_0x4a917b),_0x596312['appendChild'](_0x21cc27),_0x596312[_0x2a8afb(0x12b)](_0x28fc64),_0x596312[_0x2a8afb(0x12b)](_0x4e2fff),_0x596312['appendChild'](_0x11030e),_0x4e2fff['id']=_0x2a8afb(0x103);let _0xcbcf41=randomFacts[Math[_0x2a8afb(0xe6)](Math[_0x2a8afb(0xe3)]()*randomFacts[_0x2a8afb(0x147)])],_0x36cd0c=$(_0x2a8afb(0x118));_0x36cd0c['innerHTML']='<b>RANDOM\x20FACTS\x20ABOUT\x20CHECKERS!</b><br><br>Did\x20you\x20know?<br><br>'+_0xcbcf41,_0x36cd0c[_0x2a8afb(0x10c)][_0x2a8afb(0x13f)]=_0x2a8afb(0x14e),_0x36cd0c['parentNode']['style'][_0x2a8afb(0x157)]='block',_0x36cd0c[_0x2a8afb(0x10c)][_0x2a8afb(0x145)]=function(){const _0x3f013c=_0x2a8afb;this[_0x3f013c(0x153)][_0x3f013c(0xd4)][_0x3f013c(0x157)]=_0x3f013c(0x113);};}class LoadedExternalFiles{static ['n']=0x0;static [_0x46406d(0x143)]=0x6;static [_0x46406d(0x11d)]=![];static ['run']=async function(_0x57c719){const _0x7d371d=_0x46406d;if(this[_0x7d371d(0x11d)])return;this['n']++;let _0x4cdb8d=$(_0x7d371d(0x116));_0x4cdb8d[_0x7d371d(0x120)]=_0x7d371d(0x100);let _0x5be637=$(_0x7d371d(0xe5));_0x5be637[_0x7d371d(0xd4)][_0x7d371d(0x14f)]=_0x7d371d(0x135)+this['n']/this[_0x7d371d(0x143)]+')';if(this['n']==this['total']){if(window['crypto']&&window[_0x7d371d(0xe7)][_0x7d371d(0xf9)]&&BigUint64Array){await ZobristHash[_0x7d371d(0x110)]();let _0x42f6b9=navigator[_0x7d371d(0x12a)]||0x1;for(let _0x5c2038=0x0;_0x5c2038<_0x42f6b9;_0x5c2038++){let _0x505493=new Worker(_0x7d371d(0xea));await _0x505493['postMessage']({'type':_0x7d371d(0xdf),'table':ZobristHash[_0x7d371d(0xdb)]}),workers['push'](_0x505493);}Publish[_0x7d371d(0x12e)]=new Sleep(),LoadResources(),Permissions[_0x7d371d(0xe1)](undefined,_0x7d371d(0x149));}else alert(_0x7d371d(0xce));}};static [_0x46406d(0x101)]=async function(_0x19ceef){const _0x5b9eee=_0x46406d;this[_0x5b9eee(0x11d)]=!![];let _0x4ec0bf=$(_0x5b9eee(0x118));_0x4ec0bf[_0x5b9eee(0x120)]=_0x5b9eee(0xdc)+event[_0x5b9eee(0x144)][_0x5b9eee(0xe9)],_0x4ec0bf['nextElementSibling']['textContent']=_0x5b9eee(0x10e),_0x4ec0bf[_0x5b9eee(0x153)][_0x5b9eee(0xd4)]['display']='block',_0x4ec0bf[_0x5b9eee(0x10c)][_0x5b9eee(0x145)]=function(){const _0x404de3=_0x5b9eee;location[_0x404de3(0x14d)]();};};}const InvokeSWUpdateFlow=async()=>{const _0x5130eb=_0x46406d;let _0x54c8bd=await Notify['confirm']({'header':'APP\x20UPDATE','message':_0x5130eb(0x122)+appVersion+'</label><span>What\x27s\x20New?</span>'+versionDescription+_0x5130eb(0x15a),'type':_0x5130eb(0x14a)});if(_0x54c8bd==_0x5130eb(0x139))Notify[_0x5130eb(0x125)]({'header':_0x5130eb(0x132),'message':'Please\x20Wait\x20as\x20we\x20update\x20the\x20app.\x20This\x20may\x20take\x20a\x20few\x20seconds\x20depending\x20n\x20the\x20speed\x20of\x20your\x20bandwidth.'}),await newSW[_0x5130eb(0xd0)][_0x5130eb(0xd5)]({'type':_0x5130eb(0x13c)});else{Cancel(),Notify[_0x5130eb(0x11e)](_0x5130eb(0xf8));if(deferredEvent)$(_0x5130eb(0x114))[_0x5130eb(0x155)]['add'](_0x5130eb(0x15d));else Permissions[_0x5130eb(0xe1)]();}},FinishInstalling=async _0xbf73fa=>{const _0x44b38d=_0x46406d;if(_0xbf73fa[_0x44b38d(0xd0)])newSW=_0xbf73fa;else{if(_0xbf73fa[_0x44b38d(0xfd)]){newSW=null;if(!initiatedPageComplete)pageComplete();}}};window[_0x46406d(0x117)](_0x46406d(0x107),_0x257174=>{const _0x15cdf=_0x46406d;_0x257174[_0x15cdf(0xed)](),deferredEvent=_0x257174;}),window[_0x46406d(0x117)](_0x46406d(0x101),_0x3495c6=>{const _0x528057=_0x46406d;event[_0x528057(0xed)](),console[_0x528057(0x10f)](_0x3495c6[_0x528057(0xcd)]+'\x20\x0a\x09at\x20'+_0x3495c6[_0x528057(0xf1)]+':\x20'+_0x3495c6[_0x528057(0x156)]+':'+_0x3495c6[_0x528057(0x10d)]);let _0x12a1d7=confirm('ERROR\x20MESSAGE\x0a\x0aThere\x20was\x20an\x20unexpected\x20error.\x20We\x20recommend\x20you\x20refresh\x20the\x20page.\x20If\x20this\x20error\x20persists\x20even\x20after\x20refreshing,\x20please\x20contact\x20via:\x0a\x0aTel:\x20+254\x20798\x20916984\x0aWhatsApp:\x20+254\x20798\x20916984\x0aEmail:\x20markcodes789@gmail.com\x0aPress\x20OK\x20to\x20refresh.');if(_0x12a1d7)location['reload']();}),window[_0x46406d(0x117)](_0x46406d(0x124),async()=>{const _0x54ecc0=_0x46406d;if(_0x54ecc0(0x10a)in navigator){const _0x5f3a5a=await navigator[_0x54ecc0(0x10a)]['register'](_0x54ecc0(0xda));_0x5f3a5a['waiting']&&(newSW=_0x5f3a5a);_0x5f3a5a['addEventListener'](_0x54ecc0(0x104),()=>{const _0x3d8de5=_0x54ecc0;_0x5f3a5a[_0x3d8de5(0x152)]&&_0x5f3a5a[_0x3d8de5(0x152)]['addEventListener'](_0x3d8de5(0x138),()=>{FinishInstalling(_0x5f3a5a);});});let _0x14d4a1=![];navigator[_0x54ecc0(0x10a)][_0x54ecc0(0x117)](_0x54ecc0(0x13e),_0x43990b=>{const _0xe67309=_0x54ecc0;!_0x14d4a1&&(location[_0xe67309(0x14d)](),_0x14d4a1=!![]);}),_0x5f3a5a[_0x54ecc0(0xfd)]&&!initiatedPageComplete&&pageComplete();}else alert('OFFLINE\x20REGISTRATION\x20FAILURE\x0a\x0aCan\x27t\x20Register\x20an\x20offline\x20version\x20of\x20this\x20game\x20because\x20your\x20browser\x20don\x27t\x20support\x20this\x20capability.\x20However\x20you\x20can\x20still\x20access\x20it\x20only\x20while\x20online.\x20If\x20you\x20however\x20really\x20need\x20the\x20offline\x20version,\x20try:\x20\x0a\x0a1.\x20Update\x20your\x20browser.\x20or\x0a2.\x20try\x20another\x20browser,\x20preferably\x20chrome.'),pageComplete();});
+'use strict' 
+/* Version: 21 */
+const HideInstallPrompt = (event) => {
+    $(".install").classList.remove("show_install_prompt");
+    $(".install").classList.add("hide_install_prompt");
+    if(typeof event == "object") 
+    	setTimeout(Permissions.check, 500);
+} 
+
+const InstallApp = async () => {
+    HideInstallPrompt();
+    deferredEvent.prompt();
+    const {outcome} = await deferredEvent.userChoice;
+    if(outcome === 'accepted') {
+        Notify.popUpNote("Installation successfully");
+    } 
+    else {
+        Notify.popUpNote("Installation canceled");
+    } 
+    deferredEvent = null;
+    Permissions.check();
+} 
+class Permissions {
+	static permissions = {microphone: false, clipboard: false};
+    static check = async (caller, name = "microphone") => {
+		let state;
+		try {
+    		state = await navigator.permissions.query({name});
+			state = state.state;
+		} catch (error) {
+			if(caller == "recorder" || caller == "bubble")
+				Notify.popUpNote("An error occurred while trying to get permission to access your device's ." + name);
+			return;
+		}
+		
+    	if(state == "prompt") {
+			if(name == "microphone") {
+	    		let res = await Notify.confirm({ 
+					header: "App Permissions", 
+					message: "Checkers provides in-app chat capabilities in two players online mode. This feature requires permission to use of your device microphone.", 
+					type: "NOT NOW/ALLOW"
+				});
+				this.response(res);
+			} 
+			else if(name == "clipboard-write") 
+				this.permissions.clipboard = true;
+    	} 
+		else if(state == "denied" && (caller == "recorder" || caller == "bubble")) {
+			Notify.alert({ 
+					header: "App Permissions", 
+					message: "You have blocked this app from using your device microphone. Follow the following option to unblock:<ol>" + 
+							 "<li>Under browser menu, find settings option and click it.</li>" + 
+							 "<li>Under settings, find site settings and click it. Depending with your browser, this option might be directly under Settings or under another option in the Settings. For instance, Opera users it is under privacy option in Settings window. Which ever the case, it is named <b>'Site Settings'</b></li>" + 
+							 "<li>Under Site Settings, find " + name.split("-")[0] + " option and click it. You will be shown a list of sites that are allowed and not allowed.</li>" + 
+							 "<li>Under Blocked or Not allowed option, find <em><b>https://mark-code789.github.io/Checkers</b></em> and click to unblock.</li></ol>"
+			});
+		} 
+		else {
+			if(name == "microphone") 
+			this.permissions.microphone = true;
+			else if(name == "clipboard-write") 
+			this.permissions.clipboard = true;
+		} 
+    } 
+	static response = async (res) => {
+		if(res == "ALLOW") {
+			try {
+				let stream = await navigator.mediaDevices.getUserMedia({audio: true});
+				for(let track of stream.getTracks()) {
+					track.stop();
+				} 
+				Permissions.permissions.microphone = true;
+			} catch (error) {
+				if(error.name == "NotAllowedError") 
+					Notify.popUpNote("Permission denied.");
+				else {
+					Notify.popUpNote(error.name + " occurred<br>Message: " + error.message);
+				} 
+			}
+		} 
+	} 
+} 
+
+window.$ = (elem) => {
+    return document.querySelector(elem);
+} 
+
+window.$$ = (elem) => {
+    return document.querySelectorAll(elem);
+}
+
+window.$$$ = (type, data = []) => {
+	if(!Array.isArray(data)) {
+		throw new Error("Data object passed is not an array. At $$$ line: 658");
+	} 
+    let elem = document.createElement(type);
+    for(let i = 0; i < data.length; i+=2) {
+    	if(/^(innerHTML|textContent)$/gi.test(data[i]))
+    		elem[data[i]] = data[i+1];
+    	else
+    		elem.setAttribute(data[i], data[i+1]);
+    } 
+    return elem;
+} 
+Element.prototype.$ = function (elem) {
+	if(/button/gi.test(this.tagName)) return $(elem);
+	return this.querySelector(elem);
+} 
+Element.prototype.$$ = function (elem) {
+	return this.querySelectorAll(elem);
+} 
+
+let deferredEvent;
+let newSW;
+let workers = [];
+let initiatedPageComplete = false;
+let randomFacts = [
+	"Early version of checkers believed to be dated 1400 B.C, was played on a 5 x 5 board with each player having 10 pieces each. The game was called Quirkat or Alquerque.", 
+	"During 13th century, checkers name was renamed to Fierges from Quirkat in southern France and was now played on 8 x 8 board. Later in 15th century it was renamed to Jeu De Dames popularly referred to as Dames.",
+	"Checkers upon reaching to England from France it was renamed by English men to Draughts from Dames meaning to move or to draw. The Americans as well refer to it as Checkers what we call it today.", 
+	"There are many version of checkers played in different countries and regions with there own rules and standards. For example the Nigerian checkers is played on 12 x 12 board with 20 pieces each.",
+	"Chinese Checkers has nothing to do with checkers or draughts. In fact it was not invented in China. It was named that way as a marketing strategy.",
+	"Checkers is played on the same board as chess — 8 x 8 board with 64 squares of black and white.",
+	"The rule of crowing was introduced in the 13th century in France. Crowning meant the crowned piece becomes superior than other pieces.", 
+	"The rule of mandatory jump or capture was introduced in 1535 by the English men when checkers arrived in America. Initially players were not forced to take opponents pieces when the opportunity came.",
+	"In 1994 for the first time, a computer program became the 'Checkers World Champion. The program was called 'Chinook' and was developed in the University of Alberta.", 
+	"Marion Tinsley was considered the greatest checkers player of all time. The late played checkers for 45 years and he only lost less 10 games. He died in 1995.", 
+]; 
+
+async function pageComplete () {
+	initiatedPageComplete = true;
+    let head = document.head;
+    let SheetLink = $$$("link");
+    let JsLink0 = $$$("script");
+    let JsLink1 = $$$("script");
+    let JsLink2 = $$$("script");
+    let JsLink3 = $$$("script");
+    let JsLink4 = $$$("script");
+    let JsLink5 = $$$("script");
+    
+    SheetLink.onload = (event) => LoadedExternalFiles.run(event);
+    SheetLink.onerror = (event) => LoadedExternalFiles.error(event);
+    JsLink0.onload = (event) => LoadedExternalFiles.run(event);
+    JsLink1.onload = (event) => LoadedExternalFiles.run(event);
+    JsLink2.onload = (event) => LoadedExternalFiles.run(event);
+    JsLink3.onload = (event) => LoadedExternalFiles.run(event);
+    JsLink4.onload = (event) => LoadedExternalFiles.run(event);
+    JsLink0.onerror = (event) => LoadedExternalFiles.error(event);
+    JsLink1.onerror = (event) => LoadedExternalFiles.error(event);
+    JsLink2.onerror = (event) => LoadedExternalFiles.error(event);
+    JsLink3.onerror = (event) => LoadedExternalFiles.error(event);
+    JsLink4.onerror = (event) => LoadedExternalFiles.error(event);
+    
+    SheetLink.type = "text/css";
+    SheetLink.rel = "stylesheet";
+    SheetLink.href = "./src/app.css";
+    
+    JsLink0.src = "./src/app.js";
+    JsLink1.src = "./src/ai.js";
+    JsLink2.src = "./src/channel.js";
+    JsLink3.src = "./src/core.js";
+    JsLink4.src = "./src/objects.js";
+    JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.1.min.js";
+    
+    head.appendChild(JsLink0);
+    head.appendChild(JsLink1);
+    head.appendChild(JsLink2);
+    head.appendChild(JsLink3);
+    head.appendChild(JsLink4);
+    head.appendChild(JsLink5);
+    head.appendChild(SheetLink);
+    
+    JsLink5.id = "pubnub-file";
+    
+    let fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+    let notify = $(".notify div");
+	notify.innerHTML = "<b>RANDOM FACTS ABOUT CHECKERS!</b><br><br>Did you know?<br><br>" + fact;
+	notify.nextElementSibling.textContent = "NOW I KNOW";
+	notify.parentNode.style.display = "block";
+	notify.nextElementSibling.onclick = function () {this.parentNode.style.display = 'none';} 
+} 
+class LoadedExternalFiles {
+	static n = 0;
+	static total = 6;
+	static err = false;
+	static run = async function (e) {
+		if(this.err) return;
+		this.n++;
+		let loadingInfo = $("#load-window .loader p");
+			loadingInfo.innerHTML = "Loading files...";
+		let progress = $("#load-window .loader .progress");
+			progress.style.width = `calc(100% / 3 * ${this.n / this.total})`;
+		if(this.n == this.total) {
+			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
+				await ZobristHash.initTable();
+				let totalThreads = navigator.hardwareConcurrency || 1;
+                for(let n = 0; n < totalThreads; n++) {
+                	let worker = new Worker("./src/worker.js");
+					await worker.postMessage({type: "init-worker", table: ZobristHash.table});
+                	workers.push(worker);
+                } 
+				Publish.sleep = new Sleep();
+				LoadResources();
+				Permissions.check(undefined, "clipboard-write");
+			} 
+			else {
+				alert("CRITICAL FAILURE\n\nYour browser lacks critical component for better performance of this game. Please, we recommend you update it or try another one preferably Chrome.");
+			} 
+		}
+	} 
+	static error = async function (e) {
+		this.err = true;
+		let notify = $(".notify div");
+		notify.innerHTML = "<b>LOADING ERROR!</b><br><br>Failed to load AppShellFiles. Check your internet connection and hit reload.<br>" + event.target.src;
+		notify.nextElementSibling.textContent = "RELOAD";
+		notify.parentNode.style.display = "block";
+		notify.nextElementSibling.onclick = function () {location.reload();} 
+	} 
+} 
+
+const InvokeSWUpdateFlow = async () => {
+	let action = await Notify.confirm({ 
+		header: "APP UPDATE", 
+		message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + appVersion + "</label><span>What's New?</span>" + versionDescription + "<label style='display: block; text-align: left;'>Do you want to update?</label>", 
+		type: "LATER/UPDATE"
+	});
+	
+	if(action == "UPDATE") {
+		Notify.alertSpecial({
+				header: "Updating Checkers...",
+				message: "Please Wait as we update the app. This may take a few seconds depending n the speed of your bandwidth."
+		});
+		await newSW.waiting.postMessage({type: "skip-waiting"});
+	} 
+	else {
+		Cancel();
+		Notify.popUpNote("App update declined.");
+		if(deferredEvent) 
+			$(".install").classList.add("show_install_prompt");
+		else 
+			Permissions.check();
+	} 
+} 
+
+const FinishInstalling = async (reg) => {
+	if(reg.waiting) {
+		newSW = reg;
+	} 
+	else if(reg.active) {
+		newSW = null;
+		if(!initiatedPageComplete) 
+			pageComplete();
+	} 
+} 
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredEvent = e;
+});
+
+window.addEventListener("error", (error) => {
+	event.preventDefault();
+	console.log(error.message + " \n\tat " + error.filename + ": " + error.lineno + ":" + error.colno);
+	let option = confirm("ERROR MESSAGE\n\nThere was an unexpected error. We recommend you refresh the page. If this error persists even after refreshing, please contact via:\n\nTel: +254 798 916984\nWhatsApp: +254 798 916984\nEmail: markcodes789@gmail.com\n\Press OK to refresh.");
+	if(option) 
+		location.reload();
+});
+
+window.addEventListener("load", async () => {
+	if("serviceWorker" in navigator) {
+		const reg = await navigator.serviceWorker.register("./service worker.js");
+		
+		if(reg.waiting) {
+			newSW = reg;
+		} 
+			
+		reg.addEventListener("updatefound", () => {
+			if(reg.installing) {
+				reg.installing.addEventListener("statechange", () => {
+					FinishInstalling(reg);
+				});
+			} 
+		});
+		
+		let refreshing = false;
+		navigator.serviceWorker.addEventListener("controllerchange", (e) => {
+			if(!refreshing) {
+				location.reload();
+				refreshing = true;
+			} 
+		});
+		
+		if(reg.active && !initiatedPageComplete) {
+			pageComplete();
+		} 
+	} 
+	else {
+    	alert("OFFLINE REGISTRATION FAILURE\n\nCan't Register an offline version of this game because your browser don't support this capability. However you can still access it only while online. If you however really need the offline version, try: \n\n1. Update your browser. or\n2. try another browser, preferably chrome.");
+        pageComplete();
+    } 
+});

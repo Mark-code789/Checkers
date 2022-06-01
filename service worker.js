@@ -1,1 +1,153 @@
-const _0x59bd5f=_0x616f;(function(_0x31a92d,_0x17ae55){const _0x113059=_0x616f,_0x18d91d=_0x31a92d();while(!![]){try{const _0x36b39e=-parseInt(_0x113059(0x158))/0x1+-parseInt(_0x113059(0x12c))/0x2+-parseInt(_0x113059(0x14f))/0x3*(-parseInt(_0x113059(0x14e))/0x4)+parseInt(_0x113059(0x16d))/0x5+-parseInt(_0x113059(0x16c))/0x6+parseInt(_0x113059(0x128))/0x7+parseInt(_0x113059(0x16b))/0x8;if(_0x36b39e===_0x17ae55)break;else _0x18d91d['push'](_0x18d91d['shift']());}catch(_0x4427b4){_0x18d91d['push'](_0x18d91d['shift']());}}}(_0x1c01,0x50c09));const version=_0x59bd5f(0x154),cacheName=_0x59bd5f(0x129)+version,appShellFiles=[_0x59bd5f(0x151),_0x59bd5f(0x142),'./src/images/casino\x20flag.jpeg',_0x59bd5f(0x16e),_0x59bd5f(0x139),_0x59bd5f(0x14d),_0x59bd5f(0x116),_0x59bd5f(0x16a),_0x59bd5f(0x148),_0x59bd5f(0x11f),'./src/images/white\x20cell.jpeg',_0x59bd5f(0x133),_0x59bd5f(0x122),_0x59bd5f(0x161),_0x59bd5f(0x147),_0x59bd5f(0x156),_0x59bd5f(0x131),_0x59bd5f(0x114),_0x59bd5f(0x135),_0x59bd5f(0x16f),_0x59bd5f(0x130),_0x59bd5f(0x115),'./src/images/white\x20crown.png',_0x59bd5f(0x15b),_0x59bd5f(0x163),'./src/images/alert.png',_0x59bd5f(0x153),_0x59bd5f(0x160),'./src/images/loser.png',_0x59bd5f(0x145),'./src/images/load.png',_0x59bd5f(0x12a),_0x59bd5f(0x144),_0x59bd5f(0x167),'./src/images/homescreen\x2096icon.png',_0x59bd5f(0x143),_0x59bd5f(0x150),_0x59bd5f(0x173),'./src/images/homescreen\x20512icon.png',_0x59bd5f(0x166),_0x59bd5f(0x11c),'./src/images/favicon96.png',_0x59bd5f(0x149),_0x59bd5f(0x177),'./src/images/bin\x20lid.png',_0x59bd5f(0x14b),_0x59bd5f(0x11d),_0x59bd5f(0x165),_0x59bd5f(0x140),'./src/images/channel\x20image.png',_0x59bd5f(0x15c),_0x59bd5f(0x14a),'./src/images/channel\x20joined\x20image.png',_0x59bd5f(0x141),_0x59bd5f(0x159),_0x59bd5f(0x132),'./src/images/Facebook.png','./src/images/Twitter.png','./src/images/Instagram.png',_0x59bd5f(0x175),_0x59bd5f(0x15a),'./src/audio/king.mp3','./src/audio/collect.mp3',_0x59bd5f(0x13c),_0x59bd5f(0x12b),_0x59bd5f(0x171),_0x59bd5f(0x124),_0x59bd5f(0x134),_0x59bd5f(0x11b),'./src/channel.js',_0x59bd5f(0x15d),_0x59bd5f(0x13e),_0x59bd5f(0x172),_0x59bd5f(0x13a),_0x59bd5f(0x126),_0x59bd5f(0x146),_0x59bd5f(0x15e)];self[_0x59bd5f(0x137)](_0x59bd5f(0x117),_0x36e160=>{const _0x5b5d20=_0x59bd5f;_0x36e160[_0x5b5d20(0x15f)](caches[_0x5b5d20(0x155)](cacheName)['then'](_0x33dad0=>{const _0x81dec1=_0x5b5d20;return _0x33dad0[_0x81dec1(0x123)](appShellFiles);}));}),self[_0x59bd5f(0x137)]('fetch',_0x336584=>{const _0x2f429f=_0x59bd5f;_0x336584[_0x2f429f(0x176)](caches[_0x2f429f(0x162)](_0x336584[_0x2f429f(0x125)],{'cacheName':cacheName,'ignoreSearch':!![]})[_0x2f429f(0x13b)](_0x30f5de=>{const _0x2d8583=_0x2f429f;if(_0x30f5de&&!/object.js$/gi[_0x2d8583(0x164)](_0x336584[_0x2d8583(0x125)]['url']))return _0x30f5de;return fetch(_0x336584[_0x2d8583(0x125)])[_0x2d8583(0x13b)](_0x553ae7=>{const _0x306999=_0x2d8583;if(_0x336584['request'][_0x306999(0x174)][_0x306999(0x168)](_0x306999(0x12d)))return _0x553ae7;if(_0x553ae7[_0x306999(0x13f)]!=0xc8)return _0x30f5de||_0x553ae7;return caches[_0x306999(0x155)](cacheName)[_0x306999(0x13b)](_0x4eaa4f=>{const _0x5d8ed1=_0x306999;return _0x4eaa4f[_0x5d8ed1(0x119)](_0x336584[_0x5d8ed1(0x125)],_0x553ae7[_0x5d8ed1(0x118)]()),_0x553ae7;})['catch'](_0x436407=>{return _0x553ae7;});})[_0x2d8583(0x11e)](_0x37dfb2=>{return _0x30f5de||new Response(null,{'status':0xc8});});}));}),self[_0x59bd5f(0x137)](_0x59bd5f(0x13d),_0x17a9e9=>{const _0x2afee8=_0x59bd5f,_0x3c4875=[cacheName];_0x17a9e9['waitUntil'](caches[_0x2afee8(0x157)]()[_0x2afee8(0x13b)](_0x2000d9=>{const _0x3777c7=_0x2afee8;return Promise[_0x3777c7(0x170)](_0x2000d9['map'](_0x461164=>{const _0x228153=_0x3777c7;if(_0x3c4875[_0x228153(0x120)](_0x461164)===-0x1)return caches[_0x228153(0x127)](_0x461164);}));}));}),self[_0x59bd5f(0x137)](_0x59bd5f(0x14c),async _0x3730fb=>{const _0x24e10b=_0x59bd5f;if(_0x3730fb[_0x24e10b(0x138)]&&_0x3730fb['data'][_0x24e10b(0x121)]=='skip-waiting')self[_0x24e10b(0x136)]();else _0x3730fb['data']&&_0x3730fb[_0x24e10b(0x138)][_0x24e10b(0x121)]==_0x24e10b(0x12e)&&(sendMsg(_0x3730fb['data'][_0x24e10b(0x12f)]),await searchMove(_0x3730fb[_0x24e10b(0x138)][_0x24e10b(0x12f)]));});function sendMsg(_0x21b865){const _0x498076=_0x59bd5f;self[_0x498076(0x152)][_0x498076(0x169)]({'type':_0x498076(0x11a)})[_0x498076(0x13b)](_0x3672a8=>{for(let _0x167394 of _0x3672a8){_0x167394['postMessage'](_0x21b865);}});}function _0x616f(_0x583ec5,_0xe7afb0){const _0x1c01f2=_0x1c01();return _0x616f=function(_0x616f73,_0xc56ade){_0x616f73=_0x616f73-0x114;let _0x1a047b=_0x1c01f2[_0x616f73];return _0x1a047b;},_0x616f(_0x583ec5,_0xe7afb0);}function _0x1c01(){const _0x5e3fde=['./src/images/about.png','skipWaiting','addEventListener','data','./src/images/pool\x20flag.jpeg','./manifest.webmanifest','then','./src/audio/game\x20win.mp3','activate','./src/worker.js','status','./src/images/star.png','./src/images/Sololearn.png','./src/images/kenyan\x20flag.jpeg','./src/images/homescreen\x20144icon.png','./src/images/contact.png','./src/images/draw.png','./index.css','./src/images/hint.png','./src/images/background2.jpeg','./src/images/favicon.ico','./src/images/status\x20image.png','./src/images/copy.png','message','./src/images/russian\x20flag.jpeg','16LveOnz','53931ErUCme','./src/images/homescreen\x20192icon.png','./src/images/american\x20flag.jpeg','clients','./src/images/confirm.png','516','open','./src/images/menu.png','keys','374642dMyRjX','./src/images/Github.png','./src/audio/capture.mp3','./src/images/send.png','./src/images/player\x20image.png','./src/core.js','./index.html','waitUntil','./src/images/winner.png','./src/images/frame.jpeg','match','./src/images/cancel.png','test','./src/images/lock.png','./src/images/favicon16.png','./src/images/homescreen\x2048icon.png','includes','matchAll','./src/images/background1.jpeg','5216528GkxrXn','2890386NEOgdM','2925615DnIQzA','./src/images/international\x20flags.jpeg','./src/images/black\x20piece.png','all','./src/audio/notification.mp3','./src/app.css','./src/images/homescreen\x20256icon.png','url','./src/audio/click.mp3','respondWith','./src/images/bin.png','./src/images/undo.png','./src/images/black\x20crown.png','./src/images/nigerian\x20flag.jpeg','install','clone','put','window','./src/app.js','./src/images/favicon32.png','./src/images/warning.png','catch','./src/images/black\x20cell.jpeg','indexOf','type','./src/images/sound\x20off.png','addAll','./src/objects.js','request','./index.js','delete','734811zlyyUZ','Checkers-v:','./src/images/dice\x20roll.png','./src/audio/game\x20lose.mp3','453872xvaIJb','pndsn.com','move-search','content','./src/images/white\x20piece.png','./src/images/restart.png','./src/images/LinkedIn.png','./src/images/sound\x20on.png','./src/ai.js'];_0x1c01=function(){return _0x5e3fde;};return _0x1c01();}
+// Service worker
+const version = "517";
+const cacheName = "Checkers-v:" + version;
+const appShellFiles = [
+    "./src/images/american flag.jpeg",
+    "./src/images/kenyan flag.jpeg",
+    "./src/images/casino flag.jpeg", 
+    "./src/images/international flags.jpeg",
+    "./src/images/pool flag.jpeg",
+    "./src/images/russian flag.jpeg",
+    "./src/images/nigerian flag.jpeg",
+    "./src/images/background1.jpeg", 
+    "./src/images/background2.jpeg", 
+    "./src/images/black cell.jpeg", 
+    "./src/images/white cell.jpeg",
+    "./src/images/sound on.png",
+    "./src/images/sound off.png",
+    "./src/images/frame.jpeg",
+    "./src/images/hint.png", 
+    "./src/images/menu.png", 
+    "./src/images/restart.png", 
+    "./src/images/undo.png", 
+    "./src/images/about.png",
+    "./src/images/black piece.png",
+    "./src/images/white piece.png", 
+    "./src/images/black crown.png", 
+    "./src/images/white crown.png",
+    "./src/images/send.png", 
+    "./src/images/cancel.png",
+    "./src/images/alert.png",
+    "./src/images/confirm.png", 
+    "./src/images/winner.png",
+    "./src/images/loser.png", 
+    "./src/images/draw.png",
+    "./src/images/load.png",
+    "./src/images/dice roll.png",
+    "./src/images/contact.png",
+    "./src/images/homescreen 48icon.png",
+    "./src/images/homescreen 96icon.png",
+    "./src/images/homescreen 144icon.png",
+    "./src/images/homescreen 192icon.png",
+    "./src/images/homescreen 256icon.png",
+    "./src/images/homescreen 512icon.png",
+    "./src/images/favicon16.png",
+    "./src/images/favicon32.png",
+    "./src/images/favicon96.png",
+    "./src/images/favicon.ico",
+    "./src/images/bin.png",
+    "./src/images/bin lid.png",
+    "./src/images/copy.png",
+    "./src/images/warning.png", 
+    "./src/images/lock.png", 
+    "./src/images/star.png", 
+    "./src/images/channel image.png", 
+    "./src/images/player image.png",
+    "./src/images/status image.png", 
+    "./src/images/channel joined image.png", 
+    "./src/images/Sololearn.png", 
+    "./src/images/Github.png", 
+    "./src/images/LinkedIn.png", 
+    "./src/images/Facebook.png", 
+    "./src/images/Twitter.png", 
+    "./src/images/Instagram.png", 
+    "./src/audio/click.mp3",
+    "./src/audio/capture.mp3", 
+    "./src/audio/king.mp3", 
+    "./src/audio/collect.mp3",
+    "./src/audio/game win.mp3", 
+    "./src/audio/game lose.mp3", 
+    "./src/audio/notification.mp3", 
+    "./src/objects.js", 
+    "./src/ai.js", 
+    "./src/app.js", 
+    "./src/channel.js", 
+    "./src/core.js", 
+    "./src/worker.js", 
+    "./src/app.css", 
+    "./manifest.webmanifest", 
+    "./index.js", 
+    "./index.css", 
+    "./index.html",
+];
+
+self.addEventListener("install", (e) => {
+    e.waitUntil(
+        caches.open(cacheName).then((cache) => {
+            return cache.addAll(appShellFiles);
+        })
+    )
+});
+
+self.addEventListener("fetch", (e) => {
+    e.respondWith(
+        caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
+        	if(res && !/object.js$/gi.test(e.request.url)) {
+            	return res;
+            }
+            
+            return fetch(e.request).then((res2) => {
+            	if(e.request.url.includes("pndsn.com")) {
+            		return res2; 
+					/*Not storing this kind of request*/
+            	} 
+            	if(res2.status != 200) {
+	            	return res || res2;
+            	} 
+            	
+                return caches.open(cacheName).then((cache) => {
+                    cache.put(e.request, res2.clone());
+                    return res2;
+                }).catch((error) => {
+					return res2;
+				});
+            }).catch((error) => {
+            	return res || new Response(null, {"status": 200});
+            });
+        })
+    )
+});
+
+self.addEventListener("activate", (e) => {
+    const keepList = [cacheName];
+    
+    e.waitUntil(
+        caches.keys().then((keyList) => {
+            return Promise.all(keyList.map((key) => {
+                if(keepList.indexOf(key) === -1) {
+                    return caches.delete(key);
+                } 
+            }))
+        })
+    )
+});
+
+self.addEventListener("message", async (e) => {
+	if(e.data && e.data.type == "skip-waiting") {
+		self.skipWaiting();
+	} 
+	else if(e.data && e.data.type == "move-search") {
+		sendMsg(e.data.content);
+		await searchMove(e.data.content);
+	} 
+});
+
+function sendMsg(msg) {
+	self.clients.matchAll({type: 'window'}).
+	then((clients) => {
+		for(let client of clients) {
+			client.postMessage(msg);
+		} 
+	});
+} 
+
