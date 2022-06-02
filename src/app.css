@@ -2213,7 +2213,7 @@ article {
 } 
 
 #play-window .middle_section .scene .board .timer_bottom_b {
-	transform: translateX(calc(var(--length) / 2 + 10vmax)) translateY(calc(var(--length) / 2 * -1 + 3vmax)) rotateX(-90deg) translateZ(3vmax);
+	transform: translateX(calc(var(--length) / 2 + 10vmax)) translateY(calc(var(--length) / 2 * -1 + 3vmax)) rotateX(-90deg) translateZ(3vmax) rotateY(180deg);
 } 
 
 #play-window .middle_section .scene .board .timer_left_a,
