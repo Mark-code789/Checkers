@@ -72,6 +72,7 @@ body {
     align-items: center;
     flex-flow: row nowrap;
     margin-bottom: 10px;
+    overflow: visible;
 } 
 
 .install_header label {
@@ -89,6 +90,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: -2px 2px 3px 0 #0008;
+    margin: 0 0 4px 4px;
 } 
 
 .install_title {
