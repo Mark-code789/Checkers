@@ -36,7 +36,6 @@
     ],
     "categories": ["games", "entertainment", "kids"], 
     "start_url": "./index.html", 
-    "scope": "/", 
     "display": "standalone",
     "orientation": "natural",
     "theme_color": "#000",
@@ -72,6 +71,6 @@
 	    	"src": "./src/Screenshot two players window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
-		}, 
+		}
     ] 
 }
