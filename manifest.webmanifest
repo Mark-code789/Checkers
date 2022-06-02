@@ -1,7 +1,7 @@
 {
     "short_name": "Checkers",
     "name": "Checkers | Draughts",
-    "description": "Standalone Frontend Checkers Game",
+    "description": "Checkers or Draughts game for friends and family. Play online, offline or versus the computer.",
     "icons": [
         {
             "src": "./src/images/homescreen 48icon.png",
@@ -34,10 +34,44 @@
             "type": "image/png"
         }
     ],
+    "categories": ["games", "entertainment", "kids"], 
     "start_url": "./index.html", 
+    "scope": "/", 
     "display": "standalone",
     "orientation": "natural",
     "theme_color": "#000",
     "background_color": "#2D2D2D", 
-    "prefer_related_applications": false
+    "prefer_related_applications": false, 
+    "screenshots": [
+    	{
+	    	"src": "./src/Screenshot load window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+		{
+	    	"src": "./src/Screenshot portrait play window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+		{
+	    	"src": "./src/Screenshot landscape play window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+		{
+	    	"src": "./src/Screenshot main window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+		{
+	    	"src": "./src/Screenshot settings window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+		{
+	    	"src": "./src/Screenshot two players window.png",
+	    	"sizes": "720x1500",
+	    	"type": "image/png"
+		}, 
+    ] 
 }
