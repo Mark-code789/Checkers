@@ -2970,12 +2970,17 @@ article {
 #notification-window #note .note_body ul,
 #notification-window #note .note_body ol {
     text-align: left;
-    margin: 20px 20px 20px 0;
+    margin-left: 0;
     padding-left: 13px;
     list-style-position: outside;
 } 
 
-#notification-window #note .note_body ul li {
+#notification-window #note .note_body > ul,
+#notification-window #note .note_body > ol {
+	margin: 10px 0;
+} 
+
+#notification-window #note .note_body li {
 	overflow: visible;
 } 
 
