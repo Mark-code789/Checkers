@@ -1,1 +1,236 @@
-'use strict';(function(_0x3f0268,_0x20a1a0){const _0x207a32=_0x1519,_0x2e7ba1=_0x3f0268();while(!![]){try{const _0x3fa790=-parseInt(_0x207a32(0x1af))/0x1+-parseInt(_0x207a32(0x1ba))/0x2+parseInt(_0x207a32(0x1ae))/0x3+parseInt(_0x207a32(0x1c6))/0x4+parseInt(_0x207a32(0x1c8))/0x5+-parseInt(_0x207a32(0x1c0))/0x6+-parseInt(_0x207a32(0x1b0))/0x7*(parseInt(_0x207a32(0x1bc))/0x8);if(_0x3fa790===_0x20a1a0)break;else _0x2e7ba1['push'](_0x2e7ba1['shift']());}catch(_0x2349b0){_0x2e7ba1['push'](_0x2e7ba1['shift']());}}}(_0xe1bb,0x518c8));function _0x1519(_0x4e3e6c,_0x3365bc){const _0xe1bbde=_0xe1bb();return _0x1519=function(_0x151940,_0x3e1d26){_0x151940=_0x151940-0x1ae;let _0x5e4399=_0xe1bbde[_0x151940];return _0x5e4399;},_0x1519(_0x4e3e6c,_0x3365bc);}function _0xe1bb(){const _0xd96a29=['slice','includes','Missing\x20important\x20attribute\x20of\x20the\x20argument\x20provided.','pieceColor','empty','captures','600898NAvLxg','both','144dpkLCy','abs','cell','capture','3236850ivtccV','startsWith','stringify','source','test','boardSize','2167536TMFOPP','length','1461640MfpIyO','nonCaptures','endsWith','1620933VTrpnd','78751RxgvQy','47376EZodai','push','state','version'];_0xe1bb=function(){return _0xd96a29;};return _0xe1bb();}const AssessAll=async _0x429be9=>{const _0xb7fb0f=_0x1519;if(_0x429be9['id']==undefined||/(W|B)$/g[_0xb7fb0f(0x1c4)](_0x429be9['id']==![])||_0x429be9['state']==undefined)throw new Error(_0xb7fb0f(0x1b6));let _0x25390c=_0x429be9['id']==_0xb7fb0f(0x1bb)?_0x429be9['id']:_0x429be9['id'][_0xb7fb0f(0x1b4)](-0x1),_0x29ca19=_0x429be9[_0xb7fb0f(0x1b2)],_0x352c2b=_0x429be9['id']==_0xb7fb0f(0x1bb)?{'B':{'nonCaptures':[],'captures':[]},'W':{'nonCaptures':[],'captures':[]}}:{'nonCaptures':[],'captures':[]};for(let _0x4717db=0x0;_0x4717db<Game[_0xb7fb0f(0x1c5)];_0x4717db++){for(let _0x5d09dd=0x0;_0x5d09dd<Game[_0xb7fb0f(0x1c5)];_0x5d09dd++){let _0x2ba8b6=_0x29ca19[_0x4717db][_0x5d09dd];if(_0x25390c=='both'){if(/^(M|K)/gi[_0xb7fb0f(0x1c4)](_0x2ba8b6)){let _0x1678b9=await AssesMoves({'i':_0x4717db,'j':_0x5d09dd,'state':_0x29ca19}),_0x43984c=_0x2ba8b6[_0xb7fb0f(0x1b4)](-0x1);_0x352c2b[_0x43984c][_0xb7fb0f(0x1c9)][_0xb7fb0f(0x1b1)](..._0x1678b9[_0xb7fb0f(0x1c9)]),_0x352c2b[_0x43984c][_0xb7fb0f(0x1b9)][_0xb7fb0f(0x1b1)](..._0x1678b9[_0xb7fb0f(0x1b9)]);}}else{if(_0x2ba8b6[_0xb7fb0f(0x1b5)](_0x25390c)){let _0x9f919b=await AssesMoves({'i':_0x4717db,'j':_0x5d09dd,'state':_0x29ca19});_0x352c2b[_0xb7fb0f(0x1c9)][_0xb7fb0f(0x1b1)](..._0x9f919b[_0xb7fb0f(0x1c9)]),_0x352c2b[_0xb7fb0f(0x1b9)]['push'](..._0x9f919b[_0xb7fb0f(0x1b9)]);}}}}return Prms(_0x352c2b);},AssesMoves=async(_0x1380ad,_0x3a1767=![])=>{const _0x1e9de6=_0x1519;if(_0x1380ad['i']==undefined||_0x1380ad['j']==undefined||_0x1380ad[_0x1e9de6(0x1b2)]==undefined)throw new Error(_0x1e9de6(0x1b6));let _0x22c759=_0x1380ad['i'],_0x35ec78=_0x1380ad['j'],_0xc166e6=Copy(_0x1380ad[_0x1e9de6(0x1b2)]),_0x38f49e=_0xc166e6[_0x22c759][_0x35ec78],_0x29c1fb=_0x38f49e[_0x1e9de6(0x1b5)](playerA[_0x1e9de6(0x1b7)]['slice'](0x0,0x1))?-0x1:0x1,_0x27ea4c=_0x38f49e[_0x1e9de6(0x1b5)](playerA[_0x1e9de6(0x1b7)]['slice'](0x0,0x1))?playerB[_0x1e9de6(0x1b7)][_0x1e9de6(0x1b4)](0x0,0x1):playerA[_0x1e9de6(0x1b7)][_0x1e9de6(0x1b4)](0x0,0x1),_0x4f6a39={'nonCaptures':[],'captures':[]},_0x47f870=_0x22c759+_0x29c1fb,_0x1e52b3=_0x22c759+_0x29c1fb,_0x112d6e=_0x22c759-_0x29c1fb,_0x2768e5=_0x22c759-_0x29c1fb,_0x3006c1=_0x35ec78-0x1,_0x33ea73=_0x35ec78+0x1,_0x63b8b2=_0x35ec78+0x1,_0xf32319=_0x35ec78-0x1,_0x40934,_0x29ac6f,_0x49ac20,_0x18c9fd;_0x40934,_0x29ac6f,_0x49ac20,_0x18c9fd=null;let _0x2332d9,_0x282a28,_0x2f10de,_0x296b0b;_0x2332d9,_0x282a28,_0x2f10de,_0x296b0b=![];for(;;_0x47f870+=_0x29c1fb,_0x3006c1-=0x1,_0x1e52b3+=_0x29c1fb,_0x33ea73+=0x1,_0x112d6e-=_0x29c1fb,_0x63b8b2+=0x1,_0x2768e5-=_0x29c1fb,_0xf32319-=0x1){let _0xf25a74=_0xc166e6[_0x47f870]?_0xc166e6[_0x47f870][_0x3006c1]:undefined;if(_0xf25a74=='EC'&&!_0x40934&&!_0x2332d9)_0x38f49e[_0x1e9de6(0x1c1)]('M')&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x47f870)==0x1&&_0x4f6a39[_0x1e9de6(0x1c9)]['push']({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x47f870+_0x3006c1}),_0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])||/american|kenyan|casino/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x47f870)==0x1)&&_0x4f6a39[_0x1e9de6(0x1c9)]['push']({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x47f870+_0x3006c1});else{if(_0xf25a74=='EC'&&_0x40934&&!_0x2332d9){if(Math[_0x1e9de6(0x1bd)](_0x40934['x']-_0x47f870)==0x1&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x40934['x'])==0x1)_0x4f6a39[_0x1e9de6(0x1b9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x47f870+_0x3006c1,'capture':''+_0x40934['x']+_0x40934['y']});else _0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/kenyan|casino/gi['test'](Game['version'])&&Math['abs'](_0x40934['x']-_0x47f870)==0x1||/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game['version']))&&_0x4f6a39['captures'][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x47f870+_0x3006c1,'capture':''+_0x40934['x']+_0x40934['y']});}else{if(_0xf25a74&&_0xf25a74['endsWith'](_0x27ea4c)&&!_0x40934&&!_0x2332d9)_0x40934={'x':_0x47f870,'y':_0x3006c1};else(_0xf25a74&&_0xf25a74['includes'](_0x38f49e['slice'](-0x1))||_0xf25a74=='IP'||_0x40934&&_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x27ea4c))&&(_0x2332d9=!![]);}}_0xf25a74=_0xc166e6[_0x1e52b3]?_0xc166e6[_0x1e52b3][_0x33ea73]:undefined;if(_0xf25a74=='EC'&&!_0x29ac6f&&!_0x282a28)_0x38f49e['startsWith']('M')&&Math['abs'](_0x22c759-_0x47f870)==0x1&&_0x4f6a39[_0x1e9de6(0x1c9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x1e52b3+_0x33ea73}),_0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])||/american|kenyan|casino/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x1e52b3)==0x1)&&_0x4f6a39[_0x1e9de6(0x1c9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x1e52b3+_0x33ea73});else{if(_0xf25a74=='EC'&&_0x29ac6f&&!_0x282a28){if(Math[_0x1e9de6(0x1bd)](_0x29ac6f['x']-_0x1e52b3)==0x1&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x29ac6f['x'])==0x1)_0x4f6a39['captures'][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x1e52b3+_0x33ea73,'capture':''+_0x29ac6f['x']+_0x29ac6f['y']});else _0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/kenyan|casino/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math[_0x1e9de6(0x1bd)](_0x29ac6f['x']-_0x1e52b3)==0x1||/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)]))&&_0x4f6a39[_0x1e9de6(0x1b9)]['push']({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x1e52b3+_0x33ea73,'capture':''+_0x29ac6f['x']+_0x29ac6f['y']});}else{if(_0xf25a74&&_0xf25a74[_0x1e9de6(0x1ca)](_0x27ea4c)&&!_0x29ac6f&&!_0x282a28)_0x29ac6f={'x':_0x1e52b3,'y':_0x33ea73};else(_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x38f49e['slice'](-0x1))||_0xf25a74=='IP'||_0x29ac6f&&_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x27ea4c))&&(_0x282a28=!![]);}}_0xf25a74=_0xc166e6[_0x112d6e]?_0xc166e6[_0x112d6e][_0x63b8b2]:undefined;if(_0xf25a74=='EC'&&!_0x49ac20&&!_0x2f10de)_0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game['version'])||/american|kenyan|casino/gi['test'](Game['version'])&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x112d6e)==0x1)&&_0x4f6a39[_0x1e9de6(0x1c9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x112d6e+_0x63b8b2});else{if(_0xf25a74=='EC'&&_0x49ac20&&!_0x2f10de){if(_0x38f49e[_0x1e9de6(0x1c1)]('M')&&!/american|kenyan/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math['abs'](_0x22c759-_0x49ac20['x'])==0x1&&Math[_0x1e9de6(0x1bd)](_0x49ac20['x']-_0x112d6e)==0x1)_0x4f6a39[_0x1e9de6(0x1b9)]['push']({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x112d6e+_0x63b8b2,'capture':''+_0x49ac20['x']+_0x49ac20['y']});else _0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/american/gi[_0x1e9de6(0x1c4)](Game['version'])&&Math['abs'](_0x22c759-_0x49ac20['x'])==0x1&&Math['abs'](_0x49ac20['x']-_0x112d6e)==0x1||/kenyan|casino/gi[_0x1e9de6(0x1c4)](Game['version'])&&Math[_0x1e9de6(0x1bd)](_0x49ac20['x']-_0x112d6e)==0x1||/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)]))&&_0x4f6a39[_0x1e9de6(0x1b9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x112d6e+_0x63b8b2,'capture':''+_0x49ac20['x']+_0x49ac20['y']});}else{if(_0xf25a74&&_0xf25a74['endsWith'](_0x27ea4c)&&!_0x49ac20&&!_0x2f10de)_0x49ac20={'x':_0x112d6e,'y':_0x63b8b2};else(_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x38f49e['slice'](-0x1))||_0xf25a74=='IP'||_0x49ac20&&_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x27ea4c))&&(_0x2f10de=!![]);}}_0xf25a74=_0xc166e6[_0x2768e5]?_0xc166e6[_0x2768e5][_0xf32319]:undefined;if(_0xf25a74=='EC'&&!_0x18c9fd&&!_0x296b0b)_0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])||/american|kenyan|casino/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math['abs'](_0x22c759-_0x2768e5)==0x1)&&_0x4f6a39['nonCaptures'][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x2768e5+_0xf32319});else{if(_0xf25a74=='EC'&&_0x18c9fd&&!_0x296b0b){if(_0x38f49e['startsWith']('M')&&!/american|kenyan/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math[_0x1e9de6(0x1bd)](_0x22c759-_0x18c9fd['x'])==0x1&&Math['abs'](_0x18c9fd['x']-_0x112d6e)==0x1)_0x4f6a39[_0x1e9de6(0x1b9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x2768e5+_0xf32319,'capture':''+_0x18c9fd['x']+_0x18c9fd['y']});else _0x38f49e[_0x1e9de6(0x1c1)]('K')&&(/american/gi['test'](Game[_0x1e9de6(0x1b3)])&&Math['abs'](_0x22c759-_0x18c9fd['x'])==0x1&&Math[_0x1e9de6(0x1bd)](_0x18c9fd['x']-_0x2768e5)==0x1||/kenyan|casino/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)])&&Math[_0x1e9de6(0x1bd)](_0x18c9fd['x']-_0x2768e5)==0x1||/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)]))&&_0x4f6a39[_0x1e9de6(0x1b9)][_0x1e9de6(0x1b1)]({'cell':''+_0x22c759+_0x35ec78,'empty':''+_0x2768e5+_0xf32319,'capture':''+_0x18c9fd['x']+_0x18c9fd['y']});}else{if(_0xf25a74&&_0xf25a74['endsWith'](_0x27ea4c)&&!_0x18c9fd&&!_0x296b0b)_0x18c9fd={'x':_0x2768e5,'y':_0xf32319};else(_0xf25a74&&_0xf25a74[_0x1e9de6(0x1b5)](_0x38f49e[_0x1e9de6(0x1b4)](-0x1))||_0xf25a74=='IP'||_0x18c9fd&&_0xf25a74&&_0xf25a74['includes'](_0x27ea4c))&&(_0x296b0b=!![]);}}if(!_0xc166e6[_0x47f870]&&!_0xc166e6[_0x1e52b3]&&!_0xc166e6[_0x112d6e]&&!_0xc166e6[_0x2768e5])break;}if(!_0x3a1767&&/international|nigerian|russian|pool/gi[_0x1e9de6(0x1c4)](Game[_0x1e9de6(0x1b3)]))_0x4f6a39[_0x1e9de6(0x1b9)]=await _0x371122(_0x4f6a39[_0x1e9de6(0x1b9)]);return Prms(_0x4f6a39);async function _0x371122(_0x2c3ec9){const _0x1e6db1=_0x1e9de6;let _0x5029b5=[];for(let _0x556bdd=0x0;_0x556bdd<_0x2c3ec9[_0x1e6db1(0x1c7)];_0x556bdd++){let _0x2d2e01=_0x2c3ec9[_0x556bdd],_0x228f2e=parseInt(_0x2d2e01[_0x1e6db1(0x1bf)]['slice'](0x0,0x1)),_0x44ad80=parseInt(_0x2d2e01[_0x1e6db1(0x1bf)]['slice'](0x1,0x2)),_0x430aed=parseInt(_0x2d2e01['empty'][_0x1e6db1(0x1b4)](0x0,0x1));;let _0x2852f6=parseInt(_0x2d2e01[_0x1e6db1(0x1b8)][_0x1e6db1(0x1b4)](0x1,0x2)),_0x1b2e81=Copy(_0xc166e6),_0x385217=_0x1b2e81[_0x22c759][_0x35ec78];_0x1b2e81[_0x22c759][_0x35ec78]='EC',_0x1b2e81[_0x430aed][_0x2852f6]=_0x385217,_0x1b2e81[_0x228f2e][_0x44ad80]='EC';let _0x26fad6=await AssesMoves({'i':_0x430aed,'j':_0x2852f6,'state':_0x1b2e81},!![]);_0x26fad6[_0x1e6db1(0x1b9)][_0x1e6db1(0x1c7)]>0x0&&_0x5029b5['push'](_0x2d2e01);}if(_0x5029b5[_0x1e6db1(0x1c7)]>0x0)return Prms(_0x5029b5);else return Prms(_0x2c3ec9);}},SortCaptures=_0x5db746=>{const _0x35a3eb=_0x1519;let _0x2e92a4=[];for(let _0x2e28f6 of _0x5db746){if(_0x2e28f6[_0x35a3eb(0x1c3)])_0x2e92a4[_0x35a3eb(0x1b1)]([_0x2e28f6]);else{let _0x3f997a=_0x2e92a4[_0x2e92a4[_0x35a3eb(0x1c7)]-0x1]['findIndex'](_0x2a337a=>{const _0x4c884a=_0x35a3eb;return _0x2a337a[_0x4c884a(0x1be)]==_0x2e28f6[_0x4c884a(0x1be)];});if(~_0x3f997a){let _0x24f034=_0x2e92a4[_0x2e92a4[_0x35a3eb(0x1c7)]-0x1][_0x35a3eb(0x1b4)](0x0,_0x3f997a);_0x24f034['push'](_0x2e28f6),_0x2e92a4[_0x35a3eb(0x1b1)](_0x24f034);}else _0x2e92a4[_0x2e92a4[_0x35a3eb(0x1c7)]-0x1][_0x35a3eb(0x1b1)](_0x2e28f6);}}return Prms(_0x2e92a4);},Log=async(..._0xda521a)=>{await self['postMessage'](_0xda521a);},LogState=async _0x2f69c5=>{const _0x51d7cd=_0x1519;await Log(JSON[_0x51d7cd(0x1c2)](_0x2f69c5));};
+'use strict' 
+
+/* Version: 21 */
+
+const AssessAll = async (prop) => {
+    if(prop.id == undefined || /(W|B)$/g.test(prop.id == false) || prop.state == undefined)
+        throw new Error(`Missing important attribute of the argument provided.`);
+    
+    let id = prop.id == "both"? prop.id: prop.id.slice(-1), 
+        state = prop.state,
+        moves = prop.id == "both"? {B: {nonCaptures: [], captures: []}, W: {nonCaptures: [], captures: []}}: {nonCaptures: [], captures: []};
+    
+    for(let i = 0; i < Game.boardSize; i++) {
+        for(let j = 0; j < Game.boardSize; j++) {
+            let piece = state[i][j];
+            if(id == "both") {
+            	if(/^(M|K)/gi.test(piece)) {
+            		let movesObj = await AssesMoves({i, j, state});
+            		let color = piece.slice(-1);
+            		moves[color].nonCaptures.push(...movesObj.nonCaptures);
+                	moves[color].captures.push(...movesObj.captures);
+            	} 
+            } 
+            else if(piece.includes(id)) {
+            	let movesObj = await AssesMoves({i, j, state});
+                
+                moves.nonCaptures.push(...movesObj.nonCaptures);
+                moves.captures.push(...movesObj.captures);
+            } 
+        } 
+    } 
+    
+    return Prms(moves); 
+} 
+
+const AssesMoves = async (prop, maximizing = false) => { 
+    
+    if(prop.i == undefined || prop.j == undefined || prop.state == undefined)
+        throw new Error(`Missing important attribute of the argument provided.`);
+    let i = prop.i,
+        j = prop.j,
+        state = Copy(prop.state),
+        id = state[i][j];
+    let r = id.includes(playerA.pieceColor.slice(0,1))? -1: 1;
+    let opp = id.includes(playerA.pieceColor.slice(0,1))? playerB.pieceColor.slice(0,1): playerA.pieceColor.slice(0,1);
+    let moves = {nonCaptures: [], captures: []};
+    let a = i+r,
+		c = i+r,
+		e = i-r,
+		g = i-r;
+    let b = j-1,
+		d = j+1,
+		f = j+1,
+		h = j-1;
+    
+    /*	     ---->
+   		AB	|	CD
+   		______|______
+   		      |      
+   		GH    |    EF 
+   			<----
+    */
+    let oppA, oppB, oppC, oppD;
+    	oppA, oppB, oppC, oppD = null;
+    let obstacleA, obstacleB, obstacleC, obstacleD;
+    	obstacleA, obstacleB, obstacleC, obstacleD = false;
+    for(;; a+=r, b-=1, c+=r, d+=1, e-=r, f+=1, g-=r, h-=1) {
+    	
+    	let cell = state[a]? state[a][b]: undefined;
+    	
+    	if(cell == "EC" && !oppA && !obstacleA) {
+    		if(id.startsWith("M") && Math.abs(i - a) == 1) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${a}${b}`});
+    		} 
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - a) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${a}${b}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppA && !obstacleA) {
+    		if(Math.abs(oppA.x - a) == 1 && Math.abs(i - oppA.x) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${a}${b}`, capture: `${oppA.x}${oppA.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/kenyan|casino/gi.test(Game.version) && Math.abs(oppA.x - a) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${a}${b}`, capture: `${oppA.x}${oppA.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppA && !obstacleA) {
+    		oppA = {x: a, y: b};
+    	} 
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppA && cell && cell.includes(opp)) {
+    		obstacleA = true;
+    	} 
+    
+    	
+    	cell = state[c]? state[c][d]: undefined;
+    	
+    	if(cell == "EC" && !oppB && !obstacleB) {
+    		if(id.startsWith("M") && Math.abs(i - a) == 1) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${c}${d}`});
+    		} 
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - c) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${c}${d}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppB && !obstacleB) {
+    		if(Math.abs(oppB.x - c) == 1 && Math.abs(i - oppB.x) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${c}${d}`, capture: `${oppB.x}${oppB.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/kenyan|casino/gi.test(Game.version) && Math.abs(oppB.x - c) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${c}${d}`, capture: `${oppB.x}${oppB.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppB && !obstacleB) {
+    		oppB = {x: c, y: d};
+    	} 
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppB && cell && cell.includes(opp)) {
+    		obstacleB = true;
+    	} 
+    
+    	
+    	cell = state[e]? state[e][f]: undefined;
+    	
+    	if(cell == "EC" && !oppC && !obstacleC) {
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - e) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${e}${f}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppC && !obstacleC) {
+    		if(id.startsWith("M") && !/american|kenyan/gi.test(Game.version) && Math.abs(i - oppC.x) == 1 && Math.abs(oppC.x - e) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${e}${f}`, capture: `${oppC.x}${oppC.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/american/gi.test(Game.version) && Math.abs(i - oppC.x) == 1 && Math.abs(oppC.x - e) == 1 || /kenyan|casino/gi.test(Game.version) && Math.abs(oppC.x - e) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${e}${f}`, capture: `${oppC.x}${oppC.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppC && !obstacleC) {
+    		oppC = {x: e, y: f};
+    	} 
+    	else if(cell && cell.includes(id.slice(-1))  || cell == "IP" || oppC && cell && cell.includes(opp)) {
+    		obstacleC = true;
+    	} 
+    	
+    	
+    	cell = state[g]? state[g][h]: undefined;
+    	
+    	if(cell == "EC" && !oppD && !obstacleD) {
+    		if(id.startsWith("K") && (/international|nigerian|russian|pool/gi.test(Game.version) || /american|kenyan|casino/gi.test(Game.version) && Math.abs(i - g) == 1)) {
+    			moves.nonCaptures.push({cell: `${i}${j}`, empty: `${g}${h}`});
+    		} 
+    	} 
+    	else if(cell == "EC" && oppD && !obstacleD) {
+    		if(id.startsWith("M") && !/american|kenyan/gi.test(Game.version) && Math.abs(i - oppD.x) == 1 && Math.abs(oppD.x - e) == 1) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${g}${h}`, capture: `${oppD.x}${oppD.y}`});
+    		} 
+    		else if(id.startsWith("K") && (/american/gi.test(Game.version) && Math.abs(i - oppD.x) == 1 && Math.abs(oppD.x - g) == 1 || /kenyan|casino/gi.test(Game.version) && Math.abs(oppD.x - g) == 1 || /international|nigerian|russian|pool/gi.test(Game.version))) {
+    			moves.captures.push({cell: `${i}${j}`, empty: `${g}${h}`, capture: `${oppD.x}${oppD.y}`});
+    		} 
+    	} 
+    	else if(cell && cell.endsWith(opp) && !oppD && !obstacleD) {
+    		oppD = {x: g, y: h};
+    	} 
+    	else if(cell && cell.includes(id.slice(-1)) || cell == "IP" || oppD && cell && cell.includes(opp)) {
+    		obstacleD = true;
+    	} 
+    	
+    	if(!state[a] && !state[c] && !state[e] && !state[g]) 
+			break;
+    } 
+    
+    if(!maximizing && /international|nigerian|russian|pool/gi.test(Game.version))
+    	moves.captures = await maximizeCaptures(moves.captures);
+    return Prms(moves);
+    
+    async function maximizeCaptures (rawCaptures) {
+	    let wanted = [];
+        for(let z = 0; z < rawCaptures.length; z++) {
+            let move = rawCaptures[z];
+            let k = parseInt(move.capture.slice(0,1));
+            let l = parseInt(move.capture.slice(1,2));
+            let m = parseInt(move.empty.slice(0,1));;
+            let n = parseInt(move.empty.slice(1,2));
+            
+            let cloneState = Copy(state);
+            let piece = cloneState[i][j];
+            cloneState[i][j] = "EC";
+            cloneState[m][n] = piece;
+            cloneState[k][l] = "EC";
+            
+			let another = await AssesMoves({i: m, j: n, state: cloneState}, true);
+            
+            if(another.captures.length > 0) {
+                wanted.push(move);
+            } 
+        }
+        if(wanted.length > 0)
+        	return Prms(wanted);
+        else
+        	return Prms(rawCaptures);
+	} 
+} 
+
+const SortCaptures = (moves) => {
+	let sorted = [];
+	for(let move of moves) {
+		if(move.source) {
+			sorted.push([move]);
+		} 
+		else {
+			let anotherWayStartIndex = sorted[sorted.length-1].findIndex((wayMove) => {
+				return wayMove.cell == move.cell;
+			});
+			
+			if(~anotherWayStartIndex) {
+				let anotherWay = sorted[sorted.length-1].slice(0, anotherWayStartIndex);
+				anotherWay.push(move);
+				sorted.push(anotherWay);
+			} 
+			else {
+				sorted[sorted.length-1].push(move);
+			} 
+		} 
+	} 
+	return Prms(sorted);
+} 
+
+const Log = async (...data) => {
+	await self.postMessage(data);
+} 
+
+const LogState = async (state) => {
+	/*for(let row of state) {
+		await Log(row);
+	} */
+	await Log(JSON.stringify(state));
+} 
+

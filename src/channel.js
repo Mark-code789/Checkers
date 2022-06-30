@@ -1,1 +1,1449 @@
-'use strict';const _0x35eedb=_0x2d3b;(function(_0x33c938,_0x488623){const _0x30aefe=_0x2d3b,_0x4b1782=_0x33c938();while(!![]){try{const _0x23d63f=parseInt(_0x30aefe(0x24e))/0x1*(parseInt(_0x30aefe(0x29d))/0x2)+parseInt(_0x30aefe(0x20a))/0x3+-parseInt(_0x30aefe(0x27c))/0x4*(parseInt(_0x30aefe(0x1fe))/0x5)+-parseInt(_0x30aefe(0x296))/0x6+-parseInt(_0x30aefe(0x34a))/0x7*(-parseInt(_0x30aefe(0x308))/0x8)+-parseInt(_0x30aefe(0x1dd))/0x9+-parseInt(_0x30aefe(0x1e2))/0xa;if(_0x23d63f===_0x488623)break;else _0x4b1782['push'](_0x4b1782['shift']());}catch(_0x57de48){_0x4b1782['push'](_0x4b1782['shift']());}}}(_0x266b,0x8e308));const CheckHref=async()=>{const _0x56b13e=_0x2d3b;let _0x4339cf=document[_0x56b13e(0x2c3)][_0x56b13e(0x1f4)][_0x56b13e(0x1c1)]('?');if(_0x4339cf[_0x56b13e(0x329)]>0x1&&_0x4339cf[0x1][_0x56b13e(0x307)]('name=')){let _0x5a26bb=_0x4339cf[0x1]['replace'](_0x56b13e(0x1bc),'');$(_0x56b13e(0x1f0))[_0x56b13e(0x2b8)]=_0x5a26bb,await Mode(0x3,![]),BackState[_0x56b13e(0x1dc)]['push']([_0x56b13e(0x239),'#two-players-window']),$(_0x56b13e(0x239))[_0x56b13e(0x2f6)][_0x56b13e(0x314)]=_0x56b13e(0x24f),$('#two-players-window')[_0x56b13e(0x2f6)][_0x56b13e(0x314)]=_0x56b13e(0x2fd),Notify[_0x56b13e(0x231)]({'header':_0x56b13e(0x259),'message':'Please\x20fill\x20in\x20your\x20name\x20in\x20the\x20field\x20named\x20\x27PLAYER\x20DETAILS\x27\x20and\x20hit\x20<kbd>SUBMIT</kbd>\x20button\x20at\x20the\x20bottom\x20right\x20corner\x20of\x20this\x20window\x20to\x20join\x20'+_0x5a26bb+_0x56b13e(0x2de)}),$(_0x56b13e(0x267))['focus']();}history[_0x56b13e(0x2e6)](null,'',_0x56b13e(0x1b2));},Lobby={'isConnected':![],'isHost':![],'unreadMessages':[],'offlineTimeout':null},ChannelFunction=async()=>{const _0x14938c=_0x2d3b;if(!navigator['onLine']){Notify[_0x14938c(0x1fb)](_0x14938c(0x2db));return;}let _0x5271f2=$(_0x14938c(0x267))['value'][_0x14938c(0x1ea)](),_0x354d90=$(_0x14938c(0x1f0))['value'];if(_0x354d90==='')$('#online\x20#channel-name')[_0x14938c(0x2b5)](),Notify['popUpNote'](_0x14938c(0x27f));else{if(_0x5271f2==='')$(_0x14938c(0x267))[_0x14938c(0x2b5)](),Notify[_0x14938c(0x1fb)](_0x14938c(0x298));else{_0x354d90=_0x354d90['replaceAll'](/^\w|\s\w/g,_0x3648ba=>_0x3648ba[_0x14938c(0x1ec)]()),_0x5271f2=_0x5271f2[_0x14938c(0x29b)](/^\w|\s\w/g,_0x4941e6=>_0x4941e6['toUpperCase']()),$(_0x14938c(0x1f0))[_0x14938c(0x20e)]=_0x14938c(0x337),playerA[_0x14938c(0x26c)]=_0x5271f2;try{if(!Lobby[_0x14938c(0x2b9)])$$('#online\x20.player_name')[0x0][_0x14938c(0x328)]=_0x5271f2,$$('#online\x20.player_name')[0x0][_0x14938c(0x2d1)](_0x14938c(0x2b8),_0x5271f2),storage?storage[_0x14938c(0x19f)](_0x14938c(0x212))?Lobby[_0x14938c(0x2cb)]=storage[_0x14938c(0x19f)]('Checkers\x20-\x20uuid'):(Lobby[_0x14938c(0x2cb)]=PubNub[_0x14938c(0x345)](),storage[_0x14938c(0x29c)](_0x14938c(0x212),Lobby[_0x14938c(0x2cb)])):Lobby[_0x14938c(0x2cb)]=PubNub['generateUUID'](),Lobby[_0x14938c(0x2a9)]=_0x354d90,Lobby['LOBBY']='Lobby'+_0x354d90,Lobby['PUBNUB']=new PubNub({'uuid':Lobby[_0x14938c(0x2cb)],'publish_key':_0x14938c(0x1a3),'subscribe_key':_0x14938c(0x2b0),'ssl':!![],'presenceTimeout':0x14,'restore':![]}),Lobby[_0x14938c(0x1c7)]={'presence':function(_0x4d1897){const _0x46062f=_0x14938c;if(_0x4d1897[_0x46062f(0x2b3)]==Lobby[_0x46062f(0x1a7)]&&_0x4d1897[_0x46062f(0x325)]===_0x46062f(0x223))Lobby[_0x46062f(0x2df)][_0x46062f(0x278)]({'channels':[Lobby[_0x46062f(0x2a9)]]},function(_0x8e5e34,_0x2884ac){const _0x5eb495=_0x46062f;if(_0x2884ac[_0x5eb495(0x1e6)]<0x2){Lobby[_0x5eb495(0x333)]=_0x2884ac['totalOccupancy']==0x0,Lobby[_0x5eb495(0x2df)][_0x5eb495(0x2d9)](Lobby[_0x5eb495(0x1c7)]),Lobby[_0x5eb495(0x2df)][_0x5eb495(0x1c0)]({'channels':[Lobby[_0x5eb495(0x1a7)]]}),Lobby['PUBNUB'][_0x5eb495(0x332)](Lobby['LISTENER']);const _0x2cb1f2=_0x5eb495(0x206)+Lobby[_0x5eb495(0x2df)][_0x5eb495(0x288)]()+'\x27';Lobby[_0x5eb495(0x2df)][_0x5eb495(0x2ee)](_0x2cb1f2),Lobby['PUBNUB'][_0x5eb495(0x2a4)]({'channels':[Lobby['CHANNEL']],'withPresence':!![]});}else Notify[_0x5eb495(0x1fb)](Lobby['CHANNEL']+_0x5eb495(0x2e2)),Lobby[_0x5eb495(0x2df)][_0x5eb495(0x2d9)](Lobby[_0x5eb495(0x1c7)]),Lobby[_0x5eb495(0x2df)][_0x5eb495(0x1c0)]({'channels':[Lobby[_0x5eb495(0x1a7)]]}),Lobby['CHANNEL']=null,Lobby[_0x5eb495(0x1a7)]=null,Lobby[_0x5eb495(0x2b9)]=![],Lobby[_0x5eb495(0x2df)]=null,Lobby[_0x5eb495(0x333)]=![],$(_0x5eb495(0x1f0))[_0x5eb495(0x2b8)]='';});else _0x4d1897[_0x46062f(0x2b3)]==Lobby[_0x46062f(0x1a7)]&&_0x4d1897['action']===_0x46062f(0x28c)&&Notify[_0x46062f(0x1fb)]('Connection\x20timeout\x20to\x20'+Lobby['CHANNEL']+_0x46062f(0x1f7));}},Lobby[_0x14938c(0x2df)][_0x14938c(0x332)](Lobby[_0x14938c(0x1c7)]),Lobby[_0x14938c(0x2df)][_0x14938c(0x2a4)]({'channels':[Lobby['LOBBY']],'withPresence':!![]}),await new Sleep()[_0x14938c(0x297)](0.1),Notify[_0x14938c(0x1fb)](_0x14938c(0x24b)),Lobby[_0x14938c(0x2e4)]={'presence':async function(_0x3077bc){const _0x53044c=_0x14938c;if(_0x3077bc[_0x53044c(0x2b3)]==Lobby[_0x53044c(0x2a9)]){if(_0x3077bc[_0x53044c(0x325)]==='join'){if(_0x3077bc[_0x53044c(0x28b)]==Lobby[_0x53044c(0x2cb)]&&_0x3077bc[_0x53044c(0x250)]<=0x2){}else{if(_0x3077bc[_0x53044c(0x2cb)]!=Lobby[_0x53044c(0x2cb)]&&_0x3077bc[_0x53044c(0x250)]<=0x2){}else _0x3077bc[_0x53044c(0x250)]>0x2&&(Unsubscribed(),Notify[_0x53044c(0x1fb)](Lobby[_0x53044c(0x2a9)]+_0x53044c(0x305)));}}else{if(_0x3077bc[_0x53044c(0x325)]===_0x53044c(0x28c)){if(_0x3077bc['uuid']==Lobby[_0x53044c(0x2cb)])Unsubscribe(![]);else{if(Lobby['opponent']){Lobby[_0x53044c(0x2a7)]=setTimeout(()=>LeftChannel({'totalOccupancy':0x1}),0x2bf20);let _0x15774b=$$('#online\x20.player_name')[0x1][_0x53044c(0x328)];Notify['popUpNote'](_0x15774b+_0x53044c(0x2e3));let _0x1aba58=$$(_0x53044c(0x301))[0x1];_0x1aba58[_0x53044c(0x328)]=_0x53044c(0x1cb);let _0x490a5e=$(_0x53044c(0x1b6));_0x490a5e[_0x53044c(0x2d1)]('value',_0x53044c(0x1cb)),_0x490a5e[_0x53044c(0x328)]=_0x53044c(0x1e0),_0x490a5e[_0x53044c(0x209)][_0x53044c(0x334)](_0x53044c(0x300),_0x53044c(0x33f)),_0x490a5e[_0x53044c(0x209)]['add'](_0x53044c(0x271));}}}else{if(_0x3077bc[_0x53044c(0x325)]===_0x53044c(0x2b7)&&_0x3077bc[_0x53044c(0x28b)]!=Lobby[_0x53044c(0x2cb)])LeftChannel({'totalOccupancy':0x1});else{if(_0x3077bc[_0x53044c(0x325)]===_0x53044c(0x2b7)&&_0x3077bc[_0x53044c(0x28b)]==Lobby['UUID']){}else{if(_0x3077bc[_0x53044c(0x325)]===_0x53044c(0x2a1)&&_0x3077bc['uuid']!=Lobby['UUID']){let _0x4f133b=_0x3077bc[_0x53044c(0x1dc)][_0x53044c(0x325)];if(_0x3077bc[_0x53044c(0x1dc)]['value']==!![]){let _0x3133c7=$(_0x53044c(0x25d));_0x3133c7[_0x53044c(0x209)][_0x53044c(0x24a)](_0x4f133b);let _0x3bae3a=$$('.chat_header\x20p')[0x1];_0x3bae3a[_0x53044c(0x328)]=_0x4f133b+'...';}else{let _0x892eea=$('.state_container');_0x892eea[_0x53044c(0x209)][_0x53044c(0x334)]('recording',_0x53044c(0x2f1));let _0x37b20c=$$('.chat_header\x20p')[0x1];_0x37b20c[_0x53044c(0x328)]='online';}}}}}}}},'status':async function(_0xbb199f){const _0x47cd0d=_0x14938c;if(!Lobby[_0x47cd0d(0x2b9)]&&_0xbb199f[_0x47cd0d(0x2fa)]===_0x47cd0d(0x2c6)){let _0x44dc81=$(_0x47cd0d(0x2c5));_0x44dc81[_0x47cd0d(0x209)][_0x47cd0d(0x334)](_0x47cd0d(0x271)),_0x44dc81[_0x47cd0d(0x209)][_0x47cd0d(0x24a)](_0x47cd0d(0x33f)),_0x44dc81[_0x47cd0d(0x33e)]=_0x47cd0d(0x310),Lobby[_0x47cd0d(0x2b9)]=!![],$('#online\x20.lobby_name')[_0x47cd0d(0x33e)]=Lobby['CHANNEL']+(Lobby['isHost']?_0x47cd0d(0x1ee):'\x20(Guest)'),Lobby[_0x47cd0d(0x333)]?Notify[_0x47cd0d(0x1fb)](_0x47cd0d(0x208)+Lobby[_0x47cd0d(0x2a9)]+'\x20channel\x20successfully\x20as\x20the\x20host\x20member.\x20Waiting\x20for\x20opponent...'):(Notify[_0x47cd0d(0x1fb)](_0x47cd0d(0x208)+Lobby['CHANNEL']+_0x47cd0d(0x2d8)),Publish[_0x47cd0d(0x251)]({'channel':Lobby[_0x47cd0d(0x2a9)],'message':{'title':_0x47cd0d(0x30f),'content':$$(_0x47cd0d(0x1ba))[0x0][_0x47cd0d(0x328)]}}));}else{if(_0xbb199f['category']===_0x47cd0d(0x2f2))Notify[_0x47cd0d(0x1fb)](_0x47cd0d(0x22e)+Lobby[_0x47cd0d(0x2a9)]+_0x47cd0d(0x30a)),Publish['send']({'channel':Lobby[_0x47cd0d(0x2a9)],'message':{'title':_0x47cd0d(0x343),'content':''}});else{if(_0xbb199f['category']===_0x47cd0d(0x318))Notify['popUpNote'](_0x47cd0d(0x2aa));else{if(_0xbb199f['category']==='PNNetworkIssueCategory')Notify[_0x47cd0d(0x1fb)]('Having\x20trouble\x20to\x20connect,\x20please\x20check\x20your\x20device\x20internet\x20connection.');else{if(_0xbb199f['category']===_0x47cd0d(0x347))Notify[_0x47cd0d(0x1fb)](_0x47cd0d(0x210));else{if(_0xbb199f[_0x47cd0d(0x2fa)]==='PNTimeoutCategory'){}}}}}}},'message':function(_0x543049){const _0x14fba8=_0x14938c;_0x543049[_0x14fba8(0x2dd)]=JSON['parse'](_0x543049[_0x14fba8(0x2dd)]),clearTimeout(Lobby[_0x14fba8(0x2a7)]);if(_0x543049[_0x14fba8(0x2b3)]===Lobby['CHANNEL']){if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x343)){Notify['popUpNote'](playerB['name']+_0x14fba8(0x304));let _0x36c60c=$$('.chat_header\x20p')[0x1];_0x36c60c[_0x14fba8(0x328)]=_0x14fba8(0x31d);let _0x5af8ba=$(_0x14fba8(0x1b6));_0x5af8ba[_0x14fba8(0x2d1)]('value',_0x14fba8(0x31d)),_0x5af8ba[_0x14fba8(0x328)]='ONLINE',_0x5af8ba['classList'][_0x14fba8(0x334)]('orange_ui',_0x14fba8(0x300)),_0x5af8ba[_0x14fba8(0x209)]['add'](_0x14fba8(0x33f)),clearTimeout(Lobby['offlineTimeout']);}else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x306))_0x5271f2=_0x543049['message'][_0x14fba8(0x1f3)],$$(_0x14fba8(0x1ba))[0x1][_0x14fba8(0x328)]=_0x5271f2,$$(_0x14fba8(0x22a))[0x1]['innerHTML']=_0x5271f2,Lobby['opponent']=_0x5271f2,Notify[_0x14fba8(0x1fb)](_0x14fba8(0x1d6)+_0x5271f2);else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x30f)){_0x5271f2=_0x543049[_0x14fba8(0x2dd)]['content'],$$(_0x14fba8(0x1ba))[0x1][_0x14fba8(0x33e)]=_0x5271f2,Lobby['opponent']=_0x5271f2;let _0xe9b8af=$('#player-2-status');_0xe9b8af[_0x14fba8(0x2d1)](_0x14fba8(0x2b8),_0x14fba8(0x31d)),_0xe9b8af[_0x14fba8(0x328)]=_0x14fba8(0x1a5),_0xe9b8af[_0x14fba8(0x209)][_0x14fba8(0x334)](_0x14fba8(0x271),_0x14fba8(0x300)),_0xe9b8af['classList'][_0x14fba8(0x24a)]('default'),$(_0x14fba8(0x1c5))[_0x14fba8(0x2f6)][_0x14fba8(0x314)]='block',setTimeout(()=>{const _0x3b85bc=_0x14fba8;ElemHint[_0x3b85bc(0x2e7)]($(_0x3b85bc(0x1c5)),'Drag\x20to\x20move.\x20Click\x20to\x20open\x20chat.');},0x3e8),$$('.chat_header\x20h2')[0x1]['innerHTML']=_0x5271f2,$('.bubbles_container')['innerHTML']=_0x14fba8(0x2b4),playerB[_0x14fba8(0x26c)]=_0x5271f2,Notify[_0x14fba8(0x1fb)](_0x14fba8(0x249)+_0x5271f2),Lobby['isHost']&&Publish[_0x14fba8(0x251)]({'channel':Lobby[_0x14fba8(0x2a9)],'message':{'title':'OpponentName','content':$$(_0x14fba8(0x1ba))[0x0]['innerHTML']}});}else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x215)){Lobby[_0x14fba8(0x2df)]['addMessageAction']({'channel':Lobby[_0x14fba8(0x2a9)],'messageTimetoken':_0x543049[_0x14fba8(0x31c)],'action':{'type':'delivered','value':_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x1f3)]['id']}});let _0x584c26=$(_0x14fba8(0x25d));_0x584c26[_0x14fba8(0x209)][_0x14fba8(0x334)](_0x14fba8(0x241),_0x14fba8(0x2f1));let _0x285573=$$(_0x14fba8(0x301))[0x1];_0x285573[_0x14fba8(0x328)]=_0x14fba8(0x31d);let _0x2a8c7b=$(_0x14fba8(0x23f));GetValue($(_0x14fba8(0x1c5)),_0x14fba8(0x314))===_0x14fba8(0x1cd)&&(_0x2a8c7b[_0x14fba8(0x33e)]=parseInt(_0x2a8c7b[_0x14fba8(0x328)])+0x1,_0x2a8c7b[_0x14fba8(0x2f6)][_0x14fba8(0x314)]=_0x14fba8(0x1cd),Notify[_0x14fba8(0x1fb)](_0x14fba8(0x2c2)+(parseInt(_0x2a8c7b[_0x14fba8(0x33e)])<=0x1?_0x14fba8(0x230):_0x2a8c7b[_0x14fba8(0x328)]+_0x14fba8(0x30b))+_0x14fba8(0x2e5)+$$(_0x14fba8(0x1ba))[0x1][_0x14fba8(0x328)]),AudioPlayer['play'](_0x14fba8(0x312),0.8)),Message({'action':_0x14fba8(0x2f3),'count':parseInt(_0x2a8c7b[_0x14fba8(0x328)]),'text':_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x1f3)][_0x14fba8(0x2c7)],'id':_0x543049[_0x14fba8(0x2dd)]['content']['id'],'timetoken':_0x543049['timetoken']});}else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x31f)){let _0x35daff=_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x2b6)][_0x14fba8(0x1c1)]('-'),_0x7bf284=[];for(let _0x59d681 of _0x35daff){let _0x481152=$(_0x14fba8(0x1bf)+_0x59d681);_0x481152&&_0x7bf284[_0x14fba8(0x243)](_0x481152);}Bubble['selectedLeft']=_0x7bf284,Bubble[_0x14fba8(0x276)]('MYSELF',!![]);}else{if(_0x543049['message']['title']==='RequestPlay')Request(_0x543049['message']);else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x24c))Request(_0x543049[_0x14fba8(0x2dd)]);else{if(_0x543049[_0x14fba8(0x2dd)]['title']===_0x14fba8(0x2ad))Request(_0x543049[_0x14fba8(0x2dd)]);else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x1c3))Notify[_0x14fba8(0x1fb)]($$('#online\x20.player_name')[0x1][_0x14fba8(0x328)]+_0x14fba8(0x200)),Notify[_0x14fba8(0x2ba)](),setTimeout(()=>play(!![]),0x7d0);else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x2f0))Notify[_0x14fba8(0x1fb)]($$(_0x14fba8(0x1ba))[0x1][_0x14fba8(0x328)]+_0x14fba8(0x1d2)),Notify[_0x14fba8(0x2ba)]();else{if(_0x543049['message'][_0x14fba8(0x31e)]==='Moved')OpponentMove[_0x14fba8(0x313)](_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x1f3)]);else{if(_0x543049['message'][_0x14fba8(0x31e)]===_0x14fba8(0x2bd))Notify[_0x14fba8(0x1fb)](playerB[_0x14fba8(0x26c)]+'\x20undid\x20the\x20move'),back(!![],!![]);else{if(_0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x2f9))Notify[_0x14fba8(0x1fb)](playerB[_0x14fba8(0x26c)]+_0x14fba8(0x21d));else _0x543049[_0x14fba8(0x2dd)][_0x14fba8(0x31e)]===_0x14fba8(0x21b)&&(Notify[_0x14fba8(0x1fb)](_0x543049[_0x14fba8(0x2dd)]['content']+_0x14fba8(0x247)),back());}}}}}}}}}}}}}},'messageAction':function(_0x3331fa){const _0xa654df=_0x14938c;if(_0x3331fa[_0xa654df(0x27d)]!=Lobby[_0xa654df(0x2cb)]){let _0x3e838a=_0x3331fa[_0xa654df(0x1a1)][_0xa654df(0x26e)],_0x5d824d=_0x3331fa[_0xa654df(0x1a1)][_0xa654df(0x2b8)];if(_0x3e838a==_0xa654df(0x1e1)){let _0x23605e=$('#'+_0x5d824d);_0x23605e[_0xa654df(0x209)][_0xa654df(0x24a)](_0xa654df(0x26d));}else{if(_0x3e838a==_0xa654df(0x2f5)){if(/many-\d+$/gi['test'](_0x5d824d)){let _0x5d9dc8=parseInt(_0x5d824d[_0xa654df(0x1c1)]('-')[0x1]),_0x5d6664=Array[_0xa654df(0x269)]($$(_0xa654df(0x281)))['slice'](-_0x5d9dc8);for(let _0x429df4 of _0x5d6664){_0x429df4[_0xa654df(0x209)]['add'](_0xa654df(0x1ed));}}else{let _0x2d0f69=$('#'+_0x5d824d);_0x2d0f69['classList'][_0xa654df(0x24a)]('blue');}}}}},'file':function(_0x2ee625){const _0x3b23b5=_0x14938c;let _0xd76397=$(_0x3b23b5(0x23f));GetValue($(_0x3b23b5(0x1c5)),_0x3b23b5(0x314))===_0x3b23b5(0x1cd)&&(_0xd76397[_0x3b23b5(0x328)]=parseInt(_0xd76397['innerHTML'])+0x1,_0xd76397[_0x3b23b5(0x2f6)][_0x3b23b5(0x314)]=_0x3b23b5(0x1cd),Notify['popUpNote'](_0x3b23b5(0x2c2)+(parseInt(_0xd76397[_0x3b23b5(0x328)])<=0x1?'a\x20new\x20message':_0xd76397[_0x3b23b5(0x328)]+_0x3b23b5(0x30b))+_0x3b23b5(0x2e5)+$$('#online\x20.player_name')[0x1][_0x3b23b5(0x328)]),AudioPlayer[_0x3b23b5(0x22d)](_0x3b23b5(0x312),0.8));let _0x12c743=new VoiceNotePlayer();_0x12c743['receive']({'id':_0x2ee625['file']['id'],'name':_0x2ee625[_0x3b23b5(0x33a)][_0x3b23b5(0x26c)],'channel':_0x2ee625['channel'],'message':{'timetoken':_0x2ee625[_0x3b23b5(0x31c)],'id':_0x2ee625[_0x3b23b5(0x2dd)]['id'],'count':parseInt(_0xd76397[_0x3b23b5(0x328)])}}),Lobby[_0x3b23b5(0x2df)]['addMessageAction']({'channel':Lobby[_0x3b23b5(0x2a9)],'messageTimetoken':_0x2ee625[_0x3b23b5(0x31c)],'action':{'type':_0x3b23b5(0x1e1),'value':_0x2ee625[_0x3b23b5(0x2dd)]['id']}});}};else{if(Lobby[_0x14938c(0x2b9)]&&$$('#online\x20.player_name')[0x0]['innerHTML'][_0x14938c(0x1b4)]()==$('#online\x20.playerA_name')[_0x14938c(0x2b8)][_0x14938c(0x1b4)]())Notify[_0x14938c(0x231)]({'header':_0x14938c(0x1da),'message':_0x14938c(0x344)+Lobby[_0x14938c(0x2a9)]+_0x14938c(0x1aa)});else Lobby[_0x14938c(0x2b9)]&&$$(_0x14938c(0x1ba))[0x0][_0x14938c(0x328)]['toLowerCase']()!=$(_0x14938c(0x267))[_0x14938c(0x2b8)][_0x14938c(0x1b4)]()&&(Publish[_0x14938c(0x251)]({'channel':Lobby[_0x14938c(0x2a9)],'message':{'title':'NameChange','content':$(_0x14938c(0x267))[_0x14938c(0x2b8)][_0x14938c(0x224)](/^\w|\s\w/g,_0x2c9192=>_0x2c9192['toUpperCase']())}}),$$(_0x14938c(0x1ba))[0x0][_0x14938c(0x328)]=$(_0x14938c(0x267))[_0x14938c(0x2b8)]['replace'](/^\w|\s\w/g,_0x287a82=>_0x287a82[_0x14938c(0x1ec)]()),Notify['popUpNote'](_0x14938c(0x214)));}}catch(_0x51651b){Notify[_0x14938c(0x1fb)](_0x14938c(0x2ef));let _0x4fa977=$(_0x14938c(0x25e))['getAttribute'](_0x14938c(0x1b1)),_0x4373fe=$$$(_0x14938c(0x1e4));document[_0x14938c(0x29a)][_0x14938c(0x339)]($(_0x14938c(0x25e))),document['head'][_0x14938c(0x2d7)](_0x4373fe),_0x4373fe[_0x14938c(0x1ad)](_0x14938c(0x33c),()=>{ChannelFunction();},![]),_0x4373fe['setAttribute']('id',_0x14938c(0x28f)),_0x4373fe[_0x14938c(0x1b1)]=_0x4fa977;}}}},Unsubscribe=async(_0x25103c=!![])=>{const _0x2f4846=_0x2d3b;if(Lobby[_0x2f4846(0x2b9)]){let _0x1147ac;_0x25103c?_0x1147ac=await Notify[_0x2f4846(0x1ef)]({'header':_0x2f4846(0x22c)+Lobby[_0x2f4846(0x2a9)]+_0x2f4846(0x29e),'message':'Without\x20a\x20channel\x20you\x20cannot\x20play\x20an\x20online\x20match.','type':_0x2f4846(0x2eb)}):(Lobby[_0x2f4846(0x2a7)]=setTimeout(()=>{UnsubscribeResponse('LEAVE\x20ANYWAY');},0x2bf20),_0x1147ac=await Notify[_0x2f4846(0x1ef)]({'header':_0x2f4846(0x229),'message':_0x2f4846(0x235)+Lobby[_0x2f4846(0x2a9)]+'\x20channel.\x20If\x20this\x20persist\x20for\x203\x20minutes\x20without\x20any\x20action\x20you\x20will\x20be\x20unsubscribed\x20from\x20the\x20channel.','type':_0x2f4846(0x1c8)})),UnsubscribeResponse(_0x1147ac);}else Notify[_0x2f4846(0x1fb)](_0x2f4846(0x217));},UnsubscribeResponse=async _0x13d2ce=>{const _0x58dfe5=_0x2d3b;if(_0x13d2ce==_0x58dfe5(0x295)){Lobby[_0x58dfe5(0x2df)]&&(Notify[_0x58dfe5(0x2c1)]({'header':_0x58dfe5(0x32e),'message':_0x58dfe5(0x237)+Lobby['CHANNEL']+_0x58dfe5(0x32a)}),Lobby[_0x58dfe5(0x2df)]['unsubscribe']({'channels':[Lobby['CHANNEL']]}),await new Sleep()[_0x58dfe5(0x297)](0x1),Lobby[_0x58dfe5(0x2df)][_0x58dfe5(0x2d9)](Lobby[_0x58dfe5(0x2e4)]),Notify['popUpNote'](_0x58dfe5(0x1be)+Lobby[_0x58dfe5(0x2a9)]+_0x58dfe5(0x30a)));Notify[_0x58dfe5(0x2ba)](),clearTimeout(Lobby[_0x58dfe5(0x2a7)]);let _0x3aecfa=$(_0x58dfe5(0x2c5));_0x3aecfa[_0x58dfe5(0x209)]['remove']('default'),_0x3aecfa[_0x58dfe5(0x209)][_0x58dfe5(0x24a)](_0x58dfe5(0x271)),_0x3aecfa[_0x58dfe5(0x328)]=_0x58dfe5(0x279),$(_0x58dfe5(0x1ac))[_0x58dfe5(0x328)]=_0x58dfe5(0x291),$(_0x58dfe5(0x1f0))[_0x58dfe5(0x2b8)]='';let _0x36affd=$(_0x58dfe5(0x1b6));_0x36affd[_0x58dfe5(0x328)]=_0x58dfe5(0x291),_0x36affd['classList'][_0x58dfe5(0x334)](_0x58dfe5(0x33f),_0x58dfe5(0x271)),_0x36affd[_0x58dfe5(0x209)][_0x58dfe5(0x24a)]('black_ui'),$('#online\x20.playerA_name')[_0x58dfe5(0x2b8)]='',$(_0x58dfe5(0x2ab))[_0x58dfe5(0x328)]=_0x58dfe5(0x291),$(_0x58dfe5(0x2be))['innerHTML']='N/A';if(GetValue($(_0x58dfe5(0x1eb)),'display')=='flex')BackState['state'][_0x58dfe5(0x1a9)]();$(_0x58dfe5(0x1eb))['style']['display']=_0x58dfe5(0x24f),$(_0x58dfe5(0x1c5))[_0x58dfe5(0x2f6)][_0x58dfe5(0x314)]='none',Lobby['CHANNEL']=null,Lobby[_0x58dfe5(0x2b9)]=![],Lobby[_0x58dfe5(0x2df)]=null,Lobby[_0x58dfe5(0x333)]=![],Lobby[_0x58dfe5(0x2a7)]=null,Lobby[_0x58dfe5(0x244)]=null;}else(_0x13d2ce==_0x58dfe5(0x1c4)||_0x13d2ce==_0x58dfe5(0x2e1))&&(_0x13d2ce==_0x58dfe5(0x2e1)&&Lobby[_0x58dfe5(0x2df)]?(Publish[_0x58dfe5(0x251)]({'channel':Lobby['CHANNEL'],'message':{'title':_0x58dfe5(0x343),'content':''}}),clearTimeout(Lobby[_0x58dfe5(0x2a7)])):Notify[_0x58dfe5(0x1fb)](_0x58dfe5(0x2fc)));};class OpponentMove{static [_0x35eedb(0x1f6)]=[];static [_0x35eedb(0x270)];static [_0x35eedb(0x313)]=_0x28abd7=>{const _0x1efdbf=_0x35eedb;this[_0x1efdbf(0x1f6)][_0x1efdbf(0x243)](_0x28abd7);if(this[_0x1efdbf(0x1f6)][_0x1efdbf(0x329)]==0x1)this[_0x1efdbf(0x2a8)]();};static [_0x35eedb(0x2a8)]=async()=>{const _0x1397ed=_0x35eedb;if(GetValue($(_0x1397ed(0x1ce)),_0x1397ed(0x314))==_0x1397ed(0x24f)){if(!this[_0x1397ed(0x270)])this[_0x1397ed(0x270)]=new Sleep();await this['sleep'][_0x1397ed(0x216)]();}let _0x5260e1=this[_0x1397ed(0x1f6)][0x0],_0x5c096c=Game[_0x1397ed(0x1a2)]-0x1-_0x5260e1['i'],_0x1303db=Game[_0x1397ed(0x1a2)]-0x1-_0x5260e1['j'],_0x4cf8df=$(_0x1397ed(0x285))[_0x1397ed(0x1af)][_0x5c096c*Game['boardSize']+_0x1303db];await ValidateMove({'cell':_0x4cf8df,'i':_0x5c096c,'j':_0x1303db,'isComputer':!![]}),await this[_0x1397ed(0x1f6)][_0x1397ed(0x19e)]();if(this[_0x1397ed(0x1f6)]['length']>0x0)await this['make']();};}class Publish{static [_0x35eedb(0x2e8)]=[];static ['retryCount']=0x0;static ['send']=async _0x31199c=>{const _0x437db5=_0x35eedb,_0x1dbcef={'uuid':Lobby[_0x437db5(0x2cb)]},_0x5eeb01={'channel':Lobby['CHANNEL'],'message':JSON[_0x437db5(0x228)](_0x31199c[_0x437db5(0x2dd)]),'meta':_0x1dbcef};this[_0x437db5(0x2e8)]['push'](_0x5eeb01);if(this[_0x437db5(0x2e8)]['length']==0x1)this['publish']();return Prms('done');};static [_0x35eedb(0x293)]=async()=>{const _0x4a5951=_0x35eedb;let _0x4a8a6c=this[_0x4a5951(0x2e8)][0x0],_0x2348dd=this;return Lobby['PUBNUB'][_0x4a5951(0x293)](_0x4a8a6c,async(_0x35ed2d,_0x3bfe85)=>{const _0x4a14a1=_0x4a5951;!_0x35ed2d[_0x4a14a1(0x31a)]&&(_0x2348dd['messages'][_0x4a14a1(0x19e)](),_0x2348dd[_0x4a14a1(0x23d)]=0x0);if(_0x35ed2d['error']){if(_0x2348dd[_0x4a14a1(0x23d)]<=0x2)++_0x2348dd[_0x4a14a1(0x23d)];else _0x2348dd['retryCount']=0x0,_0x2348dd[_0x4a14a1(0x2e8)]=[],Notify[_0x4a14a1(0x231)]({'header':'Network\x20Error','message':_0x4a14a1(0x202)+_0x35ed2d[_0x4a14a1(0x2dd)]+_0x4a14a1(0x258)+_0x35ed2d[_0x4a14a1(0x2fa)]});}if(_0x2348dd[_0x4a14a1(0x2e8)][_0x4a14a1(0x329)]>0x0)await _0x2348dd[_0x4a14a1(0x293)]();}),Prms(_0x4a5951(0x268));};}const LeftChannel=_0x384c43=>{const _0x4c3066=_0x35eedb;if(_0x384c43['totalOccupancy']<0x2){Game[_0x4c3066(0x32c)]==_0x4c3066(0x2ff)&&GetValue($('#play-window'),'display')==_0x4c3066(0x2fd)&&back();let _0x552af2=$$(_0x4c3066(0x1ba))[0x1][_0x4c3066(0x328)];$$(_0x4c3066(0x1ba))[0x1][_0x4c3066(0x328)]=_0x4c3066(0x291);let _0x2ebcc3=$(_0x4c3066(0x1b6));_0x2ebcc3[_0x4c3066(0x328)]=_0x4c3066(0x291),_0x2ebcc3[_0x4c3066(0x209)][_0x4c3066(0x334)]('default',_0x4c3066(0x271)),_0x2ebcc3['classList'][_0x4c3066(0x24a)](_0x4c3066(0x300));if(GetValue($(_0x4c3066(0x1eb)),_0x4c3066(0x314))=='flex')BackState[_0x4c3066(0x1dc)][_0x4c3066(0x1a9)]();$(_0x4c3066(0x1c5))[_0x4c3066(0x2f6)]['display']='none',$('#chat-window')[_0x4c3066(0x2f6)][_0x4c3066(0x314)]=_0x4c3066(0x24f),$('#online\x20.lobby_name')[_0x4c3066(0x328)]=Lobby[_0x4c3066(0x2a9)]+'\x20(Host)',Lobby[_0x4c3066(0x333)]=!![],Lobby[_0x4c3066(0x244)]=null,Notify[_0x4c3066(0x1fb)](_0x552af2+_0x4c3066(0x2c8)+Lobby[_0x4c3066(0x2a9)]+_0x4c3066(0x1fc));}},CalculateSize=_0x325149=>{const _0x3415fe=_0x35eedb;let _0x2944d5={'title':'ChatMessage','content':_0x325149},_0x2479bf=Lobby[_0x3415fe(0x2a9)]+JSON['stringify'](_0x2944d5),_0x5929fc=encodeURIComponent(_0x2479bf)['length']+0x64;return _0x5929fc;},UpdateOnlineStatus=()=>{const _0xa43933=_0x35eedb;let _0x21995c=$('#player-1-status');!navigator[_0xa43933(0x263)]?(_0x21995c[_0xa43933(0x2d1)](_0xa43933(0x2b8),_0xa43933(0x1cb)),_0x21995c[_0xa43933(0x328)]=_0xa43933(0x1e0),_0x21995c[_0xa43933(0x209)][_0xa43933(0x334)](_0xa43933(0x33f)),_0x21995c[_0xa43933(0x209)][_0xa43933(0x24a)](_0xa43933(0x271))):(_0x21995c['setAttribute'](_0xa43933(0x2b8),_0xa43933(0x31d)),_0x21995c[_0xa43933(0x328)]=_0xa43933(0x1a5),_0x21995c[_0xa43933(0x209)][_0xa43933(0x334)]('orange_ui'),_0x21995c[_0xa43933(0x209)][_0xa43933(0x24a)](_0xa43933(0x33f)));},Share=_0x46d13f=>{const _0x1aa9d4=_0x35eedb;if(Lobby[_0x1aa9d4(0x2b9)]){if(navigator[_0x1aa9d4(0x280)]){Notify[_0x1aa9d4(0x2c1)]({'header':_0x1aa9d4(0x32e),'message':'Preparing\x20to\x20share'});let _0x58d105=Lobby['CHANNEL'],_0x11b756=$$(_0x1aa9d4(0x1ba))[0x0]['textContent'];navigator[_0x1aa9d4(0x246)]({'title':_0x1aa9d4(0x253),'text':_0x1aa9d4(0x20f)+_0x11b756+_0x1aa9d4(0x240),'url':_0x1aa9d4(0x204)+_0x58d105})['then'](()=>{const _0x162f17=_0x1aa9d4;Notify[_0x162f17(0x2ba)](),Notify[_0x162f17(0x1fb)](_0x162f17(0x320));})[_0x1aa9d4(0x327)](_0x5f1b71=>{const _0x383ef1=_0x1aa9d4;let _0x2aa8bb=_0x5f1b71[_0x383ef1(0x292)]()[_0x383ef1(0x1c1)](':');Notify[_0x383ef1(0x231)]({'header':_0x2aa8bb[0x0],'message':_0x383ef1(0x1ae)+_0x2aa8bb[0x1]});});}else Notify[_0x1aa9d4(0x231)]({'header':_0x1aa9d4(0x2b2),'message':_0x1aa9d4(0x22f)});}else Notify[_0x1aa9d4(0x1fb)](_0x1aa9d4(0x217));};class VoiceNoteRecorder{[_0x35eedb(0x2ca)];[_0x35eedb(0x2fb)];[_0x35eedb(0x28d)];['timer'];static ['recorder']=null;static ['requestAbortion']=![];static ['initiating']=![];static ['aborting']=![];static ['initializationError']=![];['init']=async()=>{const _0x5c4f08=_0x35eedb;try{this[_0x5c4f08(0x2ca)]=await navigator['mediaDevices'][_0x5c4f08(0x260)]({'audio':!![]});}catch(_0x52a269){return _0x52a269[_0x5c4f08(0x26c)];}return this[_0x5c4f08(0x2fb)]=new MediaRecorder(this[_0x5c4f08(0x2ca)]),this[_0x5c4f08(0x28d)]=[],this['mediaRecorder'][_0x5c4f08(0x1ad)](_0x5c4f08(0x2a0),_0x179117=>{const _0x31ba7f=_0x5c4f08;this[_0x31ba7f(0x28d)]['push'](_0x179117['data']);}),'success';};[_0x35eedb(0x216)]=()=>{const _0x557892=_0x35eedb;this[_0x557892(0x2fb)]['start']();let _0x429b50=0x0,_0x5c4a63=0x0,_0xad9b86=$('.recorder_time');_0xad9b86[_0x557892(0x33e)]=_0x557892(0x1db),clearInterval(this[_0x557892(0x220)]),this[_0x557892(0x220)]=setInterval(()=>{const _0x6f0b01=_0x557892;_0x5c4a63++,_0x5c4a63==0x3c&&(_0x429b50++,_0x5c4a63=0x0),_0xad9b86[_0x6f0b01(0x33e)]=_0x429b50+':'+String(_0x5c4a63)['padStart'](0x2,'0');},0x3e8);};[_0x35eedb(0x346)]=async(_0x2e5df=![])=>{const _0x201f1b=_0x35eedb;let _0x37cfd5=null,_0x402596=new Sleep(),_0x14f93b=this;return this[_0x201f1b(0x2fb)]?(this['mediaRecorder']['addEventListener'](_0x201f1b(0x346),()=>{const _0x4874b5=_0x201f1b;if(!_0x2e5df&&this[_0x4874b5(0x28d)][_0x4874b5(0x329)]>0x0){const _0x482306=new Blob(this[_0x4874b5(0x28d)]),_0x59e1a0=URL[_0x4874b5(0x283)](_0x482306),_0xc515d7=new Audio(_0x59e1a0),_0x26746e=_0x14f93b[_0x4874b5(0x2fb)]['mimeType'][_0x4874b5(0x1c1)](';')[0x0];_0x37cfd5={'audioBlob':_0x482306,'mimeType':_0x26746e,'audio':_0xc515d7};}else this[_0x4874b5(0x28d)]=[],_0x37cfd5=null;clearInterval(this[_0x4874b5(0x220)]),$('.recorder_time')[_0x4874b5(0x33e)]='0:00',_0x402596[_0x4874b5(0x26f)]();}),this[_0x201f1b(0x2fb)]['state']==_0x201f1b(0x241)&&(this[_0x201f1b(0x2fb)][_0x201f1b(0x346)](),await _0x402596[_0x201f1b(0x216)]()),this[_0x201f1b(0x2ca)][_0x201f1b(0x2d6)]()[0x0][_0x201f1b(0x346)]()):_0x37cfd5='no\x20media',_0x37cfd5;};static [_0x35eedb(0x242)]=async _0x555d37=>{const _0x43d0f4=_0x35eedb;if(!Permissions['permissions']['microphone'])return Permissions[_0x43d0f4(0x1fd)](_0x43d0f4(0x1a6)),![];if(this['initiating']||this[_0x43d0f4(0x20d)])return![];this['requestAbortion']=![],this[_0x43d0f4(0x322)]=!![],this['initializationError']=![];try{let _0x5084f1=await navigator[_0x43d0f4(0x1e9)][_0x43d0f4(0x260)]({'audio':!![]});for(let _0xf69438 of _0x5084f1['getTracks']()){_0xf69438[_0x43d0f4(0x346)]();}}catch(_0x1bd728){}this[_0x43d0f4(0x1a6)]=new VoiceNoteRecorder();let _0x46c03e=await this[_0x43d0f4(0x1a6)][_0x43d0f4(0x1b8)]();if(_0x46c03e!=_0x43d0f4(0x23a))return Notify[_0x43d0f4(0x1fb)](_0x46c03e+'\x20occurred.\x20We\x20couldn\x27t\x20proceed.'),navigator[_0x43d0f4(0x340)]([0x64,0x32,0x64]),this[_0x43d0f4(0x1a6)]=null,this[_0x43d0f4(0x25a)]=!![],this[_0x43d0f4(0x322)]=![],![];let _0x4251ea=$('.recorder_container');_0x4251ea[_0x43d0f4(0x2f6)][_0x43d0f4(0x227)]='0.3s',_0x555d37[_0x43d0f4(0x2f6)][_0x43d0f4(0x227)]=_0x43d0f4(0x1d7),_0x555d37[_0x43d0f4(0x2f6)]['height']='70px',_0x555d37['style'][_0x43d0f4(0x2cd)]=_0x43d0f4(0x232),_0x555d37[_0x43d0f4(0x2f6)]['bottom']=_0x43d0f4(0x234),$('.field_container')[_0x43d0f4(0x2f6)]['opacity']=0x0,_0x4251ea[_0x43d0f4(0x2f6)][_0x43d0f4(0x314)]='flex',_0x4251ea[_0x43d0f4(0x2f6)][_0x43d0f4(0x2cd)]='calc(100%\x20-\x2060px)',AudioPlayer['play'](_0x43d0f4(0x303),0x1),navigator[_0x43d0f4(0x340)](0x32),await new Sleep()[_0x43d0f4(0x297)](0.5),_0x46c03e=!![];if(this[_0x43d0f4(0x2cc)]){if(this[_0x43d0f4(0x1a6)]&&this[_0x43d0f4(0x1a6)][_0x43d0f4(0x2ca)])this['recorder'][_0x43d0f4(0x2ca)][_0x43d0f4(0x2d6)]()[0x0][_0x43d0f4(0x346)]();this[_0x43d0f4(0x1a6)]=null,_0x555d37[_0x43d0f4(0x2f6)][_0x43d0f4(0x324)]=_0x43d0f4(0x1ab),_0x555d37[_0x43d0f4(0x2f6)]['width']=_0x43d0f4(0x1ab),_0x555d37[_0x43d0f4(0x2f6)]['bottom']=_0x43d0f4(0x266),_0x555d37[_0x43d0f4(0x2f6)][_0x43d0f4(0x315)]=_0x43d0f4(0x24f),_0x4251ea[_0x43d0f4(0x2f6)][_0x43d0f4(0x2cd)]=_0x43d0f4(0x254),await new Sleep()[_0x43d0f4(0x297)](0.3),$(_0x43d0f4(0x2d2))['style'][_0x43d0f4(0x1f5)]=0x1,_0x4251ea['style'][_0x43d0f4(0x314)]=_0x43d0f4(0x24f),_0x46c03e=![],ElemHint[_0x43d0f4(0x2e7)](_0x555d37,_0x43d0f4(0x21c));}else Lobby['isConnected']&&Lobby[_0x43d0f4(0x2df)][_0x43d0f4(0x342)]({'state':{'action':_0x43d0f4(0x241),'value':!![]},'channels':[Lobby[_0x43d0f4(0x2a9)]]}),this[_0x43d0f4(0x1a6)][_0x43d0f4(0x216)]();return this['initiating']=![],_0x555d37['style'][_0x43d0f4(0x227)]='0s',_0x4251ea[_0x43d0f4(0x2f6)][_0x43d0f4(0x227)]='0s',_0x46c03e;};static ['stopRecording']=async(_0x13abb1,_0xc634cf=![])=>{const _0x4ce767=_0x35eedb;if(!Permissions[_0x4ce767(0x252)]['microphone'])return;try{this['requestAbortion']=!![];if(this[_0x4ce767(0x322)]||this[_0x4ce767(0x25a)]||this[_0x4ce767(0x20d)])return;this[_0x4ce767(0x20d)]=!![],_0x13abb1[_0x4ce767(0x2f6)][_0x4ce767(0x324)]=_0x4ce767(0x1ab),_0x13abb1[_0x4ce767(0x2f6)][_0x4ce767(0x2cd)]=_0x4ce767(0x1ab),_0x13abb1[_0x4ce767(0x2f6)]['bottom']=_0x4ce767(0x266),_0x13abb1['style'][_0x4ce767(0x315)]=_0x4ce767(0x24f),await new Sleep()[_0x4ce767(0x297)](0.3);let _0x482ce1=await this[_0x4ce767(0x1a6)]['stop'](_0xc634cf);if(_0xc634cf)Lobby[_0x4ce767(0x2b9)]&&Lobby[_0x4ce767(0x2df)][_0x4ce767(0x342)]({'state':{'action':'recording','value':![]},'channels':[Lobby[_0x4ce767(0x2a9)]]}),setTimeout(()=>{const _0x2f2640=_0x4ce767;$(_0x2f2640(0x294))['classList'][_0x2f2640(0x24a)](_0x2f2640(0x284));},0x190),setTimeout(()=>{const _0x5422ba=_0x4ce767;AudioPlayer[_0x5422ba(0x22d)]('throwRecording',0x1);},0x320),$('.recorder_time')[_0x4ce767(0x209)][_0x4ce767(0x24a)](_0x4ce767(0x284)),AudioPlayer[_0x4ce767(0x22d)](_0x4ce767(0x1bb),0x1),navigator['vibrate'](0x32),await new Sleep()['wait'](2.1),$(_0x4ce767(0x294))[_0x4ce767(0x209)][_0x4ce767(0x334)]('delete_recording'),$(_0x4ce767(0x2bc))[_0x4ce767(0x209)][_0x4ce767(0x334)](_0x4ce767(0x284)),Notify[_0x4ce767(0x1fb)](_0x4ce767(0x1e8));else{if(typeof _0x482ce1=='object'){Lobby[_0x4ce767(0x2b9)]&&Lobby['PUBNUB'][_0x4ce767(0x342)]({'state':{'action':_0x4ce767(0x241),'value':![]},'channels':[Lobby[_0x4ce767(0x2a9)]]});let _0xbfca91=new VoiceNotePlayer();_0xbfca91['send'](_0x482ce1),AudioPlayer['play']('stopRecording',0x1),navigator[_0x4ce767(0x340)](0x32);}}$(_0x4ce767(0x2d2))['style'][_0x4ce767(0x1f5)]=0x1,$(_0x4ce767(0x1d5))[_0x4ce767(0x2f6)][_0x4ce767(0x2cd)]='calc(100%\x20-\x2070px)',$(_0x4ce767(0x1d5))['style'][_0x4ce767(0x314)]=_0x4ce767(0x24f),this['recorder']=null,this[_0x4ce767(0x20d)]=![];}catch(_0x4e21da){try{let _0x59e036=await navigator['mediaDevices'][_0x4ce767(0x260)]({'audio':!![]});for(let _0x226e25 of _0x59e036[_0x4ce767(0x2d6)]()){_0x226e25[_0x4ce767(0x346)]();}}catch(_0x45cd85){}_0x13abb1[_0x4ce767(0x2f6)][_0x4ce767(0x324)]=_0x4ce767(0x1ab),_0x13abb1[_0x4ce767(0x2f6)][_0x4ce767(0x2cd)]='45px',_0x13abb1[_0x4ce767(0x2f6)][_0x4ce767(0x32d)]=_0x4ce767(0x266),_0x13abb1['style'][_0x4ce767(0x315)]=_0x4ce767(0x24f),$(_0x4ce767(0x294))[_0x4ce767(0x209)][_0x4ce767(0x334)](_0x4ce767(0x284)),$(_0x4ce767(0x2bc))[_0x4ce767(0x209)][_0x4ce767(0x334)]('delete_recording'),$(_0x4ce767(0x2d2))[_0x4ce767(0x2f6)][_0x4ce767(0x1f5)]=0x1,$('.recorder_container')['style'][_0x4ce767(0x2cd)]='calc(100%\x20-\x2070px)',$(_0x4ce767(0x1d5))['style'][_0x4ce767(0x314)]=_0x4ce767(0x24f),this[_0x4ce767(0x1a6)]=null,this[_0x4ce767(0x20d)]=![];}};}class VoiceNotePlayer{[_0x35eedb(0x282)];[_0x35eedb(0x1c9)];[_0x35eedb(0x27b)];[_0x35eedb(0x26a)];[_0x35eedb(0x220)];[_0x35eedb(0x317)];[_0x35eedb(0x1f9)]=![];[_0x35eedb(0x299)]=![];static [_0x35eedb(0x302)];constructor(){const _0x387bf6=_0x35eedb;this[_0x387bf6(0x282)]=$$$(_0x387bf6(0x28e),[_0x387bf6(0x2bf),_0x387bf6(0x261)]),this[_0x387bf6(0x1c9)]=$$$(_0x387bf6(0x20c),['class',_0x387bf6(0x218)]),this['range']=$$$(_0x387bf6(0x2a5),[_0x387bf6(0x26e),'range','max',_0x387bf6(0x337),_0x387bf6(0x2b8),'0',_0x387bf6(0x2bf),_0x387bf6(0x1e7)]),this[_0x387bf6(0x26a)]=$$$(_0x387bf6(0x2af),[_0x387bf6(0x2bf),_0x387bf6(0x25f),_0x387bf6(0x33e),_0x387bf6(0x1db)]),this[_0x387bf6(0x282)][_0x387bf6(0x2d7)](this[_0x387bf6(0x1c9)]),this[_0x387bf6(0x282)][_0x387bf6(0x2d7)](this[_0x387bf6(0x27b)]),this[_0x387bf6(0x282)]['appendChild'](this['time']),this[_0x387bf6(0x1c9)][_0x387bf6(0x1ad)](_0x387bf6(0x1b9),this[_0x387bf6(0x22d)],![]),this[_0x387bf6(0x1c9)][_0x387bf6(0x1ad)](_0x387bf6(0x2b5),_0x12ea5=>ChangeTextBox(![],this[_0x387bf6(0x1c9)],_0x12ea5),![]),this[_0x387bf6(0x27b)][_0x387bf6(0x1ad)](_0x387bf6(0x2f8),this['skip'],![]),this['range']['addEventListener'](_0x387bf6(0x2a5),this[_0x387bf6(0x287)],![]),this[_0x387bf6(0x27b)][_0x387bf6(0x1ad)](_0x387bf6(0x2b5),_0x4dd881=>ChangeTextBox(![],this[_0x387bf6(0x27b)],_0x4dd881),![]);}[_0x35eedb(0x251)]=async _0x252cf7=>{const _0x1347ed=_0x35eedb;this[_0x1347ed(0x317)]=_0x252cf7['audio'],this[_0x1347ed(0x317)][_0x1347ed(0x1ad)](_0x1347ed(0x319),()=>{const _0x29a297=_0x1347ed;this[_0x29a297(0x1f9)]=![],this['audio']['currentTime']=0x0,this[_0x29a297(0x317)][_0x29a297(0x2da)]=![],this['audio'][_0x29a297(0x22b)]=0x1,clearInterval(this[_0x29a297(0x220)]),this[_0x29a297(0x26a)][_0x29a297(0x33e)]=_0x29a297(0x1db),this[_0x29a297(0x27b)]['style'][_0x29a297(0x205)]='0%',this[_0x29a297(0x27b)][_0x29a297(0x2b8)]=0x0,this['btn'][_0x29a297(0x209)]['remove']('audio_pause',_0x29a297(0x1d8)),this[_0x29a297(0x282)][_0x29a297(0x2f6)][_0x29a297(0x23e)]=_0x29a297(0x349),this[_0x29a297(0x27b)][_0x29a297(0x2f6)]['pointerEvents']=_0x29a297(0x349),VoiceNotePlayer['currentPlayer']=null;}),this['audio']['addEventListener']('loadeddata',()=>{const _0x311783=_0x1347ed;if(String(this[_0x311783(0x317)][_0x311783(0x2ea)])==_0x311783(0x245)){this[_0x311783(0x317)][_0x311783(0x2da)]=!![],this['audio'][_0x311783(0x22d)](),this[_0x311783(0x317)][_0x311783(0x22b)]=0xa;return;}this[_0x311783(0x1c9)]['classList'][_0x311783(0x334)](_0x311783(0x1d8)),this[_0x311783(0x282)][_0x311783(0x2f6)][_0x311783(0x23e)]=_0x311783(0x349);});const _0xd23675=await Message({'action':_0x1347ed(0x251),'text':this[_0x1347ed(0x282)]},![]),_0x286dc1=await _0x252cf7[_0x1347ed(0x1ca)][_0x1347ed(0x2c9)](),_0x51481e=_0x252cf7[_0x1347ed(0x21a)];if(Lobby[_0x1347ed(0x2b9)]){const _0x598a2a={'uuid':Lobby['UUID']},_0x39a4d8={'data':_0x286dc1,'name':_0x1347ed(0x1b3)+Date[_0x1347ed(0x32b)]()+'.'+_0x51481e['split']('/')[0x1],'mimeType':_0x51481e},_0x252fce={'id':_0xd23675};Lobby[_0x1347ed(0x2df)][_0x1347ed(0x336)]({'channel':Lobby[_0x1347ed(0x2a9)],'message':_0x252fce,'file':_0x39a4d8,'meta':_0x598a2a});}};['receive']=async _0x486c41=>{const _0x2868fa=_0x35eedb;Message({'action':_0x2868fa(0x2f3),'text':this['panel'],'count':_0x486c41[_0x2868fa(0x2dd)][_0x2868fa(0x25c)],'id':_0x486c41[_0x2868fa(0x2dd)]['id'],'timetoken':_0x486c41['message'][_0x2868fa(0x31c)]});let _0x1db97f={'channel':_0x486c41[_0x2868fa(0x2b3)],'id':_0x486c41['id'],'name':_0x486c41[_0x2868fa(0x26c)]},_0xb29999=await Lobby[_0x2868fa(0x2df)][_0x2868fa(0x30c)](_0x1db97f),_0x2eac71=await _0xb29999[_0x2868fa(0x286)](),_0x2ca56d=URL[_0x2868fa(0x283)](_0x2eac71);this[_0x2868fa(0x317)]=new Audio(_0x2ca56d),this[_0x2868fa(0x317)][_0x2868fa(0x1ad)](_0x2868fa(0x319),()=>{const _0x5b8dc1=_0x2868fa;this['playing']=![],this[_0x5b8dc1(0x317)][_0x5b8dc1(0x21f)]=0x0,this['audio'][_0x5b8dc1(0x2da)]=![],this[_0x5b8dc1(0x317)][_0x5b8dc1(0x22b)]=0x1,clearInterval(this[_0x5b8dc1(0x220)]),this['time'][_0x5b8dc1(0x33e)]='0:00',this[_0x5b8dc1(0x27b)][_0x5b8dc1(0x2f6)][_0x5b8dc1(0x205)]='0%',this[_0x5b8dc1(0x27b)][_0x5b8dc1(0x2b8)]=0x0,this[_0x5b8dc1(0x1c9)]['classList']['remove'](_0x5b8dc1(0x33d),_0x5b8dc1(0x1d8)),this[_0x5b8dc1(0x282)][_0x5b8dc1(0x2f6)][_0x5b8dc1(0x23e)]='auto',this[_0x5b8dc1(0x27b)]['style']['pointerEvents']=_0x5b8dc1(0x349),VoiceNotePlayer[_0x5b8dc1(0x302)]=null;if(this['initialPlay'])this[_0x5b8dc1(0x1c9)][_0x5b8dc1(0x1b9)]();this[_0x5b8dc1(0x299)]=![];}),this[_0x2868fa(0x317)][_0x2868fa(0x1ad)](_0x2868fa(0x219),()=>{const _0x563b66=_0x2868fa;String(this[_0x563b66(0x317)][_0x563b66(0x2ea)])==_0x563b66(0x245)&&(this[_0x563b66(0x1c9)][_0x563b66(0x209)][_0x563b66(0x334)](_0x563b66(0x1d8)),this[_0x563b66(0x27b)][_0x563b66(0x2f6)][_0x563b66(0x23e)]='none'),this[_0x563b66(0x1c9)][_0x563b66(0x209)][_0x563b66(0x334)](_0x563b66(0x1d8)),this[_0x563b66(0x282)]['style'][_0x563b66(0x23e)]=_0x563b66(0x349);});};[_0x35eedb(0x22d)]=async _0x158334=>{const _0x179c81=_0x35eedb;general['chatFieldHadFocus']=document[_0x179c81(0x1d1)]==$(_0x179c81(0x221));if(this[_0x179c81(0x1f9)])this[_0x179c81(0x1f9)]=![],this[_0x179c81(0x317)][_0x179c81(0x213)](),clearInterval(this[_0x179c81(0x220)]),_0x158334[_0x179c81(0x1bd)][_0x179c81(0x209)][_0x179c81(0x334)](_0x179c81(0x33d)),VoiceNotePlayer['currentPlayer']=null;else{if(String(this[_0x179c81(0x317)][_0x179c81(0x2ea)])==_0x179c81(0x245)){this[_0x179c81(0x317)][_0x179c81(0x2da)]=!![],this['audio'][_0x179c81(0x22b)]=0xa,this[_0x179c81(0x1c9)]['classList']['add'](_0x179c81(0x1d8)),this[_0x179c81(0x282)]['style']['pointerEvents']=_0x179c81(0x24f),this[_0x179c81(0x299)]=!![],this[_0x179c81(0x317)]['play']();return;}VoiceNotePlayer[_0x179c81(0x302)]&&VoiceNotePlayer[_0x179c81(0x302)]['btn'][_0x179c81(0x1b9)](),VoiceNotePlayer[_0x179c81(0x302)]=this,this['playing']=!![],this[_0x179c81(0x317)][_0x179c81(0x22d)](),this[_0x179c81(0x220)]=setInterval(()=>{const _0x519946=_0x179c81;let _0x5c107c=Math[_0x519946(0x1d3)](this[_0x519946(0x317)][_0x519946(0x21f)]/0x3c),_0x44833d=Math[_0x519946(0x1d3)](this['audio'][_0x519946(0x21f)]%0x3c);this[_0x519946(0x26a)][_0x519946(0x33e)]=_0x5c107c+':'+String(_0x44833d)['padStart'](0x2,'0');let _0x4cce8a=Math[_0x519946(0x1d3)](this['audio']['currentTime']/this['audio'][_0x519946(0x2ea)]*0x64);this[_0x519946(0x27b)][_0x519946(0x2f6)][_0x519946(0x205)]=_0x4cce8a+'%',this['range'][_0x519946(0x2b8)]=''+_0x4cce8a;},0x1),_0x158334[_0x179c81(0x1bd)]['classList'][_0x179c81(0x24a)](_0x179c81(0x33d));}};[_0x35eedb(0x330)]=async _0x50482d=>{const _0x3110c9=_0x35eedb;general[_0x3110c9(0x323)]=document[_0x3110c9(0x1d1)]==$(_0x3110c9(0x221));let _0xa9d21f=_0x50482d[_0x3110c9(0x1bd)][_0x3110c9(0x2b8)],_0x4e6627=_0xa9d21f/0x64*this[_0x3110c9(0x317)][_0x3110c9(0x2ea)];this[_0x3110c9(0x317)][_0x3110c9(0x21f)]=_0x4e6627,this[_0x3110c9(0x1f9)]&&(this['playing']=![],this['btn'][_0x3110c9(0x1b9)]());};['skipInput']=async _0x51d92e=>{const _0x2f5116=_0x35eedb;!this[_0x2f5116(0x317)][_0x2f5116(0x2ed)]&&(this['audio']['pause'](),clearInterval(this['timer']),this[_0x2f5116(0x1c9)]['classList'][_0x2f5116(0x334)]('audio_pause'));_0x51d92e[_0x2f5116(0x1bd)][_0x2f5116(0x2f6)]['backgroundSize']=_0x51d92e[_0x2f5116(0x1bd)]['value']+'%';let _0x18ec4d=_0x51d92e[_0x2f5116(0x1bd)]['value']/0x64*this[_0x2f5116(0x317)][_0x2f5116(0x2ea)],_0x202e57=Math[_0x2f5116(0x1d3)](_0x18ec4d/0x3c),_0x1d7b7e=Math['floor'](_0x18ec4d%0x3c);this[_0x2f5116(0x26a)]['textContent']=_0x202e57+':'+String(_0x1d7b7e)[_0x2f5116(0x2d4)](0x2,'0');};}function _0x2d3b(_0x4ff614,_0xb0fc24){const _0x266b92=_0x266b();return _0x2d3b=function(_0x2d3b5c,_0x3d3ccf){_0x2d3b5c=_0x2d3b5c-0x19d;let _0x137e36=_0x266b92[_0x2d3b5c];return _0x137e36;},_0x2d3b(_0x4ff614,_0xb0fc24);}function _0x266b(){const _0x3b2ce3=['#chat-icon','channel-name','LOBBY_LISTENER','AM\x20ACTIVE/LEAVE\x20ANYWAY','btn','audioBlob','offline','stateTimeout','block','#play-window','.selected_bubble.deleted','clientHeight','activeElement','\x20declined\x20your\x20request.','floor','select_mode','.recorder_container','Your\x20opponent\x20changed\x20name\x20to\x20','0.3s','audio_download','selected_bubble','Duplicate\x20Action','0:00','state','121158hWHnjE','\x20wants\x20to\x20restart\x20this\x20match.','#not-must-jump','OFFLINE','delivered','5583560RrTPUv','writeText','script','button_pop_up','totalOccupancy','audio_slider','deleted\x20successfully','mediaDevices','trim','#chat-window','toUpperCase','blue','\x20(Host)','confirm','#online\x20#channel-name','#main-section-tp','bubble','content','href','opacity','moves','\x20channel.\x20Reconnecting...','Delete\x20','playing','span','popUpNote','\x20channel.','check','92060qkesSo','innerHeight','\x20accepted\x20the\x20request,\x20the\x20game\x20will\x20start\x20shortly.','object','We\x20couldn\x27t\x20communicate\x20with\x20the\x20opponent.\x20Please\x20try\x20again.<br>Details:<br>','.chat_header\x20>\x20h2:last-of-type','https://mark-code789.github.io/Checkers/index.html?name=','backgroundSize','uuid\x20!=\x20\x27','\x20messages','Connected\x20to\x20','classList','2792067GVxynW','.center_bubble','button','aborting','maxLength','Hi,\x20','You\x20are\x20offline.','finishedExecuting','Checkers\x20-\x20uuid','pause','Name\x20changed\x20successfully','ChatMessage','start','You\x20have\x20not\x20joined\x20any\x20channel.','audio_play\x20audio_download','loadeddata','mimeType','ExitedGame','Hold\x20to\x20record.\x20Release\x20to\x20send.\x20Slide\x20left\x20to\x20cancel.','\x20has\x20use\x20hint','offsetHeight','currentTime','timer','.chat_field','.tick','join','replaceAll','selectMode','concat','transitionDuration','stringify','Connection\x20Timeout?','.chat_header\x20h2','playbackRate','Do\x20you\x20really\x20want\x20to\x20leave\x20','play','Reconnected\x20back\x20to\x20','Your\x20Browser\x20does\x20not\x20support\x20this\x20kind\x20of\x20sharing.\x20Please\x20use\x20your\x20ordinary\x20means.','a\x20new\x20message','alert','70px','offsetTop','-2.5px','You\x20have\x20been\x20dormant\x20in\x20a\x20while,\x20we\x20couldn\x27t\x20establish\x20a\x20connection\x20to\x20','#two-players-window\x20h2','Unsubscribing\x20','adjust','#main-window','success','same_side_bubble','flex','retryCount','pointerEvents','.badge','\x20is\x20requesting\x20you\x20to\x20join\x20the\x20following\x20channel\x20to\x20play\x20checkers\x20match.\x20Please\x20click\x20the\x20the\x20link\x20below\x20to\x20join.\x0a','recording','record','push','opponent','Infinity','share','\x20exited\x20the\x20game.','unreadMessages','Your\x20opponent\x20is\x20','add','Connecting...','RequestReplay','ACCEPT','1015085HaUxrj','none','occupancy','send','permissions','Checkers\x20Game','calc(100%\x20-\x2070px)','Request\x20to\x20restart','.selected_bubble\x20.text\x20>\x20div','parentNode','<br>','Message','initializationError','.right_bubble.selected_bubble','count','.state_container','#pubnub-file','audio_current_time','getUserMedia','audio_panel','firstMove','onLine','.left_bubble.selected_bubble','mouseup','10px','#online\x20.playerA_name','Done','from','time','Text\x20copied\x20to\x20clipboard','name','grey','type','end','sleep','orange_ui','scrollTop','.text\x20>\x20div','preventDefault','.bubbles_container','deleteBubble','version','hereNow','DISCONNECTED','contains','range','196CeLRlf','publisher','slice','Please\x20fill\x20out\x20channel\x20name.','canShare','.tick.grey','panel','createObjectURL','delete_recording','#table','toFile','skipInput','getUUID','\x20UNREAD\x20MESSAGE','CANCEL/MYSELF','uuid','timeout','audioChunks','div','pubnub-file','insertBefore','N/A','toString','publish','.recorder_delete','LEAVE\x20ANYWAY','5932932nKkEnt','wait','Please\x20fill\x20out\x20your\x20name.','initialPlay','head','replace','setItem','2yEvglU','\x20channel?','Whom\x20do\x20you\x20want\x20to\x20delete\x20for?','dataavailable','state-change','clipboard-write','addMessageAction','subscribe','input','\x20UNREAD\x20MESSAGES','offlineTimeout','make','CHANNEL','You\x20are\x20back\x20online.','#online\x20.player_name:first-of-type','RequestPlay','RequestRestart','You\x20deleted\x20this\x20message.','label','sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872','#main-window\x20.version[value=\x27','Oops!\x20Sorry','channel','<div\x20class=\x27anchor\x27></div>','focus','ids','leave','value','isConnected','cancel','EVERYONE','.recorder_time','Undone','#online\x20.player_name:last-of-type','class','selectedRight','alertSpecial','You\x20have\x20','location','clipboard','#connectivity','PNConnectedCategory','text','\x20left\x20','arrayBuffer','stream','UUID','requestAbortion','width','#must-jump','This\x20message\x20was\x20deleted.','maxHeight','setAttribute','.field_container','mandatoryCapture','padStart','.bubble','getTracks','appendChild','\x20channel\x20successfully\x20as\x20the\x20guest\x20member.','removeListener','muted','Can\x27t\x20complete\x20this\x20request.\x20You\x20are\x20offline.','blur','message','\x20channel\x20as\x20shown\x20below.\x20Your\x20opponent\x20will\x20refer\x20to\x20you\x20using\x20the\x20name\x20you\x20will\x20provide.<img\x20src=\x27./src/images/player\x20image.png\x27>','PUBNUB','Text\x20was\x20not\x20copied\x20to\x20clipboard\x20for\x20some\x20reason.','AM\x20ACTIVE','\x20channel\x20is\x20fully\x20occupied,\x20please\x20try\x20another\x20channel.','\x20went\x20offline.','LISTENER','\x20from\x20','pushState','setHint','messages','touchstart','duration','NOT\x20NOW/LEAVE\x20ANYWAY','CANCEL','paused','setFilterExpression','An\x20error\x20occurred.\x20Loading\x20necessary\x20data...','DeclinedRequest','typing','PNReconnectedCategory','receive','.chat_header\x20>\x20p:nth-of-type(2)','read','style','White','change','Hint','category','mediaRecorder','You\x20are\x20already\x20unsubscribed\x20from\x20the\x20channel.','grid','.selected_bubble','\x20two-player-online','black_ui','.chat_header\x20p','currentPlayer','startRecording','\x20is\x20back\x20online.','\x20channel\x20is\x20full\x20please\x20try\x20another\x20one','NameChange','includes','89752baqbYJ','mousedown','\x20channel\x20successfully.','\x20new\x20messages','downloadFile','other','pieceColor','OpponentName','CONNECTED','</div>','notification','move','display','transform','.chat_menu','audio','PNNetworkUpCategory','ended','error','getHours','timetoken','online','title','deleted','Channel\x20name\x20shared\x20successfully.','selectedLeft','initiating','chatFieldHadFocus','height','action','getMinutes','catch','innerHTML','length','\x20channel...','now','mode','bottom','Please\x20wait','substring','skip','alternatePlayAs','addListener','isHost','remove','cloneNode','sendFile','100','copyBubbleText','removeChild','file','right_bubble','load','audio_pause','textContent','default','vibrate','Request\x20for\x20rematch','setState','Reconnected','<p>You\x20are\x20already\x20subscribed\x20to\x20<b>','generateUUID','stop','PNNetworkDownCategory','\x20message','auto','686uzAuxs','Request\x20for\x20a\x20\x20match!','shift','getItem','className','data','boardSize','pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71','<div>','ONLINE','recorder','LOBBY','chat_field','pop','</b>\x20channel.\x20To\x20join\x20another\x20channel,\x20unsubscribe\x20from\x20this\x20channel\x20first.</p>','45px','#online\x20.lobby_name','addEventListener','There\x20was\x20an\x20error\x20while\x20trying\x20to\x20share\x20the\x20name\x20of\x20the\x20channel.<br>\x20:-','children','.send_button','src','?window1','CH-','toLowerCase','tick','#player-2-status','whiteTurn','init','click','#online\x20.player_name','deleteRecording','name=','target','Unsubscribed\x20from\x20','#left-','unsubscribe','split','.chat_header','AcceptedRequest','NOT\x20NOW'];_0x266b=function(){return _0x3b2ce3;};return _0x266b();}const Message=async(_0xccca18,_0xde39a5=!![])=>{const _0xa1c0dd=_0x35eedb;let _0x5be6a4=$(_0xa1c0dd(0x275)),_0x284f99=$('.anchor'),_0x5be692=$$$(_0xa1c0dd(0x28e)),_0x46b09e=$$$('div',['class','text']),_0x22e1f5=$$$(_0xa1c0dd(0x1fa),[_0xa1c0dd(0x2bf),'report']),_0x4c4de7=$$$(_0xa1c0dd(0x1fa),[_0xa1c0dd(0x2bf),_0xa1c0dd(0x26a)]);_0x5be692['addEventListener'](_0xa1c0dd(0x2e9),_0x332b1a=>LongPress['start'](_0x332b1a,_0x5be692),![]),_0x5be692['addEventListener']('touchend',_0x2fca14=>LongPress['end'](_0x2fca14,_0x5be692),![]),_0x5be692[_0xa1c0dd(0x1ad)](_0xa1c0dd(0x309),_0x2651b3=>LongPress['start'](_0x2651b3,_0x5be692),![]),_0x5be692[_0xa1c0dd(0x1ad)](_0xa1c0dd(0x265),_0x59bd3f=>LongPress['end'](_0x59bd3f,_0x5be692),![]);let _0xe197af=_0xccca18[_0xa1c0dd(0x2c7)]||$(_0xa1c0dd(0x221))[_0xa1c0dd(0x328)],_0x108bbc=new Date(),_0x4809a8=('0'+_0x108bbc[_0xa1c0dd(0x31b)]())[_0xa1c0dd(0x27e)](-0x2),_0x50d4ff=('0'+_0x108bbc[_0xa1c0dd(0x326)]())['slice'](-0x2),_0x3f05c6=parseInt(_0x4809a8)>=0xc?'PM':'AM';_0x4809a8=_0x4809a8>0xc?_0x4809a8%0xc:_0x4809a8,_0x108bbc=_0x4809a8+':'+_0x50d4ff+'\x20'+_0x3f05c6;typeof _0xe197af=='string'?_0x46b09e['innerHTML']=_0xa1c0dd(0x1a4)+_0xe197af+_0xa1c0dd(0x311):_0x46b09e['appendChild'](_0xe197af);_0x4c4de7[_0xa1c0dd(0x328)]=_0x108bbc,_0x22e1f5[_0xa1c0dd(0x2d7)](_0x4c4de7),_0x46b09e[_0xa1c0dd(0x2d7)](_0x22e1f5);let _0x5d5a1c=$$(_0xa1c0dd(0x2d5));if(_0xccca18[_0xa1c0dd(0x325)]==='send'){let _0x53c319=$$$(_0xa1c0dd(0x1fa));_0x53c319[_0xa1c0dd(0x209)][_0xa1c0dd(0x24a)]('tick'),_0x22e1f5[_0xa1c0dd(0x2d7)](_0x53c319),_0x22e1f5[_0xa1c0dd(0x2d7)](_0x53c319[_0xa1c0dd(0x335)](!![])),$('.chat_field')[_0xa1c0dd(0x328)]='';if(general['chatFieldHadFocus'])$(_0xa1c0dd(0x221))[_0xa1c0dd(0x2b5)]();await ChangeTextBox(!![],$(_0xa1c0dd(0x221))),await AdjustWidth['adjust']($(_0xa1c0dd(0x221))),_0x5be692['classList'][_0xa1c0dd(0x24a)](_0xa1c0dd(0x1f2),_0xa1c0dd(0x33b)),_0x5be692[_0xa1c0dd(0x2d7)](_0x46b09e);_0x5d5a1c[_0xa1c0dd(0x329)]>0x0&&_0x5d5a1c[_0x5d5a1c['length']-0x1][_0xa1c0dd(0x1a0)][_0xa1c0dd(0x307)](_0xa1c0dd(0x33b))&&_0x5be692['classList'][_0xa1c0dd(0x24a)]('same_side_bubble');_0x5be6a4[_0xa1c0dd(0x290)](_0x5be692,_0x284f99),_0x53c319['id']=_0xa1c0dd(0x1b5)+$$('.right_bubble')[_0xa1c0dd(0x329)];let _0xe4352e=$('.center_bubble');if(_0xe4352e!=null)_0xe4352e[_0xa1c0dd(0x257)]['removeChild'](_0xe4352e);return setTimeout(()=>{const _0x30cd93=_0xa1c0dd;_0x5be6a4['scrollTop']=_0x284f99[_0x30cd93(0x233)];},0xc8),Lobby['isConnected']&&_0xde39a5&&Publish[_0xa1c0dd(0x251)]({'channel':Lobby['CHANNEL'],'message':{'title':_0xa1c0dd(0x215),'content':{'text':_0xe197af,'id':_0x53c319['id']}}}),_0x53c319['id'];}else{if(_0xccca18[_0xa1c0dd(0x325)]===_0xa1c0dd(0x2f3)){_0x5be692[_0xa1c0dd(0x209)][_0xa1c0dd(0x24a)](_0xa1c0dd(0x1f2),'left_bubble'),_0x5be692['id']='left-'+_0xccca18['id'];let _0x7564ba=$$$('p');_0x7564ba['innerHTML']=$$(_0xa1c0dd(0x22a))[0x1][_0xa1c0dd(0x328)][_0xa1c0dd(0x1c1)]('\x20')['map'](_0x394112=>_0x394112[0x0])[_0xa1c0dd(0x223)](''),_0x5be692[_0xa1c0dd(0x2d7)](_0x7564ba),_0x5be692[_0xa1c0dd(0x2d7)](_0x46b09e);if(_0x5d5a1c['length']>0x0&&_0x5d5a1c[_0x5d5a1c[_0xa1c0dd(0x329)]-0x1][_0xa1c0dd(0x1a0)][_0xa1c0dd(0x307)]('left_bubble'))_0x7564ba[_0xa1c0dd(0x2f6)]['visibility']='hidden',_0x5be692[_0xa1c0dd(0x209)][_0xa1c0dd(0x24a)](_0xa1c0dd(0x23b));else{}if($(_0xa1c0dd(0x20b))===null&&_0xccca18[_0xa1c0dd(0x25c)]===0x1){let _0x32e540=$$$(_0xa1c0dd(0x28e));_0x32e540[_0xa1c0dd(0x209)][_0xa1c0dd(0x24a)](_0xa1c0dd(0x1f2),'center_bubble');let _0x5341ac=$$$('p');_0x5341ac[_0xa1c0dd(0x328)]=_0xccca18[_0xa1c0dd(0x25c)]+_0xa1c0dd(0x289),_0x32e540[_0xa1c0dd(0x2d7)](_0x5341ac),_0x5be6a4['insertBefore'](_0x32e540,_0x284f99);}else _0xccca18[_0xa1c0dd(0x25c)]>0x1&&($('.center_bubble\x20p')['innerHTML']=_0xccca18[_0xa1c0dd(0x25c)]+_0xa1c0dd(0x2a6));_0x5be6a4[_0xa1c0dd(0x290)](_0x5be692,_0x284f99);if(GetValue($(_0xa1c0dd(0x1eb)),_0xa1c0dd(0x314))===_0xa1c0dd(0x23c))Lobby[_0xa1c0dd(0x2b9)]&&Lobby[_0xa1c0dd(0x2df)][_0xa1c0dd(0x2a3)]({'channel':Lobby['CHANNEL'],'messageTimetoken':_0xccca18['timetoken'],'action':{'type':_0xa1c0dd(0x2f5),'value':_0xccca18['id']}}),Lobby[_0xa1c0dd(0x248)]=[],setTimeout(()=>{const _0x346784=_0xa1c0dd;_0x5be6a4[_0x346784(0x272)]=_0x284f99[_0x346784(0x233)];},0xc8);else Lobby[_0xa1c0dd(0x248)]['push']({'id':_0xccca18['id'],'timetoken':_0xccca18[_0xa1c0dd(0x31c)]});}}};class Bubble{static [_0x35eedb(0x321)]=[];static [_0x35eedb(0x2c0)]=[];static ['requestDelete']=async()=>{const _0x5ee94e=_0x35eedb;this['selectedLeft']=$$(_0x5ee94e(0x264)),this[_0x5ee94e(0x2c0)]=$$(_0x5ee94e(0x25b));let _0xe72ba1=this[_0x5ee94e(0x321)][_0x5ee94e(0x329)]+this[_0x5ee94e(0x2c0)]['length'],_0x151da8;this[_0x5ee94e(0x321)][_0x5ee94e(0x329)]||$(_0x5ee94e(0x1cf))?_0x151da8=await Notify['confirm']({'header':'Delete\x20'+(_0xe72ba1+(_0xe72ba1>0x1?_0x5ee94e(0x207):_0x5ee94e(0x348))),'message':'Whom\x20do\x20you\x20want\x20to\x20delete\x20for?','type':_0x5ee94e(0x28a)}):_0x151da8=await Notify[_0x5ee94e(0x30d)]({'header':_0x5ee94e(0x1f8)+(_0xe72ba1+(_0xe72ba1>0x1?_0x5ee94e(0x207):_0x5ee94e(0x348))),'message':_0x5ee94e(0x29f),'type':'CANCEL/EVERYONE/MYSELF'}),this[_0x5ee94e(0x276)](_0x151da8);};static ['deleteBubble']=(_0x363749,_0x3dd8ee)=>{const _0x44f39d=_0x35eedb;let _0x31716f=Array[_0x44f39d(0x269)](Bubble[_0x44f39d(0x321)])[_0x44f39d(0x226)](Array[_0x44f39d(0x269)](Bubble[_0x44f39d(0x2c0)])),_0x29215b='';if(_0x363749!=_0x44f39d(0x2ec)){for(let _0x90dc67 of _0x31716f){if(!_0x90dc67[_0x44f39d(0x209)][_0x44f39d(0x27a)](_0x44f39d(0x31f))&&_0x90dc67['$'](_0x44f39d(0x222))&&_0x90dc67['$'](_0x44f39d(0x222))[_0x44f39d(0x209)]['contains'](_0x44f39d(0x26d)))_0x90dc67['$'](_0x44f39d(0x273))['innerHTML']=_0x44f39d(0x2ae),_0x90dc67['classList']['add'](_0x44f39d(0x31f)),_0x29215b+=_0x90dc67['$'](_0x44f39d(0x222))['id']+'-';else _0x3dd8ee?(_0x90dc67['$'](_0x44f39d(0x273))[_0x44f39d(0x328)]=_0x44f39d(0x2cf),_0x90dc67[_0x44f39d(0x209)]['add'](_0x44f39d(0x31f))):_0x90dc67['parentNode'][_0x44f39d(0x339)](_0x90dc67);_0x90dc67[_0x44f39d(0x209)]['remove'](_0x44f39d(0x1d9));}_0x363749==_0x44f39d(0x2bb)&&Lobby[_0x44f39d(0x2b9)]&&(_0x29215b=_0x29215b[_0x44f39d(0x29b)](/-$/g,''),Publish[_0x44f39d(0x251)]({'channel':Lobby[_0x44f39d(0x2a9)],'message':{'title':_0x44f39d(0x31f),'ids':_0x29215b}}));}else for(let _0x2434e4 of _0x31716f){_0x2434e4[_0x44f39d(0x209)][_0x44f39d(0x334)]('selected_bubble');}window['$'](_0x44f39d(0x203))[_0x44f39d(0x2f6)][_0x44f39d(0x314)]=_0x44f39d(0x1cd),window['$'](_0x44f39d(0x2f4))[_0x44f39d(0x2f6)][_0x44f39d(0x314)]='block',window['$']('.chat_menu')['style']['display']=_0x44f39d(0x24f),window['$'](_0x44f39d(0x275))[_0x44f39d(0x209)][_0x44f39d(0x334)](_0x44f39d(0x1d4)),LongPress[_0x44f39d(0x225)]=![],Bubble[_0x44f39d(0x321)]=[],Bubble[_0x44f39d(0x2c0)]=[];};static [_0x35eedb(0x338)]=async()=>{const _0x5757ba=_0x35eedb;if(Permissions[_0x5757ba(0x252)][_0x5757ba(0x2c4)]){let _0x464dd9=$(_0x5757ba(0x256))[_0x5757ba(0x33e)];navigator[_0x5757ba(0x2c4)][_0x5757ba(0x1e3)](_0x464dd9)['then'](()=>{const _0x10d7f3=_0x5757ba;Notify[_0x10d7f3(0x1fb)](_0x10d7f3(0x26b));},()=>{const _0x1c791a=_0x5757ba;Notify[_0x1c791a(0x1fb)](_0x1c791a(0x2e0));});}else Permissions[_0x5757ba(0x1fd)](_0x5757ba(0x1f2),_0x5757ba(0x2a2));$('.selected_bubble')['classList'][_0x5757ba(0x334)](_0x5757ba(0x1d9)),$(_0x5757ba(0x203))[_0x5757ba(0x2f6)][_0x5757ba(0x314)]=_0x5757ba(0x1cd),$('.chat_header\x20>\x20p:nth-of-type(2)')[_0x5757ba(0x2f6)][_0x5757ba(0x314)]='block',$(_0x5757ba(0x316))[_0x5757ba(0x2f6)]['display']=_0x5757ba(0x24f),$('.bubbles_container')[_0x5757ba(0x209)][_0x5757ba(0x334)](_0x5757ba(0x1d4)),LongPress[_0x5757ba(0x225)]=![];};}const Request=async _0x58dbd5=>{const _0x3dbb4c=_0x35eedb;let _0x5641c0;if(_0x58dbd5[_0x3dbb4c(0x31e)]===_0x3dbb4c(0x2ac))_0x5641c0=await Notify['confirm']({'header':_0x3dbb4c(0x19d),'type':'CANCEL/ACCEPT','message':$$(_0x3dbb4c(0x1ba))[0x1][_0x3dbb4c(0x328)]+'\x20is\x20requesting\x20a\x20match\x20with\x20you'}),Lobby[_0x3dbb4c(0x262)]=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x262)],Lobby[_0x3dbb4c(0x2d3)]=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x2d3)],Lobby['version']=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x277)];else{if(_0x58dbd5[_0x3dbb4c(0x31e)]===_0x3dbb4c(0x24c))_0x5641c0=await Notify[_0x3dbb4c(0x1ef)]({'header':_0x3dbb4c(0x341),'type':'CANCEL/ACCEPT','message':$$(_0x3dbb4c(0x1ba))[0x1][_0x3dbb4c(0x328)]+'\x20is\x20requesting\x20a\x20rematch\x20with\x20you.'}),Lobby[_0x3dbb4c(0x262)]=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x262)],Lobby[_0x3dbb4c(0x2d3)]=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x2d3)],Lobby['version']=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x277)];else _0x58dbd5[_0x3dbb4c(0x31e)]===_0x3dbb4c(0x2ad)&&(_0x5641c0=await Notify[_0x3dbb4c(0x1ef)]({'header':_0x3dbb4c(0x255),'type':'CANCEL/ACCEPT','message':$$(_0x3dbb4c(0x1ba))[0x1]['innerHTML']+_0x3dbb4c(0x1de)}),Lobby['firstMove']=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x262)],Lobby[_0x3dbb4c(0x2d3)]=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x2d3)],Lobby['version']=_0x58dbd5[_0x3dbb4c(0x1f3)][_0x3dbb4c(0x277)]);}if(_0x5641c0===_0x3dbb4c(0x24d)){Game[_0x3dbb4c(0x262)]=Lobby[_0x3dbb4c(0x262)],Game[_0x3dbb4c(0x2d3)]=Lobby[_0x3dbb4c(0x2d3)],Game['version']=Lobby[_0x3dbb4c(0x277)];if(Game[_0x3dbb4c(0x331)]){let _0x254d43=playerA[_0x3dbb4c(0x30e)];await Alternate(_0x254d43);}await setTimeout(async()=>{const _0x5f0696=_0x3dbb4c;await Publish[_0x5f0696(0x251)]({'channel':Lobby[_0x5f0696(0x2a9)],'message':{'title':_0x5f0696(0x1c3),'content':''}}),Notify[_0x5f0696(0x1fb)]('The\x20game\x20will\x20start\x20shortly...'),Game[_0x5f0696(0x1b7)]=Game[_0x5f0696(0x262)]?playerA[_0x5f0696(0x30e)]==='White':playerB[_0x5f0696(0x30e)]===_0x5f0696(0x2f7),await Mode(0x3,![]);let _0x5512c1=Game[_0x5f0696(0x2d3)]?$(_0x5f0696(0x2ce)):$(_0x5f0696(0x1df));await Clicked(_0x5512c1,_0x5512c1['parentNode'],![]);let _0x29dd71=$(_0x5f0696(0x2b1)+Game[_0x5f0696(0x277)]+'\x27]');await Version(_0x29dd71,0x0,!![]),await new Sleep()['wait'](0x1),await play(!![]);},0xc8);}else _0x5641c0==='CANCEL'&&Publish[_0x3dbb4c(0x251)]({'channel':Lobby[_0x3dbb4c(0x2a9)],'message':{'title':'DeclinedRequest','content':''}});return;},ChangeWidth=(_0x351368,_0x38072d)=>{const _0x2b83e7=_0x35eedb;AdjustWidth[_0x2b83e7(0x238)](_0x351368,_0x38072d);};class AdjustWidth{static [_0x35eedb(0x211)]=!![];static ['stateTimeout'];static [_0x35eedb(0x2f1)]=![];static [_0x35eedb(0x238)]=(_0x594748,_0x3b1667)=>{const _0x49190d=_0x35eedb;_0x3b1667&&_0x3b1667[_0x49190d(0x274)]();if(this[_0x49190d(0x211)])this[_0x49190d(0x211)]=![],this['updateState'](_0x594748,typeof _0x3b1667==_0x49190d(0x201));else return;};static ['updateState']=(_0x1d361b,_0xbb8a8b)=>{const _0x4bc716=_0x35eedb;let _0x4ad74c=this;if(_0xbb8a8b&&Lobby[_0x4bc716(0x2b9)]){clearTimeout(this['stateTimeout']);if(_0x1d361b[_0x4bc716(0x328)][_0x4bc716(0x1b4)]()[_0x4bc716(0x29b)](/<div><br><\/div>/gm,'')=='')clearTimeout(AdjustWidth[_0x4bc716(0x1cc)]),Lobby[_0x4bc716(0x2df)][_0x4bc716(0x342)]({'state':{'action':_0x4bc716(0x2f1),'value':![]},'channels':[Lobby['CHANNEL']]}),this[_0x4bc716(0x2f1)]=![];else!this[_0x4bc716(0x2f1)]?(Lobby[_0x4bc716(0x2df)][_0x4bc716(0x342)]({'state':{'action':_0x4bc716(0x2f1),'value':!![]},'channels':[Lobby[_0x4bc716(0x2a9)]]}),this[_0x4bc716(0x2f1)]=!![]):(clearTimeout(this[_0x4bc716(0x1cc)]),this[_0x4bc716(0x1cc)]=setTimeout(()=>{const _0x33e8d5=_0x4bc716;Lobby[_0x33e8d5(0x2df)][_0x33e8d5(0x342)]({'state':{'action':_0x33e8d5(0x2f1),'value':![]},'channels':[Lobby[_0x33e8d5(0x2a9)]]}),this[_0x33e8d5(0x2f1)]=![];},0x2bc));}_0x4ad74c['adjustWidth'](_0x1d361b);};static ['adjustWidth']=_0x53459c=>{const _0x2e6c31=_0x35eedb;let _0x481d3f=$(_0x2e6c31(0x1b0)),_0x2d9eab=$('.recorder_button');_0x53459c[_0x2e6c31(0x328)][_0x2e6c31(0x1b4)]()[_0x2e6c31(0x29b)](/<div><br><\/div>/gm,'')==''?GetValue(_0x481d3f,_0x2e6c31(0x314))==_0x2e6c31(0x1cd)&&(_0x53459c[_0x2e6c31(0x328)]='',_0x481d3f[_0x2e6c31(0x2f6)][_0x2e6c31(0x314)]=_0x2e6c31(0x24f),_0x2d9eab['style'][_0x2e6c31(0x314)]=_0x2e6c31(0x1cd),_0x2d9eab[_0x2e6c31(0x209)][_0x2e6c31(0x24a)](_0x2e6c31(0x1e5)),setTimeout(()=>{const _0xdaeb8e=_0x2e6c31;_0x2d9eab[_0xdaeb8e(0x209)][_0xdaeb8e(0x334)](_0xdaeb8e(0x1e5));},0x12c)):(GetValue(_0x2d9eab,_0x2e6c31(0x314))=='block'&&(_0x2d9eab[_0x2e6c31(0x2f6)][_0x2e6c31(0x314)]=_0x2e6c31(0x24f),_0x481d3f[_0x2e6c31(0x2f6)][_0x2e6c31(0x314)]=_0x2e6c31(0x1cd),_0x481d3f[_0x2e6c31(0x2f6)]['display']='block',_0x481d3f[_0x2e6c31(0x209)][_0x2e6c31(0x24a)](_0x2e6c31(0x1e5)),setTimeout(()=>{const _0x980767=_0x2e6c31;_0x481d3f[_0x980767(0x209)]['remove']('button_pop_up');},0x12c)),CalculateSize(_0x53459c[_0x2e6c31(0x328)])>=0x8000&&(_0x53459c['innerHTML']=_0x53459c['innerHTML'][_0x2e6c31(0x32f)](0x0,_0x53459c[_0x2e6c31(0x328)][_0x2e6c31(0x329)]-0x2),Notify[_0x2e6c31(0x1fb)]('message\x20size\x20exceeded\x20limit')));let _0x5b0d93=$(_0x2e6c31(0x2d2))[_0x2e6c31(0x21e)]||parseFloat(GetValue($('.field_container'),'height'));document['documentElement'][_0x2e6c31(0x2f6)]['setProperty']('--txt-size',_0x5b0d93+0x14+'px'),this[_0x2e6c31(0x211)]=!![];};}const ChangeTextBox=async(_0x47ba18,_0x573be2,_0x2eaa05)=>{const _0x27be1c=_0x35eedb;let _0xe80556=document[_0x27be1c(0x1d1)];if(typeof _0x2eaa05==_0x27be1c(0x201)){_0x2eaa05[_0x27be1c(0x274)]();_0x2eaa05['type']==_0x27be1c(0x2dc)&&_0x573be2[_0x27be1c(0x209)][_0x27be1c(0x27a)](_0x27be1c(0x1a8))&&(AdjustWidth[_0x27be1c(0x2f1)]=![],clearTimeout(AdjustWidth[_0x27be1c(0x1cc)]),Lobby['isConnected']&&Lobby[_0x27be1c(0x2df)][_0x27be1c(0x342)]({'state':{'action':_0x27be1c(0x2f1),'value':![]},'channels':[Lobby[_0x27be1c(0x2a9)]]}));if(_0x2eaa05['type']=='focus'&&general[_0x27be1c(0x323)]&&$(_0x27be1c(0x1eb))['contains'](_0xe80556)){for(let _0x340bbd of $$(_0x27be1c(0x2fe))){_0x340bbd[_0x27be1c(0x209)]['remove'](_0x27be1c(0x1d9));}$(_0x27be1c(0x203))[_0x27be1c(0x2f6)][_0x27be1c(0x314)]=_0x27be1c(0x1cd),$(_0x27be1c(0x2f4))[_0x27be1c(0x2f6)]['display']=_0x27be1c(0x1cd),$(_0x27be1c(0x316))['style'][_0x27be1c(0x314)]='none',$('.bubbles_container')[_0x27be1c(0x209)][_0x27be1c(0x334)]('select_mode'),LongPress[_0x27be1c(0x225)]=![],$(_0x27be1c(0x221))['focus']();}}!_0x573be2[_0x27be1c(0x1a0)]['includes']('chat_field')&&(_0x47ba18&&setTimeout(()=>{const _0x5676ad=_0x27be1c;let _0x4912d5=$(_0x5676ad(0x1f1));_0x4912d5['scrollTop']=_0x573be2[_0x5676ad(0x21e)]+_0x573be2[_0x5676ad(0x233)]-_0x4912d5[_0x5676ad(0x1d0)]+0x14;},0xc8)),_0x573be2['id']===_0x27be1c(0x1c6)&&(_0x573be2[_0x27be1c(0x20e)]=_0x27be1c(0x337)),setTimeout(()=>{const _0x358eb5=_0x27be1c;let _0x51e9bd=window[_0x358eb5(0x1ff)];if(_0x51e9bd<0x96&&_0x47ba18)_0x573be2['className']['includes'](_0x358eb5(0x1a8))?($(_0x358eb5(0x1c2))['style'][_0x358eb5(0x314)]=_0x358eb5(0x24f),$(_0x358eb5(0x275))[_0x358eb5(0x2f6)][_0x358eb5(0x314)]='none',$(_0x358eb5(0x221))[_0x358eb5(0x2f6)][_0x358eb5(0x2d0)]=_0x358eb5(0x1ab)):($(_0x358eb5(0x236))[_0x358eb5(0x2f6)][_0x358eb5(0x314)]=_0x358eb5(0x24f),_0x573be2['parentNode'][_0x358eb5(0x272)]=_0x573be2[_0x358eb5(0x233)]);else(_0x51e9bd<0x96&&!_0x47ba18||_0x51e9bd>0x96)&&(_0x573be2[_0x358eb5(0x1a0)][_0x358eb5(0x307)]('chat_field')?($(_0x358eb5(0x1c2))[_0x358eb5(0x2f6)]['display']='grid',$('.bubbles_container')[_0x358eb5(0x2f6)]['display']=_0x358eb5(0x1cd),$(_0x358eb5(0x221))['style'][_0x358eb5(0x2d0)]='100px'):$(_0x358eb5(0x236))['style'][_0x358eb5(0x314)]=_0x358eb5(0x23c));},0x12c);},ChangeFocus=()=>{const _0x45aff1=_0x35eedb;general[_0x45aff1(0x323)]=!![];};
+'use strict' 
+
+/* Version: 54*/
+
+const CheckHref = async () => {
+	let split = document.location.href.split("?");
+	
+	if(split.length > 1 && split[1].includes("name=")) {
+		let name = split[1].replace("name=", "");
+		$("#online #channel-name").value = name;
+		await Mode(3, false);
+		BackState.state.push(["#main-window", "#two-players-window"]);
+        $("#main-window").style.display = "none";
+        $("#two-players-window").style.display = "grid";
+        
+        Notify.alert({ 
+    			header: "Message", 
+    			message: `Please fill in your name in the field named 'PLAYER DETAILS' and hit <kbd>SUBMIT</kbd> button at the bottom right corner of this window to join ${name} channel as shown below. Your opponent will refer to you using the name you will provide.<img src='./src/images/player image.png'>`});
+    	$("#online .playerA_name").focus();
+	} 
+	history.pushState(null, "", "?window1");
+} 
+
+const Lobby = {isConnected: false, isHost: false, unreadMessages: [], offlineTimeout: null};
+
+const ChannelFunction = async () => {
+	if(!navigator.onLine) {
+		Notify.popUpNote("Can't complete this request. You are offline.");
+		return;
+	} 
+	
+    let name = $("#online .playerA_name").value.trim();
+    let channel = $("#online #channel-name").value;
+    if(channel === "") {
+        $("#online #channel-name").focus();
+    	Notify.popUpNote("Please fill out channel name.");
+    } 
+	else if(name === "") {
+		$("#online .playerA_name").focus();
+        Notify.popUpNote("Please fill out your name.");
+    } 
+    else {
+        channel = channel.replaceAll(/^\w|\s\w/g, t => t.toUpperCase());
+        name = name.replace(/^\w|\s\w/g, t => t.toUpperCase());
+        $("#online #channel-name").maxLength = "100";
+        playerA.name = name;
+        
+        try { 
+            if(!Lobby.isConnected) { 
+            	$$("#online .player_name")[0].innerHTML = name;
+            	$$("#online .player_name")[0].setAttribute("value", name);
+            	if(storage) {
+            		if(storage.getItem("Checkers - uuid")) {
+                		Lobby.UUID = storage.getItem("Checkers - uuid");
+                	} 
+					else {
+						Lobby.UUID = PubNub.generateUUID();
+						storage.setItem("Checkers - uuid", Lobby.UUID);
+					} 
+                } 
+                else {
+					Lobby.UUID = PubNub.generateUUID();
+				} 
+                
+                Lobby.CHANNEL = channel;
+                Lobby.LOBBY = "Lobby"+channel;
+                Lobby.PUBNUB = new PubNub({
+                    uuid: Lobby.UUID,
+                    publish_key: 'pub-c-1d3446b1-0874-4490-9ac7-20c09c56bf71',
+                    subscribe_key: 'sub-c-3a0c6c3e-bfc7-11ea-bcf8-42a3de10f872',
+                    ssl: true, 
+                    presenceTimeout: 20, 
+                    restore: false
+                });
+                
+                Lobby.LOBBY_LISTENER = {
+                	presence: function(response) { 
+						if(response.channel == Lobby.LOBBY && response.action === "join") {
+	                		Lobby.PUBNUB.hereNow({
+	                    		channels: [Lobby.CHANNEL] 
+	                    	}, function (status, response2) {
+	                        	if(response2.totalOccupancy < 2) {
+									Lobby.isHost = response2.totalOccupancy == 0;
+									Lobby.PUBNUB.removeListener(Lobby.LOBBY_LISTENER);
+									Lobby.PUBNUB.unsubscribe({
+										channels: [Lobby.LOBBY] 
+									});
+									Lobby.PUBNUB.addListener(Lobby.LISTENER);
+									const Filter = `uuid != '${Lobby.PUBNUB.getUUID()}'`;
+            						Lobby.PUBNUB.setFilterExpression(Filter);
+		                            Lobby.PUBNUB.subscribe({
+										channels: [Lobby.CHANNEL], 
+										withPresence: true
+									});
+								} 
+								else {
+									Notify.popUpNote(`${Lobby.CHANNEL} channel is fully occupied, please try another channel.`);
+									Lobby.PUBNUB.removeListener(Lobby.LOBBY_LISTENER);
+									Lobby.PUBNUB.unsubscribe({
+										channels: [Lobby.LOBBY]
+									});
+									Lobby.CHANNEL = null;
+									Lobby.LOBBY = null;
+							        Lobby.isConnected = false;
+							        Lobby.PUBNUB = null;
+							        Lobby.isHost = false;
+									$("#online #channel-name").value = "";
+								} 
+							});
+						} 
+						else if(response.channel == Lobby.LOBBY && response.action === 'timeout') {
+                            Notify.popUpNote(`Connection timeout to ${Lobby.CHANNEL} channel. Reconnecting...`);
+                        } 
+                	}
+                } 
+                
+                Lobby.PUBNUB.addListener(Lobby.LOBBY_LISTENER);
+                Lobby.PUBNUB.subscribe({
+                    channels: [Lobby.LOBBY], 
+                    withPresence: true, 
+                }); 
+                
+                await new Sleep().wait(0.1);
+                Notify.popUpNote("Connecting...");
+                
+                Lobby.LISTENER = {
+                    presence: async function(response) { 
+						if(response.channel == Lobby.CHANNEL) {
+	                        if(response.action === 'join') {
+								if(response.uuid == Lobby.UUID && response.occupancy <= 2) {
+									
+								} 
+								else if(response.UUID != Lobby.UUID && response.occupancy <= 2) {
+									
+								} 
+								else if(response.occupancy > 2) {
+									Unsubscribed();
+									Notify.popUpNote(`${Lobby.CHANNEL} channel is full please try another one`);
+								} 
+	                        } 
+	                        else if(response.action === 'timeout') {
+								if(response.uuid == Lobby.UUID) {
+									Unsubscribe(false);
+								} 
+								else if(Lobby.opponent) { 
+									Lobby.offlineTimeout = setTimeout(() => LeftChannel({totalOccupancy: 1}), 180_000);
+									let opp = $$("#online .player_name")[1].innerHTML;
+									Notify.popUpNote(`${opp} went offline.`);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "offline";
+									let opponentStatus = $("#player-2-status");
+									opponentStatus.setAttribute("value", "offline");
+						        	opponentStatus.innerHTML = "OFFLINE";
+						        	opponentStatus.classList.remove("black_ui", "default");
+									opponentStatus.classList.add("orange_ui");
+								} 
+	                        } 
+							else if(response.action === "leave" && response.uuid != Lobby.UUID) {
+								LeftChannel({totalOccupancy: 1});
+							} 
+							else if(response.action === "leave" && response.uuid == Lobby.UUID) {
+								
+							} 
+							else if(response.action === "state-change" && response.uuid != Lobby.UUID) { 
+								let action = response.state.action;
+								
+								if(response.state.value == true) {
+									let state = $(".state_container");
+									state.classList.add(action);
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = `${action}...`;
+								} 
+								else {
+									let state = $(".state_container");
+									state.classList.remove("recording", "typing");
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
+								} 
+							} 
+                        } 
+                    }, 
+                    status: async function(event) {
+                        if(!Lobby.isConnected && event.category === 'PNConnectedCategory') {
+                        	let connectivityStatus = $("#connectivity");
+                            connectivityStatus.classList.remove("orange_ui");
+                            connectivityStatus.classList.add("default");
+                            connectivityStatus.textContent = "CONNECTED";
+                            Lobby.isConnected = true;
+                            
+							$("#online .lobby_name").textContent = Lobby.CHANNEL + (Lobby.isHost? " (Host)": " (Guest)");
+							
+                            if(Lobby.isHost) {
+                                Notify.popUpNote(`Connected to ${Lobby.CHANNEL} channel successfully as the host member. Waiting for opponent...`);
+                            } 
+                            else {
+                                Notify.popUpNote(`Connected to ${Lobby.CHANNEL} channel successfully as the guest member.`);
+                                Publish.send({
+                                        channel: Lobby.CHANNEL, 
+                                        message: {
+                                                 title: "OpponentName", 
+                                                 content: $$("#online .player_name")[0].innerHTML}
+                                        });
+                            } 
+                        } 
+                        else if(event.category === 'PNReconnectedCategory') {
+                        	Notify.popUpNote(`Reconnected back to ${Lobby.CHANNEL} channel successfully.`);
+                        	Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+                        } 
+                        else if(event.category === 'PNNetworkUpCategory') {
+                        	
+                            Notify.popUpNote("You are back online.");
+                        } 
+                        else if(event.category === 'PNNetworkIssueCategory') {
+                            Notify.popUpNote("Having trouble to connect, please check your device internet connection.");
+                        } 
+                        else if(event.category === 'PNNetworkDownCategory') {
+                            Notify.popUpNote("You are offline.");
+                        }
+                        else if(event.category === 'PNTimeoutCategory') {
+							
+                        } 
+                    }, 
+                    message: function(msg) {
+                    	msg.message = JSON.parse(msg.message);
+                    	clearTimeout(Lobby.offlineTimeout);
+                        if(msg.channel === Lobby.CHANNEL) {
+                            if(msg.message.title === 'Reconnected') {
+                            	Notify.popUpNote(`${playerB.name} is back online.`);
+                                let status = $$(".chat_header p")[1];
+								status.innerHTML = "online";
+								let opponentStatus = $("#player-2-status");
+								opponentStatus.setAttribute("value", "online");
+							    opponentStatus.innerHTML = "ONLINE";
+							    opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
+								clearTimeout(Lobby.offlineTimeout);
+                            } 
+                            else if(msg.message.title === "NameChange") {
+                        		name = msg.message.content;
+                        		$$("#online .player_name")[1].innerHTML = name;
+                        		$$(".chat_header h2")[1].innerHTML = name;
+                        		Lobby.opponent = name;
+                        		Notify.popUpNote(`Your opponent changed name to ${name}`);
+                        	} 
+                            else if(msg.message.title === 'OpponentName') { 
+                                name = msg.message.content;
+                                $$("#online .player_name")[1].textContent = name;
+                                Lobby.opponent = name;
+                                let opponentStatus = $("#player-2-status");
+                                opponentStatus.setAttribute("value", "online");
+                                opponentStatus.innerHTML = "ONLINE";
+                                opponentStatus.classList.remove("orange_ui", "black_ui");
+								opponentStatus.classList.add("default");
+                                $("#chat-icon").style.display = 'block';
+                                setTimeout(() => {ElemHint.setHint($("#chat-icon"), "Drag to move. Click to open chat.");}, 1000);
+                                $$(".chat_header h2")[1].innerHTML = name;
+                                $(".bubbles_container").innerHTML = "<div class='anchor'></div>";
+                                playerB.name = name;
+                                Notify.popUpNote(`Your opponent is ${name}`);
+                                
+                                if(Lobby.isHost) {
+	                                Publish.send({
+	                                         channel: Lobby.CHANNEL, 
+	                                         message: {
+	                                                  title: "OpponentName", 
+	                                                  content: $$("#online .player_name")[0].innerHTML}
+	                                         });
+								}
+                            } 
+                            else if(msg.message.title === 'ChatMessage') { 
+                            	Lobby.PUBNUB.addMessageAction({
+									channel: Lobby.CHANNEL, 
+									messageTimetoken: msg.timetoken, 
+									action: {
+										type: "delivered", 
+										value: msg.message.content.id
+									} 
+								});
+								let state = $(".state_container");
+									state.classList.remove("recording", "typing");
+									let status = $$(".chat_header p")[1];
+									status.innerHTML = "online";
+                                let badge = $(".badge");
+                                if(GetValue($("#chat-icon"), "display") === "block") {
+                                    badge.textContent = parseInt(badge.innerHTML)+1;
+                                    badge.style.display = "block";
+                                    Notify.popUpNote(`You have ${parseInt(badge.textContent) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                                    AudioPlayer.play("notification", 0.8);
+                                } 
+                                Message({action: 'receive', count: parseInt(badge.innerHTML), text: msg.message.content.text, id: msg.message.content.id, timetoken: msg.timetoken});
+                            } 
+                            else if(msg.message.title === "deleted") {
+                            	let ids = msg.message.ids.split("-");
+                            	let selected = [];
+                            	for(let id of ids) {
+                            		let bubble = $("#left-" + id);
+                            		if(bubble) {
+                            			selected.push(bubble);
+                            		} 
+                            	} 
+                            	
+                            	Bubble.selectedLeft = selected;
+                            	Bubble.deleteBubble("MYSELF", true);
+                            } 
+                            else if(msg.message.title === "RequestPlay") {
+                            	Request(msg.message);
+                            } 
+                            else if(msg.message.title === "RequestReplay") {
+                                Request(msg.message);
+                            } 
+                            else if(msg.message.title === "RequestRestart") {
+                                Request(msg.message);
+                            } 
+                            else if(msg.message.title === "AcceptedRequest") {
+                                Notify.popUpNote($$("#online .player_name")[1].innerHTML + " accepted the request, the game will start shortly.");
+                                Notify.cancel();
+                                setTimeout(() => play(true), 2000);
+                            } 
+                            else if(msg.message.title === "DeclinedRequest") {
+                                Notify.popUpNote($$("#online .player_name")[1].innerHTML + " declined your request.");
+                                Notify.cancel();
+                            } 
+                            else if(msg.message.title === "Moved") { 
+                            	OpponentMove.move(msg.message.content);
+                            } 
+                            else if(msg.message.title === "Undone") {
+                            	Notify.popUpNote(playerB.name + " undid the move");
+                                back(true, true);
+                            } 
+                            else if(msg.message.title === "Hint") {
+                                Notify.popUpNote(playerB.name + " has use hint");
+                            } 
+                            else if(msg.message.title === "ExitedGame") {
+                                Notify.popUpNote(msg.message.content + " exited the game.");
+                                back();
+                            } 
+                        } 
+                    }, 
+                    messageAction: function(action) { 
+                    	if(action.publisher != Lobby.UUID) {
+	                    	let type = action.data.type;
+	                    	let id = action.data.value;
+	                    	if(type == "delivered") {
+	                    		let tick = $("#" + id);
+	                            tick.classList.add("grey");
+	                    	} 
+	                    	else if(type == "read") {
+								if(/many-\d+$/gi.test(id)) {
+									let length = parseInt(id.split("-")[1]);
+									let ticks = Array.from($$(".tick.grey")).slice(-length);
+									for(let tick of ticks) {
+										tick.classList.add("blue");
+									} 
+								} 
+								else {
+	                    			let tick = $("#" + id);
+	                            	tick.classList.add("blue");
+								} 
+	                    	} 
+						}
+                    }, 
+                    file: function(event) {
+                    	let badge = $(".badge");
+                        if(GetValue($("#chat-icon"), "display") === "block") {
+                            badge.innerHTML = parseInt(badge.innerHTML)+1;
+                            badge.style.display = "block";
+                            Notify.popUpNote(`You have ${parseInt(badge.innerHTML) <= 1? 'a new message': badge.innerHTML + ' new messages'} from ${$$("#online .player_name")[1].innerHTML}`);
+                            AudioPlayer.play("notification", 0.8);
+                        } 
+                        
+						let player = new VoiceNotePlayer();
+						player.receive({id: event.file.id, name: event.file.name, channel: event.channel, message: {timetoken: event.timetoken, id: event.message.id, count: parseInt(badge.innerHTML)}});
+						Lobby.PUBNUB.addMessageAction({
+							channel: Lobby.CHANNEL, 
+							messageTimetoken: event.timetoken, 
+							action: {
+								type: "delivered", 
+								value: event.message.id
+							} 
+						});
+					} 
+                } 
+                /* End of listener*/
+            } 
+            else if(Lobby.isConnected && $$("#online .player_name")[0].innerHTML.toLowerCase() == $("#online .playerA_name").value.toLowerCase()) {
+                Notify.alert({ 
+                        header: "Duplicate Action", 
+                        message: `<p>You are already subscribed to <b>${Lobby.CHANNEL}</b> channel. To join another channel, unsubscribe from this channel first.</p>`});
+            } 
+            else if(Lobby.isConnected &&  $$("#online .player_name")[0].innerHTML.toLowerCase() != $("#online .playerA_name").value.toLowerCase()) {
+            	Publish.send({channel: Lobby.CHANNEL, message: {title: "NameChange", content: $("#online .playerA_name").value.replaceAll(/^\w|\s\w/g, t => t.toUpperCase())}});
+            	$$("#online .player_name")[0].innerHTML = $("#online .playerA_name").value.replace(/^\w|\s\w/g, t => t.toUpperCase());
+            	Notify.popUpNote("Name changed successfully");
+            } 
+        } catch (error) {
+            Notify.popUpNote("An error occurred. Loading necessary data...");
+            let src = $("#pubnub-file").getAttribute("src");
+            let script = $$$("script");
+            document.head.removeChild($("#pubnub-file"));
+            document.head.appendChild(script);
+            script.addEventListener("load", () => {
+                ChannelFunction();
+            } , false);
+            script.setAttribute("id", "pubnub-file");
+            script.src = src;
+        } 
+    } 
+}
+
+const Unsubscribe = async (isClick = true) => {
+    if(Lobby.isConnected) {
+    	let choice;
+    	if(isClick) {
+	    	choice = await Notify.confirm({
+	    			header: "Do you really want to leave " + Lobby.CHANNEL + " channel?", 
+	    			message: "Without a channel you cannot play an online match.", 
+	    			type: "NOT NOW/LEAVE ANYWAY"
+			});
+		} 
+		else {
+			Lobby.offlineTimeout = setTimeout(() => {
+				UnsubscribeResponse("LEAVE ANYWAY");
+			}, 180_000); /* 3 minutes */
+			
+			choice = await Notify.confirm({
+	    			header: "Connection Timeout?", 
+	    			message: `You have been dormant in a while, we couldn't establish a connection to ${Lobby.CHANNEL} channel. If this persist for 3 minutes without any action you will be unsubscribed from the channel.`, 
+	    			type: "AM ACTIVE/LEAVE ANYWAY"
+	    	});
+		} 
+		
+		UnsubscribeResponse(choice);
+    } 
+    else {
+        Notify.popUpNote("You have not joined any channel.");
+    } 
+} 
+
+const UnsubscribeResponse = async (choice) => { 
+	if(choice == "LEAVE ANYWAY") {
+		if(Lobby.PUBNUB) {
+	    	Notify.alertSpecial({ 
+	    			header: "Please wait", 
+	    			message: `Unsubscribing ${Lobby.CHANNEL} channel...`});
+			
+			Lobby.PUBNUB.unsubscribe({
+				channels: [Lobby.CHANNEL]
+			});
+	
+			await new Sleep().wait(1);
+	        
+	        Lobby.PUBNUB.removeListener(Lobby.LISTENER);
+	        Notify.popUpNote(`Unsubscribed from ${Lobby.CHANNEL} channel successfully.`);
+		} 
+		
+		Notify.cancel();
+        
+        clearTimeout(Lobby.offlineTimeout);
+        let connectivityStatus = $("#connectivity");
+        connectivityStatus.classList.remove("default");
+        connectivityStatus.classList.add("orange_ui");
+        connectivityStatus.innerHTML = "DISCONNECTED";
+        $("#online .lobby_name").innerHTML = "N/A";
+        $("#online #channel-name").value = "";
+        let opponentStatus = $("#player-2-status");
+        opponentStatus.innerHTML = "N/A";
+        opponentStatus.classList.remove("default", "orange_ui");
+		opponentStatus.classList.add("black_ui");
+		$("#online .playerA_name").value = "";
+        $("#online .player_name:first-of-type").innerHTML = "N/A";
+		$("#online .player_name:last-of-type").innerHTML = "N/A";
+		if(GetValue($("#chat-window"), "display") == "flex")
+			 BackState.state.pop();
+		$("#chat-window").style.display = "none";
+		$("#chat-icon").style.display = 'none';
+        Lobby.CHANNEL = null;
+        Lobby.isConnected = false;
+        Lobby.PUBNUB = null;
+        Lobby.isHost = false;
+        Lobby.offlineTimeout = null;
+		Lobby.opponent = null;
+	} 
+	else if(choice == "NOT NOW" || choice == "AM ACTIVE") {
+		if(choice == "AM ACTIVE" && Lobby.PUBNUB) {
+			Publish.send({channel: Lobby.CHANNEL, message: {title: "Reconnected", content: ""}});
+			clearTimeout(Lobby.offlineTimeout);
+		} 
+		else {
+			Notify.popUpNote("You are already unsubscribed from the channel.");
+		} 
+	} 
+} 
+
+class OpponentMove {
+	static moves = [];
+	static sleep;
+	static move = (prop) => {
+		this.moves.push(prop);
+		if(this.moves.length == 1)
+			this.make();
+	} 
+	static make = async () => {
+		if(GetValue($("#play-window"), "display") == "none") {
+			if(!this.sleep)
+				this.sleep = new Sleep();
+			await this.sleep.start();
+		} 
+		
+		let prop = this.moves[0];
+        let i = Game.boardSize-1 - prop.i, 
+            j = Game.boardSize-1 - prop.j,
+            cell = $("#table").children[i*Game.boardSize+j];
+        await ValidateMove({cell, i, j, isComputer: true});
+		await this.moves.shift();
+		if(this.moves.length > 0)
+			await this.make();
+	} 
+} 
+
+class Publish { 
+	static messages = [];
+	static retryCount = 0;
+	static send = async (prop) => {
+	    const MetaConfig = {
+	        "uuid": Lobby.UUID
+	    } 
+	    const PublishConfig = {
+	        channel: Lobby.CHANNEL, 
+	        message: JSON.stringify(prop.message), 
+	        meta: MetaConfig 
+	    } 
+		
+	    this.messages.push(PublishConfig);
+	    
+	    if(this.messages.length == 1)
+	        this.publish();
+	
+		return Prms("done");
+	} 
+	    
+    static publish = async () => { 
+        let config = this.messages[0];
+        let self = this;
+		Lobby.PUBNUB.publish(config, async (status, response) => {
+            if(!status.error) {
+				self.messages.shift();
+    			self.retryCount = 0;
+            } 
+            if(status.error) {
+				if(self.retryCount <= 2) 
+                	++self.retryCount;
+				else {
+					self.retryCount = 0;
+		        	self.messages = [];
+					Notify.alert({ 
+	                    header: "Network Error", 
+	                    message: "We couldn't communicate with the opponent. Please try again.<br>Details:<br>" + status.message + "<br>" + status.category});
+				} 
+            } 
+			if(self.messages.length > 0) 
+	        	await self.publish();
+	    });
+		return Prms("Done");
+	} 
+} 
+
+const LeftChannel = (response) => {
+    if(response.totalOccupancy < 2) {
+    	if(Game.mode ==" two-player-online" && GetValue($("#play-window"), "display") == "grid") {
+    		back();
+    	} 
+        let name = $$("#online .player_name")[1].innerHTML;
+        $$("#online .player_name")[1].innerHTML = "N/A";
+        let opponentStatus = $("#player-2-status");
+        opponentStatus.innerHTML = "N/A";
+        opponentStatus.classList.remove("default", "orange_ui");
+		opponentStatus.classList.add("black_ui");
+        if(GetValue($("#chat-window"), "display") == "flex")
+			BackState.state.pop();
+		$("#chat-icon").style.display = 'none';
+        $("#chat-window").style.display = "none";
+        $("#online .lobby_name").innerHTML = Lobby.CHANNEL + " (Host)";
+        Lobby.isHost = true;
+        Lobby.opponent = null;
+        Notify.popUpNote(`${name} left ${Lobby.CHANNEL} channel.`);
+    }
+} 
+
+const CalculateSize = (text) => {
+    let message = {title: "ChatMessage", content: text};
+    let packet = Lobby.CHANNEL + JSON.stringify(message);
+    let size = encodeURIComponent(packet).length + 100;
+    return size;
+} 
+
+const UpdateOnlineStatus = () => {
+	let yourStatus = $("#player-1-status");
+	if(!navigator.onLine) {
+		yourStatus.setAttribute("value", "offline");
+	    yourStatus.innerHTML = "OFFLINE";
+	    yourStatus.classList.remove("default");
+		yourStatus.classList.add("orange_ui");
+	    
+	} 
+	else {
+		yourStatus.setAttribute("value", "online");
+		yourStatus.innerHTML = "ONLINE";
+	    yourStatus.classList.remove("orange_ui");
+		yourStatus.classList.add("default");
+	    
+	} 
+} 
+
+const Share = (elem) => {
+    if(Lobby.isConnected) {
+        if(navigator.canShare) {
+        	Notify.alertSpecial({ 
+					header: "Please wait", 
+					message: "Preparing to share"});
+            let channelName = Lobby.CHANNEL;
+            let name = $$("#online .player_name")[0].textContent;
+            navigator.share({
+                title: "Checkers Game", 
+                text: `Hi, ${name} is requesting you to join the following channel to play checkers match. Please click the the link below to join.\n`, 
+                url: "https://mark-code789.github.io/Checkers/index.html?name=" + channelName
+            }).then( () => { 
+            	Notify.cancel();
+                Notify.popUpNote("Channel name shared successfully."); 
+            }).catch( (error) => { 
+            	let message = error.toString().split(":");
+                Notify.alert({ 
+                        header: message[0], 
+                        message: ("There was an error while trying to share the name of the channel.<br> :-" + message[1])});
+            });
+        } 
+        else {
+            Notify.alert({ 
+                    header: "Oops! Sorry", 
+                    message: "Your Browser does not support this kind of sharing. Please use your ordinary means."});
+        } 
+    } 
+    else 
+        Notify.popUpNote("You have not joined any channel.");
+} 
+
+class VoiceNoteRecorder {
+	stream;
+	mediaRecorder;
+	audioChunks;
+	timer;
+	static recorder = null;
+	static requestAbortion = false;
+	static initiating = false;
+	static aborting = false;
+	static initializationError = false;
+	init = async () => {
+		try {
+			this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+		} catch (error) {
+			return error.name;
+		} 
+    	this.mediaRecorder = new MediaRecorder(this.stream);
+    	this.audioChunks = [];
+    	this.mediaRecorder.addEventListener("dataavailable", (event) => {
+			this.audioChunks.push(event.data);
+		});
+		
+		return "success";
+	} 
+	start = () => {
+		this.mediaRecorder.start();
+		let m = 0;
+		let s = 0;
+		let recorderTime = $(".recorder_time");
+		recorderTime.textContent = "0:00";
+		clearInterval(this.timer);
+		this.timer = setInterval(() => {
+			s++;
+			if(s == 60) {
+				m++;
+				s = 0;
+			} 
+			recorderTime.textContent = `${m}:${String(s).padStart(2, '0')}`;
+		}, 1000);
+	} 
+	stop = async (cancelled = false) => {
+		let data = null;
+		let sleep = new Sleep();
+		let self = this;
+		if(this.mediaRecorder) {
+			this.mediaRecorder.addEventListener("stop", () => {
+				if(!cancelled && this.audioChunks.length > 0) {
+					const audioBlob = new Blob(this.audioChunks);
+					const audioURL = URL.createObjectURL(audioBlob);
+					const audio = new Audio(audioURL);
+					const mimeType = self.mediaRecorder.mimeType.split(";")[0];
+					data = {audioBlob, mimeType, audio};
+				} 
+				else {
+					this.audioChunks = [];
+					data = null;
+				} 
+				clearInterval(this.timer);
+				$(".recorder_time").textContent = "0:00";
+				sleep.end();
+			});
+			
+			if(this.mediaRecorder.state == "recording") {
+				this.mediaRecorder.stop();
+				await sleep.start();
+			} 
+			this.stream.getTracks()[0].stop();
+		} 
+		else {
+			data = "no media";
+		} 
+		
+		return data;
+	} 
+	static record = async (elem) => {
+		if(!Permissions.permissions.microphone) {
+			Permissions.check("recorder");
+			return false;
+		} 
+		if(this.initiating || this.aborting) return false; /* Discard the request */
+		this.requestAbortion = false; /* Resetting call to abort */
+		this.initiating = true; /* Process started */
+		this.initializationError = false;
+		
+		/* Stopping all initial opened streams*/
+		try {
+			let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			for(let track of stream.getTracks()) {
+				track.stop();
+			} 
+		} catch (error) {}
+		
+		this.recorder = new VoiceNoteRecorder();
+		let res = await this.recorder.init();
+		
+		if(res != "success") {
+			Notify.popUpNote(res + " occurred. We couldn't proceed.");
+			navigator.vibrate([100,50,100]);
+			this.recorder = null;
+			this.initializationError = true;
+			this.initiating = false;
+			return false;
+		} 
+		let recorderCont = $(".recorder_container");
+		recorderCont.style.transitionDuration = "0.3s";
+		elem.style.transitionDuration = "0.3s";
+		elem.style.height = "70px";
+		elem.style.width = "70px";
+		elem.style.bottom = "-2.5px";
+		$(".field_container").style.opacity = 0;
+		recorderCont.style.display = "flex";
+		recorderCont.style.width = "calc(100% - 60px)";
+		AudioPlayer.play("startRecording", 1);
+		navigator.vibrate(50);
+		await new Sleep().wait(0.5); /* waiting for recording audio to finish playing*/
+		res = true;
+		if(this.requestAbortion) {
+			if(this.recorder && this.recorder.stream) 
+				this.recorder.stream.getTracks()[0].stop();
+			this.recorder = null;
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			recorderCont.style.width = "calc(100% - 70px)";
+			
+			await new Sleep().wait(0.3); /* wait for animation to finish */
+			$(".field_container").style.opacity = 1;
+			recorderCont.style.display = "none";
+			res = false;
+			ElemHint.setHint(elem, "Hold to record. Release to send. Slide left to cancel.");
+		} 
+		else {
+			if(Lobby.isConnected) {
+				Lobby.PUBNUB.setState({
+					state: {action: "recording", value: true}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+			this.recorder.start();
+		} 
+		this.initiating = false;
+		elem.style.transitionDuration = "0s";
+		recorderCont.style.transitionDuration = "0s";
+		return res;
+	} 
+	static stopRecording = async (elem, cancelled = false) => {
+		if(!Permissions.permissions.microphone) {
+			return;
+		} 
+		try {
+			this.requestAbortion = true;
+			if(this.initiating || this.initializationError || this.aborting) return; /* Discard the request */
+			this.aborting = true; /* Aborting process started */
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			await new Sleep().wait(0.3); /* Wait for animation to finish */
+			let res = await this.recorder.stop(cancelled);
+			if(cancelled) {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				setTimeout(() => {$(".recorder_delete").classList.add("delete_recording")}, 400);
+				setTimeout(() => {AudioPlayer.play("throwRecording", 1)}, 800);
+				$(".recorder_time").classList.add("delete_recording");
+				AudioPlayer.play("deleteRecording", 1);
+				navigator.vibrate(50);
+				
+				await new Sleep().wait(2.1);
+				$(".recorder_delete").classList.remove("delete_recording");
+				$(".recorder_time").classList.remove("delete_recording");
+				Notify.popUpNote("deleted successfully");
+			} 
+			else if(typeof res == "object") {
+				if(Lobby.isConnected) {
+					Lobby.PUBNUB.setState({
+						state: {action: "recording", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+				} 
+				let player = new VoiceNotePlayer();
+				player.send(res);
+				AudioPlayer.play("stopRecording", 1);
+				navigator.vibrate(50);
+			} 
+			
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} catch (error) {
+			/* Stopping all initial opened streams*/
+			try {
+				let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+				for(let track of stream.getTracks()) {
+					track.stop();
+				} 
+			} catch (error) {}
+			elem.style.height = "45px";
+			elem.style.width = "45px";
+			elem.style.bottom = "10px";
+			elem.style.transform = `none`;
+			$(".recorder_delete").classList.remove("delete_recording");
+			$(".recorder_time").classList.remove("delete_recording");
+			$(".field_container").style.opacity = 1;
+			$(".recorder_container").style.width = "calc(100% - 70px)";
+			$(".recorder_container").style.display = "none";
+			this.recorder = null;
+			this.aborting = false;
+		} 
+	} 
+} 
+
+class VoiceNotePlayer {
+	panel;
+	btn;
+	range;
+	time;
+	timer;
+	audio;
+	playing = false;
+	initialPlay = false;
+	static currentPlayer;
+	constructor () {
+		this.panel = $$$("div", ["class", "audio_panel"]);
+		this.btn = $$$("button", ["class", "audio_play audio_download"]);
+		this.range = $$$("input", ["type", "range", "max", "100", "value", "0", "class", "audio_slider"]);
+		this.time = $$$("label", ["class", "audio_current_time", "textContent", "0:00"]);
+		this.panel.appendChild(this.btn);
+		this.panel.appendChild(this.range);
+		this.panel.appendChild(this.time);
+		
+		this.btn.addEventListener("click", this.play, false);
+		this.btn.addEventListener("focus", (event) => ChangeTextBox(false, this.btn, event), false);
+		this.range.addEventListener("change", this.skip, false);
+		this.range.addEventListener("input", this.skipInput, false);
+		this.range.addEventListener("focus", (event) => ChangeTextBox(false, this.range, event), false);
+	} 
+	send = async (data) => {
+		this.audio = data.audio;
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.play();
+				this.audio.playbackRate = 10;
+				return;
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+		
+		const msgID = await Message({action: 'send', text: this.panel}, false);
+		const buffer = await data.audioBlob.arrayBuffer();
+		const mimeType = data.mimeType;
+		if(Lobby.isConnected) {
+			const MetaConfig = {
+		        "uuid": Lobby.UUID
+		    } 
+			const FileConfig = {
+				data: buffer, 
+				name: "CH-" + Date.now() + "." + mimeType.split("/")[1],
+				mimeType
+			} 
+			const MessageConfig = {
+				id: msgID
+			} 
+			Lobby.PUBNUB.sendFile({
+				channel: Lobby.CHANNEL, 
+				message: MessageConfig, 
+				file: FileConfig, 
+				meta: MetaConfig
+			});
+		} 
+	} 
+	receive = async (data) => {
+		Message({action: 'receive', text: this.panel, count: data.message.count, id: data.message.id, timetoken: data.message.timetoken});
+		let DownloadConfig = {
+			channel: data.channel,
+			id: data.id,
+			name: data.name
+		} 
+		let file = await Lobby.PUBNUB.downloadFile(DownloadConfig);
+		let blob = await file.toFile();
+		let url = URL.createObjectURL(blob);
+		this.audio = new Audio(url);
+		this.audio.addEventListener("ended", () => {
+			this.playing = false;
+			this.audio.currentTime = 0;
+			this.audio.muted = false;
+			this.audio.playbackRate = 1;
+			clearInterval(this.timer);
+			this.time.textContent = "0:00";
+			this.range.style.backgroundSize = `0%`;
+			this.range.value = 0;
+			this.btn.classList.remove("audio_pause", "audio_download");
+			this.panel.style.pointerEvents = "auto";
+			this.range.style.pointerEvents = "auto";
+			VoiceNotePlayer.currentPlayer = null;
+			if(this.initialPlay)
+				this.btn.click();
+			this.initialPlay = false;
+		});
+		this.audio.addEventListener("loadeddata", () => {
+			if(String(this.audio.duration) == "Infinity") {
+				this.btn.classList.remove("audio_download");
+				this.range.style.pointerEvents = "none";
+			} 
+			this.btn.classList.remove("audio_download");
+			this.panel.style.pointerEvents = "auto";
+		});
+	} 
+	play = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		if(this.playing) {
+			this.playing = false;
+			this.audio.pause();
+			clearInterval(this.timer);
+			event.target.classList.remove("audio_pause");
+			VoiceNotePlayer.currentPlayer = null;
+		} 
+		else {
+			if(String(this.audio.duration) == "Infinity") {
+				this.audio.muted = true;
+				this.audio.playbackRate = 10;
+				this.btn.classList.add("audio_download");
+				this.panel.style.pointerEvents = "none";
+				this.initialPlay = true;
+				this.audio.play();
+				return;
+			} 
+			if(VoiceNotePlayer.currentPlayer) {
+				VoiceNotePlayer.currentPlayer.btn.click();
+			} 
+			VoiceNotePlayer.currentPlayer = this;
+			this.playing = true;
+			this.audio.play();
+			this.timer = setInterval(() => {
+				let m = Math.floor(this.audio.currentTime / 60);
+				let s = Math.floor(this.audio.currentTime % 60);
+				this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+				let pac = Math.floor(this.audio.currentTime / this.audio.duration * 100);
+				this.range.style.backgroundSize = `${pac}%`;
+				this.range.value = `${pac}`;
+			}, 1);
+			event.target.classList.add("audio_pause");
+		} 
+	} 
+	skip = async (event) => {
+		general.chatFieldHadFocus = document.activeElement == $(".chat_field");
+		let point = event.target.value;
+		let time = point / 100 * this.audio.duration;
+		this.audio.currentTime = time;
+		if(this.playing) {
+			this.playing = false;
+			this.btn.click();
+		} 
+	} 
+	skipInput = async (event) => {
+		if(!this.audio.paused) {
+			this.audio.pause();
+			clearInterval(this.timer);
+			this.btn.classList.remove("audio_pause");
+		} 
+		event.target.style.backgroundSize = `${event.target.value}%`;
+		let time = event.target.value / 100 * this.audio.duration;
+		let m = Math.floor(time / 60);
+		let s = Math.floor(time % 60);
+		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+	} 
+} 
+
+const Message = async (prop, publish = true) => { 
+    let container = $(".bubbles_container");
+    let anchor = $(".anchor");
+    let bubble = $$$("div");
+    let pText = $$$("div", ["class", "text"]);
+    let pReport = $$$("span", ["class", "report"]);
+    let pTime = $$$("span", ["class", "time"]);
+    bubble.addEventListener("touchstart", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("touchend", (event) => LongPress.end(event, bubble), false);
+    bubble.addEventListener("mousedown", (event) => LongPress.start(event, bubble), false);
+    bubble.addEventListener("mouseup", (event) => LongPress.end(event, bubble), false);
+    
+    let text = prop.text || $('.chat_field').innerHTML;
+    let time = new Date();
+    let h = ("0" + time.getHours()).slice(-2);
+    let m = ("0" + time.getMinutes()).slice(-2);
+    let am_pm = (parseInt(h) >= 12)? "PM": "AM";
+    h = (h > 12)? h%12: h;
+    time = `${h}:${m} ${am_pm}`;
+    
+    if(typeof text == "string") {
+    	pText.innerHTML = `<div>${text}</div>`;
+    } 
+    else {
+    	pText.appendChild(text);
+    } 
+    pTime.innerHTML = time;
+    pReport.appendChild(pTime);
+    pText.appendChild(pReport);
+    
+    let children = $$(".bubble");
+    
+    if(prop.action === "send") {
+    	let pTick = $$$("span");
+    	pTick.classList.add("tick");
+    	pReport.appendChild(pTick);
+    	pReport.appendChild(pTick.cloneNode(true));
+        $('.chat_field').innerHTML = "";
+        if(general.chatFieldHadFocus)
+        	$('.chat_field').focus();
+        await ChangeTextBox(true, $(".chat_field"));
+        await AdjustWidth.adjust($(".chat_field"));
+        
+        bubble.classList.add("bubble", "right_bubble");
+        bubble.appendChild(pText);
+        if(children.length > 0 && children[children.length-1].className.includes("right_bubble")) {
+            bubble.classList.add("same_side_bubble");
+        } 
+        container.insertBefore(bubble, anchor);
+        pTick.id = "tick" + $$(".right_bubble").length;
+        
+        let unreadBubble = $(".center_bubble");
+        if(unreadBubble != null) 
+            unreadBubble.parentNode.removeChild(unreadBubble);
+        
+        setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
+        if(Lobby.isConnected && publish) {
+        	Publish.send({channel: Lobby.CHANNEL, message: {title: "ChatMessage", content: {text, id: pTick.id}} });
+        } 
+        return pTick.id;
+    } 
+    else if(prop.action === 'receive') {
+        bubble.classList.add("bubble", "left_bubble");
+        bubble.id = "left-" + prop.id;
+        let pAvatar = $$$("p");
+        pAvatar.innerHTML = $$(".chat_header h2")[1].innerHTML.split(' ').map((n) => n[0]).join('');
+        bubble.appendChild(pAvatar);
+        bubble.appendChild(pText);
+        
+        if(children.length > 0 && children[children.length-1].className.includes("left_bubble")) {
+            pAvatar.style.visibility = "hidden";
+            bubble.classList.add("same_side_bubble");
+        } 
+        else {
+            
+        } 
+            
+        if($(".center_bubble") === null && prop.count === 1) {
+            let unreadBubble = $$$("div");
+            unreadBubble.classList.add("bubble", "center_bubble");
+            let unreadText = $$$("p");
+            unreadText.innerHTML = `${prop.count} UNREAD MESSAGE`;
+            unreadBubble.appendChild(unreadText);
+            container.insertBefore(unreadBubble, anchor);
+        } 
+        else if(prop.count > 1) {
+            $(".center_bubble p").innerHTML = `${prop.count} UNREAD MESSAGES`;
+        } 
+        container.insertBefore(bubble, anchor);
+        
+        if(GetValue($("#chat-window"), "display") === "flex") {
+        	if(Lobby.isConnected) {
+	        	Lobby.PUBNUB.addMessageAction({
+					channel: Lobby.CHANNEL, 
+					messageTimetoken: prop.timetoken, 
+					action: {
+						type: "read", 
+						value: prop.id
+					} 
+				});
+			} 
+        	Lobby.unreadMessages = [];
+            setTimeout(() => {container.scrollTop = anchor.offsetTop;}, 200);
+        } 
+        else 
+        	Lobby.unreadMessages.push({id: prop.id, timetoken: prop.timetoken});
+    } 
+} 
+
+class Bubble {
+	static selectedLeft = [];
+	static selectedRight = [];
+	static requestDelete = async () => {
+		this.selectedLeft = $$(".left_bubble.selected_bubble");
+		this.selectedRight = $$(".right_bubble.selected_bubble");
+		let total = this.selectedLeft.length + this.selectedRight.length;
+		let option; 
+		if(this.selectedLeft.length || $(".selected_bubble.deleted")) {
+			option = await Notify.confirm({
+				header: `Delete ${total + (total > 1? " messages": " message")}`, 
+				message: "Whom do you want to delete for?", 
+				type: "CANCEL/MYSELF"
+			});
+		} 
+		else {
+			option = await Notify.other({
+				header: `Delete ${total + (total > 1? " messages": " message")}`, 
+				message: "Whom do you want to delete for?", 
+				type: "CANCEL/EVERYONE/MYSELF"
+			});
+		} 
+		this.deleteBubble(option);
+	} 
+	
+	static deleteBubble = (option, deletedByPublisher) => {
+		let selected = Array.from(Bubble.selectedLeft).concat(Array.from(Bubble.selectedRight));
+		let ids = "";
+		if(option != "CANCEL") {
+			for(let bubble of selected) {
+				if(!bubble.classList.contains("deleted") && bubble.$(".tick") && bubble.$(".tick").classList.contains("grey")) {
+					bubble.$(".text > div").innerHTML = "You deleted this message.";
+					bubble.classList.add("deleted");
+					ids += bubble.$(".tick").id + "-";
+				} 
+				else if(deletedByPublisher) {
+					bubble.$(".text > div").innerHTML = "This message was deleted.";
+					bubble.classList.add("deleted");
+				} 
+				else {
+					bubble.parentNode.removeChild(bubble);
+				} 
+				bubble.classList.remove("selected_bubble");
+			} 
+			
+			if(option == "EVERYONE" && Lobby.isConnected) {
+				ids = ids.replace(/-$/g, "");
+				Publish.send({
+					channel: Lobby.CHANNEL, 
+					message: {title: "deleted", ids}
+				});
+			} 
+		} 
+		else {
+			for(let bubble of selected) {
+				bubble.classList.remove("selected_bubble");
+			} 
+		} 
+		
+		window.$(".chat_header > h2:last-of-type").style.display = "block";
+		window.$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		window.$(".chat_menu").style.display = "none";
+		window.$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+		Bubble.selectedLeft = [];
+		Bubble.selectedRight = [];
+	} 
+	
+	static copyBubbleText = async () => {
+		if(Permissions.permissions.clipboard) {
+			let text = $(".selected_bubble .text > div").textContent;
+			navigator.clipboard.writeText(text).then(() => {
+				Notify.popUpNote("Text copied to clipboard");
+			}, () => {
+				Notify.popUpNote("Text was not copied to clipboard for some reason.");
+			});
+		} 
+		else {
+			Permissions.check("bubble", "clipboard-write");
+		} 
+		$(".selected_bubble").classList.remove("selected_bubble");
+		$(".chat_header > h2:last-of-type").style.display = "block";
+		$(".chat_header > p:nth-of-type(2)").style.display = "block";
+		$(".chat_menu").style.display = "none";
+		$(".bubbles_container").classList.remove("select_mode");
+		LongPress.selectMode = false;
+	} 
+} 
+
+const Request = async (prop) => {
+	let option;
+    if(prop.title === "RequestPlay") {
+        option = await Notify.confirm({
+                header: "Request for a  match!", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} is requesting a match with you`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    else if(prop.title === "RequestReplay") {
+        option = await Notify.confirm({
+                header: "Request for rematch", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} is requesting a rematch with you.`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    else if(prop.title === "RequestRestart") {
+        option = await Notify.confirm({
+                header: "Request to restart", 
+                type: "CANCEL/ACCEPT", 
+                message: `${$$("#online .player_name")[1].innerHTML} wants to restart this match.`
+		});
+        Lobby.firstMove = prop.content.firstMove;
+        Lobby.mandatoryCapture = prop.content.mandatoryCapture;
+        Lobby.version = prop.content.version;
+    } 
+    
+    if(option === "ACCEPT") { 
+        Game.firstMove = Lobby.firstMove;
+        Game.mandatoryCapture = Lobby.mandatoryCapture;
+        Game.version = Lobby.version;
+        
+        if(Game.alternatePlayAs) {
+            let color = playerA.pieceColor;
+            await Alternate(color);
+        }
+        await setTimeout(async () => {
+            await Publish.send({channel: Lobby.CHANNEL, message: {title: "AcceptedRequest", content: ""} });
+            Notify.popUpNote("The game will start shortly...");
+            Game.whiteTurn = (Game.firstMove)? playerA.pieceColor === "White": playerB.pieceColor === "White";
+            await Mode(3, false);
+            
+            
+            let btn = (Game.mandatoryCapture)? $("#must-jump"): $("#not-must-jump");
+            await Clicked(btn, btn.parentNode, false);
+            let version = $(`#main-window .version[value='${Game.version}']`);
+            await Version(version, 0, true);
+            await new Sleep().wait(1);
+            await play(true);
+        }, 200);
+    } 
+    else if(option === "CANCEL") {
+        Publish.send({channel: Lobby.CHANNEL, message: {title: "DeclinedRequest", content: ""} });
+    } 
+    return;
+} 
+
+const ChangeWidth = (elem, event) => {
+	AdjustWidth.adjust(elem, event);
+} 
+
+class AdjustWidth {
+	static finishedExecuting = true;
+	static stateTimeout;
+	static typing = false;
+	static adjust = (elem, event) => {
+		if(event) {
+			event.preventDefault();
+		} 
+		if(this.finishedExecuting) {
+			this.finishedExecuting = false;
+			this.updateState(elem, typeof event == "object");
+		} 
+		else
+			return;
+	} 
+	static updateState = (elem, isEvent) => { 
+		let self = this;
+		
+		if(isEvent && Lobby.isConnected) {
+			clearTimeout(this.stateTimeout);
+			if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
+				clearTimeout(AdjustWidth.stateTimeout);
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: false}, 
+					channels: [Lobby.CHANNEL]
+				});
+				this.typing = false;
+			} 
+			else if(!this.typing) {
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: true}, 
+					channels: [Lobby.CHANNEL]
+				});
+				this.typing = true;
+			} 
+			else {
+				clearTimeout(this.stateTimeout);
+				this.stateTimeout = setTimeout(() => {
+					Lobby.PUBNUB.setState({
+						state: {action: "typing", value: false}, 
+						channels: [Lobby.CHANNEL]
+					});
+					this.typing = false;
+				}, 700);
+			} 
+		} 
+		self.adjustWidth(elem);
+	} 
+	
+	static adjustWidth = (elem) => {
+	    let sendBtn = $(".send_button");
+		let recordBtn = $(".recorder_button");
+	    if(elem.innerHTML.toLowerCase().replace(/<div><br><\/div>/gm, '') == "") {
+			if(GetValue(sendBtn, "display") == "block") {
+		        elem.innerHTML = "";
+				sendBtn.style.display = "none";
+				recordBtn.style.display = "block";
+				recordBtn.classList.add("button_pop_up");
+				setTimeout(() => {recordBtn.classList.remove("button_pop_up")}, 300);
+			}
+	    } 
+	    else {
+			if(GetValue(recordBtn, "display") == "block") {
+				recordBtn.style.display = "none";
+				sendBtn.style.display = "block";
+				sendBtn.style.display = "block";
+				sendBtn.classList.add("button_pop_up");
+				setTimeout(() => {sendBtn.classList.remove("button_pop_up")}, 300);
+			} 
+	        
+	        if(CalculateSize(elem.innerHTML) >= 32768) {
+	            elem.innerHTML = elem.innerHTML.substring(0, elem.innerHTML.length-2);
+	            Notify.popUpNote("message size exceeded limit");
+	        } 
+	    } 
+	    let height = $(".field_container").offsetHeight || parseFloat(GetValue($(".field_container"), "height"));
+	    document.documentElement.style.setProperty("--txt-size", ((height + 20) + "px"));
+		this.finishedExecuting = true;
+	} 
+} 
+
+const ChangeTextBox = async (isFocused, elem, event) => { 
+	let active = document.activeElement;
+	if(typeof event == "object") {
+		event.preventDefault();
+		if(event.type == "blur" && elem.classList.contains("chat_field")) {
+			AdjustWidth.typing = false;
+			clearTimeout(AdjustWidth.stateTimeout);
+			if(Lobby.isConnected) {
+				Lobby.PUBNUB.setState({
+					state: {action: "typing", value: false}, 
+					channels: [Lobby.CHANNEL]
+				});
+			} 
+		} 
+		if(event.type == "focus" && general.chatFieldHadFocus && $("#chat-window").contains(active)) {
+			for(let bubble of $$(".selected_bubble")) {
+				bubble.classList.remove("selected_bubble");
+			} 
+			$(".chat_header > h2:last-of-type").style.display = "block";
+			$(".chat_header > p:nth-of-type(2)").style.display = "block";
+			$(".chat_menu").style.display = "none";
+			$(".bubbles_container").classList.remove("select_mode");
+			LongPress.selectMode = false;
+			$(".chat_field").focus();
+		} 
+	} 
+	
+	if(!elem.className.includes("chat_field")) {
+		if(isFocused) {
+			setTimeout (() => {
+				let par = $("#main-section-tp");
+				par.scrollTop = elem.offsetHeight + elem.offsetTop - par.clientHeight + 20;
+			}, 200);
+		} 
+	} 
+    if(elem.id === "channel-name") {
+        elem.maxLength = "100";
+    } 
+    setTimeout(() => {
+        let vh = window.innerHeight;
+        if(vh < 150 && isFocused) {
+            if(elem.className.includes("chat_field")) {
+                $(".chat_header").style.display = "none";
+                $(".bubbles_container").style.display = "none";
+                $(".chat_field").style.maxHeight = "45px";
+            } 
+            else {
+                $("#two-players-window h2").style.display = "none";
+                elem.parentNode.scrollTop = elem.offsetTop;
+            } 
+        } 
+        else if(vh < 150 && !isFocused || vh > 150) {
+            if(elem.className.includes("chat_field")) {
+                $(".chat_header").style.display = "grid";
+                $(".bubbles_container").style.display = "block";
+                $(".chat_field").style.maxHeight = "100px";
+            } 
+            else {
+                $("#two-players-window h2").style.display = "flex";
+            } 
+        } 
+    }, 300);
+} 
+
+const ChangeFocus = () => {
+	general.chatFieldHadFocus = true;
+} 
