@@ -35,6 +35,7 @@
         }
     ],
     "categories": ["games", "entertainment", "kids"], 
+    "id": "./22.15.209.541", 
     "start_url": "./index.html", 
     "display": "standalone",
     "orientation": "natural",
@@ -43,32 +44,32 @@
     "prefer_related_applications": false, 
     "screenshots": [
     	{
-	    	"src": "./src/Screenshot load window.png",
+	    	"src": "./src/images/Screenshot load window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}, 
 		{
-	    	"src": "./src/Screenshot portrait play window.png",
+	    	"src": "./src/images/Screenshot portrait play window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}, 
 		{
-	    	"src": "./src/Screenshot landscape play window.png",
+	    	"src": "./src/images/Screenshot landscape play window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}, 
 		{
-	    	"src": "./src/Screenshot main window.png",
+	    	"src": "./src/images/Screenshot main window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}, 
 		{
-	    	"src": "./src/Screenshot settings window.png",
+	    	"src": "./src/images/Screenshot settings window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}, 
 		{
-	    	"src": "./src/Screenshot two players window.png",
+	    	"src": "./src/images/Screenshot two players window.png",
 	    	"sizes": "720x1500",
 	    	"type": "image/png"
 		}
