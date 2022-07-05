@@ -3,10 +3,10 @@
 /* Version: 54*/
 
 const CheckHref = async () => {
-	let split = document.location.href.split("?");
+	let url = new URL(window.location);
 	
-	if(split.length > 1 && split[1].includes("name=")) {
-		let name = split[1].replace("name=", "");
+	if(url.searchParams.has("name")) {
+		let name = url.searchParams.get("name");
 		$("#online #channel-name").value = name;
 		await Mode(3, false);
 		BackState.state.push(["#main-window", "#two-players-window"]);
@@ -18,7 +18,7 @@ const CheckHref = async () => {
     			message: `Please fill in your name in the field named 'PLAYER DETAILS' and hit <kbd>SUBMIT</kbd> button at the bottom right corner of this window to join ${name} channel as shown below. Your opponent will refer to you using the name you will provide.<img src='./src/images/player image.png'>`});
     	$("#online .playerA_name").focus();
 	} 
-	history.pushState(null, "", "?window1");
+	history.pushState(null, "", "");
 } 
 
 const Lobby = {isConnected: false, isHost: false, unreadMessages: [], offlineTimeout: null};

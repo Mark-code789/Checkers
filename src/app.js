@@ -162,11 +162,11 @@ async function LoadResources (src = appShells[0], i = 0) {
             	soundProps = null;
             	await new Sleep().wait(0.5);
             	
-            	if(deferredEvent && !newSW) {
+            	if(deferredEvent && !reg.waiting) {
 			        $(".install").classList.add("show_install_prompt");
 			    } 
-			    else if(newSW) {
-			    	InvokeSWUpdateFlow(newSW);
+			    else if(reg.waiting) {
+			    	InvokeSWUpdateFlow();
 			    } 
 			    else {
 			    	Permissions.check();
@@ -597,14 +597,14 @@ class Drag {
 				let offset = rect.bottom - parRect.bottom;
 				if(rect.top >= (rect.height * 0.25) + rect.top - offset) {
 					let dist = parRect.bottom - rect.top;
-					this.translate(0, this.currentY + dist, this.dragItem);
+					this.translate("-50%", this.currentY + dist, this.dragItem);
 					this.currentY = 0;
 					BackState.state.pop();
 				}
 				else {
 					let dist = rect.bottom - parRect.bottom;
 					this.currentY -= dist;
-					this.translate(0, this.currentY, this.dragItem);
+					this.translate("-50%", this.currentY, this.dragItem);
 				} 
 			}
 			else if(this.dragItem === $(".recorder_button")) {
@@ -681,16 +681,16 @@ class Drag {
 						this.currentY -= (expectedY - yThreshold);
 					}
 				} 
-				this.translate(0, this.currentY, this.dragItem);
+				this.translate("-50%", this.currentY, this.dragItem);
 			}
-			this.moved = Math.abs(this.currentX - this.xOffset) > 0 || Math.abs(this.currentY - this.yOffset) > 0;
+			this.moved = !this.moved? (Math.abs(this.currentX - this.xOffset) > 0 || Math.abs(this.currentY - this.yOffset) > 0): this.moved;
 			this.xOffset = this.currentX;
 			this.yOffset = this.currentY;
 	    }
 	}
 	
 	translate = (x, y, elem) => {
-	    elem.style.transform = "translate3d(" + x + "px, " + y + "px, 0)";
+	    elem.style.transform = `translate3d(${x}${typeof x == "number"? "px": ""}, ${y}${typeof y == "number"? "px": ""}, 0px)`;
 	}
 }
 
@@ -2914,7 +2914,23 @@ const PlayAs = (elem) => {
     }
     if(storage)
         storage.setItem("Checkers - play_as", JSON.stringify({playerA: playerA.pieceColor, playerB: playerB.pieceColor, alternate: Game.alternatePlayAs}));
-} 
+}
+
+const Support = async () => {
+	await Notify.alert({
+		header: "SUPPORT LINES",
+		message: "<label>If you have been impressed by this work, support me and let's achieve milestone through coding and programming.<br><br>" +
+				 "Support line: <b>0798916984</b><br>Name: <b>Mark Etale</b></label>"
+	});
+}
+
+const MoreApps = async () => {
+	let response = await Notify.alert({
+		header: "MORE APPS",
+		message: "<span>Mi List App</span><ul><li>Manage your to-do list as well as receive notification reminders when they are due with Mi-List app.<br><a href='https://mark-code789.github.io/Mi-List/'>Try it now!</a></li></ul><br>" +
+				 "<span>Smart Recharge App</span><ul><li>Recharge your line automatically by scanning the digital top up code using Smart-Recharge.<br><a href='https://mark-code789.github.io/Smart-Recharge'>Try it now!</a></li></ul>"
+	});
+}
 
 const Contact = async () => {
 	let response = await Notify.other({
@@ -2935,12 +2951,22 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "22.15.209.541";
+const currentAppVersion = "23.16.210.542";
 const AppVersion = async () => {
 	const currentVersionDescription = await Updates.getDescription(currentAppVersion);
-	Notify.alert({
+	let updateChoice = await Notify.confirm({
             header: "CHECKERS VERSION", 
-            message: "<label style='display: block; text-align: left;'>Your current app version is: " + currentAppVersion + "</label><span>Updates of this version</span>" + currentVersionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>"});
+            message: "<label>Your current app version is: " + currentAppVersion + "</label><span>Updates of this version</span>" + currentVersionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>", 
+			type: "Check for update/OK"});
+			
+	if(updateChoice == "Check for update") {
+		if(!navigator.onLine) return Notify.popUpNote("Please connect to an internet and try again.");
+		Notify.alertSpecial({
+				header: "Checking for update...",
+				message: "Please wait as we run the check."
+		});
+		location.reload();
+	} 
 } 
 
 const FollowUp = () => {
@@ -2959,7 +2985,7 @@ const GetGames = () => {
 
 const ShowTotalStats = async () => {
 	let sec = $(".games_totals");
-	sec.style.transform = "translate(0%, 0%)";
+	sec.style.transform = "translate(-50%, 0%)";
 	BackState.state.push([".games_totals"]);
 }
 
@@ -4160,7 +4186,7 @@ async function back (undo = false, isComp = false) {
             else
             	await Clicked();
             if($(current_state[0]).classList.contains("games_totals")) {
-            	$(current_state[0]).style.transform = "translate(0, 100%)";
+            	$(current_state[0]).style.transform = "translate(-50%, 100%)";
             }
             else if($(current_state[0]).id == "chat-window") {
             	HideChat("back");
@@ -4328,13 +4354,13 @@ const PopState = () => {
 			Exit();
 		else
 			back();
-		history.pushState(null, "", "?window1");
+		history.pushState(null, "", "");
 	}
-	else if(!document.location.href.includes("window")) {
+	else {
 		Clicked();
 		Notify.popUpNote("Press again to exit.");
 		setTimeout(() => {
-			history.pushState(null, "", "?window1");
+			history.pushState(null, "", "");
 		}, 4000);
 	}
 }

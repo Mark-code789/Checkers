@@ -1537,9 +1537,10 @@ article {
 .games_totals {
 	position: absolute;
 	bottom: 0%;
-	left: 0%;
-	transform: translate(0%, 100%);
+	left: 50%;
+	transform: translate(-50%, 100%);
 	width: 100%;
+	max-width: 600px;
 	height: 85%;
 	border-radius: 16px 16px 0 0;
 	padding: 20px 8px 8px 8px;
@@ -2943,6 +2944,11 @@ article {
     text-align: left;
 } 
 
+#notification-window #note .note_body label {
+	display: block;
+	text-align: left;
+} 
+
 #notification-window #note .note_body img {
 	display: block;
 	max-width: 100%;
@@ -2975,9 +2981,10 @@ article {
     list-style-position: outside;
 } 
 
-#notification-window #note .note_body > ul,
-#notification-window #note .note_body > ol {
-	margin: 10px 0;
+#notification-window #note .note_body > ul ul,
+#notification-window #note .note_body > ol ol {
+	margin: 0;
+	margin-bottom: 10px;
 } 
 
 #notification-window #note .note_body li {
