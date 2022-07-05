@@ -78,7 +78,7 @@ const appShellFiles = [
     "./manifest.webmanifest", 
     "./index.js", 
     "./index.css", 
-    "./index.html",
+    "./index.html"
 ];
 
 self.addEventListener("install", (e) => {
@@ -91,8 +91,8 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
-        caches.match(e.request, {cacheName, ignoreSearch: true}).then((res) => {
-        	if(res && !/objects.js.$/gi.test(e.request.url)) {
+        caches.match(e.request.url.replace(/html(?=\/.*)$/i, 'html').replace(/checkers\/(Test\/)?$/i, t => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
+        	if(res && !/objects.js$/gi.test(e.request.url)) {
             	return res;
             }
             
@@ -106,7 +106,7 @@ self.addEventListener("fetch", (e) => {
             	} 
             	
                 return caches.open(cacheName).then((cache) => {
-                    cache.put(e.request, res2.clone());
+                    cache.put(e.request.url.split("?")[0], res2.clone());
                     return res2;
                 }).catch((error) => {
 					return res2;

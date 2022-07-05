@@ -111,7 +111,7 @@ Element.prototype.$$ = function (elem) {
 } 
 
 let deferredEvent;
-let newSW;
+let reg;
 let workers = [];
 let randomFacts = [
 	"Early version of checkers believed to be dated 1400 B.C, was played on a 5 x 5 board with each player having 10 pieces each. The game was called Quirkat or Alquerque.", 
@@ -137,7 +137,6 @@ async function pageComplete () {
     let JsLink5 = $$$("script");
     
     SheetLink.onload = (event) => LoadedExternalFiles.run(event);
-    SheetLink.onerror = (event) => LoadedExternalFiles.error(event);
     JsLink0.onload = (event) => LoadedExternalFiles.run(event);
     JsLink1.onload = (event) => LoadedExternalFiles.run(event);
     JsLink2.onload = (event) => LoadedExternalFiles.run(event);
@@ -160,13 +159,13 @@ async function pageComplete () {
     JsLink4.src = "./src/objects.js";
     JsLink5.src = "https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.1.min.js";
     
+    head.appendChild(SheetLink);
     head.appendChild(JsLink0);
     head.appendChild(JsLink1);
     head.appendChild(JsLink2);
     head.appendChild(JsLink3);
     head.appendChild(JsLink4);
     head.appendChild(JsLink5);
-    head.appendChild(SheetLink);
     
     JsLink5.id = "pubnub-file";
     
@@ -221,7 +220,7 @@ const InvokeSWUpdateFlow = async () => {
 	let version = Updates.version;
 	let action = await Notify.confirm({ 
 		header: "APP UPDATE", 
-		message: "<label style='display: block; text-align: left;'>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + version + "</label><span>What's New?</span>" + versionDescription + "<label style='display: block; text-align: left;'>Do you want to update?</label>", 
+		message: "<label>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + version + "</label><span>What's New?</span>" + versionDescription + "<label style='display: block; text-align: left;'>Do you want to update?</label>", 
 		type: "LATER/UPDATE"
 	});
 	
@@ -230,7 +229,7 @@ const InvokeSWUpdateFlow = async () => {
 				header: "Updating Checkers...",
 				message: "Please Wait as we update the app. This may take a few seconds depending n the speed of your bandwidth."
 		});
-		await newSW.waiting.postMessage({type: "skip-waiting"});
+		await reg.waiting.postMessage({type: "skip-waiting"});
 	} 
 	else {
 		Notify.popUpNote("App update declined.");
@@ -241,18 +240,14 @@ const InvokeSWUpdateFlow = async () => {
 	} 
 } 
 
-const FinishInstalling = async (reg) => {
+const FinishInstalling = async () => {
 	if(reg.waiting) {
-		newSW = reg;
 		if(window.getComputedStyle($("#load-window"), null).getPropertyValue("display") == "none") {
 			setTimeout(() => {
-				if(newSW)
+				if(reg.waiting)
 					InvokeSWUpdateFlow();
 			}, 0.5); /* Timeout to ensure no subsequent activate events */
 		} 
-	} 
-	else if(reg.active) {
-		newSW = null;
 	} 
 } 
 
@@ -271,11 +266,8 @@ window.addEventListener("error", (error) => {
 
 window.addEventListener("load", async () => {
 	if("serviceWorker" in navigator) {
-		const reg = await navigator.serviceWorker.register("./service worker.js");
-		
-		if(reg.waiting) {
-			newSW = reg;
-		} 
+		navigator.serviceWorker.onmessage = (e) => console.log(e.data);
+		reg = await navigator.serviceWorker.register("./service worker.js");
 			
 		reg.addEventListener("updatefound", () => {
 			if(reg.installing) {

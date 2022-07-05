@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
         <meta name="theme-color" content="#000">
         <meta name="description" content="Play one of the best Checkers/Draughts game. Test and improve your skills and experience by playing against the computer through levels from beginner to grand master. Connect with your friends and families to play online on multi-player mode or share same screen on offline mode.">
         <link rel="manifest" href="./manifest.webmanifest">
@@ -10,8 +10,18 @@
         <link rel="icon" href="./src/images/favicon16.png" type="image/png" sizes="16x16">
         <link rel="icon" href="./src/images/favicon32.png" type="image/png" sizes="32x32">
         <link rel="icon" href="./src/images/favicon96.png" type="image/png" sizes="96x96">
-        <title>CHECKERS | DRAUGHTS - Play online, offline or against the computer</title>
         <link rel="stylesheet" href="./index.css">
+        <script src="./eruda/eruda.min.js"></script>
+        <script>
+        	if(/(html|checkers)(?=\/(Test\/)?)$/i.test(new URL(window.location).pathname)) {
+        		console.log(location.href);
+        		location.replace(location.href.includes("html")? location.href.replace(/\/.*$/, ""): location.href + 'index.html');
+       	 } 
+        	let url = new URL(window.location);
+        	if(url.searchParams.has("eruda"))
+				eruda.init()
+		</script>
+        <title>CHECKERS | DRAUGHTS - Play online, offline or against the computer</title>
     </head>
     <body>
     	<span class="elem_hint" hidden></span>
@@ -397,14 +407,22 @@
                     <button onclick="Clicked(), RestartLevels()" class="only_item red_ui">RESTART</button>
                 </section>
                 <section class="inner_item" id="item8">
-                    <p>Contact:<br><span>Help me build this game. Share your thoughts</span></p>
-                    <button onclick="Clicked(), Contact()" class="only_item blue_ui">CONTACT ME</button>
+                    <p>Support:<br><span>Support my work financially.</span></p>
+                    <button onclick="Clicked(), Support()" class="only_item blue_ui">SUPPORT</button>
                 </section>
                 <section class="inner_item" id="item9">
+                    <p>More Apps:<br><span>Check out more apps by © 2020-2022 mark-codes.</span></p>
+                    <button onclick="Clicked(), MoreApps()" class="only_item blue_ui">MORE APPS</button>
+                </section>
+                <section class="inner_item" id="item9">
+                    <p>Contact:<br><span>Share your thoughts, complaints and errors.</span></p>
+                    <button onclick="Clicked(), Contact()" class="only_item blue_ui">CONTACT ME</button>
+                </section>
+                <section class="inner_item" id="item10">
                     <p>Attributes:<br><span>Find out contributors who made this game a success</span></p>
                     <button onclick="Clicked(), Attribute()" class="only_item blue_ui">ATTRIBUTES</button>
                 </section>
-                <section class="inner_item" id="item10">
+                <section class="inner_item" id="item11">
                     <p>Version:<br><span>Check out the current version of the game and its updated features.</span></p>
                     <button onclick="Clicked(), AppVersion()" class="only_item blue_ui">VERSION</button>
                 </section>
