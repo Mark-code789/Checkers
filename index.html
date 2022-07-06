@@ -13,8 +13,7 @@
         <link rel="stylesheet" href="./index.css">
         <script src="./eruda/eruda.min.js"></script>
         <script>
-        	if(/(html|checkers)(?=\/(Test\/)?)$/i.test(new URL(window.location).pathname)) {
-        		console.log(location.href);
+        	if(/(html|checkers)\/$/i.test(new URL(window.location).pathname)) {
         		location.replace(location.href.includes("html")? location.href.replace(/\/.*$/, ""): location.href + 'index.html');
        	 } 
         	let url = new URL(window.location);

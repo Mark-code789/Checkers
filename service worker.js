@@ -1,5 +1,5 @@
 // Service worker
-const version = "541";
+const version = "543";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/american flag.jpeg",
@@ -61,6 +61,10 @@ const appShellFiles = [
     "./src/images/Facebook.png", 
     "./src/images/Twitter.png", 
     "./src/images/Instagram.png", 
+    "./src/images/channel image.png",
+    "./src/images/channel joined image.png",
+    "./src/images/player image.png", 
+    "./src/images/status image.png",
     "./src/audio/click.mp3",
     "./src/audio/capture.mp3", 
     "./src/audio/king.mp3", 
@@ -91,7 +95,7 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
-        caches.match(e.request.url.replace(/html(?=\/.*)$/i, 'html').replace(/checkers\/(Test\/)?$/i, t => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
+        caches.match(e.request.url.replace(/html\/.*$/i, 'html').replace(/checkers\/$/i, (t) => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
         	if(res && !/objects.js$/gi.test(e.request.url)) {
             	return res;
             }
