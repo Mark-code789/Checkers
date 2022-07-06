@@ -13,6 +13,7 @@ class Updates {
 		["22.15.209.540", ["Fixed channel subscription timeout issue.", "Removed showing captures helper for online opponent."]], 
 		["22.15.209.541", ["Fixed out some issues."]], 
 		["23.16.210.542", ["Added check for updates.", "Added support line.", "Added more apps option.", "Fixed out some issues."]], 
+		["23.16.211.543", ["Improved internal operations."]], 
 	]);
 	static getDescription = (version) => {
 		let versionDescription = "<ul>";
