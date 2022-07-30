@@ -11,6 +11,7 @@ const appShellFiles = [
     "./src/images/nigerian flag.jpeg",
     "./src/images/background1.jpeg", 
     "./src/images/background2.jpeg", 
+    "./src/images/background3.jpeg", 
     "./src/images/black cell.jpeg", 
     "./src/images/white cell.jpeg",
     "./src/images/sound on.png",
