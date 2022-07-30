@@ -113,6 +113,7 @@ self.addEventListener("fetch", (e) => {
 					return res2;
 				});
             }).catch((error) => {
+            	console.log(e.request.url);
             	return res || new Response(null, {"status": 200});
             });
         })
