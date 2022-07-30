@@ -2951,7 +2951,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "23.16.211.543";
+const currentAppVersion = "23.16.211.545";
 const AppVersion = async () => {
 	const currentVersionDescription = await Updates.getDescription(currentAppVersion);
 	let updateChoice = await Notify.confirm({
