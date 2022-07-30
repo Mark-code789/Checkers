@@ -3,7 +3,7 @@
 /* Version: 24 */
 
 class Updates {
-	static version = "22.16.209.541";
+	static version = "22.16.209.545";
 	static updatesLog = new Map([
 		["22.15.200.529", ["Added voice notes in the chat engine.", "Added delete and copy option for chat engine.", "Improved internal operations.", "Improved the AI thinking time.", "Fixed channel subscription error.", "Fixed more other errors."]], 
 		["22.15.201.530", ["Fixed single player draw issue.", "Fixed fullscreen not changing orientation.", "Fixed game stats behind by a move.", "Added locking orientation in both primary and secondary."]], 
@@ -14,6 +14,7 @@ class Updates {
 		["22.15.209.541", ["Fixed out some issues."]], 
 		["23.16.210.542", ["Added check for updates.", "Added support line.", "Added more apps option.", "Fixed out some issues."]], 
 		["23.16.211.543", ["Improved internal operations."]], 
+		["23.16.211.545", ["Fixed offline loading error."]], 
 	]);
 	static getDescription = (version) => {
 		let versionDescription = "<ul>";
