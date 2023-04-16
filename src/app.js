@@ -1,6 +1,6 @@
 'use strict'
 
-/* Version: 43 */
+/* Version: 44 */
 const Icons = {
     alertIcon: "", 
     confirmIcon: "", 
@@ -998,14 +998,14 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
 	}
 	else {
 		Game.state = gameState;
-	   /*[["NA", "EC", "NA", "EC", "NA", "EC", "NA", "MB"],
-		["MB", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "KW", "NA", "MW", "NA", "KW", "NA", "EC"],
+	   [["NA", "MB", "NA", "EC", "NA", "EC", "NA", "EC"],
 		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "EC", "NA", "EC", "NA", "EC", "NA", "KB"],
+		["NA", "EC", "NA", "MB", "NA", "MB", "NA", "EC"],
 		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
-		["NA", "EC", "NA", "EC", "NA", "MB", "NA", "MW"],
-		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"]];*/
+		["NA", "EC", "NA", "EC", "NA", "MB", "NA", "EC"],
+		["EC", "NA", "EC", "NA", "EC", "NA", "EC", "NA"],
+		["NA", "EC", "NA", "EC", "NA", "MB", "NA", "EC"],
+		["EC", "NA", "MW", "NA", "MW", "NA", "EC", "NA"]];
 	} 
 	BackState.moves = [];
     Game.track = [];
@@ -1088,31 +1088,24 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
                 setTimeout(_ => aiStart(), 100);
                 Timer.start("B");
             }
-            else if(Game.helper) {
+            else {
                 let id = playerA.pieceColor.slice(0,1);
                 Game.moves = await AssessAll({id, state: Game.state});
                 await Helper(Game.moves, Copy(Game.state));
                 Timer.start("A");
             }
-            else {
-            	let id = playerA.pieceColor.slice(0,1);
-                Game.moves = await AssessAll({id, state: Game.state});
-            	Timer.start("A");
-            } 
         }
         else if(Game.mode === "two-player-offline") {
             let id = (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")? playerA.pieceColor.slice(0,1): playerB.pieceColor.slice(0,1);
             Game.moves = await AssessAll({id, state: Game.state});
-            if(Game.helper) 
-            	await Helper(Game.moves, Copy(Game.state));
+            await Helper(Game.moves, Copy(Game.state));
             let player = Game.whiteTurn && playerA.pieceColor == "White" || !Game.whiteTurn && playerA.pieceColor == "Black"? "A": "B";
             Timer.start(player);
         }
         else if((Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
             let id = playerA.pieceColor.slice(0,1);
             Game.moves = await AssessAll({id, state: Game.state});
-            if(Game.helper)
-            	await Helper(Game.moves, Copy(Game.state));
+            await Helper(Game.moves, Copy(Game.state));
             Timer.start("A");
         }
         else {
@@ -1156,12 +1149,13 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
     } 
         
     async function aiStart () {
-    	for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) { 
-            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+    	for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper")) { 
+            cell.classList.remove("valid", "pre_valid", "hint", "helper");
         } 
         let state = Game.state;
     	let id = playerB.pieceColor.substring(0,1);
         Game.moves = await AssessAll({id, state});
+        await Helper(Game.moves, Copy(Game.state));
         let moves;
         if(Game.mandatoryCapture && Game.moves.captures.length > 0) {
         	moves = Game.moves.captures;
@@ -1173,8 +1167,7 @@ const Refresh = async (restart = false, color = playerA.pieceColor, gameState = 
         	moves = Game.moves.nonCaptures;
         	moves = moves.concat(Game.moves.captures);
         }
-        /*await Helper(Game.moves, Copy(Game.state));
-        let ai = new AI({moves, depth: Game.level, state});
+        /*let ai = new AI({moves, depth: Game.level, state});
         console.log(JSON.stringify(moves));
         moves = await ai.sort(moves.reverse(), state);
         console.log(JSON.stringify(moves));
@@ -1273,8 +1266,8 @@ class Move {
     captures = async function (prop) {
         let final = false;
     	let validMove = false;
-    	for(let cell of $$("#table .helper_empty, #table .pre_valid, #table .valid")) {
-    		cell.classList.remove("helper_empty", "pre_valid", "valid");
+    	for(let cell of $$("#table .helper, #table .pre_valid, #table .valid")) {
+    		cell.classList.remove("helper", "pre_valid", "valid");
     	} 
     	for(let sort of general.sorted) {
     		for(let move of sort) {
@@ -1315,7 +1308,7 @@ class Move {
 						for(let data of emptyCells) {
 							let emptyCell = $("#table").children[data.m*Game.boardSize+data.n];
 							if(!emptyCell.classList.contains("pre_valid"))
-								emptyCell.classList.add("helper_empty");
+								emptyCell.classList.add("helper");
 						} 
 	    			}
 					break;
@@ -1371,8 +1364,8 @@ class Move {
         } 
        
         if(!capture)
-	        for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-	            cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+	        for(let cell of $$("#table .valid, #table .pre_valid, #table .hint" + ((Game.mandatoryCapture || prop.hint) && ', #table .helper' || ''))) {
+	            cell.classList.remove("valid", "pre_valid", "hint", "helper");
 	        }
         
         Game.pieceSelected = true;
@@ -1436,8 +1429,8 @@ class Move {
         Game.pieceSelected = false;
         
         if(Game.prop != null && prop != null) {
-            for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+            for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper")) {
+                cell.classList.remove("valid", "pre_valid", "hint", "helper");
             } 
             general.sorted = [];
             let transmitter = $(".transmitter");
@@ -1495,6 +1488,7 @@ class Move {
                 
                 id = id.replace(/[MK]/g, "");
                 let over = await this.isOver(id);
+                
                 if(over)
                     return;
                 else { 
@@ -1503,26 +1497,23 @@ class Move {
                         Game.prop.cell.classList.add("valid");
                         prop.cell.classList.add("valid");
 					} 
-                    Helper(Game.moves, Copy(Game.state));
+                    await Helper(Game.moves, Copy(Game.state));
                     
                     if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                         UpdatePiecesStatus("thinking...");
-                        setTimeout( async () => { 
-                            let id = playerB.pieceColor.substring(0,1);
-                            let state = Copy(Game.state);
-                            let moves = Game.moves.captures;
-                            if(Game.mandatoryCapture && moves.length == 0) {
-                                moves = Game.moves.nonCaptures;
-                            } 
-                            else if(!Game.mandatoryCapture) {
-                                moves = Game.moves.nonCaptures;
-								moves = moves.concat(Game.moves.captures);
-                            } 
-                            
-                            let ai = new AI({state, moves, depth: Game.level});
-                            await ai.makeMove();
-                            ai = null;
-                        }, 1);
+                        let id = playerB.pieceColor.substring(0,1);
+                        let state = Copy(Game.state);
+                        let moves = Game.moves.captures;
+                        if(Game.mandatoryCapture && moves.length == 0) {
+                            moves = Game.moves.nonCaptures;
+                        } 
+                        else if(!Game.mandatoryCapture) {
+                            moves = Game.moves.nonCaptures;
+							moves = moves.concat(Game.moves.captures);
+                        } 
+                        
+                        let ai = new AI({state, moves, depth: Game.level});
+                        ai.makeMove();
                     }
                     
                 } 
@@ -1572,6 +1563,7 @@ class Move {
                     
                     id = (piece.includes("W"))? "B":"W";
                     let over = await this.isOver(id);
+                    
                     if(over)
                         return;
                     else {
@@ -1602,26 +1594,23 @@ class Move {
                         BackState.moves.push([...moves, captures]);
                             
                         Game.track = [];
-                        Helper(Game.moves, Copy(Game.state));
+                        await Helper(Game.moves, Copy(Game.state));
                         
                         if(Game.mode === "single-player" && (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black") ) {
                             UpdatePiecesStatus("thinking...");
-                            setTimeout( async () => { 
-                                let id = playerB.pieceColor.substring(0,1);
-                                let state = Copy(Game.state);
-                                let moves = Game.moves.captures;
-	                            if(Game.mandatoryCapture && moves.length == 0) {
-	                                moves = Game.moves.nonCaptures;
-	                            } 
-	                            else if(!Game.mandatoryCapture) {
-	                                moves = Game.moves.nonCaptures;
-									moves = moves.concat(Game.moves.captures);
-	                            }
-                                
-                                let ai = new AI({state, moves, depth: Game.level});
-                                await ai.makeMove();
-                                ai = null;
-                            }, 1);
+                            let id = playerB.pieceColor.substring(0,1);
+                            let state = Copy(Game.state);
+                            let moves = Game.moves.captures;
+                            if(Game.mandatoryCapture && moves.length == 0) {
+                                moves = Game.moves.nonCaptures;
+                            } 
+                            else if(!Game.mandatoryCapture) {
+                                moves = Game.moves.nonCaptures;
+								moves = moves.concat(Game.moves.captures);
+                            }
+                            
+                            let ai = new AI({state, moves, depth: Game.level});
+                            ai.makeMove();
                         }
                     } 
                 } 
@@ -1716,23 +1705,34 @@ const ValidateMove = async (prop) => {
                     if(type.cell == posId) {
                         prop.capture = true;
                         await new Move(prop);
+                        
                         if(general.sorted.length > 0) {
-                        	let emptyCells = [];
-                            for(let arr of general.sorted) {
-                            	if(arr[0].cell == posId) {
-	                            	for(let data of arr) {
-	                            		if(!JSON.stringify(emptyCells).includes(JSON.stringify(data))) {
-											emptyCells.push(data);
-										} 
-	                            	}
-								} 
-                            } 
-                            if(Game.helper || Game.capturesHelper) 
-	                            if(Game.mode == "two-player-offline" || Game.mode == "two-player-online" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
-		                            for(let cell of emptyCells) {
-		                                $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("helper_empty");
-		                            }
+                        	if(!prop.hint) {
+	                        	let emptyCells = [];
+	                            for(let arr of general.sorted) {
+	                            	if(arr[0].cell == posId) {
+		                            	for(let data of arr) {
+		                            		if(!JSON.stringify(emptyCells).includes(JSON.stringify(data))) {
+												emptyCells.push(data);
+											} 
+		                            	}
+									} 
+	                            }
+	                            if(Game.helper || Game.capturesHelper) {
+		                            if(Game.mode == "two-player-offline" || Game.mode == "two-player-online" || Game.mode == "single-player" && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black")) {
+			                            for(let cell of emptyCells) {
+			                                $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("helper");
+			                            }
+									}
 								}
+							} 
+							else if(prop.hint) {
+								for(let cell of prop.hint) {
+	                                $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("hint");
+	                            }
+								return;
+							}
+							if(Game.mandatoryCapture) 
                             return;
                         } 
                     } 
@@ -1753,19 +1753,19 @@ const ValidateMove = async (prop) => {
                     } 
                     return;
                 } 
-            } 
+			} 
            else if(Game.moves.captures.length > 0 && isEmpty && Game.isComputer == prop.isComputer) {
            	prop.captureMove = true;
            	let validMove = await new Move(prop);
-           	if(!validMove) {
+           	if(Game.mandatoryCapture && !validMove) {
            		Game.pieceSelected = false;
            		for(let arr of general.sorted) {
 			            let cell = arr[0];
-						if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper_filled")) 
-			            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
-			        } 
+						if(!$("#table").children[cell.i*Game.boardSize+cell.j].classList.contains("helper")) 
+			            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper");
+			       }
+				   return;
            	}
-           	return;
            } 
             
            if(!isEmpty) {
@@ -1773,13 +1773,20 @@ const ValidateMove = async (prop) => {
                 if(Game.moves.nonCaptures.length > 0) {
                 	prop.select = true;
                     await new Move(prop);
-                    if(Game.helper && !prop.isComputer) {
-                        for(let move of Game.moves.nonCaptures) {
-                            let m = parseInt(move.empty.slice(0,1));
-                            let n = parseInt(move.empty.slice(1,2));
+                    if(prop.hint || Game.helper && !prop.isComputer) {
+                    	if(prop.hint) {
+                    		let m = prop.hint[0].m;
+                            let n = prop.hint[0].n;
                             $("#table").children[m*Game.boardSize+n].classList.add("hint");
+                    	}
+                    	else {
+	                        for(let move of Game.moves.nonCaptures) {
+	                            let m = parseInt(move.empty.slice(0,1));
+	                            let n = parseInt(move.empty.slice(1,2));
+	                            $("#table").children[m*Game.boardSize+n].classList.add("hint");
+	                        }
                         } 
-                    } 
+                    }
                     return;
                 } 
             } 
@@ -1792,7 +1799,7 @@ const ValidateMove = async (prop) => {
                     } 
                 } 
             } 
-            if(!isEmpty) {
+            if(!isEmpty && !prop.capture && !prop.select) {
                 /**
                   * resetting animation 
                   **/
@@ -2663,12 +2670,9 @@ const Hint = async (elem, state=Copy(Game.state)) => {
         await ai.makeMove(true);
        
         let cell = general.aiPath[0];
-        await ValidateMove({cell: $("#table").children[cell.i*Game.boardSize+cell.j], i: cell.i, j: cell.j});
+
+        await ValidateMove({cell: $("#table").children[cell.i*Game.boardSize+cell.j], i: cell.i, j: cell.j, hint: general.aiPath});
         
-        for(cell of general.aiPath) {
-            $("#table").children[cell.m*Game.boardSize+cell.n].classList.remove("helper_empty");
-            $("#table").children[cell.m*Game.boardSize+cell.n].classList.add("hint");
-        }
         AudioPlayer.play("notification", 0.1);
         general.aiPath = [];
         elem.style.backgroundSize = "4.5vmax 3.75vmax";
@@ -2755,8 +2759,8 @@ const AboutCheckers = () => {
 
 
 const Helper = async (moves, state, isMultJump = false) => {
-    for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, #table .helper_empty, #table .helper_filled")) {
-        cell.classList.remove("hint", "helper_empty", "helper_filled");
+    for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, #table .helper")) {
+        cell.classList.remove("hint", "helper");
     }
     let showNonCapture = Game.mandatoryCapture && Game.moves.captures.length == 0 || !Game.mandatoryCapture;
     
@@ -2818,7 +2822,7 @@ const Helper = async (moves, state, isMultJump = false) => {
     if(isMultJump) {
         return Prms(true);
     }
-   
+    
     general.sorted = await SortCaptures(general.helperPath);
     general.helperPath = [];
     if((Game.helper || Game.capturesHelper) && Game.mandatoryCapture && (/single-player|two-player-online/gi.test(Game.mode) && (Game.whiteTurn && playerA.pieceColor === "White" || !Game.whiteTurn && playerA.pieceColor === "Black") || Game.mode == "two-player-offline")) {
@@ -2841,7 +2845,7 @@ const Helper = async (moves, state, isMultJump = false) => {
 	    else if(Game.helper || Game.capturesHelper) {
 	        for(let arr of general.sorted) {
 	            let cell = arr[0];
-	            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+	            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper");
 	        } 
 	        return;
 	    }
@@ -2850,7 +2854,7 @@ const Helper = async (moves, state, isMultJump = false) => {
 		for(let arr of general.sorted) {
             let cell = arr[0];
             $("#table").children[cell.i*Game.boardSize+cell.j].classList.remove("pre_valid");
-            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper_filled");
+            $("#table").children[cell.i*Game.boardSize+cell.j].classList.add("helper");
         } 
         return;
 	} 
@@ -2951,7 +2955,7 @@ const Attribute = () => {
             header: "ATTRIBUTES", 
             message: "<span>Audio</span><ul><li>Special thanks goes to zapslat.com for powering audio in this game. Checkout the link below for more info.<br/><a href='https://www.zapsplat.com/sound-effect-categories/'>www.zapslat.com</a></li></ul><span>Online Gaming</span><ul><li>This one goes to PubNub for enabling instant communication between internet connected devices.</li></ul>"});
 }
-const currentAppVersion = "23.16.211.545";
+const currentAppVersion = "24.17.214.550";
 const AppVersion = async () => {
 	const currentVersionDescription = await Updates.getDescription(currentAppVersion);
 	let updateChoice = await Notify.confirm({
@@ -3680,12 +3684,11 @@ const Version = async (elem, index, click = true) => {
 }
 
 const RestartLevels = async () => { 
-	let option = Notify.confirm({
+	let option = await Notify.confirm({
 			header: "Are you sure restart all levels!", 
 			message: "Once done this action can not be reversed.",
 			type: "CANCEL/RESTART"
 	});
-			
 	
 	if(option == "RESTART") {
 		await Notify.alertSpecial({
@@ -4216,8 +4219,8 @@ async function back (undo = false, isComp = false) {
                     } 
                 } 
                
-                for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper_empty, .helper_filled")) {
-	                cell.classList.remove("valid", "pre_valid", "hint", "helper_empty", "helper_filled");
+                for(let cell of $$("#table .valid, #table .pre_valid, #table .hint, .helper")) {
+	                cell.classList.remove("valid", "pre_valid", "hint", "helper");
 	            }
 				
                 Game.whiteTurn = !Game.whiteTurn;

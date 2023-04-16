@@ -1,6 +1,6 @@
 'use strict' 
 
-/* Version 21 */
+/* Version 22 */
 
 function Copy (obj) {
     if(obj == undefined || obj == null)
@@ -51,55 +51,55 @@ class AI {
                 
                 if(piece.includes(this.b)) { 
                 	bPieces++;
+                	bValue += 1000;
                 	if(piece.includes("M")) {
-                        bValue += 1000; 
                         if(i == 0)
-                        	bValue += 2;
+                        	bValue += 1;
                     } 
                     if(piece.includes("K")) { 
                     	if(Game.version == "american") 
-                    		bValue += 1010;
+                    		bValue += 10;
                     	else if(/kenyan|casino/gi.test(Game.version))
-                    		bValue += 1015;
+                    		bValue += 15;
                     	else
-                        	bValue += 1020; 
+                        	bValue += 20; 
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
-	                        	bValue += 10;
+	                        	bValue += 1;
 	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
-	                        	bValue += 10;
+	                        	bValue += 1;
 	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
-	                        	bValue += 10;
+	                        	bValue += 1;
 	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
-	                        	bValue += 10;
+	                        	bValue += 1;
 						} 
                     } 
                 } 
                 else if(piece.includes(this.a)) {
                 	aPieces++;
+                	aValue += 1000; 
                 	if(piece.includes("M")) {
-                        aValue += 1000; 
                         if(i == Game.boardSize-1) 
-                        	aValue += 2;
+                        	aValue += 1;
                     }
                     if(piece.includes("K")) { 
                         if(Game.version == "american") 
-                    		aValue += 1010
+                    		aValue += 10
                     	else if(Game.version == "kenyan" || Game.version == "casino") 
-                    		aValue += 1015;
+                    		aValue += 15;
                     	else
-                        	aValue += 1020; 
+                        	aValue += 20; 
                         
                         if(/american|kenyan|casino/gi.test(Game.version)) {
 	                        if(i == Game.boardSize-1 && j == Game.boardSize-2 && state[i-1][j+1] == "EC") 
-	                        	aValue += 10;
+	                        	aValue += 1;
 	                        else if(i == Game.boardSize-2 && j == Game.boardSize-1 && state[i+1][j-1] == "EC") 
-	                        	aValue += 10;
+	                        	aValue += 1;
 	                        else if(i == 0 && j == 1 && state[i+1][j-1] == "EC")
-	                        	aValue += 10;
+	                        	aValue += 1;
 	                        else if(i == 1 && j == 0 && state[i-1][j+1] == "EC") 
-	                        	aValue += 10;
+	                        	aValue += 1;
 						} 
                     } 
                 } 
@@ -244,7 +244,7 @@ class AI {
     	let ttEntry;
     	
     	
-        if(depth < this.depth) {
+        /*if(depth < this.depth) {
 			ttEntry = await TranspositionTable.lookUp(state);
 	    	if(ttEntry.valid && ttEntry.depth <= depth) {
 	    		
@@ -265,7 +265,7 @@ class AI {
 	    			return ttEntry.value;
 				}
 	    	} 
-		} 
+		} */
     
         if(!moves.length || depth === 0) {
         	let leafScore = !moves.length? (previousPlayer == 1? 1_000_000: -1_000_000): 0;
@@ -333,7 +333,7 @@ class AI {
 				} 
             } 
             
-			if(depth < this.depth) {
+			/*if(depth < this.depth) {
 				ttEntry.value = best;
 				if(best <= alphaOrig) 
 					ttEntry.flag = 1; 
@@ -346,7 +346,7 @@ class AI {
 				ttEntry.depth = depth;
 				ttEntry.depthSearched = this.depthSearched;
 				await TranspositionTable.store(ttEntry);
-			} 
+			} */
             return Prms(best);
         } 
     } 
@@ -366,10 +366,10 @@ class AI {
         let color = (Game.whiteTurn && playerB.pieceColor === "White" || !Game.whiteTurn && playerB.pieceColor === "Black")? 1: -1; 
         let opp = color == 1? this.a: this.b;
         let you = color == 1? this.b: this.a;
-        let count = 0;
-        let idleSleep = new Sleep();
-        let sleep = new Sleep();
+        let idleSleep = await new Sleep('idle');
+        let sleep = await new Sleep('search');
         let self = this;
+        let count = 0;
         let bestValue = this.MIN;
         let bestPossibleMoves = [];
         let widthA, widthB;
@@ -383,7 +383,6 @@ class AI {
     		moves = color == 1? moves.reverse(): moves;
     		moves = await this.sort(moves, state);
     		
-    		
     		await search(state, moves, this.depth);
     		await sleep.start();
     		
@@ -391,6 +390,7 @@ class AI {
 			bestPossibleMoves = await this.filter(state, bestPossibleMoves, color);
 			let random = Math.round(Math.random() * (bestPossibleMoves.length - 1));
 	        let bestMove = bestPossibleMoves[random];
+			
 	        return bestMove;
 		} 
 		else if(moves.length > 1 && this.depth == 1) {
@@ -406,86 +406,86 @@ class AI {
 			let test = false;
 			$("#play-window .footer_section").style.backgroundImage = "linear-gradient(to right, #00981988 5px, #0000 5px)";
 			$("#play-window .middle_section .scene .board .face_bottom").style.backgroundImage = `linear-gradient(to right, #00981988 5px, #0000 5px), linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
-			for(let i = 0; i < moves.length; i+=workers.length) {
-				for(let j = i; j < i+workers.length; j++) {
-	    			let move = moves[j];
-					if(!move) 
-						break;
-					/*if(move.cell == "10" && move.empty == "21") {}
-					else continue;*/
+			for(let j = 0; j < moves.length; j++) {
+    			let move = moves[j];
+				if(!move) 
+					break;
+				/*if(move.cell == "10" && move.empty == "21") {}
+				else continue;*/
+				
+				self.depthSearched = self.depth;
+				let cloneState = Copy(state);
+				let res = await self.move(cloneState, move); 
+	                cloneState = res.state;
+	            if(res.continuousJump.length === 0) {
+	            	cloneState = await self.correct(cloneState); 
+	                let moves2 = await AssessAll({id: opp, state: cloneState});
+                	moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
 					
-					self.depthSearched = self.depth;
-					let cloneState = Copy(state);
-					let res = await self.move(cloneState, move); 
-		                cloneState = res.state;
-		            if(res.continuousJump.length === 0) {
-		            	cloneState = await self.correct(cloneState); 
-		                let moves2 = await AssessAll({id: opp, state: cloneState});
-                    	moves2 = Game.mandatoryCapture && moves2.captures.length > 0? moves2.captures: Game.mandatoryCapture && moves2.captures.length == 0? moves2.nonCaptures: moves2.captures.concat(moves2.nonCaptures);
+					let data = [
+						self.depth-1, 
+						j, 
+						moves2,
+						cloneState,
+						depth-1, 
+						-color, 
+						self.MIN, 
+						self.MAX, 
+						color, 
+						false, 
+						Game.mandatoryCapture, 
+						Game.boardSize, 
+						Game.version, 
+						playerA.pieceColor, 
+						playerB.pieceColor, 
+						idleWorkers[0]
+					]; 
+					if(test) {
 						
-						let data = [
-							self.depth-1, 
-							j, 
-							moves2,
-							cloneState,
-							depth-1, 
-							-color, 
-							self.MIN, 
-							self.MAX, 
-							color, 
-							false, 
-							Game.mandatoryCapture, 
-							Game.boardSize, 
-							Game.version, 
-							playerA.pieceColor, 
-							playerB.pieceColor, 
-							idleWorkers[0]
-						]; 
-						if(test) {
-							
-							let value = -await self.negascout(...data.slice(2,10));
-							console.log(value, move, self.depth - self.depthSearched);
-						} 
-						else {
-							workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
-							idleWorkers.shift();
-						} 
+						let value = -await self.negascout(...data.slice(2,10));
+						console.log(value, move, self.depth - self.depthSearched);
 					} 
 					else {
-						let moves2 = res.continuousJump;
-						
-						let data = [
-							self.depth-1, 
-							j, 
-							moves2, 
-							cloneState, 
-							depth, 
-							color, 
-							self.MIN, 
-							self.MAX, 
-							color, 
-							true, 
-							Game.mandatoryCapture, 
-							Game.boardSize, 
-							Game.version, 
-							playerA.pieceColor, 
-							playerB.pieceColor,
-							idleWorkers[0]
-						]; 
-						if(test) {
-							let value = await self.negascout(...data.slice(2,10));
-							console.log(value, move, self.depth - self.depthSearched);
-						} 
-						else {
-							workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
-							idleWorkers.shift();
-						} 
-					} 
-					if(idleWorkers.length == 0) {
-						await idleSleep.start();
+						workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
+						idleWorkers.shift();
 					} 
 				} 
+				else {
+					let moves2 = res.continuousJump;
+					
+					let data = [
+						self.depth-1, 
+						j, 
+						moves2, 
+						cloneState, 
+						depth, 
+						color, 
+						self.MIN, 
+						self.MAX, 
+						color, 
+						true, 
+						Game.mandatoryCapture, 
+						Game.boardSize, 
+						Game.version, 
+						playerA.pieceColor, 
+						playerB.pieceColor,
+						idleWorkers[0]
+					]; 
+					if(test) {
+						let value = await self.negascout(...data.slice(2,10));
+						console.log(value, move, self.depth - self.depthSearched);
+					} 
+					else {
+						workers[idleWorkers[0]].postMessage({type: "move-search", content: data});
+						idleWorkers.shift();
+					} 
+				} 
+				if(idleWorkers.length == 0 && j < moves.length-1) {
+					await idleSleep.start();
+				}  
 			} 
+			if(count == moves.length)
+				sleep.end();
 		} 
         
         async function message (e) {
@@ -494,11 +494,9 @@ class AI {
             	let i = e.data.content.id; 
             	let j = e.data.workerID;
             	let move = moves[i];
+            
             	count++;
             	
-            	
-            	/*let end = Date.now();
-				console.log((end - start) / 1000);*/
             	let section = $("#play-window .footer_section");
             	let faceBottom = $("#play-window .middle_section .face_bottom");
             	widthA = parseFloat(GetValue(section, "width"));
@@ -521,14 +519,15 @@ class AI {
 				Game.possibleWin = Math.abs(bestValue) > 990_000? true: false;
 	
 				idleWorkers.push(j);
-				if(count % 1 == 0) {
-            		idleSleep.end();
-            	} 
-                
+				
+				if(idleSleep.running)
+					idleSleep.end();
+				
                 if(workers.length == idleWorkers.length) {
                 	section.style.backgroundImage = "none";
                 	faceBottom.style.backgroundImage = `linear-gradient(to bottom, rgba(70,70,70,0.4), rgba(0,0,0,0.7)), var(--black-cell)`;
-				    sleep.end();
+                	if(!idleSleep.running)
+                		sleep.end();
                 } 
             } 
             else if(e.data.type == "tt-entry") {
@@ -542,6 +541,7 @@ class AI {
             		await console.log(...e.data);
             	else
                 	await console.log(e.data);
+                
             } 
         } 
     } 
@@ -711,28 +711,28 @@ const TerminateWorkers = () => {
 } 
 
 class Sleep {
-	i = 0;
-	j = 1_000;
-	start = () => {
-		let self = this;
-		this.i = 0;
-		this.j = 1_000;
+	running = false;
+	name = '';
+	constructor (name) {
+		this.name = name;
+		this.start = this.start.bind(this);
+		this.end = this.end.bind(this);
+		this.wait = this.wait.bind(this);
+	} 
+	start () {
+		this.running = true;
 		return new Promise((resolve, reject) => {
-			const it = setInterval(() => {
-				self.i+=0.001;
-				if(self.i >= self.j) {
-					self.i = 0;
-					self.j = 1_000;
-					clearInterval(it);
-					resolve("Done");
+			this.it = setInterval(() => {
+				if(!this.running) {
+					resolve(clearInterval(this.it));
 				} 
 			}, 1);
 		});
 	} 
-	end = () => {
-		this.i = this.j;
+	end () {
+		this.running = false;
 	} 
-	wait = async (sec) => {
+	wait (sec) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				resolve("Done");

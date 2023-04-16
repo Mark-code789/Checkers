@@ -1,5 +1,5 @@
 
-/* Version: 15*/
+/* Version: 17*/
 
 :root {
     --english-flag: none;
@@ -1234,6 +1234,9 @@ article {
 
 #main-window #header .header_div:nth-of-type(2) .versions_container .version div::before {
     content: "";
+    position: relative;
+    top: -1px;
+    left: -1px;
     height: 13px;
     width: 8px;
     background: transparent;
@@ -3197,9 +3200,9 @@ article {
     } 
     
     #main-window #header .header_div:nth-of-type(2) .versions_container .version div::before {
-        top: 3px;
-        left: 5px;
-        height: 10px;
+        top: -0.65px;
+        left: -0.85px;
+        height: 9px;
         width: 6px;
     } 
     
@@ -3348,11 +3351,11 @@ article {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: linear-gradient(rgba(0, 152, 255, 1), rgba(0, 152, 255, 0.5));
+    background-image: linear-gradient(#0098FF, #0098FF88);
     background-size: cover;
-} 
+}
 
-.helper_empty::before {
+.helper:empty::before {
     content: "";
     height: 20%;
     width: 20%;
@@ -3362,11 +3365,11 @@ article {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: linear-gradient(rgba(255, 0, 0, 1), rgba(255, 0, 0, 0.5));
+    background-image: linear-gradient(#FF0000, #FF000088);
     background-size: cover;
 } 
 
-.helper_filled {
+.helper:has(div) {
     animation: shadow 2s linear 0s infinite normal forwards;
 } 
 
