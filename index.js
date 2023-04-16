@@ -1,5 +1,5 @@
 'use strict' 
-/* Version: 25 */
+/* Version: 26 */
 const HideInstallPrompt = (event) => {
     $(".install").classList.remove("show_install_prompt");
     $(".install").classList.add("hide_install_prompt");
