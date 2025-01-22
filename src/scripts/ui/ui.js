@@ -187,8 +187,8 @@ class Init {
 	            	delete this.soundProps;
 	            	await new Sleep().wait(0.5);
 	
-					$(".install_btn[action='install']").addEventListener("click", () => App.install());
-					$(".install_btn[action='cancel']").addEventListener("click", () => App.hideInstallPrompt());
+					$(".install_btn[action='install']").addEventListener("click", App.install.bind(App));
+					$(".install_btn[action='cancel']").addEventListener("click", App.hideInstallPrompt.bind(App));
 	            	
 	            	if(App.deferredEvent && reg && !reg.waiting) {
 				        $(".install").classList.add("show_install_prompt");
