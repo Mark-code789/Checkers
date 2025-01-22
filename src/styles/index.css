@@ -1,1 +1,320 @@
+html {
+    font-size: 0.8em;
+} 
+html, body {
+    margin: 0;
+    padding: 0;
+} 
+body {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-image: var(--bg1);
+    background-position: center;
+    background-size: auto 100%;
+    background-repeat: repeat;
+    overflow: hidden;
+} 
 
+*, *:before, *:after {
+    box-sizing: border-box;
+    touch-action: manipulation;
+    font-family: Arial;
+    user-select: none;
+    overflow: hidden;
+} 
+
+.install {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 110%);
+    height: fit-content;
+    width: fit-content;
+    max-width: 600px;
+    min-width: 80%;
+    margin: 0;
+    padding: 30px;
+    border: none;
+    border-radius: 4px;
+    background: url("../images/frame.jpeg");
+    box-shadow: 0 0 3px 2px #000;
+    background-size: cover;
+    color: #444;
+    font-size: 1rem;
+    z-index: 5;
+    overflow: visible;
+    display: block;
+} 
+
+.install:before {
+	content: "";
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	height: calc(100% - 20px);
+	width: calc(100% - 20px);
+	border-radius: 4px;
+	box-shadow: inset 0 0 0 1px #444;
+	background: url("../images/background2.jpeg");
+	background-size: cover;
+	z-index: -1;
+} 
+
+.install section {
+	width: fit-content;
+	max-width: calc(80vw - 20px);
+    padding-bottom: 10px;
+    overflow: hidden;
+} 
+
+.install_header {
+	display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row nowrap;
+    margin-bottom: 10px;
+    overflow: visible;
+} 
+
+.install_header label {
+	display: inline-block;
+} 
+
+.install_icon {
+    height: 40px;
+    width: 40px;
+    border-bottom: 1.5px solid #000;
+    border-left: 1.5px solid #000;
+    border-radius: 8px;
+    background: url("../images/homescreen 48icon.png"), url("../images/black cell.jpeg");
+    background-size: 30px 30px, 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: -2px 2px 3px 0 #0008;
+    margin: 0 0 4px 4px;
+} 
+
+.install_title {
+   	 font-size: 1.5rem;
+   	 font-weight: 900;
+   	 padding-left: 10px;
+} 
+
+.install_body {
+	font-weight: 500;
+} 
+
+.install_btn {
+    color: #fff;
+    float: right;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    font-weight: 500;
+} 
+
+.install_btn:first-of-type {
+	background: linear-gradient(rgba(0, 152, 25, 0.9), rgba(0, 112, 0, 0.9));
+} 
+
+.install_btn:last-of-type {
+	background: linear-gradient(rgba(110, 110, 110, 0.9), rgba(70, 70, 70, 0.9));
+} 
+
+.show_install_prompt {
+    animation: slide_in 0.7s ease-out 0s 1 normal forwards;
+} 
+
+.hide_install_prompt {
+    animation: slide_out 0.7s ease-out 0s 1 normal forwards;
+} 
+
+@keyframes slide_in {
+	0% {transform: translate3d(-50%, 110%, 0);}
+    100% {transform: translate3d(-50%, -20%, 0);}
+} 
+@keyframes slide_out {
+	0% {transform: translate3d(-50%, -20%, 0);} 
+    100% {transform: translate3d(-50%, 110%, 0);}
+} 
+            
+#load-window {
+	position: relative;
+    height: 100vh;
+    width: 100vw;
+    padding: 15px;
+    background: linear-gradient(to top, #0000, #5550), url("../images/background1.jpeg");
+    background-position: center;
+    background-size: 100% 100%, auto 100vh;
+    background-repeat: no-repeat, repeat-x;
+
+    display: none;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: max-content;
+    gap: 20px;
+    justify-content: center;
+    align-content: space-evenly;
+} 
+
+#load-window.visible {
+	display: grid;
+} 
+
+#load-window .img {
+    position: relative;
+    margin: auto;
+    height: min(100%, 95vmin);
+    aspect-ratio: 1;
+    overflow: auto;
+    grid-area: 2 / 1 / 3 / 2;
+} 
+
+#load-window .shadow {
+	position: absolute;
+	left: 7.5px;
+	width: calc(100% - 15px);
+	height: 100%;
+	background: #0007;
+	box-shadow: 0 0 2px 2px #0005;
+	z-index: 0;
+} 
+
+#load-window img {
+	position: relative;
+	display: block;
+	margin: 0 auto;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    z-index: 1;
+} 
+
+#load-window h1 {
+    margin: 0 auto;
+    grid-area: 1 / 1 / 2 / 2;
+    height: fit-content;
+    width: fit-content;
+    padding: 15px 30px;
+    color: #ddda;
+    text-align: center;
+    font-size: 11vmin;
+    font-weight: 700;
+    border-radius: 4px;
+    background-image: url("../images/frame.jpeg");
+    background-size: auto 100%;
+    background-repeat: repeat;
+    text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
+    filter: brightness(110%);
+    box-shadow: 0 2px 2px 2px #0006, 0 10px 2px 1px #0006;
+} 
+
+#load-window .loader {
+    margin: 0 auto;
+    grid-area: 3 / 1 / 4 / 2;
+	padding: 20px 30px;
+	color: #dddb;
+	width: fit-content;
+	height: fit-content;
+	border-radius: 4px;
+	background-image: url("../images/frame.jpeg");
+    background-size: auto 100%;
+    background-repeat: repeat;
+    filter: brightness(110%);
+    box-shadow: 0 2px 2px 2px #0006, 0 10px 2px 1px #0006;
+} 
+
+#load-window h1:before,
+#load-window .loader:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: calc(100% - 20px);
+	width: calc(100% - 20px);
+	box-shadow: inset 0 0 5px 4px #0007, inset 0 10px 5px 0 #0008;
+	background: #fff0;
+} 
+
+#load-window .loader p {
+	margin: 0;
+	padding: 0 0 10px 0;
+	width: 100%;
+	color: #dddb;
+	font-size: 4vmin;
+	text-align: center;
+	text-shadow: 0 2px 0 #000a, 0 4px 3px #0008;
+} 
+.bar {
+    height: 20px;
+    width: 70vmin;
+    border-radius: 10px;
+    padding: 2px;
+    background: #0004;
+    box-shadow: inset 0 0 5px 4px #0007, inset 0 10px 5px 0 #0008;
+	overflow: visible;
+} 
+.progress {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: radial-gradient(ellipse closest-side at 50% 30%, #fff, #00A82966, #00981966, #00880966);
+    box-shadow: 3px -3px 1px 0 #0006, 0 3px 2px 0 #0006;
+    margin: 0 0 5px 0;
+    transition: width 0.1s ease-out;
+} 
+
+@media only screen and (max-height: 600px) and (min-width: 1035px), (min-aspect-ratio: 150/100) {
+    #load-window {
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr 1fr;
+        align-content: center;
+    }
+
+    #load-window h1 {
+        grid-area: 1 / 1 / 2 / 2;
+        align-self: self-end;
+    }
+
+    #load-window .img {
+        grid-area: 1 / 2 / 3 / 3;
+        height: auto;
+        width: min(100%, 95vmin);
+    }
+
+    #load-window .loader {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+} 
+#load-window .notify {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	height: fit-content;
+	max-width: 600px;
+	padding: 20px;
+	background: linear-gradient(to bottom, #282828E6, #000000E6);
+	border-radius: 8px;
+	display: none;
+	z-index: 2;
+} 
+
+#load-window .notify > div {
+	height: fit-content;
+	width: fit-content;
+	color: #ccc;
+} 
+
+#load-window .notify > button {
+	background: linear-gradient(to bottom, #009819, #007000);
+	padding: 10px 20px;
+	border-radius: 8px;
+	border: none;
+	float: right;
+	color: #fff;
+	margin: 20px 0 0 0;
+} 
