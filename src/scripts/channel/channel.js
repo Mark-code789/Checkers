@@ -145,7 +145,7 @@ class Channel {
 	            navigator.share({
 	                title: "Checkers Game", 
 	                text: `Hi, ${PLAYER_A.name} is requesting to play checkers match with you. Please click the the link below to play.\n`, 
-	                url: URL.encodelocation.href.split("?")[0] + "?c=" + this.#main + "&t=" + Date.now()
+	                url: location.href.split("?")[0] + "?c=" + this.#main + "&t=" + Date.now()
 	            }).then( () => { 
 	            	Notify.cancel();
 	                Notify.popUpNote("Link shared successfully."); 
