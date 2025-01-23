@@ -2973,7 +2973,7 @@ article.visible {
 
 #notification-window #note {
 	position: relative;
-	max-width: 500px;
+	max-width: 400px;
 	max-height: 90%;
     background: var(--frame);
     background-size: contain;
