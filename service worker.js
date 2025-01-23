@@ -1,5 +1,5 @@
 // Service worker
-const version = "553";
+const version = "559";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -23,23 +23,11 @@ const appShellFiles = [
     "./src/images/lock.png", 
     "./src/images/star.png",
     "./src/images/background1.jpeg",
-    "./src/images/click.mp3",
-	"./src/images/capture.mp3", 
-	"./src/images/king.mp3", 
-	"./src/images/collect.mp3",
-	"./src/images/game win.mp3", 
-	"./src/images/game lose.mp3", 
-	"./src/images/notification.mp3", 
-	"./src/images/start recording.mp3",
-	"./src/images/delete recording.mp3", 
-	"./src/images/stop recording.mp3", 
-	"./src/images/throw recording.mp3", 
     "./src/images/background2.jpeg", 
     "./src/images/black cell.jpeg", 
     "./src/images/white cell.jpeg",
     "./src/images/frame.jpeg", 
     "./src/images/hint.png", 
-    "./src/images/load.png",
     "./src/images/menu.png", 
     "./src/images/restart.png", 
     "./src/images/undo.png", 
@@ -55,6 +43,17 @@ const appShellFiles = [
 	"./src/images/copy.png", 
     "./src/images/warning.png", 
     "./src/images/chat.png",
+    "./src/audio/click.mp3",
+	"./src/audio/capture.mp3", 
+	"./src/audio/king.mp3", 
+	"./src/audio/collect.mp3",
+	"./src/audio/game win.mp3", 
+	"./src/audio/game lose.mp3", 
+	"./src/audio/notification.mp3", 
+	"./src/audio/start recording.mp3",
+	"./src/audio/delete recording.mp3", 
+	"./src/audio/stop recording.mp3", 
+	"./src/audio/throw recording.mp3",  
 	"./src/scripts/ui/audio player.js",
 	"./src/scripts/ui/drag.js",
 	"./src/scripts/ui/element hint.js",
@@ -98,21 +97,31 @@ const appShellFiles = [
 	"./src/scripts/objects/updates.js",
 	"./src/scripts/objects/zobrist hash.js",
 	"./src/styles/ui.css", 
+	"./src/styles/index.css",
 	"./manifest.webmanifest",
 	"./index.html",
 ];
 
 self.addEventListener("install", (e) => {
+	const addFiles = (cache) => {
+	    const stack = [];
+	    appShellFiles.forEach((file) => stack.push(
+	        cache.add(file).catch( _ => console.error(`can't load ${file} to cache`))
+	    ));
+	    return Promise.all(stack);
+	};
+	
     e.waitUntil(
         caches.open(cacheName).then((cache) => {
             return cache.addAll(appShellFiles);
         })
+        //caches.open(cacheName).then(addFiles) 
     )
 });
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
-        caches.match(e.request.url.replace(/html\/.*$/i, 'html').replace(/checkers\/$/i, (t) => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
+        caches.match(e.request.url, {cacheName, ignoreSearch: true}).then( async (res) => {
         	if(res && !/updates.js$/gi.test(e.request.url)) {
             	return res;
             }
