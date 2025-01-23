@@ -294,11 +294,37 @@ class Setting {
 				
 		if(updateChoice == "Check for update") {
 			if(!navigator.onLine) return Notify.popUpNote("Please connect to an internet and try again.");
+			let script = $("#updates");
+			let url = script.src;
+			let newScript = $$$("script", ["id", "updates"]);
+			let logs = structuredClone(Updates.updateLogs);
+			newScript.onload = async () => {
+				Notify.cancel(); 
+				let newAppVersion = Updates.version;
+				if(currentAppVersion == newAppVersion)
+					return Notify.popUpNote("No update found");
+					
+				updateChoice = await Notify.confirm({
+					header: "Update Found", 
+					message: "A new version (" + newAppVersion + ") is available, do you wanna update", 
+					type: "CANCEL/UPDATE"
+				});
+				
+				if(updateChoice == "UPDATE")
+					location.reload();
+				else {
+					Updates.version = currentAppVersion;
+					Updates.updateLogs = logs;
+				} 
+			} 
+			
+			newScript.src = url;
+			script.replaceWith(newScript);
+			
 			Notify.alertSpecial({
 					header: "Checking for update...",
 					message: "Please wait as we run the check."
 			});
-			location.reload();
 		} 
 	} 
 } 
