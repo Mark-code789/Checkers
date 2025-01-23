@@ -179,7 +179,6 @@ async function pageComplete () {
     	"ui/timer.js",
     	"ui/ui.js",
     	"ui/version.js",
-    	
     	"ai/bot.js",
     	"ai/brain.js",
     	"ai/evaluator.js",
@@ -201,14 +200,12 @@ async function pageComplete () {
     	"objects/player.js",
     	"objects/sleep.js",
     	"objects/transposition table.js",
+    	"objects/zobrist hash.js", 
     	"objects/updates.js",
-    	"objects/zobrist hash.js",
-    	// "objects/objects.js",
-    	// "https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.1.min.js", 
     ];
     
     for(let i = 0; i < scripts.length; i++) {
-    	LoadedExternalFiles.addFile("script", "./src/scripts/" + scripts[i], i == scripts.length && "pubnub-file" || '');
+    	LoadedExternalFiles.addFile("script", "./src/scripts/" + scripts[i], i + 1 == scripts.length && "updates" || '');
     } 
     
     let fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
