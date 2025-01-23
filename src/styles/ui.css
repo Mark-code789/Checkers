@@ -1845,6 +1845,12 @@ article.visible {
 	border-radius: 50%;
 } 
 
+.stats_header .text {
+    max-width: calc(600px - 70px);
+    width: 100%;
+    text-align: center;
+}
+
 .stats_item {
 	width: 100%;
 	height: fit-content;
