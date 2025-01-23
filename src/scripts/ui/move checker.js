@@ -254,7 +254,7 @@ class MoveChecker {
 	static findPossiblePaths () {
 		this.capturePaths.forEach((path) => {
 			let n = -1; 
-			let p = this.clicked.values().every(({i, j}) => {
+			let p = [...this.clicked.values()].every(({i, j}) => {
 				let m = path.findIndex((move) => move.getToRow() == i && move.getToCol() == j);
 					
 				if(Boolean(~m) && m > n) {
