@@ -1963,6 +1963,8 @@ article.visible {
 }
 
 #play-window .timer_section .play_state p {
+	overflow: hidden;
+	text-overflow: ellipse;
     text-align: center;
 }
 
