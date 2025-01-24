@@ -272,7 +272,7 @@ class Play {
 		let board = this.board;
 		let size = board.getSize();
 		let headings = $$("#play-window .header_section *");
-		let playState = $$("#play-window .state_updater");
+		let playState = $$("#play-window p.state_updater");
 		let frames = $$("#play-window .frame");
 		let boardElement = $("#play-window #table");
 		let labelCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
