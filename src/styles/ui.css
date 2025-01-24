@@ -1966,8 +1966,11 @@ article.visible {
 	overflow: hidden;
 	text-overflow: ellipse;
     text-align: center;
-    white-space: nowrap;
-}
+} 
+
+#play-window p.state_updater {
+	white-space: nowrap;
+} 
 
 #play-window .middle_section {
     grid-area: middle_section;
