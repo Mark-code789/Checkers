@@ -2229,12 +2229,12 @@ article.visible {
 
 #play-window .middle_section .scene .board .face_bottom p {
     grid-column: 1 / 2;
-    padding: 0 0 0 10px;
+    padding: 0 5px 0 10px;
 } 
 
 #play-window .middle_section .scene .board .face_bottom pre {
     grid-column: 2 / 3;
-    padding: 0 10px 0 0;
+    padding: 0 5px 0 10px;
 } 
 
 #play-window .middle_section .scene .board .three_d_timer {
