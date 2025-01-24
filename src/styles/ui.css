@@ -1962,7 +1962,7 @@ article.visible {
     align-content: center;
 }
 
-#play-window .timer_section .play_state p {
+#play-window .timer_section .status_updater {
 	overflow: hidden;
 	text-overflow: ellipse;
     text-align: center;
