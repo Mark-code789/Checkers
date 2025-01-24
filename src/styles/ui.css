@@ -1956,13 +1956,13 @@ article.visible {
     background: rgba(0, 0, 0, 0.4);
 
     display: grid;
-    grid-column-gap: 5px;
+    grid-column-gap: 10px;
     grid-template-columns: auto auto;
     justify-content: space-around;
     align-content: center;
 }
 
-#play-window .timer_section .status_updater {
+#play-window .state_updater {
 	overflow: hidden;
 	text-overflow: ellipse;
     text-align: center;
