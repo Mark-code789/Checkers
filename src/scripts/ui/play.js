@@ -272,8 +272,7 @@ class Play {
 		let board = this.board;
 		let size = board.getSize();
 		let headings = $$("#play-window .header_section *");
-		let stateUpdater = $("p.state_updater");
-		let playState = $$("#play-window .timer_section .play_state *");
+		let playState = $$("#play-window .play_state p");
 		let frames = $$("#play-window .frame");
 		let boardElement = $("#play-window #table");
 		let labelCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -283,11 +282,11 @@ class Play {
 		scene.classList[Mode.is('two-players-offline') && 'add' || 'remove']('two_players_offline');
 		document.documentElement.style.setProperty('--board-size', size);
 		
-		stateUpdater.textContent = Version.getVersion().toUpperCase() + " CHECKERS";
 		headings[0].textContent = Version.getVersion().toUpperCase() + " CHECKERS";
 		headings[1].textContent = this.trainingMode && 'SELF PLAY' || Mode.is('single-player') && Level.getLevel().toUpperCase() + " LEVEL" ||
 								  PLAYER_A.name + ' VS ' + PLAYER_B.name;
 		playState[0].textContent = headings[1].textContent;
+		playState[1].textContent = headings[1].textContent;
 		
 		[...frames].forEach((frame) => {
 			[...frame.children].forEach((p, n) => {
