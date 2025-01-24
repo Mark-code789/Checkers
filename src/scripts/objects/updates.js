@@ -1,5 +1,5 @@
 window.Updates = {
-	version: "30.21.218.566", 
+	version: "30.21.218.567", 
 	updatesLog: new Map([
 		["22.15.200.529", ["Added voice notes in the chat engine.", "Added delete and copy option for chat engine.", "Improved internal operations.", "Improved the AI thinking time.", "Fixed channel subscription error.", "Fixed more other errors."]], 
 		["22.15.201.530", ["Fixed single player draw issue.", "Fixed fullscreen not changing orientation.", "Fixed game stats behind by a move.", "Added locking orientation in both primary and secondary."]], 
@@ -12,7 +12,7 @@ window.Updates = {
 		["23.16.211.543", ["Improved internal operations."]], 
 		["23.16.211.545", ["Fixed offline loading error."]], 
 		["24.17.214.550", ["Fixed refresh error.", "Improved game difficulty.", "Fixed minor bugs."]], 
-		["30.21.218.566", ["Added 2 new levels per version.", "Improved game performance.", "Improved game difficulty", "Change online match connectivity", "Fixed interface breaking on different size screens", "Added other features, discover by yourself"]], 
+		["30.21.218.567", ["Added 2 new levels per version.", "Improved game performance.", "Improved game difficulty", "Change online match connectivity", "Fixed interface breaking on different size screens", "Added other features, discover by yourself"]], 
 	]), 
 	getDescription: function (version) {
 		let versionDescription = "<ul>";
