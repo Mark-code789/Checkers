@@ -1957,7 +1957,7 @@ article.visible {
 
     display: grid;
     grid-column-gap: 10px;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 1fr;
     justify-content: space-around;
     align-content: center;
 }
