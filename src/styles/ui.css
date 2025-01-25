@@ -2212,7 +2212,7 @@ article.visible {
     
     display: grid;
     grid-column-gap: 5px;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr auto;
     justify-content: space-around;
     align-content: center;
 } 
@@ -2227,17 +2227,16 @@ article.visible {
     text-transform: capitalize;
     text-shadow: 0 -1px 1px #000b, 0 2px 2px #0006;
     margin: 0;
+    padding: 0;
     transform: scale(0.9, 1.8);
 } 
 
 #play-window .middle_section .scene .board .face_bottom p {
     grid-column: 1 / 2;
-    padding: 0 5px 0 10px;
 } 
 
 #play-window .middle_section .scene .board .face_bottom pre {
     grid-column: 2 / 3;
-    padding: 0 5px 0 10px;
 } 
 
 #play-window .middle_section .scene .board .three_d_timer {
