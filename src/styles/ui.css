@@ -1964,7 +1964,7 @@ article.visible {
 
 #play-window .state_updater {
 	overflow: hidden;
-	text-overflow: ellipse;
+	text-overflow: ellipsis;
     text-align: center;
 } 
 
