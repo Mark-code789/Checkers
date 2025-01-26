@@ -139,7 +139,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request.url.replace(/Checkers\/$/i, t => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
-        	if(res && !/updates.js$/gi.test(e.request.url)) {
+        	if(res && !/(updates.js|\.css)$/gi.test(e.request.url)) {
             	return res;
             }
             
