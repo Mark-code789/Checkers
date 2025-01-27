@@ -596,6 +596,7 @@ class Play {
 		this.undoCount = 0;
 		this.board = new Board();
 		await this.setBoard();
+		await this.countPieces();
 		await this.setPlayerTurn();
 		await Helper.showPossibleMoves();
 		await Timer.start();
