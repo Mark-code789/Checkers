@@ -73,7 +73,7 @@ const appShellFiles = [
 	"./src/audio/throw recording.mp3",  
 	"./src/scripts/ui/audio player.js",
 	"./src/scripts/ui/drag.js",
-	"./src/scripts/ui/element hint.js",
+	"./src/scripts/ui/tooltip.js",
 	"./src/scripts/ui/game stats.js",
 	"./src/scripts/ui/level.js",
 	"./src/scripts/ui/longpress.js",
