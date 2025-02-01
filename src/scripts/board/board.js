@@ -651,21 +651,6 @@ class Board {
 	async moveRandom (m, n, ppa) {
 		let player = Player.whoseTurn();
 			player = Player.getPlayerFrom(player);
-		let captures = this.getCaptures();
-		let initialLength = captures.length;
-		
-		captures = captures.filter((move) => {
-			let a = move.getToRow();
-			let b = move.getToCol();
-			return !(move.isCapture() && a == m && b == n);
-		});
-		
-		this.state.moves.captures = captures;
-		if(captures.length < initialLength && initialLength == 1) {
-			Player.changeTurn();
-			player = Player.getPlayerFrom(Player.whoseTurn());
-			await this.findMovesFor(player);
-		} 
 		
 		let moves = this.getLegalMoves();
 		if(!moves.length) {

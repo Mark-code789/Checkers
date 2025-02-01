@@ -4,10 +4,6 @@ class Move {
 		this.captureId = captureId;
 		this.kingAfter = false;
 		this.kingBefore = false;
-		this.i = moveId >> 24 & 0xFF;
-		this.j = moveId >> 16 & 0xFF;
-		this.m = moveId >> 8 & 0xFF;
-		this.n = moveId >> 0 & 0xFF;
 	}
 	getId (id) {
 		if(id == 'move') 
