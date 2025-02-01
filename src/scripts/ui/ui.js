@@ -306,6 +306,13 @@ class Init {
     	$(".chat_copy").addEventListener("click", UIEvent.click, false);
 		// Play window 
 		for(let item of $$("#play-window button[action='controls']")) item.addEventListener('click', UIEvent.click);
+		
+		for(let item of $$("#play-window button[action='controls'][value='restart']")) Tooltip.setTip(item, "Restart the game", true);
+		for(let item of $$("#play-window button[action='controls'][value='undo']")) Tooltip.setTip(item, "Undo previous moves made", true);
+		for(let item of $$("#play-window button[action='controls'][value='about']")) Tooltip.setTip(item, "Get more information about this variant", true);
+		for(let item of $$("#play-window button[action='controls'][value='hint']")) Tooltip.setTip(item, "Seek assistance on which move to play", true);
+		for(let item of $$("#play-window button[action='controls'][value='sound']")) Tooltip.setTip(item, "Mute or unmute sound", true);
+		for(let item of $$("#play-window button[action='controls'][value='menu']")) Tooltip.setTip(item, "Exit the game and go to main menu", true);
 	} 
 }
 

@@ -11,6 +11,8 @@ class Drag {
 	dragItem = null;
 	sleep;
 	transitionDuration;
+	eventType;
+	
 	
 	constructor (dragItem, direction = "both", duration = "0.5s") {
 		this.direction = direction;
@@ -20,6 +22,11 @@ class Drag {
 	}
 	
 	start = async (e) => {
+		if(this.eventType && !e.type.startsWith(this.eventType))
+			return;
+		else if(!this.eventType)
+			[this.eventType] = e.type.match(/mouse|touch/) || [null];
+			
 		if(this.dragItem == e.target) {
 			e.preventDefault();
 			if(this.dragItem.classList.contains("recorder_button")) {
@@ -45,6 +52,11 @@ class Drag {
 	}
 	
 	end = async (e) => {
+		if(this.eventType && !e.type.startsWith(this.eventType))
+			return;
+			
+		await new Sleep().wait(0.05);
+			
 	    if(this.active && this.moved && (e.type === "touchend" || e.type == "mouseup")) {
 			e.preventDefault();
 			this.active = false;
@@ -124,6 +136,9 @@ class Drag {
 	}
 	
 	move = async (e) => {
+		if(this.eventType && !e.type.startsWith(this.eventType))
+			return;
+			
 	    if(this.active && (e.type == 'mousemove' && e.buttons || e.type == 'touchmove')) {
 			e.preventDefault();
 	        if (e.type === "touchmove") {

@@ -165,7 +165,7 @@ async function pageComplete () {
     let scripts = [
     	"ui/audio player.js",
     	"ui/drag.js",
-    	"ui/element hint.js",
+    	"ui/tooltip.js",
     	"ui/game stats.js",
     	"ui/level.js",
     	"ui/longpress.js",

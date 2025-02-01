@@ -34,7 +34,7 @@ class LongPress {
 			if(!this.scroll && (event.type == "touchend" || event.type == "mouseup")) {
 				event.preventDefault();
 				if(!this.selectMode && !this.hinted) {
-					ElemHint.setHint(target.$(".text"), "Long press for more options.");
+					Tooltip.setTip(target.$(".text"), "Long press for more options.");
 					this.hinted = true;
 				}
 				else if(this.selectMode && !this.firstTime) {
