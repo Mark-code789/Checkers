@@ -50,8 +50,12 @@
     --shadow-color: #2B2B2B; /*#502C00*/
     --piece-size: 80%;
     --M: 5px;
-    --hint-pointer-x: 10px;
-    --hint-pointer-y: -10px;
+    --tip-margin: 5px;
+    --tip-x: var(--tip-margin);
+    --tip-y: var(--tip-margin);
+    --tip-pointer-width: 15px;
+    --tip-pointer-x: 50%;
+    --tip-pointer-y: 100%;
 } 
 
 ::-webkit-scrollbar {
@@ -113,61 +117,86 @@
 
 
 
-.elem_hint {
+.tooltip {
 	position: absolute;
-	top: 5px;
-	left: 5px;
+	top: var(--tip-y);
+	left: var(--tip-x);
 	width: fit-content;
 	height: fit-content;
-	max-width: calc(100% - 10px);
-	max-height: calc(100% - 10px);
+	max-width: calc(100% - calc(var(--tip-margin) * 2));
+	max-height: calc(100% - calc(var(--tip-margin) * 2));
 	overflow: visible;
 	background: #ddd;
 	border: 1px solid #000;
-	box-shadow: 0 2px 3px 2px #0004;
-	border-radius: 8px;
+	filter: drop-shadow(0 2px 3px #0008);
 	padding: 5px 10px;
 	display: none;
-	z-index: 3;
+	animation: tooltip-disappear 0.5s;
+	transform-origin: var(--tip-pointer-x) var(--tip-pointer-y);
+	opacity: 0;
+	z-index: 5;
 } 
 
-.elem_hint:before {
+.tooltip.top {
+	--tip-pointer-y: 0; 
+} 
+
+.tooltip.visible {
+	display: block;
+} 
+
+.tooltip.tooltip_appear {
+	transform-origin: var(--tip-pointer-x) var(--tip-pointer-y);
+	animation: tooltip-appear 0.5s forwards;
+} 
+
+@keyframes tooltip-disappear {
+	from {
+		display: block;
+		opacity: 1;
+		transform: scale(1);
+	} 
+	to {
+		display: none;
+		opacity: 0;
+		transform: scale(0);
+	} 
+} 
+
+@keyframes tooltip-appear {
+	from {
+		display: none;
+		opacity: 0;
+		transform: scale(0);
+	} 
+	to {
+		display: block;
+		opacity: 1;
+		transform: scale(1);
+	} 
+} 
+
+.tooltip:before {
 	content: "";
 	position: absolute;
-	width: 0;
+	width: var(--tip-pointer-width);
 	aspect-ratio: 1;
-	border: 10.8px solid;
-	border-color: #000 #0000 #0000 #0000;
-	bottom: calc(2 * calc(var(--hint-pointer-y) - 0.9px));
-	left: calc(var(--hint-pointer-x) - 0.8px);
+	background: #ddd;
+	border: 1px solid #000;
+	border-color: #0000 #000 #000 #0000;
+	top: var(--tip-pointer-y);
+	left: var(--tip-pointer-x);
+	transform: translate(-50%, -50%) rotate(45deg);
+	z-index: -1;
 } 
 
-.elem_hint:after {
-	content: "";
-	position: absolute;
-	width: 0;
-	aspect-ratio: 1;
-	border: 10px solid;
-	border-color: #ddd #0000 #0000 #0000;
-	bottom: calc(var(--hint-pointer-y) * 2);
-	left: var(--hint-pointer-x);
+.tooltip.top:before {
+	transform: translate(-50%, -50%) rotate(225deg);
 } 
 
-.elem_hint.top:before {
-	border-color: #0000 #0000 #000 #0000;
-	bottom: 0;
-	top: calc(2 * calc(var(--hint-pointer-y) - 0.9px));
-} 
-
-.elem_hint.top:after {
-	border-color: #0000 #0000 #ddd #0000;
-	bottom: 0;
-	top: calc(var(--hint-pointer-y) * 2);
-} 
-
-.center_elem_hint {
+.center_tooltip {
 	left: 50%;
-	transform: translateX(-50%);
+	transform: translateX(-50%) scale(1);
 } 
 
 
@@ -474,7 +503,7 @@ article.visible {
 } 
 
 .chat_header.select_mode h2:last-of-type, 
-.chat_header.select_mode p:last-of-type {
+.chat_header.select_mode p.chat_status {
 	display: none;
 }  
 
@@ -1167,8 +1196,8 @@ article.visible {
 } 
 
 @keyframes btn_shake {
-	0% {transform: translateX(5px)}
-	70% {transform: translateX(10px)}
+	0% {transform: translateX(10px)}
+	30% {transform: translateX(20px)}
 	100% {transform: translateX(-10px)}
 } 
 

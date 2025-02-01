@@ -30,8 +30,9 @@ body {
     left: 50%;
     transform: translate(-50%, 110%);
     height: fit-content;
-    width: 80%;
-    max-width: 400px;
+    width: fit-content;
+    max-width: 600px;
+    min-width: 80%;
     margin: 0;
     padding: 30px;
     border: none;
