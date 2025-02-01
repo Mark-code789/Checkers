@@ -1,5 +1,5 @@
 // Service worker
-const version = "571";
+const version = "572";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -159,7 +159,7 @@ self.addEventListener("fetch", (e) => {
 					return res2;
 				});
             }).catch((error) => {
-            	console.log(e.request.url);
+            	//console.log(e.request.url);
             	return res || new Response(null, {"status": 200});
             });
         })
