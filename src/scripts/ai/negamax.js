@@ -70,12 +70,6 @@ class Negamax {
             	let value, m, n;
 				
 				let more = await this.board.move(move, false, a, b); 
-				
-            	more.captures = more.captures.filter((move) => {
-            		m = move.getToRow();
-            		n = move.getToCol();
-            		return !(depth < this.startDepth && color == prevColor && m == a && n == b) // start position
-            	});
             	
                 if(more.captures.length) {
                 	m = move.getFromRow();

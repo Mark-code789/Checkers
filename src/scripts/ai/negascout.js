@@ -22,7 +22,7 @@ class Negascout {
 			
 		this.depthSearched = Math.min(depth, this.depthSearched);
     	let best = Negascout.MIN;
-    	let currLength = moves.moves.length + moves.captures.length;
+    	let currentLength = moves.moves.length + moves.captures.length;
     
     	if(!currentLength) {
     		let leafScore = 1_000_000;
@@ -31,15 +31,13 @@ class Negascout {
     	
         if(depth === 0) {
         	let valuator = new Evaluator();
-        	await valuator.evaluateBoard(this.board.getBoard());
+        	await valuator.evaluateBoard(this.board);
         	let score = await valuator.evaluateDepth();
             return score * color; 
         } 
         else {
         	moves = (Setting.get('mandatory-capture') == 'on' && moves.captures.length || color == prevColor) && 
 					moves.captures || moves.captures.concat(moves.moves); 
-					
-			// moves = await this.sortMoves(depth, color, moves);
         	
             for(let i = 0; i < moves.length; i++) {
             	if(this.stop)
@@ -48,15 +46,11 @@ class Negascout {
             	let move = moves[i];
             	let value, m, n;
 				
-				let more = await this.board.move(move); 
-				
-            	more.captures = more.captures.filter(({empty}) => {
-            		[m, n] = empty;
-            		return !(depth < this.startDepth && color == prevColor && m == a && n == b) // start position
-            	});
+				let more = await this.board.move(move, false, a, b); 
             	
                 if(more.captures.length) {
-                	[m, n] = move.cell;
+                	m = move.getFromRow();
+                	n = move.getFromCol();
 					m = color == prevColor? a: m;
 					n = color == prevColor? b: n;
 					
@@ -67,7 +61,8 @@ class Negascout {
                 	
                 	let id = Player.whoseTurn();
                 	let player = Player.getPlayerFrom(id);
-                	[m, n] = move.empty;
+                	m = move.getToRow();
+                	n = move.getToCol();
                 	
                 	let nextPlayerMoves = await this.board.findNewMovesFor(player);
 					

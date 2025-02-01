@@ -125,16 +125,16 @@ class Evaluator {
 		let valuation = this.value;
 		let totalBlack = (valuation.black.pieces * 100) +
 						 (valuation.black.kings * (Version.is('american')? 20: Version.is('kenyan', 'casino')? 25: 40)) +
-						 (valuation.black.movable.sides * 1) + 
-						 (valuation.black.movable.pieces * 3) + 
-						 (valuation.black.criticalPos.center * 1) +
+						 (valuation.black.movable.sides * 0) + 
+						 (valuation.black.movable.pieces * 0) + 
+						 (valuation.black.criticalPos.center * 0) +
 						 (valuation.black.criticalPos.kingsRow * 5);
 						
 		let totalWhite = (valuation.white.pieces * 100) +
 						 (valuation.white.kings * (Version.is('american')? 20: Version.is('kenyan', 'casino')? 25: 40)) +
-						 (valuation.white.movable.sides * 1) + 
-						 (valuation.white.movable.pieces * 3) + 
-						 (valuation.white.criticalPos.center * 1) + 
+						 (valuation.white.movable.sides * 0) + 
+						 (valuation.white.movable.pieces * 0) + 
+						 (valuation.white.criticalPos.center * 0) + 
 						 (valuation.white.criticalPos.kingsRow * 5);
 						 
 		let diff = totalBlack - totalWhite;

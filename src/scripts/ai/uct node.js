@@ -44,7 +44,6 @@ class UCTNode {
 	} 
 	
 	async findBestChild () {
-		// let coeff = 20 * Math.log(this.visits);
 		let best = {
 			score: -Infinity, 
 			children: [], 
@@ -65,7 +64,7 @@ class UCTNode {
 				best.children.push(child);
 			} 
 		}
-		let r = Math.floor(Math.random() * best.children.length);
+		let r = 0; //Math.floor(Math.random() * best.children.length);
 		return best.children[r];
 	}
 	
@@ -89,8 +88,8 @@ class UCTNode {
 		let more = await board.move(this.move, false, m, n);
 		let winner = board.getWinner();
 
-		if(!this.hasHash() && depth == 2)
-			this.hash = board.toData();
+		/*if(!this.hasHash() && depth == 2)
+			this.hash = board.toData();*/
 		
 		if(winner) {
 			m = undefined;

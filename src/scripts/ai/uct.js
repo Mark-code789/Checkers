@@ -165,15 +165,14 @@ class UCT {
 	async start (board, maxTime, trainingMode = false, m, n) {
 		let currentPlayer = Player.whoseTurn();
 		let root = new UCTNode(new Move(0), Player.getPlayerFrom(Player.invertTurn()).id);
-		let copy = new UCTNode(new Move(0), Player.getPlayerFrom(Player.invertTurn()).id);
+		//let copy = new UCTNode(new Move(0), Player.getPlayerFrom(Player.invertTurn()).id);
 			await root.expand(board);
-			await copy.expand(board);
+			//await copy.expand(board);
 			
 			// root.children = root.children.slice(-2,-1);
 			
 		let startTime = Date.now();
 		let elapsedTime = 0;
-		let count = 2;
 		
 		this.history = [root];
 		this.MAXIMUM_HISTORY = board.getArea();
@@ -196,15 +195,8 @@ class UCT {
 			if(self) 
 				self.postMessage({action: 'uct-search-update', maxTime: maxTime, time: elapsedTime}); 
 				
-			if(elapsedTime >= maxTime) {
-				count--;
-				if(count < 1)
-					break;
-				else {
-					startTime = Date.now();
-					this.history = [copy];
-				}
-			}
+			if(elapsedTime >= maxTime) 
+				break;
 		} 
 		
 		let best = {
@@ -215,12 +207,6 @@ class UCT {
 
 		for(let i = 0; i < root.getChildren().length; i++) {
 			let child = root.getChildren()[i];
-			console.log('Score: ', child.score, copy.getChildren()[i].score);
-			console.log('Visits: ', child.visits, copy.getChildren()[i].visits);
-
-			child.score += copy.getChildren()[i].score;
-			child.visits += copy.getChildren()[i].visits;
-			console.log(child.score, child.visits);
 
 			let childRate = (child.score / child.visits) + (child.visits / 100_000);
 			let bestRate = (best.score / best.visits) + (best.visits / 100_000);
@@ -253,7 +239,7 @@ class UCT {
 		// this.train((best.score / best.visits) + (best.visits / 100_000));
 			
 		// console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-		let rand = Math.floor(Math.random() * best.children.length);
+		let rand = 0; //Math.floor(Math.random() * best.children.length);
 		best = best.children[rand].move;
 		return best;
 	} 

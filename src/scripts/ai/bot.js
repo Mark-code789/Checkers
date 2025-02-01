@@ -131,11 +131,11 @@ class Bot {
 		} 
 		
 		if(useWorker && depth > 1) {
-			/* let algorithm = new UCT();
+			/*let algorithm = new UCT();
 			let currentPlayer = Player.whoseTurn();
-			let move = await algorithm.start(Play.board, 1, Play.trainingMode, m, n);
+			let move = await algorithm.start(Play.board, 4000, Play.trainingMode, m, n);
 			Player.setTurn(currentPlayer);
-			return move; */
+			return move;*/
 			
 			this.sleep = new Sleep();
 			await WorkerManager.start(depth, this.algorithm, m, n);
