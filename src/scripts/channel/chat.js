@@ -9,7 +9,7 @@ class Chat {
 		$("#chat-icon").classList.add("visible");
 		$("#chat-window .recorder_button").classList.add("visible");
 		$(".bubbles_container").innerHTML = "<div class='anchor'></div>";
-		setTimeout(() => ElemHint.setHint($("#chat-icon"), "Drag to move. Click to open chat."), 1000); 
+		setTimeout(() => Tooltip.setTip($("#chat-icon"), "Drag to move. Click to open chat."), 1000); 
 	} 
 	static changeStatus (status) {
 		let cont = $(".state_container");

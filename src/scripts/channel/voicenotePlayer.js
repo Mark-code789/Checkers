@@ -18,36 +18,15 @@ class VoicenotePlayer {
 		this.panel.appendChild(this.range);
 		this.panel.appendChild(this.time);
 		
-		this.btn.addEventListener("click", this.play, false);
-		this.range.addEventListener("change", this.skip, false);
-		this.range.addEventListener("input", this.skipInput, false);
+		this.btn.addEventListener("click", this.play.bind(this), false);
+		this.range.addEventListener("change", this.skip.bind(this), false);
+		this.range.addEventListener("input", this.skipInput.bind(this), false);
 	} 
-	send = async (data) => {
+	async send (data) {
 		this.audio = data.audio;
-		this.audio.addEventListener("ended", () => {
-			this.playing = false;
-			this.audio.currentTime = 0;
-			this.audio.muted = false;
-			this.audio.playbackRate = 1;
-			clearInterval(this.timer);
-			this.time.textContent = "0:00";
-			this.range.style.backgroundSize = `0%`;
-			this.range.value = 0;
-			this.btn.classList.remove("audio_pause", "audio_download");
-			this.panel.style.pointerEvents = "auto";
-			this.range.style.pointerEvents = "auto";
-			VoicenotePlayer.currentPlayer = null;
-		});
-		this.audio.addEventListener("loadeddata", () => {
-			if(String(this.audio.duration) == "Infinity") {
-				this.audio.muted = true;
-				this.audio.play();
-				this.audio.playbackRate = 10;
-				return;
-			} 
-			this.btn.classList.remove("audio_download");
-			this.panel.style.pointerEvents = "auto";
-		});
+		this.audio.addEventListener("ended", this.donePlaying.bind(this));
+		this.audio.addEventListener("loadeddata", this.loadedData.bind(this));
+		this.audio.addEventListener("loadedmetadata", this.getDuration.bind(this));
 		
 		const msgID = await Chat.addMessage({action: 'send', text: this.panel}, false);
 		const buffer = await data.audioBlob.arrayBuffer();
@@ -66,39 +45,17 @@ class VoicenotePlayer {
 			file: fileConfig
 		});
 	} 
-	receive = async (data) => {
+	async receive (data) {
 		let blob = await data.toFile();
 		let url = URL.createObjectURL(blob);
 		this.audio = new Audio(url);
-		this.audio.addEventListener("ended", () => {
-			this.playing = false;
-			this.audio.currentTime = 0;
-			this.audio.muted = false;
-			this.audio.playbackRate = 1;
-			clearInterval(this.timer);
-			this.time.textContent = "0:00";
-			this.range.style.backgroundSize = `0%`;
-			this.range.value = 0;
-			this.btn.classList.remove("audio_pause", "audio_download");
-			this.panel.style.pointerEvents = "auto";
-			this.range.style.pointerEvents = "auto";
-			VoicenotePlayer.currentPlayer = null;
-			if(this.initialPlay)
-				this.btn.click();
-			this.initialPlay = false;
-		});
-		this.audio.addEventListener("loadeddata", () => {
-			if(String(this.audio.duration) == "Infinity") {
-				this.btn.classList.remove("audio_download");
-				this.range.style.pointerEvents = "none";
-			} 
-			this.btn.classList.remove("audio_download");
-			this.panel.style.pointerEvents = "auto";
-		});
+		this.audio.addEventListener("ended", this.donePlaying.bind(this));
+		this.audio.addEventListener("loadeddata", this.loadedData.bind(this));
+		this.audio.addEventListener("loadedmetadata", this.getDuration.bind(this));
 		
 		return this.panel;
 	} 
-	play = async (event) => {
+	async play (event) {
 		this.clicked = false;
 		
 		Chat.refocus();
@@ -111,33 +68,17 @@ class VoicenotePlayer {
 			VoicenotePlayer.currentPlayer = null;
 		} 
 		else {
-			if(String(this.audio.duration) == "Infinity") {
-				this.audio.muted = true;
-				this.audio.playbackRate = 10;
-				this.btn.classList.add("audio_download");
-				this.panel.style.pointerEvents = "none";
-				this.initialPlay = true;
-				this.audio.play();
-				return;
-			} 
 			if(VoicenotePlayer.currentPlayer) {
 				VoicenotePlayer.currentPlayer.btn.click();
 			} 
 			VoicenotePlayer.currentPlayer = this;
 			this.playing = true;
 			this.audio.play();
-			this.timer = setInterval(() => {
-				let m = Math.floor(this.audio.currentTime / 60);
-				let s = Math.floor(this.audio.currentTime % 60);
-				this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
-				let pac = Math.floor(this.audio.currentTime / this.audio.duration * 100);
-				this.range.style.backgroundSize = `${pac}%`;
-				this.range.value = `${pac}`;
-			}, 1);
+			this.timer = setInterval(this.getTime.bind(this), 1);
 			event.target.classList.add("audio_pause");
 		} 
 	} 
-	skip = async (event) => {
+	async skip (event) {
 		this.clicked = false;
 		
 		Chat.refocus();
@@ -150,7 +91,7 @@ class VoicenotePlayer {
 			this.btn.click();
 		} 
 	} 
-	skipInput = async (event) => {
+	async skipInput (event) {
 		this.clicked = false;
 		
 		Chat.refocus();
@@ -165,5 +106,45 @@ class VoicenotePlayer {
 		let m = Math.floor(time / 60);
 		let s = Math.floor(time % 60);
 		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+	} 
+	loadedData () {
+		this.audio.currentTime = 0; 
+		this.btn.classList.remove("audio_download");
+		this.panel.style.pointerEvents = "auto";
+	} 
+	donePlaying () {
+		clearInterval(this.timer);
+		this.playing = false;
+		this.getDuration();
+		this.audio.currentTime = 0;
+		this.audio.muted = false;
+		this.audio.playbackRate = 1;
+		this.range.style.backgroundSize = `0%`;
+		this.range.value = 0;
+		this.btn.classList.remove("audio_pause", "audio_download");
+		this.panel.style.pointerEvents = "auto";
+		this.range.style.pointerEvents = "auto";
+		VoicenotePlayer.currentPlayer = null;
+	} 
+	getDuration () {
+		if(this.audio.duration == Infinity || isNaN(this.audio.duration)) {
+			this.audio.currentTime = 1e101;
+			this.audio.ontimeupdate = this.getDuration.bind(this);
+			return;
+		} 
+		
+		this.audio.ontimeupdate = null;
+		this.audio.currentTime = 0;
+		let m = Math.floor(this.audio.duration / 60);
+		let s = Math.floor(this.audio.duration % 60);
+		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+	} 
+	getTime () {
+		let m = Math.floor(this.audio.currentTime / 60);
+		let s = Math.floor(this.audio.currentTime % 60);
+		this.time.textContent = `${m}:${String(s).padStart(2, '0')}`;
+		let pac = Math.floor(this.audio.currentTime / this.audio.duration * 100);
+		this.range.style.backgroundSize = `${pac}%`;
+		this.range.value = `${pac}`;
 	} 
 } 

@@ -142,7 +142,7 @@ class VoiceNoteRecorder {
 			$(".field_container").style.opacity = 1;
 			recorderCont.style.display = "none";
 			res = false;
-			ElemHint.setHint(elem, "Hold to record. Release to send. Slide left to cancel.");
+			Tooltip.setTip(elem, "Hold to record. Release to send. Slide left to cancel.");
 			
 			elem.style.transitionDuration = "0.3s";
 			recorderCont.style.transitionDuration = "0.3s";
