@@ -13,7 +13,7 @@ window.Updates = {
 		["23.16.211.545", ["Fixed offline loading error."]], 
 		["24.17.214.550", ["Fixed refresh error.", "Improved game difficulty.", "Fixed minor bugs."]], 
 		["30.21.218.571", ["Added 2 new levels per version.", "Improved game performance.", "Improved game difficulty", "Change online match connectivity", "Fixed interface breaking on different size screens", "Added other features, discover by yourself"]], 
-		["31.22.219.572", ["Fixed few bugs.", "Improved game thinking time"], 
+		["31.22.219.572", ["Fixed few bugs.", "Improved game thinking time"]], 
 	]), 
 	getDescription: function (version) {
 		let versionDescription = "<ul>";
