@@ -125,6 +125,6 @@ class Tooltip {
 		} 
 		
 		if(!registerHover)
-			toolTip.show();
+			tooltip.show();
 	} 
 } 
