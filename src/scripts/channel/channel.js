@@ -460,8 +460,8 @@ class Channel {
             }, 
             message: (msg) => {
             	msg.message = JSON.parse(msg.message);
-            	clearTimeout(this.#lobby.offlineTimeout);
-            	
+				clearTimeout(this.#lobby.offlineTimeout);
+				
                 if(msg.channel === this.#main) {
                     if(msg.message.title === 'Reconnected') {
                         this.setOpponentStatus("online");
@@ -542,7 +542,7 @@ class Channel {
                         this.request(msg.message);
                     } 
                     else if(msg.message.title === "DeclinedRequest") {
-                    	$("#play-window").classList.remove("hide");
+                    	$("#play-window").classList.remove("visible", "hide");
                         Notify.popUpNote(PLAYER_B.name + " declined your request.");
                         Notify.cancel();
                     } 
@@ -742,7 +742,7 @@ class Channel {
 			
 			Play.restart(true, true);
 		} 
-	    
+		
 	    if(option === "ACCEPT") { 
 			if(prop.title === "RequestPlay") {
 		        Setting.setFirstMove(prop.content.firstMove);
