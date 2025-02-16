@@ -1,5 +1,6 @@
 class Tooltip {
 	static elems = new Map();
+	static showing;
 	eventType;
 	displayTimeout;
 	hoverTimeout;
@@ -14,6 +15,7 @@ class Tooltip {
 		elem.addEventListener("touchstart", this.hoverStart.bind(this), false); 
 		elem.addEventListener("mouseout", this.hoverEnd.bind(this)); 
 		elem.addEventListener("touchend", this.hoverEnd.bind(this)); 
+		elem.addEventListener("click", this.hoverEnd.bind(this), false);  
 	} 
 	
 	hoverStart (e) {
@@ -27,13 +29,30 @@ class Tooltip {
 		this.hoverTimeout = setTimeout(() => this.show(), 700);
 	} 
 	hoverEnd (e) {
-		if(this.eventType && !e.type.startsWith(this.eventType))
+		if(e.type != 'click' && this.eventType && !e.type.startsWith(this.eventType))
 			return;
+			
+		if(this.eventType != "touch") 
+			this.reset();
 			
 		clearTimeout(this.hoverTimeout);
 	} 
+	reset () {
+		let root = document.documentElement;
+		let tip = $(".tooltip");
+		tip.classList.remove("tooltip_appear", "visible"); 
+		clearTimeout(this.displayTimeout); 
+		root.style.setProperty('--tip-x', `var(--tip-margin)`);
+		root.style.setProperty('--tip-y', `var(--tip-margin)`);
+		root.style.setProperty('--tip-pointer-x', `50%`);
+		root.style.setProperty('--tip-pointer-x', `100%`);
+
+	} 
 	show () {
-		clearTimeout(this.displayTimeout);
+		Tooltip.showing && Tooltip.showing.reset();
+		Tooltip.showing = this;
+		
+		this.reset();
 		let elem = this.elem;
 		let text = this.text;
 		let tip = $(".tooltip");
@@ -99,7 +118,7 @@ class Tooltip {
 			} 
 			else if(elemRect.width / 2 + elemRect.left > window.innerWidth / 2) {
 				root.style.setProperty('--tip-pointer-x', `calc(${elemRect.width / 2 + elemRect.left}px - var(--tip-x))`);
-				root.style.setProperty('--tip-x', `${maxWidth - margin - tipRect.width}px`);
+				root.style.setProperty('--tip-x', `${window.innerWidth - margin - tipRect.width}px`);
 			} 
 			else if(elemRect.width / 2 + elemRect.left < window.innerWidth / 2) {
 				root.style.setProperty('--tip-pointer-x', `calc(${elemRect.width / 2 + elemRect.left}px - var(--tip-x))`);
@@ -109,7 +128,8 @@ class Tooltip {
 		
 		tip.classList.add("tooltip_appear");
 		this.displayTimeout = setTimeout(() => {
-			tip.classList.remove("tooltip_appear", "visible");
+			tip.classList.remove("tooltip_appear");
+			this.displayTimeout = setTimeout(() => this.reset(), 500);
 		}, Math.max(text.length * 25, 3500));
 	} 
 	static setTip (elem, text, registerHover = false) {

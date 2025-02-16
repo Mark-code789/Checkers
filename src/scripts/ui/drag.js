@@ -56,7 +56,7 @@ class Drag {
 			return;
 			
 		await new Sleep().wait(0.05);
-			
+		
 	    if(this.active && this.moved && (e.type === "touchend" || e.type == "mouseup")) {
 			e.preventDefault();
 			this.active = false;
@@ -80,7 +80,7 @@ class Drag {
 		        }
 		        else if(rect.bottom > window.innerHeight - 10) {
 		            this.currentY += window.innerHeight - 10 - rect.bottom;
-		        }
+				}
 				this.translate(this.currentX, this.currentY, this.dragItem);
 			}
 			else if(this.dragItem === $(".games_totals")) {
@@ -206,9 +206,9 @@ class Drag {
 			this.xOffset = this.currentX;
 			this.yOffset = this.currentY;
 		}
-		else if(this.active && e.type == 'mousemove' && !e.buttons) {
+		/* else if(this.active && e.type == 'mousemove' && !e.buttons) {
 			this.active = false;
-		}
+		} */
 	}
 	
 	translate = (x, y, elem, prevTransform = "", nextTransform = "") => {

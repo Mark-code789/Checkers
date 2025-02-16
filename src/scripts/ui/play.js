@@ -604,7 +604,6 @@ class Play {
 		WorkerManager.onWorkComplete = Bot.onWorkComplete.bind(Bot);
 		WorkerManager.onDone = Bot.onDone.bind(Bot);
 
-		this.updateScore(this.calculateScore(this.board.getPiecesPerPlayer()));
 		this.updatePenalties('undo', 0);
 		this.updatePenalties('hint', 0);
 		
