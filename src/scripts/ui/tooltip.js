@@ -42,10 +42,12 @@ class Tooltip {
 		let tip = $(".tooltip");
 		tip.classList.remove("tooltip_appear", "visible"); 
 		clearTimeout(this.displayTimeout); 
-		root.style.setProperty('--tip-x', `var(--tip-margin)`);
-		root.style.setProperty('--tip-y', `var(--tip-margin)`);
-		root.style.setProperty('--tip-pointer-x', `50%`);
-		root.style.setProperty('--tip-pointer-x', `100%`);
+		this.displayTimeout = setTimeout(() => {
+			root.style.setProperty('--tip-x', `var(--tip-margin)`);
+			root.style.setProperty('--tip-y', `var(--tip-margin)`);
+			root.style.setProperty('--tip-pointer-x', `50%`);
+			root.style.setProperty('--tip-pointer-x', `100%`);
+		}, 500);
 
 	} 
 	show () {
