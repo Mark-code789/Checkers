@@ -37,24 +37,22 @@ class Tooltip {
 			
 		clearTimeout(this.hoverTimeout);
 	} 
-	reset () {
+	async reset () {
 		let root = document.documentElement;
 		let tip = $(".tooltip");
 		tip.classList.remove("tooltip_appear", "visible"); 
 		clearTimeout(this.displayTimeout); 
-		this.displayTimeout = setTimeout(() => {
-			root.style.setProperty('--tip-x', `var(--tip-margin)`);
-			root.style.setProperty('--tip-y', `var(--tip-margin)`);
-			root.style.setProperty('--tip-pointer-x', `50%`);
-			root.style.setProperty('--tip-pointer-x', `100%`);
-		}, 500);
+		await new Sleep().wait(0.5);
+		root.style.setProperty('--tip-x', `var(--tip-margin)`);
+		root.style.setProperty('--tip-y', `var(--tip-margin)`);
+		root.style.setProperty('--tip-pointer-x', `50%`);
+		root.style.setProperty('--tip-pointer-x', `100%`);
 
 	} 
-	show () {
-		Tooltip.showing && Tooltip.showing.reset();
+	async show () {
+		Tooltip.showing && await Tooltip.showing.reset();
 		Tooltip.showing = this;
 		
-		this.reset();
 		let elem = this.elem;
 		let text = this.text;
 		let tip = $(".tooltip");
