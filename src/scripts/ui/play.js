@@ -1,7 +1,7 @@
 class Play {
 	static date;
-	static hintCount = 0;
-	static undoCount = 0;
+	static #hintCount = 0;
+	static #undoCount = 0;
 	static isOver = false;
 	static trainingMode = false;
 	static async start (request = false) {
@@ -31,8 +31,8 @@ class Play {
 		this.level = 9;
 		this.firstPlayer = Player.whoseTurn();
 		this.date = new Date();
-		this.hintCount = 0;
-		this.undoCount = 0;
+		this.#hintCount = 0;
+		this.#undoCount = 0;
 		this.board = new Board();
 		await this.setBoard();
 			  this.countPieces();
@@ -506,7 +506,7 @@ class Play {
 	} 
 	
 	static calculateScore (count) {
-		count = this.undoCount || this.hintCount? 0: count;
+		count = this.#undoCount || this.#hintCount? 0: count;
 		let piecesPerPlayer = this.board.getPiecesPerPlayer();
 		
 		if (count >= piecesPerPlayer * (3/4)) {
@@ -592,8 +592,8 @@ class Play {
 
 		this.firstPlayer = Player.whoseTurn();
 		this.date = new Date();
-		this.hintCount = 0;
-		this.undoCount = 0;
+		this.#hintCount = 0;
+		this.#undoCount = 0;
 		this.board = new Board();
 		await this.setBoard();
 		await this.countPieces();
@@ -616,7 +616,7 @@ class Play {
 	
 	static async undo (opponent = false) {
 		
-		if(Mode.is('single-player') && this.undoCount >= 5) 
+		if(Mode.is('single-player') && this.#undoCount >= 5) 
 			return Notify.popUpNote('You can not undo more than 5 times');
 			
 		if(Mode.is('single-player', 'two-players-online') && PLAYER_B.turn && !opponent)
@@ -631,7 +631,7 @@ class Play {
 		await MovePlayer.undo();
 
 		if(Mode.is('single-player'))
-			this.updatePenalties('undo', ++this.undoCount);
+			this.updatePenalties('undo', ++this.#undoCount);
 			
 		this.countPieces();
 		
@@ -648,10 +648,10 @@ class Play {
 		if(Mode.is('single-player', 'two-players-online') && PLAYER_B.turn)
 			return Notify.popUpNote('Please wait for your opponents move.');
 			
-		if(this.hintCount >= 3) 
+		if(this.#hintCount >= 3) 
 			return Notify.popUpNote('You can not hint more than 3 times');
 			
-		await this.updatePenalties('hint', ++this.hintCount); 
+		await this.updatePenalties('hint', ++this.#hintCount); 
 			
 		let hintElems = $$('#play-window button[action="controls"][value="hint"]');
 		hintElems[0].classList.add('wait');
