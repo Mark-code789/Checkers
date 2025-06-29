@@ -36,7 +36,9 @@ class Play {
 		this.board = new Board();
 		await this.setBoard();
 			  this.countPieces();
+			  this.updateScore(this.board.getPiecesPerPlayer());
 			  this.initSoundButton();
+			  this.initHintButton();
 		await Timer.reset();
 		await MoveChecker.reset();
 			  this.setWindow(isOnline && !request);
@@ -52,7 +54,7 @@ class Play {
 		// this.level = prompt('Enter level:\n1: Beginner - 12: Grand Master', "12");
 		// this.level = parseInt(this.level) || 12;
 		
-		this.updateScore(this.board.getPiecesPerPlayer());
+		
 		this.updatePenalties('undo', 0);
 		this.updatePenalties('hint', 0);
 		
@@ -85,7 +87,9 @@ class Play {
 				"Amazing! You are a pro indeed. 😱", 
 				"Brilliant! You are really intelligent. 🤔", 
 				"What can I say Master 🤷‍♂️! Wonderful!", 
-				"You are simply a masterclass player. Congratulations 🥇👏"
+				"You are simply a masterclass player. Congratulations 🥇👏",
+				"Welcome to the club of champions. Congratulations 🎉🎉",
+				"You are now a world champion! Congratulations 👏👏",
 			];
 			
 			let score = this.calculateScore(PLAYER_A.pieces);
@@ -170,6 +174,7 @@ class Play {
 			else if(action == 'NEXT LEVEL') {
 				await GameStats.add(winner, isDraw, this.date);
 				
+				nextLevel = nextLevel == 'already-unlocked'? Level.getNext(): nextLevel;
 				let nextLevelElement = $(`#main-window div[action='level'][value='${nextLevel}']`);
 				await Level.change(nextLevelElement, nextLevel);
 				await this.restart(true);
@@ -506,8 +511,9 @@ class Play {
 	} 
 	
 	static calculateScore (count) {
-		count = this.#undoCount || this.#hintCount? 0: count;
+		let penalty = this.#undoCount > 0 || this.#hintCount > 0;
 		let piecesPerPlayer = this.board.getPiecesPerPlayer();
+		count = penalty? 0: count;
 		
 		if (count >= piecesPerPlayer * (3/4)) {
 			return 3;
@@ -519,7 +525,7 @@ class Play {
 			return 1;
 		} 
 		else {
-			return 0;
+			return penalty? 0.1: 0;
 		} 
 	} 
 	
@@ -527,6 +533,15 @@ class Play {
 		let sound = AudioPlayer.getSound();
 		let soundElements = $$("#play-window button[action='controls'][value='sound']");
 		for(let soundElement of soundElements) soundElement.classList[(sound && "add" || "remove")]("sound");
+	} 
+
+	static initHintButton () {
+		let penalty = Level.getPreviousLevelPenalty();
+		let hintElements = $$("#play-window button[action='controls'][value='hint']");
+
+		this.#hintCount = Number(!penalty)-1;
+		console.log(this.#hintCount, penalty);
+		for(let hintElement of hintElements) hintElement.classList[(penalty && "add" || "remove")]("lock");
 	} 
 	
 	static async changeShadow () {
@@ -540,22 +555,6 @@ class Play {
 		let piece = $("#table .cell div");
 		let pieceSize = UIValue.getValue(piece, 'width');
 		document.documentElement.style.setProperty('--piece-size', pieceSize + 'px');
-		/* let width = UIValue.getValue($('#play-window'), 'width');
-		let height = UIValue.getValue($('#play-window'), 'height');
-		
-		if(Mode.is('single-player', 'two-players-online') && view == 'landscape') {
-			if(width >= 480 && height >= 480) {
-				document.documentElement.style.setProperty('--shadow-width', '0px');
-			}
-			else
-				document.documentElement.style.setProperty('--shadow-width', (pieceSize * 0.15) + 'px');
-			
-			document.documentElement.style.setProperty('--unrotated-shadow', '0px');
-		} 
-		else {
-			document.documentElement.style.setProperty('--shadow-width', '0px');
-			document.documentElement.style.setProperty('--unrotated-shadow', (pieceSize * 0.15) + 'px');
-		}  */
 	} 
 	
 	static scaleFont () {
@@ -595,8 +594,9 @@ class Play {
 		this.#hintCount = 0;
 		this.#undoCount = 0;
 		this.board = new Board();
-		await this.setBoard();
-		await this.countPieces();
+			  this.setBoard();
+			  this.countPieces();
+			  this.initHintButton();
 		await this.setPlayerTurn();
 		await Helper.showPossibleMoves();
 		await Timer.start();
@@ -647,6 +647,9 @@ class Play {
 	static async hint (elem) {
 		if(Mode.is('single-player', 'two-players-online') && PLAYER_B.turn)
 			return Notify.popUpNote('Please wait for your opponents move.');
+
+		if(this.#hintCount == -1)
+			return Notify.popUpNote('Please win the previous level without using hint or undo buttons.');
 			
 		if(this.#hintCount >= 3) 
 			return Notify.popUpNote('You can not hint more than 3 times');

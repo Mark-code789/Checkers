@@ -108,6 +108,28 @@ class Level {
 	static getLevelAsInt () {
 		return this.#values.indexOf(this.#value);
 	} 
+
+	static getNext () {
+		let currentLevelInt = this.getLevelAsInt();
+		let nextLevelInt = currentLevelInt + 1;
+		let nextLevel = this.#values[nextLevelInt];
+
+		return nextLevel;
+	}
+
+	static getPreviousLevelPenalty () {
+		let version = Version.getVersion();
+		let currentLevelInt = this.getLevelAsInt();
+		let prevLevelInt = currentLevelInt - 1;
+		let prevLevel = this.#values[prevLevelInt];
+
+		if(!prevLevel)
+			return false;
+
+		let achievemnts = this.#achievements[version] || {};
+		let score = achievemnts[prevLevel];
+		return score == 0.1? true: false;
+	}
 	
 	static setScore (score, level, initializing = false) {
 		let version = Version.getVersion();
@@ -116,7 +138,7 @@ class Level {
 		let currentLevelElement = $(`#main-window div[action='level'][value='${currentLevel}']`);
 		
 		currentLevelElement.classList.remove('pc_0', 'pc_1', 'pc_2', 'pc_3');
-		currentLevelElement.classList.add('pc_' + score);
+		currentLevelElement.classList.add('pc_' + parseInt(score));
 		
 		this.#achievements[version] = this.#achievements[version] || {};
 		this.#achievements[version][currentLevel] = score;
