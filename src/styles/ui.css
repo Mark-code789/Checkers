@@ -2648,6 +2648,12 @@ article.visible {
     background-size: 3.75vmax 3.75vmax, 100%;
 } 
 
+#play-window .controls_section .controls.lock,
+#play-window .middle_section .horiz_controls.lock {
+    background: var(--lock), rgba(0, 0, 0, 0.4);
+    background-size: 3.75vmax 3.75vmax, 100%;
+} 
+
 #play-window .controls_section .controls[value='restart'] {
     grid-area: restart;
     grid-row: 2 / 3;
@@ -3075,7 +3081,7 @@ article.visible {
 	object-fit: fill;
 	border-radius: 4px;
 	border: 1px solid #222;
-	box-shadow: 0 0 5px 1px #444;
+	/* box-shadow: 0 0 5px 1px #444; */
 } 
 
 #notification-window #note .note_header span {
@@ -3130,13 +3136,13 @@ article.visible {
     display: flex;
     justify-content: flex-end;
     flex-flow: row wrap;
+    gap: 5px;
 } 
 
 #notification-window .note_footer button {
     border-radius: 8px;
     font-size: 1rem;
     height: 40px;
-    margin: 5px 10px;
     border: none;
     outline: none;
     color: #fff;
