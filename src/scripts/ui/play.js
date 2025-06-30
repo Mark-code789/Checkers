@@ -540,7 +540,6 @@ class Play {
 		let hintElements = $$("#play-window button[action='controls'][value='hint']");
 
 		this.#hintCount = Number(!penalty)-1;
-		console.log(this.#hintCount, penalty);
 		for(let hintElement of hintElements) hintElement.classList[(penalty && "add" || "remove")]("lock");
 	} 
 	

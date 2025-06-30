@@ -295,7 +295,7 @@ class Setting {
 		if(updateChoice == "Check for update") {
 			if(!navigator.onLine) return Notify.popUpNote("Please connect to an internet and try again.");
 			let script = $("#updates");
-			let url = script.src;
+			let url = script.src.split('?')[0] + '?q="update"';
 			let newScript = $$$("script", ["id", "updates"]);
 			let logs = structuredClone(Updates.updateLogs);
 			newScript.onload = async () => {
