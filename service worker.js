@@ -1,5 +1,5 @@
 // Service worker
-const version = "578";
+const version = "583";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -139,11 +139,15 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request.url.replace(/Checkers\/$/i, t => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
-        	if(res && !/(updates.js|\.css.*)$/gi.test(e.request.url)) {
+        	if(res && !/(updates.js\?q=('|")update('|")|\.css.*)$/gi.test(decodeURI(e.request.url))) {
             	return res;
             }
+
+			let modifiedUrl = new URL(e.request.url);
+			let params = modifiedUrl.searchParams;
+				params.append('checkers-version', Date.now());
             
-            return fetch(e.request).then((res2) => {
+            return fetch(modifiedUrl.toString()).then((res2) => {
             	if(e.request.url.includes("pndsn.com")) {
             		return res2; 
 					/*Not storing this kind of request*/
