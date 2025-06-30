@@ -1,5 +1,5 @@
 // Service worker
-const version = "583";
+const version = "584";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -123,16 +123,16 @@ self.addEventListener("install", (e) => {
 	const addFiles = (cache) => {
 	    const stack = [];
 	    appShellFiles.forEach((file) => stack.push(
-	        cache.add(file).catch( _ => console.error(`can't load ${file} to cache`))
+	        cache.add(file + `?v=${version}`).catch( _ => console.error(`can't load ${file} to cache`))
 	    ));
 	    return Promise.all(stack);
 	};
 	
     e.waitUntil(
-        caches.open(cacheName).then((cache) => {
+        /* caches.open(cacheName).then((cache) => {
             return cache.addAll(appShellFiles);
-        })
-        //caches.open(cacheName).then(addFiles) 
+        }) */
+        caches.open(cacheName).then(addFiles) 
     )
 });
 
