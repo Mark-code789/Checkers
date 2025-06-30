@@ -98,7 +98,7 @@ class LoadedExternalFiles {
 			progress.style.width = `calc(100% / 3 * ${this.n / this.total})`;
 			
 		if(e.target.src && e.target.src.endsWith(encodeURI('move checker.js'))) {
-			this.addFile('script', "./src/scripts/ui/helper.js?v=2");
+			this.addFile('script', "./src/scripts/ui/helper.js");
 			this.addFile('script', "./src/scripts/ui/move player.js");
 		} 
 		else if(e.target.src && e.target.src.endsWith(encodeURI('move player.js'))) {
@@ -160,7 +160,7 @@ async function pageComplete () {
 		"Marion Tinsley was considered the greatest checkers player of all time. The late played checkers for 45 years and he only lost less 10 games. He died in 1995.", 
 	]; 
     
-    LoadedExternalFiles.addFile("style", "./src/styles/ui.css?v=" + Date.now());
+    LoadedExternalFiles.addFile("style", "./src/styles/ui.css");
     
     let scripts = [
     	"ui/audio player.js",
@@ -289,7 +289,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
 });
 
 window.addEventListener("error", (error) => {
-	event.preventDefault();
+	error.preventDefault();
 	console.log(error.message + " \n\tat " + error.filename + ": " + error.lineno + ":" + error.colno);
 	let option = confirm("ERROR MESSAGE\n\nThere was an unexpected error. We recommend you restart the app. If this error persists even after restarting, please contact via:\n\nTel: +254 798 916984\nWhatsApp: +254 798 916984\nEmail: markcodes789@gmail.com\n\nPress OK to refresh.");
 	if(option) 
