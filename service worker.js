@@ -1,5 +1,5 @@
 // Service worker
-const version = "584";
+const version = "585";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -142,12 +142,12 @@ self.addEventListener("fetch", (e) => {
         	if(res && !/(updates.js\?q=('|")update('|")|\.css.*)$/gi.test(decodeURI(e.request.url))) {
             	return res;
             }
-
-			let modifiedUrl = new URL(e.request.url);
-			let params = modifiedUrl.searchParams;
+			
+			let modifiedURL = new URL(e.request.url);
+			let params = modifiedURL.searchParams;
 				params.append('checkers-version', Date.now());
-            
-            return fetch(modifiedUrl.toString()).then((res2) => {
+
+            return fetch(modifiedURL.hostname.endsWith('pndsn.com')? e.request: modifiedURL.toString()).then((res2) => {
             	if(e.request.url.includes("pndsn.com")) {
             		return res2; 
 					/*Not storing this kind of request*/
