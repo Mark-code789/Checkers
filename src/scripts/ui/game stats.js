@@ -162,7 +162,7 @@ class GameStats {
 					th = $$$("th", ["textContent", "Player", "rowspan", "2"]);
 					tr1.appendChild(th);
 				} 
-				th = $$$("th", ["textContent", version, "value", version, "colspan", "4"]);
+				th = $$$("th", ["textContent", version, "value", version, "colspan", "3"]);
 				tr1.appendChild(th);
 				th = $$$("th", ["textContent", "Wins", "value", version]);
 				tr2.appendChild(th);
