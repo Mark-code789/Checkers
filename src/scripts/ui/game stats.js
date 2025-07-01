@@ -166,8 +166,6 @@ class GameStats {
 				tr1.appendChild(th);
 				th = $$$("th", ["textContent", "Wins", "value", version]);
 				tr2.appendChild(th);
-				th = $$$("th", ["textContent", "Losses", "value", version]);
-				tr2.appendChild(th);
 				th = $$$("th", ["textContent", "Draws", "value", version]);
 				tr2.appendChild(th);
 				th = $$$("th", ["textContent", "Win Probability", "value", version]);
@@ -183,18 +181,16 @@ class GameStats {
 					td = $$$("td", ["textContent", name1, "name", name1]);
 					tr3.appendChild(td);
 				} 
+				let total = 1;
 				let count = status1 == "won"? 1: 0;
-				td = $$$("td", ["textContent", count, "count", count, "value", version]);
-				tr3.appendChild(td);
-				count = status1 == "lost"? 1: 0;
-				td = $$$("td", ["textContent", count, "count", count, "value", version]);
+				td = $$$("td", ["textContent", count, "count", count, "total", total, "value", version]);
 				tr3.appendChild(td);
 				count = status1 == "draw"? 1: 0;
 				td = $$$("td", ["textContent", count, "count", count, "value", version]);
 				tr3.appendChild(td);
 				
 				let cells = tr3.$$(`td[value='${version}']`);
-				let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+				let prob = (parseInt(cells[0].getAttribute("count")) / parseInt(cells[0].getAttribute("total")) * 100).toFixed(0);
 				td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
 				tr3.appendChild(td);
 				
@@ -203,17 +199,14 @@ class GameStats {
 					tr4.appendChild(td);
 				} 
 				count = status2 == "won"? 1: 0;
-				td = $$$("td", ["textContent", count, "count", count, "value", version]);
-				tr4.appendChild(td);
-				count = status2 == "lost"? 1: 0;
-				td = $$$("td", ["textContent", count, "count", count, "value", version]);
+				td = $$$("td", ["textContent", count, "count", count, "total", total, "value", version]);
 				tr4.appendChild(td);
 				count = status2 == "draw"? 1: 0;
 				td = $$$("td", ["textContent", count, "count", count, "value", version]);
 				tr4.appendChild(td);
 				
 				cells = tr4.$$(`td[value='${version}']`);
-				prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
+				prob = (parseInt(cells[0].getAttribute("count")) / parseInt(cells[0].getAttribute("total")) * 100).toFixed(0);
 				td = $$$("td", ["textContent", prob + "%", "value", version, "prob", prob]);
 				tr4.appendChild(td);
 				
@@ -228,25 +221,32 @@ class GameStats {
 			else if(tr1.$(`th[value='${version}']`)) {
 				tr3 = tbody.$(`td[name='${name1}']`).parentNode;
 				let cells = tr3.$$(`td[value='${version}']`);
-				let cell = status1 == "won"? cells[0]: status1 == "lost"? cells[1]: cells[2];
-				let count = parseInt(cell.getAttribute("count")) + 1;
-				cell.textContent = count;
-				cell.setAttribute("count", count);
+				let total = parseInt(cells[0].getAttribute("total")) + 1;
+					cells[0].setAttribute("total", total);
+				let cell = status1 == "won"? cells[0]: status1 == "draw"? cells[1]: cells[2];
+				if(cell) {	
+					let count = parseInt(cell.getAttribute("count")) + 1;
+					cell.textContent = count;
+					cell.setAttribute("count", count);
+				}
 				
-				let prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
-				cells[3].textContent = prob + "%";
-				cells[3].setAttribute("prob", prob);
+				let prob = (parseInt(cells[0].getAttribute("count")) / parseInt(cells[0].getAttribute("total")) * 100).toFixed(0);
+				cells[2].textContent = prob + "%";
+				cells[2].setAttribute("prob", prob);
 				
 				tr4 = tbody.$(`td[name='${name2}']`).parentNode;
 				cells = tr4.$$(`td[value='${version}']`);
-				cell = status2 == "won"? cells[0]: status2 == "lost"? cells[1]: cells[2];
-				count = parseInt(cell.getAttribute("count")) + 1;
-				cell.textContent = count;
-				cell.setAttribute("count", count);
+				cells[0].setAttribute("total", total);
+				cell = status2 == "won"? cells[0]: status2 == "draw"? cells[1]: cells[2];
+				if(cell) {
+					let count = parseInt(cell.getAttribute("count")) + 1;
+					cell.textContent = count;
+					cell.setAttribute("count", count);
+				}
 				
-				prob = (parseInt(cells[0].getAttribute("count")) / (parseInt(cells[0].getAttribute("count")) + parseInt(cells[1].getAttribute("count")) + parseInt(cells[2].getAttribute("count"))) * 100).toFixed(0);
-				cells[3].textContent = prob + "%";
-				cells[3].setAttribute("prob", prob);
+				prob = (parseInt(cells[0].getAttribute("count")) / parseInt(cells[0].getAttribute("total")) * 100).toFixed(0);
+				cells[2].textContent = prob + "%";
+				cells[2].setAttribute("prob", prob);
 			}
 			let prob1 = tr3.$$(`td[value='${version}']`);
 			let prob2 = tr4.$$(`td[value='${version}']`);

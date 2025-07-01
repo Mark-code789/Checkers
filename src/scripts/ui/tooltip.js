@@ -26,7 +26,7 @@ class Tooltip {
 			
 		clearTimeout(this.hoverTimeout);
 		
-		this.hoverTimeout = setTimeout(() => this.show(), 700);
+		this.hoverTimeout = setTimeout(() => this.show(e), 700);
 	} 
 	hoverEnd (e) {
 		if(e.type != 'click' && this.eventType && !e.type.startsWith(this.eventType))
@@ -49,10 +49,15 @@ class Tooltip {
 		root.style.setProperty('--tip-pointer-x', `100%`);
 
 	} 
-	async show () {
+	async show (e) {
 		Tooltip.showing && await Tooltip.showing.reset();
 		Tooltip.showing = this;
-		
+
+		let currHoveredElem = [...$$(':hover')].slice(-1)[0];
+
+		if(e && currHoveredElem && currHoveredElem.getAttribute('tp-id') != this.elem.getAttribute('tp-id'))
+			return;
+
 		let elem = this.elem;
 		let text = this.text;
 		let tip = $(".tooltip");
