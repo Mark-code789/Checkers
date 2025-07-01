@@ -217,11 +217,9 @@ async function pageComplete () {
 } 
 
 async function invokeSWUpdateFlow () {
-	let versionDescription = await Updates.getDescription();
-	let version = Updates.version;
 	let action = await Notify.confirm({ 
 		header: "APP UPDATE", 
-		message: "<label>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>New version: " + version + "</label><span>What's New?</span>" + versionDescription + "<label style='display: block; text-align: left;'>Do you want to update?</label>", 
+		message: "<label>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>Do you want to update?</label>", 
 		type: "LATER/UPDATE"
 	});
 	
