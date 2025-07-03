@@ -1,5 +1,5 @@
 // Service worker
-const version = "587";
+const version = "590";
 const cacheName = "Checkers-v:" + version;
 const appShellFiles = [
     "./src/images/alert.png",
@@ -129,17 +129,17 @@ self.addEventListener("install", (e) => {
 	};
 	
     e.waitUntil(
-        /* caches.open(cacheName).then((cache) => {
+        caches.open(cacheName).then((cache) => {
             return cache.addAll(appShellFiles);
-        }) */
-        caches.open(cacheName).then(addFiles) 
+        })
+        // caches.open(cacheName).then(addFiles) 
     )
 });
 
 self.addEventListener("fetch", (e) => {
     e.respondWith(
         caches.match(e.request.url.replace(/Checkers\/$/i, t => t + "index.html"), {cacheName, ignoreSearch: true}).then( async (res) => {
-        	if(res && !/(updates.js\?q=('|")update('|")|\.css.*)$/gi.test(decodeURI(e.request.url))) {
+        	if(res && !/(updates log\.json|\.css.*)$/gi.test(decodeURI(e.request.url))) {
             	return res;
             }
 			
