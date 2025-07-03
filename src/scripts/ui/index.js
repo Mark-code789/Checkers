@@ -106,6 +106,7 @@ class LoadedExternalFiles {
 		} 
 		if(this.n == this.total) {
 			if(window.crypto && window.crypto.getRandomValues && BigUint64Array) {
+				Updates.init();
 				WorkerManager.init();
 				ZobristHash.init( Board.getMaximumSize() );
 				Init.load();
@@ -217,9 +218,13 @@ async function pageComplete () {
 } 
 
 async function invokeSWUpdateFlow () {
+	let versionDescription = Updates.getDescription();
 	let action = await Notify.confirm({ 
 		header: "APP UPDATE", 
-		message: "<label>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br>Do you want to update?</label>", 
+		message: "<label>Thank you for using Checkers App.<br>There is a new version of this app. All you need is to refresh.<br><br><b>What's new!" +
+				 "</b>" + 
+				 versionDescription + 
+				 "Do you want to update?</label>", 
 		type: "LATER/UPDATE"
 	});
 	
@@ -315,7 +320,6 @@ window.addEventListener("load", async () => {
 				refreshing = true;
 			} 
 		});
-		
 		
 		pageComplete();
 	} 

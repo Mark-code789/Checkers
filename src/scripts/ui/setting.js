@@ -286,7 +286,7 @@ class Setting {
 	
 	static async showVersion () {
 		let currentAppVersion = Updates.version;
-		let currentVersionDescription = await Updates.getDescription(currentAppVersion);
+		let currentVersionDescription = Updates.getDescription(currentAppVersion);
 		let updateChoice = await Notify.confirm({
 	            header: "CHECKERS VERSION", 
 	            message: "<label>Your current app version is: " + currentAppVersion + "</label><span>Updates of this version</span>" + currentVersionDescription + "<label style='display: block; text-align: left;'>Thank you for playing checkers. If you experience any difficulty or an error please contact me via the contact button in the settings. Let's build checkers together. Happy gaming 🎉</label>", 
@@ -294,37 +294,30 @@ class Setting {
 				
 		if(updateChoice == "Check for update") {
 			if(!navigator.onLine) return Notify.popUpNote("Please connect to an internet and try again.");
-			let script = $("#updates");
-			let url = script.src.split('?')[0] + '?q="update"';
-			let newScript = $$$("script", ["id", "updates"]);
-			let logs = structuredClone(Updates.updateLogs);
-			newScript.onload = async () => {
-				Notify.cancel(); 
-				let newAppVersion = Updates.version;
-				if(currentAppVersion == newAppVersion)
-					return Notify.popUpNote("No update found");
-					
-				updateChoice = await Notify.confirm({
-					header: "Update Found", 
-					message: "A new version (" + newAppVersion + ") is available, do you wanna update", 
-					type: "CANCEL/UPDATE"
-				});
-				
-				if(updateChoice == "UPDATE")
-					location.reload();
-				else {
-					Updates.version = currentAppVersion;
-					Updates.updateLogs = logs;
-				} 
-			} 
-			
-			newScript.src = url;
-			script.replaceWith(newScript);
-			
+
 			Notify.alertSpecial({
 					header: "Checking for update...",
 					message: "Please wait as we run the check."
 			});
+
+			await Updates.init();
+
+			Notify.cancel(); 
+
+			let currentAppVersion = Updates.version;
+			let newAppVersion = Updates.getLatestVersion();
+
+			if(currentAppVersion == newAppVersion)
+				return Notify.popUpNote("No update found");
+				
+			updateChoice = await Notify.confirm({
+				header: "Update Found", 
+				message: "A new version (" + newAppVersion + ") is available, do you wanna update", 
+				type: "CANCEL/UPDATE"
+			});
+
+			if(updateChoice == "UPDATE")
+				location.reload();
 		} 
 	} 
 } 
